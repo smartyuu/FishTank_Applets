@@ -1,0 +1,53 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/FactorAnalysis/factorAnalysis",
+    "pages/InformationEntry/informationEntry",
+    "pages/UserManagement/userManagement",
+    "pages/expertSystem/expertSystem"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#00aaff",
+    "backgroundColor": "#55aaff"
+  },
+  "tabBar": {
+    "backgroundColor": "#8EA4C0",
+    "selectedColor": "#0000FF",
+    "color": "#fff",
+    "list": [
+      {
+        "iconPath": "static/icon/ze-wap-home Copy@1x.png",
+        "pagePath": "pages/index/index",
+        "selectedIconPath": "static/icon/ze-wap-home@1x.png",
+        "text": "首页"
+      },
+      {
+        "iconPath": "static/icon/iconPark-analysis Copy@1x (1).png",
+        "pagePath": "pages/FactorAnalysis/factorAnalysis",
+        "selectedIconPath": "static/icon/iconPark-analysis Copy@1x.png",
+        "text": "因素分析"
+      },
+      {
+        "iconPath": "static/icon/if-mail Copy@1x.png",
+        "pagePath": "pages/InformationEntry/informationEntry",
+        "selectedIconPath": "static/icon/if-mail Copy@1x (1).png",
+        "text": "信息录入"
+      },
+      {
+        "iconPath": "static/icon/ze-user-circle-o Copy@1x.png",
+        "pagePath": "pages/UserManagement/userManagement",
+        "selectedIconPath": "static/icon/ze-user-circle-o Copy@1x (1).png",
+        "text": "用户管理"
+      },
+      {
+        "iconPath": "static/icon/ze-friends-o Copy@1x.png",
+        "pagePath": "pages/expertSystem/expertSystem",
+        "selectedIconPath": "static/icon/ze-friends-o Copy@1x (1).png",
+        "text": "专家系统"
+      }
+    ]
+  },
+  "usingComponents": {}
+}
