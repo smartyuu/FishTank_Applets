@@ -1,0 +1,230 @@
+<template>
+  <view class="container">
+    <view class="contain-box">
+      <image src="../../static/login_background.png" />
+      <view class="title-box">
+        <view class=" introduction text-pop-up-top">
+			<view class="title">
+				爱生活，爱养鱼
+			</view>
+			<view class="intro">
+				您的远程小助手
+			</view>
+		</view>
+		<view class="input-box">
+          <input class="user" type="text" placeholder="请输入用户名" />	
+          <input password="true" class="password" type="safe-password" placeholder="请输入密码" />
+        </view>
+		<view class="button-box">
+			<button class="login-button">登录</button>
+			<button class="register-button" @click="reg.toRegist">注册</button>
+		</view>
+		<text class="wechat-tip">——第三方登录——</text>
+		<button class="wechat">微信登录</button>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script setup lang="ts">
+	import reg from './toRegist'
+</script>
+
+<style lang="scss">
+  .container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .contain-box {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      image {
+        position: absolute;
+        /* top: 0; */
+        /* left: 0; */
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+      }
+
+      .title-box {
+        background-color: rgba(254, 254, 254, 0.6) ;
+		height: 70vh;
+		width: 70vw;
+        padding: 20px;
+        border-radius: $usual-border-radius;
+        z-index: 1;
+		.input-box{
+			margin: 2vw;
+			.title{
+				    color: #edfffa;
+				    font-size: 54rpx;
+				    font-weight: bolder;
+			}
+			.title-info{
+				font-size: 32rpx;
+				padding-top: 3vh;
+				color: #99f9d9;
+			}
+			.user, .password{
+				width: 60vw;
+				height: 80rpx;
+				margin-top: $uni-spacing-col-base;
+				padding-left: $uni-spacing-col-base;
+				background-color: white;
+				// color: $uni-bg-color-grey;
+				border-radius: $usual-border-radius;
+			}
+		}
+		.introduction {
+		            color: rgb(237, 255, 250);
+		            font-size: 8vw;
+		            font-weight: bolder;
+		            // padding: 5vw;
+					margin: 2vw 1vw 1vw 2vw;
+		            // margin: 12vw ​1vw 0vw 1v;
+		
+		            span {
+		                display: flex;
+		            }
+		
+		            .intro {
+		                font-size: 7vw;
+		                // padding-top: 3vh;
+		                color: rgb(153, 249, 217)
+		            }
+		
+		        }
+		
+		
+		        .text-pop-up-top {
+		            -webkit-animation: text-pop-up-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+		            animation: text-pop-up-top 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+		        }
+		
+		        @-webkit-keyframes text-pop-up-top {
+		            0% {
+		                -webkit-transform: translateY(0);
+		                transform: translateY(0);
+		                -webkit-transform-origin: 50% 50%;
+		                transform-origin: 50% 50%;
+		                text-shadow: none;
+		            }
+		
+		            100% {
+		                -webkit-transform: translateY(-50px);
+		                transform: translateY(-50px);
+		                -webkit-transform-origin: 50% 50%;
+		                transform-origin: 50% 50%;
+		                text-shadow: 0 1px 0 #293b34, 0 2px 0 #293b34, 0 3px 0 #293b34, 0 4px 0 #293b34, 0 5px 0 #293b34, 0 6px 0 #293b34, 0 7px 0 #293b34, 0 8px 0 #293b34, 0 9px 0 #293b34, 0 50px 30px rgba(0, 0, 0, 0.3);
+		            }
+		        }
+		
+		        @keyframes text-pop-up-top {
+		            0% {
+		                -webkit-transform: translateY(0);
+		                transform: translateY(0);
+		                -webkit-transform-origin: 50% 50%;
+		                transform-origin: 50% 50%;
+		                text-shadow: none;
+		            }
+		
+		            50% {
+		                -webkit-transform: translateY(-70rpx);
+		                transform: translateY(-70rpx);
+		                -webkit-transform-origin: 50% 50%;
+		                transform-origin: 50% 50%;
+		                text-shadow: 0 1px 0 #293b34, 0 2px 0 #293b34, 0 3px 0 #293b34, 0 4px 0 #293b34, 0 5px 0 #293b34, 0 6px 0 #293b34, 0 7px 0 #293b34, 0 8px 0 #293b34, 0 9px 0 #293b34, 0 50px 30px rgba(0, 0, 0, 0.3);
+		            }
+					100% {
+					    -webkit-transform: translateY(-30rpx);
+					    transform: translateY(-30rpx);
+					    -webkit-transform-origin: 50% 50%;
+					    transform-origin: 50% 50%;
+					    text-shadow: 0 1px 0 #293b34, 0 2px 0 #293b34, 0 3px 0 #293b34, 0 4px 0 #293b34, 0 5px 0 #293b34, 0 6px 0 #293b34, 0 7px 0 #293b34, 0 8px 0 #293b34, 0 9px 0 #293b34, 0 50px 30px rgba(0, 0, 0, 0.3);
+					}
+		        }
+		
+		        .tracking-in-expand {
+		            -webkit-animation: tracking-in-expand 1.5s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+		            animation: tracking-in-expand 1.5s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+		        }
+		
+		        /* ----------------------------------------------
+		 * Generated by Animista on 2023-3-6 15:16:9
+		 * Licensed under FreeBSD License.
+		 * See http://animista.net/license for more info. 
+		 * w: http://animista.net, t: @cssanimista
+		 * ---------------------------------------------- */
+		
+		        /**
+		 * ----------------------------------------
+		 * animation tracking-in-expand
+		 * ----------------------------------------
+		 */
+		        @-webkit-keyframes tracking-in-expand {
+		            0% {
+		                letter-spacing: -0.5em;
+		                opacity: 0;
+		            }
+		
+		            40% {
+		                opacity: 0.6;
+		            }
+		
+		            100% {
+		                opacity: 1;
+		            }
+		        }
+		
+		        @keyframes tracking-in-expand {
+		            0% {
+		                letter-spacing: -0.5em;
+		                opacity: 0;
+		            }
+		
+		            40% {
+		                opacity: 0.6;
+		            }
+		
+		            100% {
+		                opacity: 1;
+		            }
+		        }
+
+		.button-box{
+			display: flex;
+			button{
+				width: 25vw;
+				// margin-top: $;
+				border-radius: 30rpx;
+			}
+			.login-button{
+				color: $uni-text-color-inverse;
+				background-color: $uni-color-primary;
+			}
+		}
+		.wechat-tip{
+			display: flex;
+			justify-content: center;
+			margin-top: 2vh;
+			font-size: 1.5vh;
+			font-weight: bold;
+		}
+		.wechat{
+			margin-top: 3vh;
+			background-color: $uni-color-wechat;
+			color:$uni-text-color-inverse;
+			border-radius: $btn-border-radius;
+		}
+	  }
+    }
+  }
+</style>

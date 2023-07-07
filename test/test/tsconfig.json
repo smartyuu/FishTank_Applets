@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "target": "es5",              // 编译后的 JavaScript 代码目标运行环境，默认为 "es3"，可以设置为 "es5"、"es6"、"es2015"、"es2016"、"es2017"、"es2018"、"es2019"、"es2020"、"es2021"、"esnext" 等选项
+    "module": "amd",              // 使用的模块格式，默认为 "none"，可以设置为 "commonjs"、"amd"、"system"、"umd"、"es6"、"es2015"、"es2020" 等选项
+    "strict": true,               // 开启所有严格类型检查选项的快捷方式，等同于将 "noImplicitAny"、"strictNullChecks"、"strictFunctionTypes"、"strictPropertyInitialization"、"noImplicitThis"、"alwaysStrict" 等选项都设置为 true
+    "esModuleInterop": true,      // 支持 CommonJS 模块格式的导入和导出，设置为 true 后可以使用 import/export 语法导入和导出 CommonJS 模块
+    "sourceMap": true,            // 生成 sourcemap 文件，方便调试
+    "moduleResolution": "node",   // 使用 Node.js 的模块解析方式，可以解析 node_modules 中的模块
+    "resolveJsonModule": true,    // 支持导入 .json 文件
+    "lib": ["esnext", "dom"],     // 包含了一些常用的类型定义文件，例如 DOM 和 ESNext，设置了这些选项后，就可以使用相应的 API 和关键字了
+    "baseUrl": ".",              // 用于解析非相对模块名称的基准目录，可以指定为当前目录，这样就可以使用绝对路径来引用模块了
+    "paths": {                    // 用于指定模块别名，例如 "@/*" 表示将所有以 @/ 开头的模块路径都解析为 src/ 目录下的模块
+      "@/*": ["src/*"]
+    }
+  },
+  "include": [
+    "src/**/*"                   // TypeScript 代码所在的目录
+  ],
+  "exclude": [
+    "node_modules"               // 排除的目录，这样 TypeScript 编译器就不会处理 node_modules 目录下的文件了，以加快编译速度
+  ]
+}
+// {
+//   "compilerOptions": {
+// 	  // TypeScript 编译选项
+//     "target": "es5",
+//     "module": "amd"
+//   }
+// }
+//   "include": [
+//     // TypeScript 代码所在的目录
+//   ],
+//   "resolve": {
+//     "extensions": [
+//       ".ts",
+//       ".tsx",
+//       ".js",
+//       ".jsx"
+//     ]
+//   }
+// }
+
+
