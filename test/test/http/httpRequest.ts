@@ -3,13 +3,13 @@ import env from './env';
 
 interface ServiceOptions {
   url: string;
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'OPTIONS' | 'HEAD' | 'TRACE' | 'CONNECT';
   header?: {
     'content-type'?: string;
     'Authorization'?: string;
     [key: string]: string | undefined;
   };
   data?: any;
-  method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'OPTIONS' | 'HEAD' | 'TRACE' | 'CONNECT';
   dataType?: 'json' | 'text';
   responseType?: 'text' | 'arraybuffer';
   complete?: (res: any) => void;
@@ -21,6 +21,13 @@ function service(options:ServiceOptions) {
 	if (getToken()) {
 		options.header = {
 			'content-type': 'application/json',
+			/*
+			'Authorization': `${getToken()}`
+			每次用户访问需要登录权限的接口时，
+			前端会将这个 token 添加到 HTTP 请求头中，
+			后端会验证这个 token 的有效性，如果有效则返回请求的数据，
+			否则返回错误信息
+			*/
 			'Authorization': `${getToken()}`	// 这里是token(可自行修改)
 		};
 	}

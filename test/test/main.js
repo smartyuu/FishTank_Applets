@@ -1,5 +1,10 @@
 import App from './App'
 
+import ECharts from 'vue-echarts';
+import 'echarts/lib/chart/line';
+import 'echarts/lib/component/tooltip';
+import 'echarts/lib/component/title';
+
 // #ifndef VUE3
 import Vue from 'vue'
 Vue.config.productionTip = false
@@ -36,6 +41,7 @@ try {
 const app = new Vue({
   ...App
 })
+app.component('v-chart', ECharts);
 app.$mount()
 // #endif
 

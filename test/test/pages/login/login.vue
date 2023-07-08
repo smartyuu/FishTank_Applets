@@ -12,12 +12,11 @@
 			</view>
 		</view>
 		<view class="input-box">
-          <input class="user" type="text" placeholder="请输入用户名" />	
-          <input password="true" class="password" type="safe-password" placeholder="请输入密码" />
-        </view>
+			<input class="user" v-model="userName" placeholder="请输入用户名"/>
+			<input class="password" v-model="psw" type="password" placeholder="请输入密码"/>        </view>
 		<view class="button-box">
-			<button class="login-button">登录</button>
-			<button class="register-button" @click="reg.toRegist">注册</button>
+			<button class="login-button" @click="loginApi.toLogin(userName.value,psw.value)">登录</button>
+			<button class="register-button" @click="regApi.toRegist">注册</button>
 		</view>
 		<text class="wechat-tip">——第三方登录——</text>
 		<button class="wechat">微信登录</button>
@@ -27,7 +26,12 @@
 </template>
 
 <script setup lang="ts">
-	import reg from './toRegist'
+	import { ref } from 'vue-demi';
+	import regApi from './toRegist'
+	import loginApi from './toLogin'
+
+	const psw=ref('')
+	const userName=ref('')
 </script>
 
 <style lang="scss">

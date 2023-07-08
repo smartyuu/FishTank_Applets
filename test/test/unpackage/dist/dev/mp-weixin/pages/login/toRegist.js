@@ -4,5 +4,4 @@ const reg = {
     console.log("hi");
   }
 };
-const reg$1 = { ...reg };
-exports.reg = reg$1;
+exports.reg = reg;

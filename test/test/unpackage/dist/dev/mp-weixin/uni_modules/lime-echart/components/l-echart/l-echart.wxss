@@ -1,0 +1,12 @@
+
+.lime-echart.data-v-e9a2d99c {
+	position: relative;
+
+	width: 100%;
+	height: 100%;
+}
+.lime-echart__canvas.data-v-e9a2d99c {
+
+	width: 100%;
+	height: 100%;
+}

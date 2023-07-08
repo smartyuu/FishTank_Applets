@@ -31,6 +31,7 @@ $uni-text-color-disable:#c0c0c0;
 /* 背景颜色 */
 $uni-bg-color:#ffffff;
 $uni-bg-color-grey:#f8f8f8;
+$uni-bg-color-index: #a2b8ff;
 $uni-bg-color-hover:#f1f1f1;//点击状态颜色
 $uni-bg-color-mask:rgba(0, 0, 0, 0.4);//遮罩颜色
 
@@ -42,12 +43,14 @@ $uni-border-color:#c8c7cc;
 /* 文字尺寸 */
 $uni-font-size-sm:12px;
 $uni-font-size-base:14px;
-$uni-font-size-lg:16;
+$uni-font-size-lg:18rpx;
+$uni-font-size-title:85rpx;
 
 /* 图片尺寸 */
 $uni-img-size-sm:20px;
 $uni-img-size-base:26px;
-$uni-img-size-lg:40px;
+$uni-img-size-lg:60rpx;
+$uni-img-size-mytitle:60rpx;
 
 /* Border Radius */
 $uni-border-radius-sm: 2px;
