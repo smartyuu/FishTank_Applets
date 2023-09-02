@@ -44,6 +44,11 @@ function service(options:ServiceOptions) {
 	        });
 	        // 登陆失效
 	        if (res.data.code === 403) {
+				uni.showToast({
+				   icon: 'none',
+				   duration: 3000,
+				   title: '登录失效',
+				});
 	          // 清除本地 token
 	          removeToken();
 	          // 关闭所有页面返回到登录页
@@ -55,18 +60,19 @@ function service(options:ServiceOptions) {
 	        rejected(res);
 	      } else {
 	        // 请求回来的状态码为200则返回内容
-	        resolved(res.data.data);
+	        resolved(res);
 	      }
-	    };
-	    options.complete = (err) => {
-	          // 请求失败弹窗
-	          uni.showToast({
-	            icon: 'none',
-	            duration: 3000,
-	            title: '服务器错误,请稍后再试',
-	          });
-	          rejected(err);
-	        };
+	    },
+	  //   options.complete = (err) => {
+	  //         // 请求失败弹窗
+	  //         uni.showToast({
+	  //           icon: 'none',
+	  //           duration: 3000,
+	  //           title: '服务器错误,请稍后再试',
+	  //         });
+	  //         rejected(err);
+			// 	console.log(err);
+			// };
 	        uni.request(options);
 	    });
 }

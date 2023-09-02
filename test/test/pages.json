@@ -11,7 +11,12 @@
 				"navigationBarTitleText": "登录"
 			}
 		}
-		,
+		,{
+			"path": "pages/login/register",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		},
 		{
 			"path": "pages/FactorAnalysis/factorAnalysis",
 			"style": {

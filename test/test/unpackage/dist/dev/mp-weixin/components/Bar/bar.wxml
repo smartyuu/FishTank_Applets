@@ -1,0 +1,1 @@
+<view class="data-v-7076d137"><l-echart wx:if="{{b}}" class="my-chart r data-v-7076d137" u-r="chart" id="aaa" u-i="7076d137-0" bind:__l="__l" u-p="{{b}}"></l-echart></view>

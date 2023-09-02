@@ -27,6 +27,11 @@ function service(options) {
           title: `${res.data.msg}`
         });
         if (res.data.code === 403) {
+          common_vendor.index.showToast({
+            icon: "none",
+            duration: 3e3,
+            title: "登录失效"
+          });
           http_auth.removeToken();
           common_vendor.index.reLaunch({
             url: "/pages/login/login"
@@ -34,17 +39,18 @@ function service(options) {
         }
         rejected(res);
       } else {
-        resolved(res.data.data);
+        resolved(res);
       }
-    };
-    options.complete = (err) => {
-      common_vendor.index.showToast({
-        icon: "none",
-        duration: 3e3,
-        title: "服务器错误,请稍后再试"
-      });
-      rejected(err);
-    };
+    }, //   options.complete = (err) => {
+    //         // 请求失败弹窗
+    //         uni.showToast({
+    //           icon: 'none',
+    //           duration: 3000,
+    //           title: '服务器错误,请稍后再试',
+    //         });
+    //         rejected(err);
+    // 	console.log(err);
+    // };
     common_vendor.index.request(options);
   });
 }

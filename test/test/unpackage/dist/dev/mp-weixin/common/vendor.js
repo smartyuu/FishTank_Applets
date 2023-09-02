@@ -83,8 +83,8 @@ const remove = (arr, el) => {
     arr.splice(i, 1);
   }
 };
-const hasOwnProperty$1 = Object.prototype.hasOwnProperty;
-const hasOwn$1 = (val, key) => hasOwnProperty$1.call(val, key);
+const hasOwnProperty$2 = Object.prototype.hasOwnProperty;
+const hasOwn$1 = (val, key) => hasOwnProperty$2.call(val, key);
 const isArray$1 = Array.isArray;
 const isMap = (val) => toTypeString(val) === "[object Map]";
 const isSet = (val) => toTypeString(val) === "[object Set]";
@@ -116,7 +116,7 @@ const cacheStringFunction = (fn) => {
 };
 const camelizeRE = /-(\w)/g;
 const camelize = cacheStringFunction((str) => {
-  return str.replace(camelizeRE, (_2, c) => c ? c.toUpperCase() : "");
+  return str.replace(camelizeRE, (_, c) => c ? c.toUpperCase() : "");
 });
 const hyphenateRE = /\B([A-Z])/g;
 const hyphenate = cacheStringFunction((str) => str.replace(hyphenateRE, "-$1").toLowerCase());
@@ -229,7 +229,7 @@ function stringifyQuery(obj, encodeStr = encode) {
       val = JSON.stringify(val);
     }
     return encodeStr(key) + "=" + encodeStr(val);
-  }).filter((x2) => x2.length > 0).join("&") : null;
+  }).filter((x) => x.length > 0).join("&") : null;
   return res ? `?${res}` : "";
 }
 const PAGE_HOOKS = [
@@ -319,9 +319,9 @@ const invokeCreateErrorHandler = once((app, createErrorHandler2) => {
     return createErrorHandler2(app);
   }
 });
-const E$1 = function() {
+const E = function() {
 };
-E$1.prototype = {
+E.prototype = {
   on: function(name, callback, ctx) {
     var e2 = this.e || (this.e = {});
     (e2[name] || (e2[name] = [])).push({
@@ -363,7 +363,7 @@ E$1.prototype = {
     return this;
   }
 };
-var E$1$1 = E$1;
+var E$1 = E;
 const LOCALE_ZH_HANS = "zh-Hans";
 const LOCALE_ZH_HANT = "zh-Hant";
 const LOCALE_EN$1 = "en";
@@ -939,7 +939,7 @@ const EmitProtocol = [
     required: true
   }
 ];
-const emitter = new E$1$1();
+const emitter = new E$1();
 const $on = defineSyncApi(API_ON, (name, callback) => {
   emitter.on(name, callback);
   return () => emitter.off(name, callback);
@@ -1006,7 +1006,7 @@ function invokeGetPushCidCallbacks(cid2, errMsg) {
   getPushCidCallbacks.length = 0;
 }
 const API_GET_PUSH_CLIENT_ID = "getPushClientId";
-const getPushClientId = defineAsyncApi(API_GET_PUSH_CLIENT_ID, (_2, { resolve: resolve2, reject }) => {
+const getPushClientId = defineAsyncApi(API_GET_PUSH_CLIENT_ID, (_, { resolve: resolve2, reject }) => {
   Promise.resolve().then(() => {
     if (typeof enabled === "undefined") {
       enabled = false;
@@ -1197,7 +1197,7 @@ if (typeof global !== "undefined") {
 const UUID_KEY = "__DC_STAT_UUID";
 let deviceId;
 function useDeviceId(global2 = wx) {
-  return function addDeviceId(_2, toRes) {
+  return function addDeviceId(_, toRes) {
     deviceId = deviceId || global2.getStorageSync(UUID_KEY);
     if (!deviceId) {
       deviceId = Date.now() + "" + Math.floor(Math.random() * 1e7);
@@ -1556,7 +1556,7 @@ var protocols = /* @__PURE__ */ Object.freeze({
 });
 const wx$1 = initWx();
 var index = initUni(shims, protocols, wx$1);
-function warn$1(msg, ...args) {
+function warn$1$1(msg, ...args) {
   console.warn(`[Vue warn] ${msg}`, ...args);
 }
 let activeEffectScope;
@@ -1584,7 +1584,7 @@ class EffectScope {
         activeEffectScope = currentEffectScope;
       }
     } else {
-      warn$1(`cannot run an inactive effect scope.`);
+      warn$1$1(`cannot run an inactive effect scope.`);
     }
   }
   /**
@@ -1635,18 +1635,18 @@ function recordEffectScope(effect, scope = activeEffectScope) {
 function getCurrentScope() {
   return activeEffectScope;
 }
-const createDep = (effects) => {
+const createDep$1 = (effects) => {
   const dep = new Set(effects);
   dep.w = 0;
   dep.n = 0;
   return dep;
 };
-const wasTracked = (dep) => (dep.w & trackOpBit) > 0;
-const newTracked = (dep) => (dep.n & trackOpBit) > 0;
+const wasTracked$1 = (dep) => (dep.w & trackOpBit$1) > 0;
+const newTracked$1 = (dep) => (dep.n & trackOpBit$1) > 0;
 const initDepMarkers = ({ deps }) => {
   if (deps.length) {
     for (let i = 0; i < deps.length; i++) {
-      deps[i].w |= trackOpBit;
+      deps[i].w |= trackOpBit$1;
     }
   }
 };
@@ -1656,24 +1656,24 @@ const finalizeDepMarkers = (effect) => {
     let ptr = 0;
     for (let i = 0; i < deps.length; i++) {
       const dep = deps[i];
-      if (wasTracked(dep) && !newTracked(dep)) {
+      if (wasTracked$1(dep) && !newTracked$1(dep)) {
         dep.delete(effect);
       } else {
         deps[ptr++] = dep;
       }
-      dep.w &= ~trackOpBit;
-      dep.n &= ~trackOpBit;
+      dep.w &= ~trackOpBit$1;
+      dep.n &= ~trackOpBit$1;
     }
     deps.length = ptr;
   }
 };
-const targetMap = /* @__PURE__ */ new WeakMap();
+const targetMap$1 = /* @__PURE__ */ new WeakMap();
 let effectTrackDepth = 0;
-let trackOpBit = 1;
+let trackOpBit$1 = 1;
 const maxMarkerBits = 30;
-let activeEffect;
-const ITERATE_KEY = Symbol("iterate");
-const MAP_KEY_ITERATE_KEY = Symbol("Map key iterate");
+let activeEffect$1;
+const ITERATE_KEY$1 = Symbol("iterate");
+const MAP_KEY_ITERATE_KEY$1 = Symbol("Map key iterate");
 class ReactiveEffect {
   constructor(fn, scheduler = null, scope) {
     this.fn = fn;
@@ -1687,8 +1687,8 @@ class ReactiveEffect {
     if (!this.active) {
       return this.fn();
     }
-    let parent = activeEffect;
-    let lastShouldTrack = shouldTrack;
+    let parent = activeEffect$1;
+    let lastShouldTrack = shouldTrack$1;
     while (parent) {
       if (parent === this) {
         return;
@@ -1696,10 +1696,10 @@ class ReactiveEffect {
       parent = parent.parent;
     }
     try {
-      this.parent = activeEffect;
-      activeEffect = this;
-      shouldTrack = true;
-      trackOpBit = 1 << ++effectTrackDepth;
+      this.parent = activeEffect$1;
+      activeEffect$1 = this;
+      shouldTrack$1 = true;
+      trackOpBit$1 = 1 << ++effectTrackDepth;
       if (effectTrackDepth <= maxMarkerBits) {
         initDepMarkers(this);
       } else {
@@ -1710,9 +1710,9 @@ class ReactiveEffect {
       if (effectTrackDepth <= maxMarkerBits) {
         finalizeDepMarkers(this);
       }
-      trackOpBit = 1 << --effectTrackDepth;
-      activeEffect = this.parent;
-      shouldTrack = lastShouldTrack;
+      trackOpBit$1 = 1 << --effectTrackDepth;
+      activeEffect$1 = this.parent;
+      shouldTrack$1 = lastShouldTrack;
       this.parent = void 0;
       if (this.deferStop) {
         this.stop();
@@ -1720,7 +1720,7 @@ class ReactiveEffect {
     }
   }
   stop() {
-    if (activeEffect === this) {
+    if (activeEffect$1 === this) {
       this.deferStop = true;
     } else if (this.active) {
       cleanupEffect(this);
@@ -1740,50 +1740,50 @@ function cleanupEffect(effect) {
     deps.length = 0;
   }
 }
-let shouldTrack = true;
-const trackStack = [];
-function pauseTracking() {
-  trackStack.push(shouldTrack);
-  shouldTrack = false;
+let shouldTrack$1 = true;
+const trackStack$1 = [];
+function pauseTracking$1() {
+  trackStack$1.push(shouldTrack$1);
+  shouldTrack$1 = false;
 }
-function resetTracking() {
-  const last = trackStack.pop();
-  shouldTrack = last === void 0 ? true : last;
+function resetTracking$1() {
+  const last = trackStack$1.pop();
+  shouldTrack$1 = last === void 0 ? true : last;
 }
-function track(target, type, key) {
-  if (shouldTrack && activeEffect) {
-    let depsMap = targetMap.get(target);
+function track$1(target, type, key) {
+  if (shouldTrack$1 && activeEffect$1) {
+    let depsMap = targetMap$1.get(target);
     if (!depsMap) {
-      targetMap.set(target, depsMap = /* @__PURE__ */ new Map());
+      targetMap$1.set(target, depsMap = /* @__PURE__ */ new Map());
     }
     let dep = depsMap.get(key);
     if (!dep) {
-      depsMap.set(key, dep = createDep());
+      depsMap.set(key, dep = createDep$1());
     }
-    const eventInfo = { effect: activeEffect, target, type, key };
-    trackEffects(dep, eventInfo);
+    const eventInfo = { effect: activeEffect$1, target, type, key };
+    trackEffects$1(dep, eventInfo);
   }
 }
-function trackEffects(dep, debuggerEventExtraInfo) {
+function trackEffects$1(dep, debuggerEventExtraInfo) {
   let shouldTrack2 = false;
   if (effectTrackDepth <= maxMarkerBits) {
-    if (!newTracked(dep)) {
-      dep.n |= trackOpBit;
-      shouldTrack2 = !wasTracked(dep);
+    if (!newTracked$1(dep)) {
+      dep.n |= trackOpBit$1;
+      shouldTrack2 = !wasTracked$1(dep);
     }
   } else {
-    shouldTrack2 = !dep.has(activeEffect);
+    shouldTrack2 = !dep.has(activeEffect$1);
   }
   if (shouldTrack2) {
-    dep.add(activeEffect);
-    activeEffect.deps.push(dep);
-    if (activeEffect.onTrack) {
-      activeEffect.onTrack(Object.assign({ effect: activeEffect }, debuggerEventExtraInfo));
+    dep.add(activeEffect$1);
+    activeEffect$1.deps.push(dep);
+    if (activeEffect$1.onTrack) {
+      activeEffect$1.onTrack(Object.assign({ effect: activeEffect$1 }, debuggerEventExtraInfo));
     }
   }
 }
-function trigger$1(target, type, key, newValue, oldValue, oldTarget) {
-  const depsMap = targetMap.get(target);
+function trigger$2(target, type, key, newValue, oldValue, oldTarget) {
+  const depsMap = targetMap$1.get(target);
   if (!depsMap) {
     return;
   }
@@ -1804,9 +1804,9 @@ function trigger$1(target, type, key, newValue, oldValue, oldTarget) {
     switch (type) {
       case "add":
         if (!isArray$1(target)) {
-          deps.push(depsMap.get(ITERATE_KEY));
+          deps.push(depsMap.get(ITERATE_KEY$1));
           if (isMap(target)) {
-            deps.push(depsMap.get(MAP_KEY_ITERATE_KEY));
+            deps.push(depsMap.get(MAP_KEY_ITERATE_KEY$1));
           }
         } else if (isIntegerKey(key)) {
           deps.push(depsMap.get("length"));
@@ -1814,15 +1814,15 @@ function trigger$1(target, type, key, newValue, oldValue, oldTarget) {
         break;
       case "delete":
         if (!isArray$1(target)) {
-          deps.push(depsMap.get(ITERATE_KEY));
+          deps.push(depsMap.get(ITERATE_KEY$1));
           if (isMap(target)) {
-            deps.push(depsMap.get(MAP_KEY_ITERATE_KEY));
+            deps.push(depsMap.get(MAP_KEY_ITERATE_KEY$1));
           }
         }
         break;
       case "set":
         if (isMap(target)) {
-          deps.push(depsMap.get(ITERATE_KEY));
+          deps.push(depsMap.get(ITERATE_KEY$1));
         }
         break;
     }
@@ -1831,7 +1831,7 @@ function trigger$1(target, type, key, newValue, oldValue, oldTarget) {
   if (deps.length === 1) {
     if (deps[0]) {
       {
-        triggerEffects(deps[0], eventInfo);
+        triggerEffects$1(deps[0], eventInfo);
       }
     }
   } else {
@@ -1842,25 +1842,25 @@ function trigger$1(target, type, key, newValue, oldValue, oldTarget) {
       }
     }
     {
-      triggerEffects(createDep(effects), eventInfo);
+      triggerEffects$1(createDep$1(effects), eventInfo);
     }
   }
 }
-function triggerEffects(dep, debuggerEventExtraInfo) {
+function triggerEffects$1(dep, debuggerEventExtraInfo) {
   const effects = isArray$1(dep) ? dep : [...dep];
   for (const effect of effects) {
     if (effect.computed) {
-      triggerEffect(effect, debuggerEventExtraInfo);
+      triggerEffect$1(effect, debuggerEventExtraInfo);
     }
   }
   for (const effect of effects) {
     if (!effect.computed) {
-      triggerEffect(effect, debuggerEventExtraInfo);
+      triggerEffect$1(effect, debuggerEventExtraInfo);
     }
   }
 }
-function triggerEffect(effect, debuggerEventExtraInfo) {
-  if (effect !== activeEffect || effect.allowRecurse) {
+function triggerEffect$1(effect, debuggerEventExtraInfo) {
+  if (effect !== activeEffect$1 || effect.allowRecurse) {
     if (effect.onTrigger) {
       effect.onTrigger(extend$1({ effect }, debuggerEventExtraInfo));
     }
@@ -1871,30 +1871,26 @@ function triggerEffect(effect, debuggerEventExtraInfo) {
     }
   }
 }
-function getDepFromReactive(object, key) {
-  var _a2;
-  return (_a2 = targetMap.get(object)) === null || _a2 === void 0 ? void 0 : _a2.get(key);
-}
-const isNonTrackableKeys = /* @__PURE__ */ makeMap(`__proto__,__v_isRef,__isVue`);
-const builtInSymbols = new Set(
+const isNonTrackableKeys$1 = /* @__PURE__ */ makeMap(`__proto__,__v_isRef,__isVue`);
+const builtInSymbols$1 = new Set(
   /* @__PURE__ */ Object.getOwnPropertyNames(Symbol).filter((key) => key !== "arguments" && key !== "caller").map((key) => Symbol[key]).filter(isSymbol)
 );
-const get$1 = /* @__PURE__ */ createGetter();
-const shallowGet = /* @__PURE__ */ createGetter(false, true);
-const readonlyGet = /* @__PURE__ */ createGetter(true);
-const shallowReadonlyGet = /* @__PURE__ */ createGetter(true, true);
-const arrayInstrumentations = /* @__PURE__ */ createArrayInstrumentations();
-function createArrayInstrumentations() {
+const get$1$1 = /* @__PURE__ */ createGetter$1();
+const shallowGet = /* @__PURE__ */ createGetter$1(false, true);
+const readonlyGet$1 = /* @__PURE__ */ createGetter$1(true);
+const shallowReadonlyGet = /* @__PURE__ */ createGetter$1(true, true);
+const arrayInstrumentations$1 = /* @__PURE__ */ createArrayInstrumentations$1();
+function createArrayInstrumentations$1() {
   const instrumentations = {};
   ["includes", "indexOf", "lastIndexOf"].forEach((key) => {
     instrumentations[key] = function(...args) {
-      const arr = toRaw(this);
+      const arr = toRaw$1(this);
       for (let i = 0, l = this.length; i < l; i++) {
-        track(arr, "get", i + "");
+        track$1(arr, "get", i + "");
       }
       const res = arr[key](...args);
       if (res === -1 || res === false) {
-        return arr[key](...args.map(toRaw));
+        return arr[key](...args.map(toRaw$1));
       } else {
         return res;
       }
@@ -1902,20 +1898,20 @@ function createArrayInstrumentations() {
   });
   ["push", "pop", "shift", "unshift", "splice"].forEach((key) => {
     instrumentations[key] = function(...args) {
-      pauseTracking();
-      const res = toRaw(this)[key].apply(this, args);
-      resetTracking();
+      pauseTracking$1();
+      const res = toRaw$1(this)[key].apply(this, args);
+      resetTracking$1();
       return res;
     };
   });
   return instrumentations;
 }
-function hasOwnProperty(key) {
-  const obj = toRaw(this);
-  track(obj, "has", key);
+function hasOwnProperty$1(key) {
+  const obj = toRaw$1(this);
+  track$1(obj, "has", key);
   return obj.hasOwnProperty(key);
 }
-function createGetter(isReadonly2 = false, shallow = false) {
+function createGetter$1(isReadonly2 = false, shallow = false) {
   return function get2(target, key, receiver) {
     if (key === "__v_isReactive") {
       return !isReadonly2;
@@ -1923,133 +1919,133 @@ function createGetter(isReadonly2 = false, shallow = false) {
       return isReadonly2;
     } else if (key === "__v_isShallow") {
       return shallow;
-    } else if (key === "__v_raw" && receiver === (isReadonly2 ? shallow ? shallowReadonlyMap : readonlyMap : shallow ? shallowReactiveMap : reactiveMap).get(target)) {
+    } else if (key === "__v_raw" && receiver === (isReadonly2 ? shallow ? shallowReadonlyMap$1 : readonlyMap$1 : shallow ? shallowReactiveMap$1 : reactiveMap$1).get(target)) {
       return target;
     }
     const targetIsArray = isArray$1(target);
     if (!isReadonly2) {
-      if (targetIsArray && hasOwn$1(arrayInstrumentations, key)) {
-        return Reflect.get(arrayInstrumentations, key, receiver);
+      if (targetIsArray && hasOwn$1(arrayInstrumentations$1, key)) {
+        return Reflect.get(arrayInstrumentations$1, key, receiver);
       }
       if (key === "hasOwnProperty") {
-        return hasOwnProperty;
+        return hasOwnProperty$1;
       }
     }
     const res = Reflect.get(target, key, receiver);
-    if (isSymbol(key) ? builtInSymbols.has(key) : isNonTrackableKeys(key)) {
+    if (isSymbol(key) ? builtInSymbols$1.has(key) : isNonTrackableKeys$1(key)) {
       return res;
     }
     if (!isReadonly2) {
-      track(target, "get", key);
+      track$1(target, "get", key);
     }
     if (shallow) {
       return res;
     }
-    if (isRef(res)) {
+    if (isRef$1(res)) {
       return targetIsArray && isIntegerKey(key) ? res : res.value;
     }
     if (isObject$3(res)) {
-      return isReadonly2 ? readonly(res) : reactive(res);
+      return isReadonly2 ? readonly$1(res) : reactive$1(res);
     }
     return res;
   };
 }
-const set$1$1 = /* @__PURE__ */ createSetter();
-const shallowSet = /* @__PURE__ */ createSetter(true);
-function createSetter(shallow = false) {
+const set$1$1 = /* @__PURE__ */ createSetter$1();
+const shallowSet = /* @__PURE__ */ createSetter$1(true);
+function createSetter$1(shallow = false) {
   return function set2(target, key, value, receiver) {
     let oldValue = target[key];
-    if (isReadonly(oldValue) && isRef(oldValue) && !isRef(value)) {
+    if (isReadonly$1(oldValue) && isRef$1(oldValue) && !isRef$1(value)) {
       return false;
     }
     if (!shallow) {
-      if (!isShallow(value) && !isReadonly(value)) {
-        oldValue = toRaw(oldValue);
-        value = toRaw(value);
+      if (!isShallow$1(value) && !isReadonly$1(value)) {
+        oldValue = toRaw$1(oldValue);
+        value = toRaw$1(value);
       }
-      if (!isArray$1(target) && isRef(oldValue) && !isRef(value)) {
+      if (!isArray$1(target) && isRef$1(oldValue) && !isRef$1(value)) {
         oldValue.value = value;
         return true;
       }
     }
     const hadKey = isArray$1(target) && isIntegerKey(key) ? Number(key) < target.length : hasOwn$1(target, key);
     const result = Reflect.set(target, key, value, receiver);
-    if (target === toRaw(receiver)) {
+    if (target === toRaw$1(receiver)) {
       if (!hadKey) {
-        trigger$1(target, "add", key, value);
+        trigger$2(target, "add", key, value);
       } else if (hasChanged(value, oldValue)) {
-        trigger$1(target, "set", key, value, oldValue);
+        trigger$2(target, "set", key, value, oldValue);
       }
     }
     return result;
   };
 }
-function deleteProperty(target, key) {
+function deleteProperty$1(target, key) {
   const hadKey = hasOwn$1(target, key);
   const oldValue = target[key];
   const result = Reflect.deleteProperty(target, key);
   if (result && hadKey) {
-    trigger$1(target, "delete", key, void 0, oldValue);
+    trigger$2(target, "delete", key, void 0, oldValue);
   }
   return result;
 }
-function has$1(target, key) {
+function has$1$1(target, key) {
   const result = Reflect.has(target, key);
-  if (!isSymbol(key) || !builtInSymbols.has(key)) {
-    track(target, "has", key);
+  if (!isSymbol(key) || !builtInSymbols$1.has(key)) {
+    track$1(target, "has", key);
   }
   return result;
 }
-function ownKeys(target) {
-  track(target, "iterate", isArray$1(target) ? "length" : ITERATE_KEY);
+function ownKeys$1(target) {
+  track$1(target, "iterate", isArray$1(target) ? "length" : ITERATE_KEY$1);
   return Reflect.ownKeys(target);
 }
-const mutableHandlers = {
-  get: get$1,
+const mutableHandlers$1 = {
+  get: get$1$1,
   set: set$1$1,
-  deleteProperty,
-  has: has$1,
-  ownKeys
+  deleteProperty: deleteProperty$1,
+  has: has$1$1,
+  ownKeys: ownKeys$1
 };
-const readonlyHandlers = {
-  get: readonlyGet,
+const readonlyHandlers$1 = {
+  get: readonlyGet$1,
   set(target, key) {
     {
-      warn$1(`Set operation on key "${String(key)}" failed: target is readonly.`, target);
+      warn$1$1(`Set operation on key "${String(key)}" failed: target is readonly.`, target);
     }
     return true;
   },
   deleteProperty(target, key) {
     {
-      warn$1(`Delete operation on key "${String(key)}" failed: target is readonly.`, target);
+      warn$1$1(`Delete operation on key "${String(key)}" failed: target is readonly.`, target);
     }
     return true;
   }
 };
-const shallowReactiveHandlers = /* @__PURE__ */ extend$1({}, mutableHandlers, {
+const shallowReactiveHandlers = /* @__PURE__ */ extend$1({}, mutableHandlers$1, {
   get: shallowGet,
   set: shallowSet
 });
-const shallowReadonlyHandlers = /* @__PURE__ */ extend$1({}, readonlyHandlers, {
+const shallowReadonlyHandlers = /* @__PURE__ */ extend$1({}, readonlyHandlers$1, {
   get: shallowReadonlyGet
 });
-const toShallow = (value) => value;
-const getProto = (v) => Reflect.getPrototypeOf(v);
-function get$2(target, key, isReadonly2 = false, isShallow2 = false) {
+const toShallow$1 = (value) => value;
+const getProto$1 = (v) => Reflect.getPrototypeOf(v);
+function get$3(target, key, isReadonly2 = false, isShallow2 = false) {
   target = target[
     "__v_raw"
     /* ReactiveFlags.RAW */
   ];
-  const rawTarget = toRaw(target);
-  const rawKey = toRaw(key);
+  const rawTarget = toRaw$1(target);
+  const rawKey = toRaw$1(key);
   if (!isReadonly2) {
     if (key !== rawKey) {
-      track(rawTarget, "get", key);
+      track$1(rawTarget, "get", key);
     }
-    track(rawTarget, "get", rawKey);
+    track$1(rawTarget, "get", rawKey);
   }
-  const { has: has2 } = getProto(rawTarget);
-  const wrap = isShallow2 ? toShallow : isReadonly2 ? toReadonly : toReactive;
+  const { has: has2 } = getProto$1(rawTarget);
+  const wrap = isShallow2 ? toShallow$1 : isReadonly2 ? toReadonly$1 : toReactive$1;
   if (has2.call(rawTarget, key)) {
     return wrap(target.get(key));
   } else if (has2.call(rawTarget, rawKey)) {
@@ -2058,115 +2054,115 @@ function get$2(target, key, isReadonly2 = false, isShallow2 = false) {
     target.get(key);
   }
 }
-function has(key, isReadonly2 = false) {
+function has$2(key, isReadonly2 = false) {
   const target = this[
     "__v_raw"
     /* ReactiveFlags.RAW */
   ];
-  const rawTarget = toRaw(target);
-  const rawKey = toRaw(key);
+  const rawTarget = toRaw$1(target);
+  const rawKey = toRaw$1(key);
   if (!isReadonly2) {
     if (key !== rawKey) {
-      track(rawTarget, "has", key);
+      track$1(rawTarget, "has", key);
     }
-    track(rawTarget, "has", rawKey);
+    track$1(rawTarget, "has", rawKey);
   }
   return key === rawKey ? target.has(key) : target.has(key) || target.has(rawKey);
 }
-function size(target, isReadonly2 = false) {
+function size$1(target, isReadonly2 = false) {
   target = target[
     "__v_raw"
     /* ReactiveFlags.RAW */
   ];
-  !isReadonly2 && track(toRaw(target), "iterate", ITERATE_KEY);
+  !isReadonly2 && track$1(toRaw$1(target), "iterate", ITERATE_KEY$1);
   return Reflect.get(target, "size", target);
 }
-function add$1(value) {
-  value = toRaw(value);
-  const target = toRaw(this);
-  const proto2 = getProto(target);
+function add$2(value) {
+  value = toRaw$1(value);
+  const target = toRaw$1(this);
+  const proto2 = getProto$1(target);
   const hadKey = proto2.has.call(target, value);
   if (!hadKey) {
     target.add(value);
-    trigger$1(target, "add", value, value);
+    trigger$2(target, "add", value, value);
   }
   return this;
 }
-function set$2(key, value) {
-  value = toRaw(value);
-  const target = toRaw(this);
-  const { has: has2, get: get2 } = getProto(target);
+function set$2$1(key, value) {
+  value = toRaw$1(value);
+  const target = toRaw$1(this);
+  const { has: has2, get: get2 } = getProto$1(target);
   let hadKey = has2.call(target, key);
   if (!hadKey) {
-    key = toRaw(key);
+    key = toRaw$1(key);
     hadKey = has2.call(target, key);
   } else {
-    checkIdentityKeys(target, has2, key);
+    checkIdentityKeys$1(target, has2, key);
   }
   const oldValue = get2.call(target, key);
   target.set(key, value);
   if (!hadKey) {
-    trigger$1(target, "add", key, value);
+    trigger$2(target, "add", key, value);
   } else if (hasChanged(value, oldValue)) {
-    trigger$1(target, "set", key, value, oldValue);
+    trigger$2(target, "set", key, value, oldValue);
   }
   return this;
 }
-function deleteEntry(key) {
-  const target = toRaw(this);
-  const { has: has2, get: get2 } = getProto(target);
+function deleteEntry$1(key) {
+  const target = toRaw$1(this);
+  const { has: has2, get: get2 } = getProto$1(target);
   let hadKey = has2.call(target, key);
   if (!hadKey) {
-    key = toRaw(key);
+    key = toRaw$1(key);
     hadKey = has2.call(target, key);
   } else {
-    checkIdentityKeys(target, has2, key);
+    checkIdentityKeys$1(target, has2, key);
   }
   const oldValue = get2 ? get2.call(target, key) : void 0;
   const result = target.delete(key);
   if (hadKey) {
-    trigger$1(target, "delete", key, void 0, oldValue);
+    trigger$2(target, "delete", key, void 0, oldValue);
   }
   return result;
 }
-function clear$2() {
-  const target = toRaw(this);
+function clear$3() {
+  const target = toRaw$1(this);
   const hadItems = target.size !== 0;
   const oldTarget = isMap(target) ? new Map(target) : new Set(target);
   const result = target.clear();
   if (hadItems) {
-    trigger$1(target, "clear", void 0, void 0, oldTarget);
+    trigger$2(target, "clear", void 0, void 0, oldTarget);
   }
   return result;
 }
-function createForEach(isReadonly2, isShallow2) {
+function createForEach$1(isReadonly2, isShallow2) {
   return function forEach(callback, thisArg) {
     const observed = this;
     const target = observed[
       "__v_raw"
       /* ReactiveFlags.RAW */
     ];
-    const rawTarget = toRaw(target);
-    const wrap = isShallow2 ? toShallow : isReadonly2 ? toReadonly : toReactive;
-    !isReadonly2 && track(rawTarget, "iterate", ITERATE_KEY);
+    const rawTarget = toRaw$1(target);
+    const wrap = isShallow2 ? toShallow$1 : isReadonly2 ? toReadonly$1 : toReactive$1;
+    !isReadonly2 && track$1(rawTarget, "iterate", ITERATE_KEY$1);
     return target.forEach((value, key) => {
       return callback.call(thisArg, wrap(value), wrap(key), observed);
     });
   };
 }
-function createIterableMethod(method, isReadonly2, isShallow2) {
+function createIterableMethod$1(method, isReadonly2, isShallow2) {
   return function(...args) {
     const target = this[
       "__v_raw"
       /* ReactiveFlags.RAW */
     ];
-    const rawTarget = toRaw(target);
+    const rawTarget = toRaw$1(target);
     const targetIsMap = isMap(rawTarget);
     const isPair = method === "entries" || method === Symbol.iterator && targetIsMap;
     const isKeyOnly = method === "keys" && targetIsMap;
     const innerIterator = target[method](...args);
-    const wrap = isShallow2 ? toShallow : isReadonly2 ? toReadonly : toReactive;
-    !isReadonly2 && track(rawTarget, "iterate", isKeyOnly ? MAP_KEY_ITERATE_KEY : ITERATE_KEY);
+    const wrap = isShallow2 ? toShallow$1 : isReadonly2 ? toReadonly$1 : toReactive$1;
+    !isReadonly2 && track$1(rawTarget, "iterate", isKeyOnly ? MAP_KEY_ITERATE_KEY$1 : ITERATE_KEY$1);
     return {
       // iterator protocol
       next() {
@@ -2183,106 +2179,106 @@ function createIterableMethod(method, isReadonly2, isShallow2) {
     };
   };
 }
-function createReadonlyMethod(type) {
+function createReadonlyMethod$1(type) {
   return function(...args) {
     {
       const key = args[0] ? `on key "${args[0]}" ` : ``;
-      console.warn(`${capitalize(type)} operation ${key}failed: target is readonly.`, toRaw(this));
+      console.warn(`${capitalize(type)} operation ${key}failed: target is readonly.`, toRaw$1(this));
     }
     return type === "delete" ? false : this;
   };
 }
-function createInstrumentations() {
+function createInstrumentations$1() {
   const mutableInstrumentations2 = {
     get(key) {
-      return get$2(this, key);
+      return get$3(this, key);
     },
     get size() {
-      return size(this);
+      return size$1(this);
     },
-    has,
-    add: add$1,
-    set: set$2,
-    delete: deleteEntry,
-    clear: clear$2,
-    forEach: createForEach(false, false)
+    has: has$2,
+    add: add$2,
+    set: set$2$1,
+    delete: deleteEntry$1,
+    clear: clear$3,
+    forEach: createForEach$1(false, false)
   };
   const shallowInstrumentations2 = {
     get(key) {
-      return get$2(this, key, false, true);
+      return get$3(this, key, false, true);
     },
     get size() {
-      return size(this);
+      return size$1(this);
     },
-    has,
-    add: add$1,
-    set: set$2,
-    delete: deleteEntry,
-    clear: clear$2,
-    forEach: createForEach(false, true)
+    has: has$2,
+    add: add$2,
+    set: set$2$1,
+    delete: deleteEntry$1,
+    clear: clear$3,
+    forEach: createForEach$1(false, true)
   };
   const readonlyInstrumentations2 = {
     get(key) {
-      return get$2(this, key, true);
+      return get$3(this, key, true);
     },
     get size() {
-      return size(this, true);
+      return size$1(this, true);
     },
     has(key) {
-      return has.call(this, key, true);
+      return has$2.call(this, key, true);
     },
-    add: createReadonlyMethod(
+    add: createReadonlyMethod$1(
       "add"
       /* TriggerOpTypes.ADD */
     ),
-    set: createReadonlyMethod(
+    set: createReadonlyMethod$1(
       "set"
       /* TriggerOpTypes.SET */
     ),
-    delete: createReadonlyMethod(
+    delete: createReadonlyMethod$1(
       "delete"
       /* TriggerOpTypes.DELETE */
     ),
-    clear: createReadonlyMethod(
+    clear: createReadonlyMethod$1(
       "clear"
       /* TriggerOpTypes.CLEAR */
     ),
-    forEach: createForEach(true, false)
+    forEach: createForEach$1(true, false)
   };
   const shallowReadonlyInstrumentations2 = {
     get(key) {
-      return get$2(this, key, true, true);
+      return get$3(this, key, true, true);
     },
     get size() {
-      return size(this, true);
+      return size$1(this, true);
     },
     has(key) {
-      return has.call(this, key, true);
+      return has$2.call(this, key, true);
     },
-    add: createReadonlyMethod(
+    add: createReadonlyMethod$1(
       "add"
       /* TriggerOpTypes.ADD */
     ),
-    set: createReadonlyMethod(
+    set: createReadonlyMethod$1(
       "set"
       /* TriggerOpTypes.SET */
     ),
-    delete: createReadonlyMethod(
+    delete: createReadonlyMethod$1(
       "delete"
       /* TriggerOpTypes.DELETE */
     ),
-    clear: createReadonlyMethod(
+    clear: createReadonlyMethod$1(
       "clear"
       /* TriggerOpTypes.CLEAR */
     ),
-    forEach: createForEach(true, true)
+    forEach: createForEach$1(true, true)
   };
   const iteratorMethods = ["keys", "values", "entries", Symbol.iterator];
   iteratorMethods.forEach((method) => {
-    mutableInstrumentations2[method] = createIterableMethod(method, false, false);
-    readonlyInstrumentations2[method] = createIterableMethod(method, true, false);
-    shallowInstrumentations2[method] = createIterableMethod(method, false, true);
-    shallowReadonlyInstrumentations2[method] = createIterableMethod(method, true, true);
+    mutableInstrumentations2[method] = createIterableMethod$1(method, false, false);
+    readonlyInstrumentations2[method] = createIterableMethod$1(method, true, false);
+    shallowInstrumentations2[method] = createIterableMethod$1(method, false, true);
+    shallowReadonlyInstrumentations2[method] = createIterableMethod$1(method, true, true);
   });
   return [
     mutableInstrumentations2,
@@ -2291,9 +2287,9 @@ function createInstrumentations() {
     shallowReadonlyInstrumentations2
   ];
 }
-const [mutableInstrumentations, readonlyInstrumentations, shallowInstrumentations, shallowReadonlyInstrumentations] = /* @__PURE__ */ createInstrumentations();
-function createInstrumentationGetter(isReadonly2, shallow) {
-  const instrumentations = shallow ? isReadonly2 ? shallowReadonlyInstrumentations : shallowInstrumentations : isReadonly2 ? readonlyInstrumentations : mutableInstrumentations;
+const [mutableInstrumentations$1, readonlyInstrumentations$1, shallowInstrumentations$1, shallowReadonlyInstrumentations$1] = /* @__PURE__ */ createInstrumentations$1();
+function createInstrumentationGetter$1(isReadonly2, shallow) {
+  const instrumentations = shallow ? isReadonly2 ? shallowReadonlyInstrumentations$1 : shallowInstrumentations$1 : isReadonly2 ? readonlyInstrumentations$1 : mutableInstrumentations$1;
   return (target, key, receiver) => {
     if (key === "__v_isReactive") {
       return !isReadonly2;
@@ -2305,30 +2301,30 @@ function createInstrumentationGetter(isReadonly2, shallow) {
     return Reflect.get(hasOwn$1(instrumentations, key) && key in target ? instrumentations : target, key, receiver);
   };
 }
-const mutableCollectionHandlers = {
-  get: /* @__PURE__ */ createInstrumentationGetter(false, false)
+const mutableCollectionHandlers$1 = {
+  get: /* @__PURE__ */ createInstrumentationGetter$1(false, false)
 };
 const shallowCollectionHandlers = {
-  get: /* @__PURE__ */ createInstrumentationGetter(false, true)
+  get: /* @__PURE__ */ createInstrumentationGetter$1(false, true)
 };
-const readonlyCollectionHandlers = {
-  get: /* @__PURE__ */ createInstrumentationGetter(true, false)
+const readonlyCollectionHandlers$1 = {
+  get: /* @__PURE__ */ createInstrumentationGetter$1(true, false)
 };
 const shallowReadonlyCollectionHandlers = {
-  get: /* @__PURE__ */ createInstrumentationGetter(true, true)
+  get: /* @__PURE__ */ createInstrumentationGetter$1(true, true)
 };
-function checkIdentityKeys(target, has2, key) {
-  const rawKey = toRaw(key);
+function checkIdentityKeys$1(target, has2, key) {
+  const rawKey = toRaw$1(key);
   if (rawKey !== key && has2.call(target, rawKey)) {
     const type = toRawType(target);
     console.warn(`Reactive ${type} contains both the raw and reactive versions of the same object${type === `Map` ? ` as keys` : ``}, which can lead to inconsistencies. Avoid differentiating between the raw and reactive versions of an object and only use the reactive version if possible.`);
   }
 }
-const reactiveMap = /* @__PURE__ */ new WeakMap();
-const shallowReactiveMap = /* @__PURE__ */ new WeakMap();
-const readonlyMap = /* @__PURE__ */ new WeakMap();
-const shallowReadonlyMap = /* @__PURE__ */ new WeakMap();
-function targetTypeMap(rawType) {
+const reactiveMap$1 = /* @__PURE__ */ new WeakMap();
+const shallowReactiveMap$1 = /* @__PURE__ */ new WeakMap();
+const readonlyMap$1 = /* @__PURE__ */ new WeakMap();
+const shallowReadonlyMap$1 = /* @__PURE__ */ new WeakMap();
+function targetTypeMap$1(rawType) {
   switch (rawType) {
     case "Object":
     case "Array":
@@ -2342,28 +2338,28 @@ function targetTypeMap(rawType) {
       return 0;
   }
 }
-function getTargetType(value) {
+function getTargetType$1(value) {
   return value[
     "__v_skip"
     /* ReactiveFlags.SKIP */
-  ] || !Object.isExtensible(value) ? 0 : targetTypeMap(toRawType(value));
+  ] || !Object.isExtensible(value) ? 0 : targetTypeMap$1(toRawType(value));
 }
-function reactive(target) {
-  if (isReadonly(target)) {
+function reactive$1(target) {
+  if (isReadonly$1(target)) {
     return target;
   }
-  return createReactiveObject(target, false, mutableHandlers, mutableCollectionHandlers, reactiveMap);
+  return createReactiveObject$1(target, false, mutableHandlers$1, mutableCollectionHandlers$1, reactiveMap$1);
 }
 function shallowReactive(target) {
-  return createReactiveObject(target, false, shallowReactiveHandlers, shallowCollectionHandlers, shallowReactiveMap);
+  return createReactiveObject$1(target, false, shallowReactiveHandlers, shallowCollectionHandlers, shallowReactiveMap$1);
 }
-function readonly(target) {
-  return createReactiveObject(target, true, readonlyHandlers, readonlyCollectionHandlers, readonlyMap);
+function readonly$1(target) {
+  return createReactiveObject$1(target, true, readonlyHandlers$1, readonlyCollectionHandlers$1, readonlyMap$1);
 }
 function shallowReadonly(target) {
-  return createReactiveObject(target, true, shallowReadonlyHandlers, shallowReadonlyCollectionHandlers, shallowReadonlyMap);
+  return createReactiveObject$1(target, true, shallowReadonlyHandlers, shallowReadonlyCollectionHandlers, shallowReadonlyMap$1);
 }
-function createReactiveObject(target, isReadonly2, baseHandlers, collectionHandlers, proxyMap) {
+function createReactiveObject$1(target, isReadonly2, baseHandlers, collectionHandlers, proxyMap) {
   if (!isObject$3(target)) {
     {
       console.warn(`value cannot be made reactive: ${String(target)}`);
@@ -2383,7 +2379,7 @@ function createReactiveObject(target, isReadonly2, baseHandlers, collectionHandl
   if (existingProxy) {
     return existingProxy;
   }
-  const targetType = getTargetType(target);
+  const targetType = getTargetType$1(target);
   if (targetType === 0) {
     return target;
   }
@@ -2392,7 +2388,7 @@ function createReactiveObject(target, isReadonly2, baseHandlers, collectionHandl
   return proxy;
 }
 function isReactive(value) {
-  if (isReadonly(value)) {
+  if (isReadonly$1(value)) {
     return isReactive(value[
       "__v_raw"
       /* ReactiveFlags.RAW */
@@ -2403,39 +2399,39 @@ function isReactive(value) {
     /* ReactiveFlags.IS_REACTIVE */
   ]);
 }
-function isReadonly(value) {
+function isReadonly$1(value) {
   return !!(value && value[
     "__v_isReadonly"
     /* ReactiveFlags.IS_READONLY */
   ]);
 }
-function isShallow(value) {
+function isShallow$1(value) {
   return !!(value && value[
     "__v_isShallow"
     /* ReactiveFlags.IS_SHALLOW */
   ]);
 }
 function isProxy(value) {
-  return isReactive(value) || isReadonly(value);
+  return isReactive(value) || isReadonly$1(value);
 }
-function toRaw(observed) {
+function toRaw$1(observed) {
   const raw = observed && observed[
     "__v_raw"
     /* ReactiveFlags.RAW */
   ];
-  return raw ? toRaw(raw) : observed;
+  return raw ? toRaw$1(raw) : observed;
 }
 function markRaw(value) {
   def(value, "__v_skip", true);
   return value;
 }
-const toReactive = (value) => isObject$3(value) ? reactive(value) : value;
-const toReadonly = (value) => isObject$3(value) ? readonly(value) : value;
+const toReactive$1 = (value) => isObject$3(value) ? reactive$1(value) : value;
+const toReadonly$1 = (value) => isObject$3(value) ? readonly$1(value) : value;
 function trackRefValue(ref2) {
-  if (shouldTrack && activeEffect) {
-    ref2 = toRaw(ref2);
+  if (shouldTrack$1 && activeEffect$1) {
+    ref2 = toRaw$1(ref2);
     {
-      trackEffects(ref2.dep || (ref2.dep = createDep()), {
+      trackEffects$1(ref2.dep || (ref2.dep = createDep$1()), {
         target: ref2,
         type: "get",
         key: "value"
@@ -2444,11 +2440,11 @@ function trackRefValue(ref2) {
   }
 }
 function triggerRefValue(ref2, newVal) {
-  ref2 = toRaw(ref2);
+  ref2 = toRaw$1(ref2);
   const dep = ref2.dep;
   if (dep) {
     {
-      triggerEffects(dep, {
+      triggerEffects$1(dep, {
         target: ref2,
         type: "set",
         key: "value",
@@ -2457,17 +2453,14 @@ function triggerRefValue(ref2, newVal) {
     }
   }
 }
-function isRef(r) {
+function isRef$1(r) {
   return !!(r && r.__v_isRef === true);
 }
 function ref(value) {
   return createRef(value, false);
 }
-function shallowRef(value) {
-  return createRef(value, true);
-}
 function createRef(rawValue, shallow) {
-  if (isRef(rawValue)) {
+  if (isRef$1(rawValue)) {
     return rawValue;
   }
   return new RefImpl(rawValue, shallow);
@@ -2477,31 +2470,31 @@ class RefImpl {
     this.__v_isShallow = __v_isShallow;
     this.dep = void 0;
     this.__v_isRef = true;
-    this._rawValue = __v_isShallow ? value : toRaw(value);
-    this._value = __v_isShallow ? value : toReactive(value);
+    this._rawValue = __v_isShallow ? value : toRaw$1(value);
+    this._value = __v_isShallow ? value : toReactive$1(value);
   }
   get value() {
     trackRefValue(this);
     return this._value;
   }
   set value(newVal) {
-    const useDirectValue = this.__v_isShallow || isShallow(newVal) || isReadonly(newVal);
-    newVal = useDirectValue ? newVal : toRaw(newVal);
+    const useDirectValue = this.__v_isShallow || isShallow$1(newVal) || isReadonly$1(newVal);
+    newVal = useDirectValue ? newVal : toRaw$1(newVal);
     if (hasChanged(newVal, this._rawValue)) {
       this._rawValue = newVal;
-      this._value = useDirectValue ? newVal : toReactive(newVal);
+      this._value = useDirectValue ? newVal : toReactive$1(newVal);
       triggerRefValue(this, newVal);
     }
   }
 }
 function unref(ref2) {
-  return isRef(ref2) ? ref2.value : ref2;
+  return isRef$1(ref2) ? ref2.value : ref2;
 }
 const shallowUnwrapHandlers = {
   get: (target, key, receiver) => unref(Reflect.get(target, key, receiver)),
   set: (target, key, value, receiver) => {
     const oldValue = target[key];
-    if (isRef(oldValue) && !isRef(value)) {
+    if (isRef$1(oldValue) && !isRef$1(value)) {
       oldValue.value = value;
       return true;
     } else {
@@ -2511,38 +2504,6 @@ const shallowUnwrapHandlers = {
 };
 function proxyRefs(objectWithRefs) {
   return isReactive(objectWithRefs) ? objectWithRefs : new Proxy(objectWithRefs, shallowUnwrapHandlers);
-}
-function toRefs(object) {
-  if (!isProxy(object)) {
-    console.warn(`toRefs() expects a reactive object but received a plain one.`);
-  }
-  const ret = isArray$1(object) ? new Array(object.length) : {};
-  for (const key in object) {
-    ret[key] = toRef(object, key);
-  }
-  return ret;
-}
-class ObjectRefImpl {
-  constructor(_object, _key, _defaultValue) {
-    this._object = _object;
-    this._key = _key;
-    this._defaultValue = _defaultValue;
-    this.__v_isRef = true;
-  }
-  get value() {
-    const val = this._object[this._key];
-    return val === void 0 ? this._defaultValue : val;
-  }
-  set value(newVal) {
-    this._object[this._key] = newVal;
-  }
-  get dep() {
-    return getDepFromReactive(toRaw(this._object), this._key);
-  }
-}
-function toRef(object, key, defaultValue) {
-  const val = object[key];
-  return isRef(val) ? val : new ObjectRefImpl(object, key, defaultValue);
 }
 var _a$1;
 class ComputedRefImpl {
@@ -2566,7 +2527,7 @@ class ComputedRefImpl {
     ] = isReadonly2;
   }
   get value() {
-    const self2 = toRaw(this);
+    const self2 = toRaw$1(this);
     trackRefValue(self2);
     if (self2._dirty || !self2._cacheable) {
       self2._dirty = false;
@@ -2607,7 +2568,7 @@ function popWarningContext() {
   stack.pop();
 }
 function warn$2(msg, ...args) {
-  pauseTracking();
+  pauseTracking$1();
   const instance = stack.length ? stack[stack.length - 1].component : null;
   const appWarnHandler = instance && instance.appContext.config.warnHandler;
   const trace = getComponentTrace();
@@ -2627,7 +2588,7 @@ function warn$2(msg, ...args) {
     }
     console.warn(...warnArgs);
   }
-  resetTracking();
+  resetTracking$1();
 }
 function getComponentTrace() {
   let currentVNode = stack[stack.length - 1];
@@ -2682,13 +2643,13 @@ function formatProp(key, value, raw) {
     return raw ? value : [`${key}=${value}`];
   } else if (typeof value === "number" || typeof value === "boolean" || value == null) {
     return raw ? value : [`${key}=${value}`];
-  } else if (isRef(value)) {
-    value = formatProp(key, toRaw(value.value), true);
+  } else if (isRef$1(value)) {
+    value = formatProp(key, toRaw$1(value.value), true);
     return raw ? value : [`${key}=Ref<`, value, `>`];
   } else if (isFunction$1(value)) {
     return [`${key}=fn${value.name ? `<${value.name}>` : ``}`];
   } else {
-    value = toRaw(value);
+    value = toRaw$1(value);
     return raw ? value : [`${key}=`, value];
   }
 }
@@ -2964,7 +2925,7 @@ function flushPostFlushCbs(seen) {
     {
       seen = seen || /* @__PURE__ */ new Map();
     }
-    activePostFlushCbs.sort((a, b2) => getId$1(a) - getId$1(b2));
+    activePostFlushCbs.sort((a, b) => getId$1(a) - getId$1(b));
     for (postFlushIndex = 0; postFlushIndex < activePostFlushCbs.length; postFlushIndex++) {
       if (checkRecursiveUpdates(seen, activePostFlushCbs[postFlushIndex])) {
         continue;
@@ -2976,12 +2937,12 @@ function flushPostFlushCbs(seen) {
   }
 }
 const getId$1 = (job) => job.id == null ? Infinity : job.id;
-const comparator = (a, b2) => {
-  const diff2 = getId$1(a) - getId$1(b2);
+const comparator = (a, b) => {
+  const diff2 = getId$1(a) - getId$1(b);
   if (diff2 === 0) {
-    if (a.pre && !b2.pre)
+    if (a.pre && !b.pre)
       return -1;
-    if (b2.pre && !a.pre)
+    if (b.pre && !a.pre)
       return 1;
   }
   return diff2;
@@ -3286,9 +3247,6 @@ function inject(key, defaultValue, treatDefaultAsFactory = false) {
     warn$2(`inject() can only be used inside setup() or functional components.`);
   }
 }
-function watchEffect(effect, options) {
-  return doWatch(effect, null, options);
-}
 const INITIAL_WATCHER_VALUE = {};
 function watch(source, cb, options) {
   if (!isFunction$1(cb)) {
@@ -3312,17 +3270,17 @@ function doWatch(source, cb, { immediate, deep, flush, onTrack, onTrigger } = EM
   let getter;
   let forceTrigger = false;
   let isMultiSource = false;
-  if (isRef(source)) {
+  if (isRef$1(source)) {
     getter = () => source.value;
-    forceTrigger = isShallow(source);
+    forceTrigger = isShallow$1(source);
   } else if (isReactive(source)) {
     getter = () => source;
     deep = true;
   } else if (isArray$1(source)) {
     isMultiSource = true;
-    forceTrigger = source.some((s2) => isReactive(s2) || isShallow(s2));
+    forceTrigger = source.some((s2) => isReactive(s2) || isShallow$1(s2));
     getter = () => source.map((s2) => {
-      if (isRef(s2)) {
+      if (isRef$1(s2)) {
         return s2.value;
       } else if (isReactive(s2)) {
         return traverse(s2);
@@ -3476,7 +3434,7 @@ function traverse(value, seen) {
     return value;
   }
   seen.add(value);
-  if (isRef(value)) {
+  if (isRef$1(value)) {
     traverse(value.value, seen);
   } else if (isArray$1(value)) {
     for (let i = 0; i < value.length; i++) {
@@ -3547,11 +3505,11 @@ function injectHook(type, hook, target = currentInstance, prepend = false) {
       if (target.isUnmounted) {
         return;
       }
-      pauseTracking();
+      pauseTracking$1();
       setCurrentInstance(target);
       const res = callWithAsyncErrorHandling(hook, target, type, args);
       unsetCurrentInstance();
-      resetTracking();
+      resetTracking$1();
       return res;
     });
     if (prepend) {
@@ -3728,7 +3686,7 @@ const PublicInstanceProxyHandlers = {
     let cssModule, globalProperties;
     if (publicGetter) {
       if (key === "$attrs") {
-        track(instance, "get", key);
+        track$1(instance, "get", key);
       }
       return publicGetter(instance);
     } else if (
@@ -3840,7 +3798,7 @@ function exposePropsOnRenderContext(instance) {
 }
 function exposeSetupStateOnRenderContext(instance) {
   const { ctx, setupState } = instance;
-  Object.keys(toRaw(setupState)).forEach((key) => {
+  Object.keys(toRaw$1(setupState)).forEach((key) => {
     if (!setupState.__isScriptSetup) {
       if (isReservedPrefix(key[0])) {
         warn$2(`setup() return property ${JSON.stringify(key)} should not start with "$" or "_" which are reserved prefixes for Vue internals.`);
@@ -3955,7 +3913,7 @@ function applyOptions$1(instance) {
     if (!isObject$3(data)) {
       warn$2(`data() should return an object.`);
     } else {
-      instance.data = reactive(data);
+      instance.data = reactive$1(data);
       {
         for (const key in data) {
           checkDuplicateProperties("Data", key);
@@ -4087,7 +4045,7 @@ function resolveInjections(injectOptions, ctx, checkDuplicateProperties = NOOP, 
     } else {
       injected = inject(opt);
     }
-    if (isRef(injected)) {
+    if (isRef$1(injected)) {
       if (unwrapRef) {
         Object.defineProperty(ctx, key, {
           enumerable: true,
@@ -4110,7 +4068,7 @@ function resolveInjections(injectOptions, ctx, checkDuplicateProperties = NOOP, 
   }
 }
 function callHook$1(hook, instance, type) {
-  callWithAsyncErrorHandling(isArray$1(hook) ? hook.map((h2) => h2.bind(instance.proxy)) : hook.bind(instance.proxy), instance, type);
+  callWithAsyncErrorHandling(isArray$1(hook) ? hook.map((h) => h.bind(instance.proxy)) : hook.bind(instance.proxy), instance, type);
 }
 function createWatcher(raw, ctx, publicThis, key) {
   const getter = key.includes(".") ? createPathGetter(publicThis, key) : () => publicThis[key];
@@ -4285,7 +4243,7 @@ function isInHmrContext(instance) {
 }
 function updateProps$2(instance, rawProps, rawPrevProps, optimized) {
   const { props, attrs, vnode: { patchFlag } } = instance;
-  const rawCurrentProps = toRaw(props);
+  const rawCurrentProps = toRaw$1(props);
   const [options] = instance.propsOptions;
   let hasAttrsChanged = false;
   if (
@@ -4367,7 +4325,7 @@ function updateProps$2(instance, rawProps, rawPrevProps, optimized) {
     }
   }
   if (hasAttrsChanged) {
-    trigger$1(instance, "set", "$attrs");
+    trigger$2(instance, "set", "$attrs");
   }
   {
     validateProps(rawProps || {}, props, instance);
@@ -4399,7 +4357,7 @@ function setFullProps(instance, rawProps, props, attrs) {
     }
   }
   if (needCastKeys) {
-    const rawCurrentProps = toRaw(props);
+    const rawCurrentProps = toRaw$1(props);
     const castValues = rawCastValues || EMPTY_OBJ$1;
     for (let i = 0; i < needCastKeys.length; i++) {
       const key = needCastKeys[i];
@@ -4532,8 +4490,8 @@ function getType(ctor) {
   const match = ctor && ctor.toString().match(/^\s*(function|class) (\w+)/);
   return match ? match[2] : ctor === null ? "null" : "";
 }
-function isSameType(a, b2) {
-  return getType(a) === getType(b2);
+function isSameType(a, b) {
+  return getType(a) === getType(b);
 }
 function getTypeIndex(type, expectedTypes) {
   if (isArray$1(expectedTypes)) {
@@ -4544,7 +4502,7 @@ function getTypeIndex(type, expectedTypes) {
   return -1;
 }
 function validateProps(rawProps, props, instance) {
-  const resolvedValues = toRaw(props);
+  const resolvedValues = toRaw$1(props);
   const options = instance.propsOptions[0];
   for (const key in options) {
     let opt = options[key];
@@ -4949,9 +4907,9 @@ function setupStatefulComponent(instance, isSSR) {
   if (setup) {
     const setupContext = instance.setupContext = setup.length > 1 ? createSetupContext(instance) : null;
     setCurrentInstance(instance);
-    pauseTracking();
+    pauseTracking$1();
     const setupResult = callWithErrorHandling(setup, instance, 0, [shallowReadonly(instance.props), setupContext]);
-    resetTracking();
+    resetTracking$1();
     unsetCurrentInstance();
     if (isPromise(setupResult)) {
       setupResult.then(unsetCurrentInstance, unsetCurrentInstance);
@@ -4995,9 +4953,9 @@ function finishComponentSetup(instance, isSSR, skipOptions) {
   }
   {
     setCurrentInstance(instance);
-    pauseTracking();
+    pauseTracking$1();
     applyOptions$1(instance);
-    resetTracking();
+    resetTracking$1();
     unsetCurrentInstance();
   }
   if (!Component2.render && instance.render === NOOP && !isSSR) {
@@ -5016,7 +4974,7 @@ function createAttrsProxy(instance) {
     instance.attrs,
     {
       get(target, key) {
-        track(instance, "get", "$attrs");
+        track$1(instance, "get", "$attrs");
         return target[key];
       },
       set() {
@@ -5041,7 +4999,7 @@ function createSetupContext(instance) {
         if (exposedType === "object") {
           if (isArray$1(exposed)) {
             exposedType = "array";
-          } else if (isRef(exposed)) {
+          } else if (isRef$1(exposed)) {
             exposedType = "ref";
           }
         }
@@ -5394,7 +5352,7 @@ function setTemplateRef({ r, f }, refValue, setupState) {
     r(refValue, {});
   } else {
     const _isString = isString$1(r);
-    const _isRef = isRef(r);
+    const _isRef = isRef$1(r);
     if (_isString || _isRef) {
       if (f) {
         if (!_isRef) {
@@ -5415,7 +5373,7 @@ function setTemplateRef({ r, f }, refValue, setupState) {
         if (hasOwn$1(setupState, r)) {
           setupState[r] = refValue;
         }
-      } else if (isRef(r)) {
+      } else if (isRef$1(r)) {
         r.value = refValue;
       } else {
         warnRef(r);
@@ -5532,9 +5490,9 @@ function fallthroughAttrs(inheritAttrs, props, propsOptions, fallthroughAttrs2) 
   }
 }
 const updateComponentPreRender = (instance) => {
-  pauseTracking();
+  pauseTracking$1();
   flushPreFlushCbs();
-  resetTracking();
+  resetTracking$1();
 };
 function componentUpdateScopedSlotsFn() {
   const scopedSlotsData = this.$scopedSlotsData;
@@ -5729,7 +5687,7 @@ function initHooks$1(options, instance, publicThis) {
 function applyOptions$2(options, instance, publicThis) {
   initHooks$1(options, instance, publicThis);
 }
-function set$3(target, key, val) {
+function set$4(target, key, val) {
   return target[key] = val;
 }
 function createErrorHandler(app) {
@@ -5828,7 +5786,7 @@ function initApp(app) {
     uniIdMixin(globalProperties);
   }
   {
-    globalProperties.$set = set$3;
+    globalProperties.$set = set$4;
     globalProperties.$applyOptions = applyOptions$2;
   }
   {
@@ -5993,7 +5951,6 @@ function setRef(ref2, id, opts = {}) {
 const o = (value, key) => vOn(value, key);
 const s = (value) => stringifyStyle(value);
 const e$1 = (target, ...sources) => extend$1(target, ...sources);
-const h = (str) => hyphenate(str);
 const t = (val) => toDisplayString(val);
 const p = (props) => renderProps(props);
 const sr = (ref2, id, opts) => setRef(ref2, id, opts);
@@ -6480,7 +6437,7 @@ function initFormField(vm) {
     });
   }
 }
-function initData(_2) {
+function initData(_) {
   return {};
 }
 function initPropsObserver(componentOptions) {
@@ -6510,7 +6467,7 @@ function updateMiniProgramComponentProperties(up, mpInstance) {
   }
 }
 function updateComponentProps(up, instance) {
-  const prevProps = toRaw(instance.props);
+  const prevProps = toRaw$1(instance.props);
   const nextProps = findComponentPropsData(up) || {};
   if (hasPropsChanged(prevProps, nextProps)) {
     updateProps$2(instance, nextProps, prevProps, false);
@@ -6808,24 +6765,24 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
-var extendStatics = function(d, b2) {
-  extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b3) {
-    d2.__proto__ = b3;
-  } || function(d2, b3) {
-    for (var p2 in b3)
-      if (Object.prototype.hasOwnProperty.call(b3, p2))
-        d2[p2] = b3[p2];
+var extendStatics = function(d, b) {
+  extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
+    d2.__proto__ = b2;
+  } || function(d2, b2) {
+    for (var p2 in b2)
+      if (Object.prototype.hasOwnProperty.call(b2, p2))
+        d2[p2] = b2[p2];
   };
-  return extendStatics(d, b2);
+  return extendStatics(d, b);
 };
-function __extends(d, b2) {
-  if (typeof b2 !== "function" && b2 !== null)
-    throw new TypeError("Class extends value " + String(b2) + " is not a constructor or null");
-  extendStatics(d, b2);
+function __extends(d, b) {
+  if (typeof b !== "function" && b !== null)
+    throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+  extendStatics(d, b);
   function __() {
     this.constructor = d;
   }
-  d.prototype = b2 === null ? Object.create(b2) : (__.prototype = b2.prototype, new __());
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
 var Browser = function() {
   function Browser2() {
@@ -6891,8 +6848,8 @@ function detect(ua, env2) {
   env2.touchEventsSupported = "ontouchstart" in window && !browser.ie && !browser.edge;
   env2.pointerEventsSupported = "onpointerdown" in window && (browser.edge || browser.ie && +browser.version >= 11);
   env2.domSupported = typeof document !== "undefined";
-  var style2 = document.documentElement.style;
-  env2.transform3dSupported = (browser.ie && "transition" in style2 || browser.edge || "WebKitCSSMatrix" in window && "m11" in new WebKitCSSMatrix() || "MozPerspective" in style2) && !("OTransition" in style2);
+  var style = document.documentElement.style;
+  env2.transform3dSupported = (browser.ie && "transition" in style || browser.edge || "WebKitCSSMatrix" in window && "m11" in new WebKitCSSMatrix() || "MozPerspective" in style) && !("OTransition" in style);
   env2.transformSupported = env2.transform3dSupported || browser.ie && +browser.version >= 9;
 }
 const env$1 = env;
@@ -7432,14 +7389,14 @@ var HashMap = function() {
 function createHashMap(obj) {
   return new HashMap(obj);
 }
-function concatArray(a, b2) {
-  var newArray = new a.constructor(a.length + b2.length);
+function concatArray(a, b) {
+  var newArray = new a.constructor(a.length + b.length);
   for (var i = 0; i < a.length; i++) {
     newArray[i] = a[i];
   }
   var offset = a.length;
-  for (var i = 0; i < b2.length; i++) {
-    newArray[i + offset] = b2[i];
+  for (var i = 0; i < b.length; i++) {
+    newArray[i + offset] = b[i];
   }
   return newArray;
 }
@@ -7524,14 +7481,14 @@ const util$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProper
   slice,
   trim: trim$1
 }, Symbol.toStringTag, { value: "Module" }));
-function create$1(x2, y2) {
-  if (x2 == null) {
-    x2 = 0;
+function create$1(x, y) {
+  if (x == null) {
+    x = 0;
   }
-  if (y2 == null) {
-    y2 = 0;
+  if (y == null) {
+    y = 0;
   }
-  return [x2, y2];
+  return [x, y];
 }
 function copy$1(out2, v) {
   out2[0] = v[0];
@@ -7541,12 +7498,12 @@ function copy$1(out2, v) {
 function clone$3(v) {
   return [v[0], v[1]];
 }
-function set$1(out2, a, b2) {
+function set$3(out2, a, b) {
   out2[0] = a;
-  out2[1] = b2;
+  out2[1] = b;
   return out2;
 }
-function add(out2, v1, v2) {
+function add$1(out2, v1, v2) {
   out2[0] = v1[0] + v2[0];
   out2[1] = v1[1] + v2[1];
   return out2;
@@ -7617,10 +7574,10 @@ function lerp$1(out2, v1, v2, t2) {
   return out2;
 }
 function applyTransform$1(out2, v, m2) {
-  var x2 = v[0];
-  var y2 = v[1];
-  out2[0] = m2[0] * x2 + m2[2] * y2 + m2[4];
-  out2[1] = m2[1] * x2 + m2[3] * y2 + m2[5];
+  var x = v[0];
+  var y = v[1];
+  out2[0] = m2[0] * x + m2[2] * y + m2[4];
+  out2[1] = m2[1] * x + m2[3] * y + m2[5];
   return out2;
 }
 function min$1(out2, v1, v2) {
@@ -7635,7 +7592,7 @@ function max$1(out2, v1, v2) {
 }
 const vector = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  add,
+  add: add$1,
   applyTransform: applyTransform$1,
   clone: clone$3,
   copy: copy$1,
@@ -7658,7 +7615,7 @@ const vector = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProper
   normalize: normalize$1,
   scale: scale$2,
   scaleAndAdd,
-  set: set$1,
+  set: set$3,
   sub
 }, Symbol.toStringTag, { value: "Module" }));
 var Param = function() {
@@ -7691,15 +7648,15 @@ var Draggable = function() {
   Draggable2.prototype._drag = function(e2) {
     var draggingTarget = this._draggingTarget;
     if (draggingTarget) {
-      var x2 = e2.offsetX;
-      var y2 = e2.offsetY;
-      var dx = x2 - this._x;
-      var dy = y2 - this._y;
-      this._x = x2;
-      this._y = y2;
+      var x = e2.offsetX;
+      var y = e2.offsetY;
+      var dx = x - this._x;
+      var dy = y - this._y;
+      this._x = x;
+      this._y = y;
       draggingTarget.drift(dx, dy, e2);
       this.handler.dispatchToElement(new Param(draggingTarget, e2), "drag", e2.event);
-      var dropTarget = this.handler.findHover(x2, y2, draggingTarget).target;
+      var dropTarget = this.handler.findHover(x, y, draggingTarget).target;
       var lastDropTarget = this._dropTarget;
       this._dropTarget = dropTarget;
       if (draggingTarget !== dropTarget) {
@@ -7895,10 +7852,10 @@ function determinant(rows, rank, rowStart, rowMask, colMask, detCache) {
     subRowStart++;
   }
   var sum = 0;
-  for (var j2 = 0, colLocalIdx = 0; j2 < fullRank; j2++) {
-    var colTag = 1 << j2;
+  for (var j = 0, colLocalIdx = 0; j < fullRank; j++) {
+    var colTag = 1 << j;
     if (!(colTag & colMask)) {
-      sum += (colLocalIdx % 2 ? -1 : 1) * rows[rowStart][j2] * determinant(rows, rank - 1, subRowStart, subRowMask, colMask | colTag, detCache);
+      sum += (colLocalIdx % 2 ? -1 : 1) * rows[rowStart][j] * determinant(rows, rank - 1, subRowStart, subRowMask, colMask | colTag, detCache);
       colLocalIdx++;
     }
   }
@@ -7923,9 +7880,9 @@ function buildTransformer(src, dest) {
   }
   var vh = [];
   for (var i = 0; i < 8; i++) {
-    for (var j2 = 0; j2 < 8; j2++) {
-      vh[j2] == null && (vh[j2] = 0);
-      vh[j2] += ((i + j2) % 2 ? -1 : 1) * determinant(mA, 7, i === 0 ? 1 : 0, 1 << i, 1 << j2, detCache) / det * dest[i];
+    for (var j = 0; j < 8; j++) {
+      vh[j] == null && (vh[j] = 0);
+      vh[j] += ((i + j) % 2 ? -1 : 1) * determinant(mA, 7, i === 0 ? 1 : 0, 1 << i, 1 << j, detCache) / det * dest[i];
     }
   }
   return function(out2, srcPointX, srcPointY) {
@@ -7994,10 +7951,10 @@ function preparePointerTransformer(markers, saved, inverse) {
   for (var i = 0; i < 4; i++) {
     var rect = markers[i].getBoundingClientRect();
     var ii = 2 * i;
-    var x2 = rect.left;
-    var y2 = rect.top;
-    srcCoords.push(x2, y2);
-    oldCoordTheSame = oldCoordTheSame && oldSrcCoords && x2 === oldSrcCoords[ii] && y2 === oldSrcCoords[ii + 1];
+    var x = rect.left;
+    var y = rect.top;
+    srcCoords.push(x, y);
+    oldCoordTheSame = oldCoordTheSame && oldSrcCoords && x === oldSrcCoords[ii] && y === oldSrcCoords[ii + 1];
     destCoords.push(markers[i].offsetLeft, markers[i].offsetTop);
   }
   return oldCoordTheSame && transformer ? transformer : (saved.srcCoords = srcCoords, saved[transformerName] = inverse ? buildTransformer(destCoords, srcCoords) : buildTransformer(srcCoords, destCoords));
@@ -8275,9 +8232,9 @@ function invert(out2, a) {
   return out2;
 }
 function clone$2(a) {
-  var b2 = create();
-  copy(b2, a);
-  return b2;
+  var b = create();
+  copy(b, a);
+  return b;
 }
 const matrix = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
@@ -8292,9 +8249,9 @@ const matrix = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProper
   translate
 }, Symbol.toStringTag, { value: "Module" }));
 var Point = function() {
-  function Point2(x2, y2) {
-    this.x = x2 || 0;
-    this.y = y2 || 0;
+  function Point2(x, y) {
+    this.x = x || 0;
+    this.y = y || 0;
   }
   Point2.prototype.copy = function(other) {
     this.x = other.x;
@@ -8304,9 +8261,9 @@ var Point = function() {
   Point2.prototype.clone = function() {
     return new Point2(this.x, this.y);
   };
-  Point2.prototype.set = function(x2, y2) {
-    this.x = x2;
-    this.y = y2;
+  Point2.prototype.set = function(x, y) {
+    this.x = x;
+    this.y = y;
     return this;
   };
   Point2.prototype.equal = function(other) {
@@ -8364,10 +8321,10 @@ var Point = function() {
     if (!m2) {
       return;
     }
-    var x2 = this.x;
-    var y2 = this.y;
-    this.x = m2[0] * x2 + m2[2] * y2 + m2[4];
-    this.y = m2[1] * x2 + m2[3] * y2 + m2[5];
+    var x = this.x;
+    var y = this.y;
+    this.x = m2[0] * x + m2[2] * y + m2[4];
+    this.y = m2[1] * x + m2[3] * y + m2[5];
     return this;
   };
   Point2.prototype.toArray = function(out2) {
@@ -8379,9 +8336,9 @@ var Point = function() {
     this.x = input[0];
     this.y = input[1];
   };
-  Point2.set = function(p2, x2, y2) {
-    p2.x = x2;
-    p2.y = y2;
+  Point2.set = function(p2, x, y) {
+    p2.x = x;
+    p2.y = y;
   };
   Point2.copy = function(p2, p22) {
     p2.x = p22.x;
@@ -8429,65 +8386,65 @@ var rt = new Point$1();
 var minTv$1 = new Point$1();
 var maxTv$1 = new Point$1();
 var BoundingRect = function() {
-  function BoundingRect2(x2, y2, width, height) {
+  function BoundingRect2(x, y, width, height) {
     if (width < 0) {
-      x2 = x2 + width;
+      x = x + width;
       width = -width;
     }
     if (height < 0) {
-      y2 = y2 + height;
+      y = y + height;
       height = -height;
     }
-    this.x = x2;
-    this.y = y2;
+    this.x = x;
+    this.y = y;
     this.width = width;
     this.height = height;
   }
   BoundingRect2.prototype.union = function(other) {
-    var x2 = mathMin$7(other.x, this.x);
-    var y2 = mathMin$7(other.y, this.y);
+    var x = mathMin$7(other.x, this.x);
+    var y = mathMin$7(other.y, this.y);
     if (isFinite(this.x) && isFinite(this.width)) {
-      this.width = mathMax$7(other.x + other.width, this.x + this.width) - x2;
+      this.width = mathMax$7(other.x + other.width, this.x + this.width) - x;
     } else {
       this.width = other.width;
     }
     if (isFinite(this.y) && isFinite(this.height)) {
-      this.height = mathMax$7(other.y + other.height, this.y + this.height) - y2;
+      this.height = mathMax$7(other.y + other.height, this.y + this.height) - y;
     } else {
       this.height = other.height;
     }
-    this.x = x2;
-    this.y = y2;
+    this.x = x;
+    this.y = y;
   };
   BoundingRect2.prototype.applyTransform = function(m2) {
     BoundingRect2.applyTransform(this, this, m2);
   };
-  BoundingRect2.prototype.calculateTransform = function(b2) {
+  BoundingRect2.prototype.calculateTransform = function(b) {
     var a = this;
-    var sx = b2.width / a.width;
-    var sy = b2.height / a.height;
+    var sx = b.width / a.width;
+    var sy = b.height / a.height;
     var m2 = create();
     translate(m2, m2, [-a.x, -a.y]);
     scale$1(m2, m2, [sx, sy]);
-    translate(m2, m2, [b2.x, b2.y]);
+    translate(m2, m2, [b.x, b.y]);
     return m2;
   };
-  BoundingRect2.prototype.intersect = function(b2, mtv) {
-    if (!b2) {
+  BoundingRect2.prototype.intersect = function(b, mtv) {
+    if (!b) {
       return false;
     }
-    if (!(b2 instanceof BoundingRect2)) {
-      b2 = BoundingRect2.create(b2);
+    if (!(b instanceof BoundingRect2)) {
+      b = BoundingRect2.create(b);
     }
     var a = this;
     var ax0 = a.x;
     var ax1 = a.x + a.width;
     var ay0 = a.y;
     var ay1 = a.y + a.height;
-    var bx0 = b2.x;
-    var bx1 = b2.x + b2.width;
-    var by0 = b2.y;
-    var by1 = b2.y + b2.height;
+    var bx0 = b.x;
+    var bx1 = b.x + b.width;
+    var by0 = b.y;
+    var by1 = b.y + b.height;
     var overlap = !(ax1 < bx0 || bx1 < ax0 || ay1 < by0 || by1 < ay0);
     if (mtv) {
       var dMin = Infinity;
@@ -8542,9 +8499,9 @@ var BoundingRect = function() {
     }
     return overlap;
   };
-  BoundingRect2.prototype.contain = function(x2, y2) {
+  BoundingRect2.prototype.contain = function(x, y) {
     var rect = this;
-    return x2 >= rect.x && x2 <= rect.x + rect.width && y2 >= rect.y && y2 <= rect.y + rect.height;
+    return x >= rect.x && x <= rect.x + rect.width && y >= rect.y && y <= rect.y + rect.height;
   };
   BoundingRect2.prototype.clone = function() {
     return new BoundingRect2(this.x, this.y, this.width, this.height);
@@ -8656,9 +8613,9 @@ var EmptyProxy = function(_super) {
   return EmptyProxy2;
 }(Eventful$1);
 var HoveredResult = function() {
-  function HoveredResult2(x2, y2) {
-    this.x = x2;
-    this.y = y2;
+  function HoveredResult2(x, y) {
+    this.x = x;
+    this.y = y;
   }
   return HoveredResult2;
 }();
@@ -8701,16 +8658,16 @@ var Handler = function(_super) {
     this.proxy = proxy;
   };
   Handler2.prototype.mousemove = function(event) {
-    var x2 = event.zrX;
-    var y2 = event.zrY;
-    var isOutside = isOutsideBoundary(this, x2, y2);
+    var x = event.zrX;
+    var y = event.zrY;
+    var isOutside = isOutsideBoundary(this, x, y);
     var lastHovered = this._hovered;
     var lastHoveredTarget = lastHovered.target;
     if (lastHoveredTarget && !lastHoveredTarget.__zr) {
       lastHovered = this.findHover(lastHovered.x, lastHovered.y);
       lastHoveredTarget = lastHovered.target;
     }
-    var hovered = this._hovered = isOutside ? new HoveredResult(x2, y2) : this.findHover(x2, y2);
+    var hovered = this._hovered = isOutside ? new HoveredResult(x, y) : this.findHover(x, y);
     var hoveredTarget = hovered.target;
     var proxy = this.proxy;
     proxy.setCursor && proxy.setCursor(hoveredTarget ? hoveredTarget.cursor : "default");
@@ -8778,15 +8735,15 @@ var Handler = function(_super) {
       }
     }
   };
-  Handler2.prototype.findHover = function(x2, y2, exclude) {
+  Handler2.prototype.findHover = function(x, y, exclude) {
     var list = this.storage.getDisplayList();
-    var out2 = new HoveredResult(x2, y2);
-    setHoverTarget(list, out2, x2, y2, exclude);
+    var out2 = new HoveredResult(x, y);
+    setHoverTarget(list, out2, x, y, exclude);
     if (this._pointerSize && !out2.target) {
       var candidates = [];
       var pointerSize = this._pointerSize;
       var targetSizeHalf = pointerSize / 2;
-      var pointerRect = new BoundingRect$1(x2 - targetSizeHalf, y2 - targetSizeHalf, pointerSize, pointerSize);
+      var pointerRect = new BoundingRect$1(x - targetSizeHalf, y - targetSizeHalf, pointerSize, pointerSize);
       for (var i = list.length - 1; i >= 0; i--) {
         var el = list[i];
         if (el !== exclude && !el.ignore && !el.ignoreCoarsePointer && (!el.parent || !el.parent.ignoreCoarsePointer)) {
@@ -8805,8 +8762,8 @@ var Handler = function(_super) {
         var PI22 = Math.PI * 2;
         for (var r = 0; r < targetSizeHalf; r += rStep) {
           for (var theta = 0; theta < PI22; theta += thetaStep) {
-            var x1 = x2 + r * Math.cos(theta);
-            var y1 = y2 + r * Math.sin(theta);
+            var x1 = x + r * Math.cos(theta);
+            var y1 = y + r * Math.sin(theta);
             setHoverTarget(candidates, out2, x1, y1, exclude);
             if (out2.target) {
               return out2;
@@ -8837,13 +8794,13 @@ var Handler = function(_super) {
 }(Eventful$1);
 each$7(["click", "mousedown", "mouseup", "mousewheel", "dblclick", "contextmenu"], function(name) {
   Handler.prototype[name] = function(event) {
-    var x2 = event.zrX;
-    var y2 = event.zrY;
-    var isOutside = isOutsideBoundary(this, x2, y2);
+    var x = event.zrX;
+    var y = event.zrY;
+    var isOutside = isOutsideBoundary(this, x, y);
     var hovered;
     var hoveredTarget;
     if (name !== "mouseup" || !isOutside) {
-      hovered = this.findHover(x2, y2);
+      hovered = this.findHover(x, y);
       hoveredTarget = hovered.target;
     }
     if (name === "mousedown") {
@@ -8861,8 +8818,8 @@ each$7(["click", "mousedown", "mouseup", "mousewheel", "dblclick", "contextmenu"
     this.dispatchToElement(hovered, name, event);
   };
 });
-function isHover(displayable, x2, y2) {
-  if (displayable[displayable.rectHover ? "rectContain" : "contain"](x2, y2)) {
+function isHover(displayable, x, y) {
+  if (displayable[displayable.rectHover ? "rectContain" : "contain"](x, y)) {
     var el = displayable;
     var isSilent = void 0;
     var ignoreClip = false;
@@ -8872,7 +8829,7 @@ function isHover(displayable, x2, y2) {
       }
       if (!ignoreClip) {
         var clipPath = el.getClipPath();
-        if (clipPath && !clipPath.contain(x2, y2)) {
+        if (clipPath && !clipPath.contain(x, y)) {
           return false;
         }
         if (el.silent) {
@@ -8886,11 +8843,11 @@ function isHover(displayable, x2, y2) {
   }
   return false;
 }
-function setHoverTarget(list, out2, x2, y2, exclude) {
+function setHoverTarget(list, out2, x, y, exclude) {
   for (var i = list.length - 1; i >= 0; i--) {
     var el = list[i];
     var hoverCheckResult = void 0;
-    if (el !== exclude && !el.ignore && (hoverCheckResult = isHover(el, x2, y2))) {
+    if (el !== exclude && !el.ignore && (hoverCheckResult = isHover(el, x, y))) {
       !out2.topTarget && (out2.topTarget = el);
       if (hoverCheckResult !== SILENT) {
         out2.target = el;
@@ -8899,9 +8856,9 @@ function setHoverTarget(list, out2, x2, y2, exclude) {
     }
   }
 }
-function isOutsideBoundary(handlerInstance, x2, y2) {
+function isOutsideBoundary(handlerInstance, x, y) {
   var painter = handlerInstance.painter;
-  return x2 < 0 || x2 > painter.getWidth() || y2 < 0 || y2 > painter.getHeight();
+  return x < 0 || x > painter.getWidth() || y < 0 || y > painter.getHeight();
 }
 const Handler$1 = Handler;
 var DEFAULT_MIN_MERGE = 32;
@@ -9423,14 +9380,14 @@ function logInvalidZError() {
   invalidZErrorLogged = true;
   console.warn("z / z2 / zlevel of displayable is invalid, which may cause unexpected errors");
 }
-function shapeCompareFunc(a, b2) {
-  if (a.zlevel === b2.zlevel) {
-    if (a.z === b2.z) {
-      return a.z2 - b2.z2;
+function shapeCompareFunc(a, b) {
+  if (a.zlevel === b.zlevel) {
+    if (a.z === b.z) {
+      return a.z2 - b.z2;
     }
-    return a.z - b2.z;
+    return a.z - b.z;
   }
-  return a.zlevel - b2.zlevel;
+  return a.zlevel - b.zlevel;
 }
 var Storage = function() {
   function Storage2() {
@@ -9566,11 +9523,11 @@ var Storage = function() {
   return Storage2;
 }();
 const Storage$1 = Storage;
-var requestAnimationFrame$1;
-requestAnimationFrame$1 = env$1.hasGlobalWindow && (window.requestAnimationFrame && window.requestAnimationFrame.bind(window) || window.msRequestAnimationFrame && window.msRequestAnimationFrame.bind(window) || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame) || function(func) {
+var requestAnimationFrame;
+requestAnimationFrame = env$1.hasGlobalWindow && (window.requestAnimationFrame && window.requestAnimationFrame.bind(window) || window.msRequestAnimationFrame && window.msRequestAnimationFrame.bind(window) || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame) || function(func) {
   return setTimeout(func, 16);
 };
-const requestAnimationFrame$2 = requestAnimationFrame$1;
+const requestAnimationFrame$1 = requestAnimationFrame;
 var easingFuncs = {
   linear: function(k) {
     return k;
@@ -9781,27 +9738,27 @@ function cubicDerivativeAt(p0, p1, p2, p3, t2) {
 }
 function cubicRootAt(p0, p1, p2, p3, val, roots2) {
   var a = p3 + 3 * (p1 - p2) - p0;
-  var b2 = 3 * (p2 - p1 * 2 + p0);
+  var b = 3 * (p2 - p1 * 2 + p0);
   var c = 3 * (p1 - p0);
   var d = p0 - val;
-  var A = b2 * b2 - 3 * a * c;
-  var B = b2 * c - 9 * a * d;
-  var C2 = c * c - 3 * b2 * d;
+  var A = b * b - 3 * a * c;
+  var B = b * c - 9 * a * d;
+  var C = c * c - 3 * b * d;
   var n = 0;
   if (isAroundZero(A) && isAroundZero(B)) {
-    if (isAroundZero(b2)) {
+    if (isAroundZero(b)) {
       roots2[0] = 0;
     } else {
-      var t1 = -c / b2;
+      var t1 = -c / b;
       if (t1 >= 0 && t1 <= 1) {
         roots2[n++] = t1;
       }
     }
   } else {
-    var disc = B * B - 4 * A * C2;
+    var disc = B * B - 4 * A * C;
     if (isAroundZero(disc)) {
       var K = B / A;
-      var t1 = -b2 / a + K;
+      var t1 = -b / a + K;
       var t2 = -K / 2;
       if (t1 >= 0 && t1 <= 1) {
         roots2[n++] = t1;
@@ -9811,8 +9768,8 @@ function cubicRootAt(p0, p1, p2, p3, val, roots2) {
       }
     } else if (disc > 0) {
       var discSqrt = mathSqrt$3(disc);
-      var Y1 = A * b2 + 1.5 * a * (-B + discSqrt);
-      var Y2 = A * b2 + 1.5 * a * (-B - discSqrt);
+      var Y1 = A * b + 1.5 * a * (-B + discSqrt);
+      var Y2 = A * b + 1.5 * a * (-B - discSqrt);
       if (Y1 < 0) {
         Y1 = -mathPow$2(-Y1, ONE_THIRD);
       } else {
@@ -9823,18 +9780,18 @@ function cubicRootAt(p0, p1, p2, p3, val, roots2) {
       } else {
         Y2 = mathPow$2(Y2, ONE_THIRD);
       }
-      var t1 = (-b2 - (Y1 + Y2)) / (3 * a);
+      var t1 = (-b - (Y1 + Y2)) / (3 * a);
       if (t1 >= 0 && t1 <= 1) {
         roots2[n++] = t1;
       }
     } else {
-      var T2 = (2 * A * b2 - 3 * a * B) / (2 * mathSqrt$3(A * A * A));
-      var theta = Math.acos(T2) / 3;
+      var T = (2 * A * b - 3 * a * B) / (2 * mathSqrt$3(A * A * A));
+      var theta = Math.acos(T) / 3;
       var ASqrt = mathSqrt$3(A);
       var tmp = Math.cos(theta);
-      var t1 = (-b2 - 2 * ASqrt * tmp) / (3 * a);
-      var t2 = (-b2 + ASqrt * (tmp + THREE_SQRT * Math.sin(theta))) / (3 * a);
-      var t3 = (-b2 + ASqrt * (tmp - THREE_SQRT * Math.sin(theta))) / (3 * a);
+      var t1 = (-b - 2 * ASqrt * tmp) / (3 * a);
+      var t2 = (-b + ASqrt * (tmp + THREE_SQRT * Math.sin(theta))) / (3 * a);
+      var t3 = (-b + ASqrt * (tmp - THREE_SQRT * Math.sin(theta))) / (3 * a);
       if (t1 >= 0 && t1 <= 1) {
         roots2[n++] = t1;
       }
@@ -9849,25 +9806,25 @@ function cubicRootAt(p0, p1, p2, p3, val, roots2) {
   return n;
 }
 function cubicExtrema(p0, p1, p2, p3, extrema2) {
-  var b2 = 6 * p2 - 12 * p1 + 6 * p0;
+  var b = 6 * p2 - 12 * p1 + 6 * p0;
   var a = 9 * p1 + 3 * p3 - 3 * p0 - 9 * p2;
   var c = 3 * p1 - 3 * p0;
   var n = 0;
   if (isAroundZero(a)) {
-    if (isNotAroundZero$1(b2)) {
-      var t1 = -c / b2;
+    if (isNotAroundZero$1(b)) {
+      var t1 = -c / b;
       if (t1 >= 0 && t1 <= 1) {
         extrema2[n++] = t1;
       }
     }
   } else {
-    var disc = b2 * b2 - 4 * a * c;
+    var disc = b * b - 4 * a * c;
     if (isAroundZero(disc)) {
-      extrema2[0] = -b2 / (2 * a);
+      extrema2[0] = -b / (2 * a);
     } else if (disc > 0) {
       var discSqrt = mathSqrt$3(disc);
-      var t1 = (-b2 + discSqrt) / (2 * a);
-      var t2 = (-b2 - discSqrt) / (2 * a);
+      var t1 = (-b + discSqrt) / (2 * a);
+      var t2 = (-b - discSqrt) / (2 * a);
       if (t1 >= 0 && t1 <= 1) {
         extrema2[n++] = t1;
       }
@@ -9894,7 +9851,7 @@ function cubicSubdivide(p0, p1, p2, p3, t2, out2) {
   out2[6] = p23;
   out2[7] = p3;
 }
-function cubicProjectPoint(x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, out2) {
+function cubicProjectPoint(x0, y0, x1, y1, x2, y2, x3, y3, x, y, out2) {
   var t2;
   var interval = 5e-3;
   var d = Infinity;
@@ -9902,8 +9859,8 @@ function cubicProjectPoint(x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, out2) {
   var next;
   var d1;
   var d2;
-  _v0[0] = x4;
-  _v0[1] = y4;
+  _v0[0] = x;
+  _v0[1] = y;
   for (var _t = 0; _t < 1; _t += 0.05) {
     _v1[0] = cubicAt(x0, x1, x2, x3, _t);
     _v1[1] = cubicAt(y0, y1, y2, y3, _t);
@@ -9951,13 +9908,13 @@ function cubicLength(x0, y0, x1, y1, x2, y2, x3, y3, iteration) {
   var step = 1 / iteration;
   for (var i = 1; i <= iteration; i++) {
     var t2 = i * step;
-    var x4 = cubicAt(x0, x1, x2, x3, t2);
-    var y4 = cubicAt(y0, y1, y2, y3, t2);
-    var dx = x4 - px;
-    var dy = y4 - py;
+    var x = cubicAt(x0, x1, x2, x3, t2);
+    var y = cubicAt(y0, y1, y2, y3, t2);
+    var dx = x - px;
+    var dy = y - py;
     d += Math.sqrt(dx * dx + dy * dy);
-    px = x4;
-    py = y4;
+    px = x;
+    py = y;
   }
   return d;
 }
@@ -9970,27 +9927,27 @@ function quadraticDerivativeAt(p0, p1, p2, t2) {
 }
 function quadraticRootAt(p0, p1, p2, val, roots2) {
   var a = p0 - 2 * p1 + p2;
-  var b2 = 2 * (p1 - p0);
+  var b = 2 * (p1 - p0);
   var c = p0 - val;
   var n = 0;
   if (isAroundZero(a)) {
-    if (isNotAroundZero$1(b2)) {
-      var t1 = -c / b2;
+    if (isNotAroundZero$1(b)) {
+      var t1 = -c / b;
       if (t1 >= 0 && t1 <= 1) {
         roots2[n++] = t1;
       }
     }
   } else {
-    var disc = b2 * b2 - 4 * a * c;
+    var disc = b * b - 4 * a * c;
     if (isAroundZero(disc)) {
-      var t1 = -b2 / (2 * a);
+      var t1 = -b / (2 * a);
       if (t1 >= 0 && t1 <= 1) {
         roots2[n++] = t1;
       }
     } else if (disc > 0) {
       var discSqrt = mathSqrt$3(disc);
-      var t1 = (-b2 + discSqrt) / (2 * a);
-      var t2 = (-b2 - discSqrt) / (2 * a);
+      var t1 = (-b + discSqrt) / (2 * a);
+      var t2 = (-b - discSqrt) / (2 * a);
       if (t1 >= 0 && t1 <= 1) {
         roots2[n++] = t1;
       }
@@ -10020,12 +9977,12 @@ function quadraticSubdivide(p0, p1, p2, t2, out2) {
   out2[4] = p12;
   out2[5] = p2;
 }
-function quadraticProjectPoint(x0, y0, x1, y1, x2, y2, x3, y3, out2) {
+function quadraticProjectPoint(x0, y0, x1, y1, x2, y2, x, y, out2) {
   var t2;
   var interval = 5e-3;
   var d = Infinity;
-  _v0[0] = x3;
-  _v0[1] = y3;
+  _v0[0] = x;
+  _v0[1] = y;
   for (var _t = 0; _t < 1; _t += 0.05) {
     _v1[0] = quadraticAt(x0, x1, x2, _t);
     _v1[1] = quadraticAt(y0, y1, y2, _t);
@@ -10073,13 +10030,13 @@ function quadraticLength(x0, y0, x1, y1, x2, y2, iteration) {
   var step = 1 / iteration;
   for (var i = 1; i <= iteration; i++) {
     var t2 = i * step;
-    var x3 = quadraticAt(x0, x1, x2, t2);
-    var y3 = quadraticAt(y0, y1, y2, t2);
-    var dx = x3 - px;
-    var dy = y3 - py;
+    var x = quadraticAt(x0, x1, x2, t2);
+    var y = quadraticAt(y0, y1, y2, t2);
+    var dx = x - px;
+    var dy = y - py;
     d += Math.sqrt(dx * dx + dy * dy);
-    px = x3;
-    py = y3;
+    px = x;
+    py = y;
   }
   return d;
 }
@@ -10438,30 +10395,30 @@ function parseCssFloat(val) {
   }
   return clampCssFloat(parseFloat(str));
 }
-function cssHueToRgb(m1, m2, h2) {
-  if (h2 < 0) {
-    h2 += 1;
-  } else if (h2 > 1) {
-    h2 -= 1;
+function cssHueToRgb(m1, m2, h) {
+  if (h < 0) {
+    h += 1;
+  } else if (h > 1) {
+    h -= 1;
   }
-  if (h2 * 6 < 1) {
-    return m1 + (m2 - m1) * h2 * 6;
+  if (h * 6 < 1) {
+    return m1 + (m2 - m1) * h * 6;
   }
-  if (h2 * 2 < 1) {
+  if (h * 2 < 1) {
     return m2;
   }
-  if (h2 * 3 < 2) {
-    return m1 + (m2 - m1) * (2 / 3 - h2) * 6;
+  if (h * 3 < 2) {
+    return m1 + (m2 - m1) * (2 / 3 - h) * 6;
   }
   return m1;
 }
-function lerpNumber(a, b2, p2) {
-  return a + (b2 - a) * p2;
+function lerpNumber(a, b, p2) {
+  return a + (b - a) * p2;
 }
-function setRgba(out2, r, g, b2, a) {
+function setRgba(out2, r, g, b, a) {
   out2[0] = r;
   out2[1] = g;
-  out2[2] = b2;
+  out2[2] = b;
   out2[3] = a;
   return out2;
 }
@@ -10565,13 +10522,13 @@ function parse(colorStr, rgbaArr) {
   return;
 }
 function hsla2rgba(hsla, rgba) {
-  var h2 = (parseFloat(hsla[0]) % 360 + 360) % 360 / 360;
+  var h = (parseFloat(hsla[0]) % 360 + 360) % 360 / 360;
   var s2 = parseCssFloat(hsla[1]);
   var l = parseCssFloat(hsla[2]);
   var m2 = l <= 0.5 ? l * (s2 + 1) : l + s2 - l * s2;
   var m1 = l * 2 - m2;
   rgba = rgba || [];
-  setRgba(rgba, clampCssByte(cssHueToRgb(m1, m2, h2 + 1 / 3) * 255), clampCssByte(cssHueToRgb(m1, m2, h2) * 255), clampCssByte(cssHueToRgb(m1, m2, h2 - 1 / 3) * 255), 1);
+  setRgba(rgba, clampCssByte(cssHueToRgb(m1, m2, h + 1 / 3) * 255), clampCssByte(cssHueToRgb(m1, m2, h) * 255), clampCssByte(cssHueToRgb(m1, m2, h - 1 / 3) * 255), 1);
   if (hsla.length === 4) {
     rgba[3] = hsla[3];
   }
@@ -10587,14 +10544,14 @@ function rgba2hsla(rgba) {
   var vMin = Math.min(R, G, B);
   var vMax = Math.max(R, G, B);
   var delta = vMax - vMin;
-  var L2 = (vMax + vMin) / 2;
+  var L = (vMax + vMin) / 2;
   var H;
   var S;
   if (delta === 0) {
     H = 0;
     S = 0;
   } else {
-    if (L2 < 0.5) {
+    if (L < 0.5) {
       S = delta / (vMax + vMin);
     } else {
       S = delta / (2 - vMax - vMin);
@@ -10616,7 +10573,7 @@ function rgba2hsla(rgba) {
       H -= 1;
     }
   }
-  var hsla = [H * 360, S, L2];
+  var hsla = [H * 360, S, L];
   if (rgba[3] != null) {
     hsla.push(rgba[3]);
   }
@@ -10688,11 +10645,11 @@ function lerp(normalizedValue, colors, fullOutput) {
   } : color2;
 }
 var mapToColor = lerp;
-function modifyHSL(color2, h2, s2, l) {
+function modifyHSL(color2, h, s2, l) {
   var colorArr = parse(color2);
   if (color2) {
     colorArr = rgba2hsla(colorArr);
-    h2 != null && (colorArr[0] = clampCssAngle(h2));
+    h != null && (colorArr[0] = clampCssAngle(h));
     s2 != null && (colorArr[1] = parseCssFloat(s2));
     l != null && (colorArr[2] = parseCssFloat(l));
     return stringify(hsla2rgba(colorArr), "rgba");
@@ -10783,8 +10740,8 @@ function interpolate2DArray(out2, p0, p1, percent) {
     if (!out2[i]) {
       out2[i] = [];
     }
-    for (var j2 = 0; j2 < len22; j2++) {
-      out2[i][j2] = interpolateNumber$1(p0[i][j2], p1[i][j2], percent);
+    for (var j = 0; j < len22; j++) {
+      out2[i][j] = interpolateNumber$1(p0[i][j], p1[i][j], percent);
     }
   }
   return out2;
@@ -10803,8 +10760,8 @@ function add2DArray(out2, p0, p1, sign) {
     if (!out2[i]) {
       out2[i] = [];
     }
-    for (var j2 = 0; j2 < len22; j2++) {
-      out2[i][j2] = p0[i][j2] + p1[i][j2] * sign;
+    for (var j = 0; j < len22; j++) {
+      out2[i][j] = p0[i][j] + p1[i][j] * sign;
     }
   }
   return out2;
@@ -10847,9 +10804,9 @@ function fillArray(val0, val1, arrDim) {
         arr0[i] = arr1[i];
       }
     } else {
-      for (var j2 = 0; j2 < len2; j2++) {
-        if (isNaN(arr0[i][j2])) {
-          arr0[i][j2] = arr1[i][j2];
+      for (var j = 0; j < len2; j++) {
+        if (isNaN(arr0[i][j])) {
+          arr0[i][j] = arr1[i][j];
         }
       }
     }
@@ -10982,8 +10939,8 @@ var Track = function() {
   Track2.prototype.prepare = function(maxTime, additiveTrack) {
     var kfs = this.keyframes;
     if (this._needsSort) {
-      kfs.sort(function(a, b2) {
-        return a.time - b2.time;
+      kfs.sort(function(a, b) {
+        return a.time - b.time;
       });
     }
     var valType = this.valType;
@@ -11068,48 +11025,48 @@ var Track = function() {
     this._lastFr = frameIdx;
     this._lastFrP = percent;
     var interval = nextFrame.percent - frame.percent;
-    var w2 = interval === 0 ? 1 : mathMin2((percent - frame.percent) / interval, 1);
+    var w = interval === 0 ? 1 : mathMin2((percent - frame.percent) / interval, 1);
     if (nextFrame.easingFunc) {
-      w2 = nextFrame.easingFunc(w2);
+      w = nextFrame.easingFunc(w);
     }
     var targetArr = isAdditive ? this._additiveValue : isValueColor ? tmpRgba : target[propName];
     if ((isArrayValueType(valType) || isValueColor) && !targetArr) {
       targetArr = this._additiveValue = [];
     }
     if (this.discrete) {
-      target[propName] = w2 < 1 ? frame.rawValue : nextFrame.rawValue;
+      target[propName] = w < 1 ? frame.rawValue : nextFrame.rawValue;
     } else if (isArrayValueType(valType)) {
-      valType === VALUE_TYPE_1D_ARRAY ? interpolate1DArray(targetArr, frame[valueKey], nextFrame[valueKey], w2) : interpolate2DArray(targetArr, frame[valueKey], nextFrame[valueKey], w2);
+      valType === VALUE_TYPE_1D_ARRAY ? interpolate1DArray(targetArr, frame[valueKey], nextFrame[valueKey], w) : interpolate2DArray(targetArr, frame[valueKey], nextFrame[valueKey], w);
     } else if (isGradientValueType(valType)) {
       var val = frame[valueKey];
       var nextVal_1 = nextFrame[valueKey];
       var isLinearGradient_1 = valType === VALUE_TYPE_LINEAR_GRADIENT;
       target[propName] = {
         type: isLinearGradient_1 ? "linear" : "radial",
-        x: interpolateNumber$1(val.x, nextVal_1.x, w2),
-        y: interpolateNumber$1(val.y, nextVal_1.y, w2),
+        x: interpolateNumber$1(val.x, nextVal_1.x, w),
+        y: interpolateNumber$1(val.y, nextVal_1.y, w),
         colorStops: map$1(val.colorStops, function(colorStop, idx) {
           var nextColorStop = nextVal_1.colorStops[idx];
           return {
-            offset: interpolateNumber$1(colorStop.offset, nextColorStop.offset, w2),
-            color: rgba2String(interpolate1DArray([], colorStop.color, nextColorStop.color, w2))
+            offset: interpolateNumber$1(colorStop.offset, nextColorStop.offset, w),
+            color: rgba2String(interpolate1DArray([], colorStop.color, nextColorStop.color, w))
           };
         }),
         global: nextVal_1.global
       };
       if (isLinearGradient_1) {
-        target[propName].x2 = interpolateNumber$1(val.x2, nextVal_1.x2, w2);
-        target[propName].y2 = interpolateNumber$1(val.y2, nextVal_1.y2, w2);
+        target[propName].x2 = interpolateNumber$1(val.x2, nextVal_1.x2, w);
+        target[propName].y2 = interpolateNumber$1(val.y2, nextVal_1.y2, w);
       } else {
-        target[propName].r = interpolateNumber$1(val.r, nextVal_1.r, w2);
+        target[propName].r = interpolateNumber$1(val.r, nextVal_1.r, w);
       }
     } else if (isValueColor) {
-      interpolate1DArray(targetArr, frame[valueKey], nextFrame[valueKey], w2);
+      interpolate1DArray(targetArr, frame[valueKey], nextFrame[valueKey], w);
       if (!isAdditive) {
         target[propName] = rgba2String(targetArr);
       }
     } else {
-      var value = interpolateNumber$1(frame[valueKey], nextFrame[valueKey], w2);
+      var value = interpolateNumber$1(frame[valueKey], nextFrame[valueKey], w);
       if (isAdditive) {
         this._additiveValue = value;
       } else {
@@ -11545,11 +11502,11 @@ var Animation = function(_super) {
     this._running = true;
     function step() {
       if (self2._running) {
-        requestAnimationFrame$2(step);
+        requestAnimationFrame$1(step);
         !self2._paused && self2.update();
       }
     }
-    requestAnimationFrame$2(step);
+    requestAnimationFrame$1(step);
   };
   Animation2.prototype.start = function() {
     if (this._running) {
@@ -12044,16 +12001,16 @@ var Transformable = function() {
     }
     return out2;
   };
-  Transformable2.prototype.transformCoordToLocal = function(x2, y2) {
-    var v2 = [x2, y2];
+  Transformable2.prototype.transformCoordToLocal = function(x, y) {
+    var v2 = [x, y];
     var invTransform = this.invTransform;
     if (invTransform) {
       applyTransform$1(v2, v2, invTransform);
     }
     return v2;
   };
-  Transformable2.prototype.transformCoordToGlobal = function(x2, y2) {
-    var v2 = [x2, y2];
+  Transformable2.prototype.transformCoordToGlobal = function(x, y) {
+    var v2 = [x, y];
     var transform = this.transform;
     if (transform) {
       applyTransform$1(v2, v2, transform);
@@ -12076,8 +12033,8 @@ var Transformable = function() {
     var ax = target.anchorX;
     var ay = target.anchorY;
     var rotation = target.rotation || 0;
-    var x2 = target.x;
-    var y2 = target.y;
+    var x = target.x;
+    var y = target.y;
     var skewX = target.skewX ? Math.tan(target.skewX) : 0;
     var skewY = target.skewY ? Math.tan(-target.skewY) : 0;
     if (ox || oy || ax || ay) {
@@ -12093,8 +12050,8 @@ var Transformable = function() {
     m2[1] = skewY * sx;
     m2[2] = skewX * sy;
     rotation && rotate(m2, m2, rotation);
-    m2[4] += ox + x2;
-    m2[5] += oy + y2;
+    m2[4] += ox + x;
+    m2[5] += oy + y;
     return m2;
   };
   Transformable2.initDefaultProps = function() {
@@ -12141,9 +12098,9 @@ function getWidth(text, font) {
 function innerGetBoundingRect(text, font, textAlign, textBaseline) {
   var width = getWidth(text, font);
   var height = getLineHeight(font);
-  var x2 = adjustTextX(0, width, textAlign);
-  var y2 = adjustTextY(0, height, textBaseline);
-  var rect = new BoundingRect$1(x2, y2, width, height);
+  var x = adjustTextX(0, width, textAlign);
+  var y = adjustTextY(0, height, textBaseline);
+  var rect = new BoundingRect$1(x, y, width, height);
   return rect;
 }
 function getBoundingRect(text, font, textAlign, textBaseline) {
@@ -12160,21 +12117,21 @@ function getBoundingRect(text, font, textAlign, textBaseline) {
     return uniondRect;
   }
 }
-function adjustTextX(x2, width, textAlign) {
+function adjustTextX(x, width, textAlign) {
   if (textAlign === "right") {
-    x2 -= width;
+    x -= width;
   } else if (textAlign === "center") {
-    x2 -= width / 2;
+    x -= width / 2;
   }
-  return x2;
+  return x;
 }
-function adjustTextY(y2, height, verticalAlign) {
+function adjustTextY(y, height, verticalAlign) {
   if (verticalAlign === "middle") {
-    y2 -= height / 2;
+    y -= height / 2;
   } else if (verticalAlign === "bottom") {
-    y2 -= height;
+    y -= height;
   }
-  return y2;
+  return y;
 }
 function getLineHeight(font) {
   return getWidth("国", font);
@@ -12194,92 +12151,92 @@ function calculateTextPosition(out2, opts, rect) {
   var height = rect.height;
   var width = rect.width;
   var halfHeight = height / 2;
-  var x2 = rect.x;
-  var y2 = rect.y;
+  var x = rect.x;
+  var y = rect.y;
   var textAlign = "left";
   var textVerticalAlign = "top";
   if (textPosition instanceof Array) {
-    x2 += parsePercent$1(textPosition[0], rect.width);
-    y2 += parsePercent$1(textPosition[1], rect.height);
+    x += parsePercent$1(textPosition[0], rect.width);
+    y += parsePercent$1(textPosition[1], rect.height);
     textAlign = null;
     textVerticalAlign = null;
   } else {
     switch (textPosition) {
       case "left":
-        x2 -= distance2;
-        y2 += halfHeight;
+        x -= distance2;
+        y += halfHeight;
         textAlign = "right";
         textVerticalAlign = "middle";
         break;
       case "right":
-        x2 += distance2 + width;
-        y2 += halfHeight;
+        x += distance2 + width;
+        y += halfHeight;
         textVerticalAlign = "middle";
         break;
       case "top":
-        x2 += width / 2;
-        y2 -= distance2;
+        x += width / 2;
+        y -= distance2;
         textAlign = "center";
         textVerticalAlign = "bottom";
         break;
       case "bottom":
-        x2 += width / 2;
-        y2 += height + distance2;
+        x += width / 2;
+        y += height + distance2;
         textAlign = "center";
         break;
       case "inside":
-        x2 += width / 2;
-        y2 += halfHeight;
+        x += width / 2;
+        y += halfHeight;
         textAlign = "center";
         textVerticalAlign = "middle";
         break;
       case "insideLeft":
-        x2 += distance2;
-        y2 += halfHeight;
+        x += distance2;
+        y += halfHeight;
         textVerticalAlign = "middle";
         break;
       case "insideRight":
-        x2 += width - distance2;
-        y2 += halfHeight;
+        x += width - distance2;
+        y += halfHeight;
         textAlign = "right";
         textVerticalAlign = "middle";
         break;
       case "insideTop":
-        x2 += width / 2;
-        y2 += distance2;
+        x += width / 2;
+        y += distance2;
         textAlign = "center";
         break;
       case "insideBottom":
-        x2 += width / 2;
-        y2 += height - distance2;
+        x += width / 2;
+        y += height - distance2;
         textAlign = "center";
         textVerticalAlign = "bottom";
         break;
       case "insideTopLeft":
-        x2 += distance2;
-        y2 += distance2;
+        x += distance2;
+        y += distance2;
         break;
       case "insideTopRight":
-        x2 += width - distance2;
-        y2 += distance2;
+        x += width - distance2;
+        y += distance2;
         textAlign = "right";
         break;
       case "insideBottomLeft":
-        x2 += distance2;
-        y2 += height - distance2;
+        x += distance2;
+        y += height - distance2;
         textVerticalAlign = "bottom";
         break;
       case "insideBottomRight":
-        x2 += width - distance2;
-        y2 += height - distance2;
+        x += width - distance2;
+        y += height - distance2;
         textAlign = "right";
         textVerticalAlign = "bottom";
         break;
     }
   }
   out2 = out2 || {};
-  out2.x = x2;
-  out2.y = y2;
+  out2.x = x;
+  out2.y = y;
   out2.align = textAlign;
   out2.verticalAlign = textVerticalAlign;
   return out2;
@@ -13624,8 +13581,8 @@ var ZRender = function() {
   ZRender2.prototype.setCursorStyle = function(cursorStyle) {
     this.handler.setCursorStyle(cursorStyle);
   };
-  ZRender2.prototype.findHover = function(x2, y2) {
-    return this.handler.findHover(x2, y2);
+  ZRender2.prototype.findHover = function(x, y) {
+    return this.handler.findHover(x, y);
   };
   ZRender2.prototype.on = function(eventName, eventHandler, context) {
     this.handler.on(eventName, eventHandler, context);
@@ -13752,17 +13709,17 @@ function parsePercent(percent, all) {
   }
   return percent == null ? NaN : +percent;
 }
-function round$1(x2, precision, returnStr) {
+function round$1(x, precision, returnStr) {
   if (precision == null) {
     precision = 10;
   }
   precision = Math.min(Math.max(0, precision), ROUND_SUPPORTED_PRECISION_MAX);
-  x2 = (+x2).toFixed(precision);
-  return returnStr ? x2 : +x2;
+  x = (+x).toFixed(precision);
+  return returnStr ? x : +x;
 }
 function asc$1(arr) {
-  arr.sort(function(a, b2) {
-    return a - b2;
+  arr.sort(function(a, b) {
+    return a - b;
   });
   return arr;
 }
@@ -13927,14 +13884,14 @@ function nice(val, round2) {
 }
 function quantile(ascArr, p2) {
   var H = (ascArr.length - 1) * p2 + 1;
-  var h2 = Math.floor(H);
-  var v = +ascArr[h2 - 1];
-  var e2 = H - h2;
-  return e2 ? v + e2 * (ascArr[h2] - v) : v;
+  var h = Math.floor(H);
+  var v = +ascArr[h - 1];
+  var e2 = H - h;
+  return e2 ? v + e2 * (ascArr[h] - v) : v;
 }
 function reformIntervals(list) {
-  list.sort(function(a, b2) {
-    return littleThan(a, b2, 0) ? -1 : 1;
+  list.sort(function(a, b) {
+    return littleThan(a, b, 0) ? -1 : 1;
   });
   var curr = -Infinity;
   var currClose = 1;
@@ -13956,8 +13913,8 @@ function reformIntervals(list) {
     }
   }
   return list;
-  function littleThan(a, b2, lg2) {
-    return a.interval[lg2] < b2.interval[lg2] || a.interval[lg2] === b2.interval[lg2] && (a.close[lg2] - b2.close[lg2] === (!lg2 ? 1 : -1) || !lg2 && littleThan(a, b2, 1));
+  function littleThan(a, b, lg2) {
+    return a.interval[lg2] < b.interval[lg2] || a.interval[lg2] === b.interval[lg2] && (a.close[lg2] - b.close[lg2] === (!lg2 ? 1 : -1) || !lg2 && littleThan(a, b, 1));
   }
 }
 function numericToNumber(val) {
@@ -13970,20 +13927,20 @@ function isNumeric(val) {
 function getRandomIdBase() {
   return Math.round(Math.random() * 9);
 }
-function getGreatestCommonDividor(a, b2) {
-  if (b2 === 0) {
+function getGreatestCommonDividor(a, b) {
+  if (b === 0) {
     return a;
   }
-  return getGreatestCommonDividor(b2, a % b2);
+  return getGreatestCommonDividor(b, a % b);
 }
-function getLeastCommonMultiple(a, b2) {
+function getLeastCommonMultiple(a, b) {
   if (a == null) {
-    return b2;
+    return b;
   }
-  if (b2 == null) {
+  if (b == null) {
     return a;
   }
-  return a * b2 / getGreatestCommonDividor(a, b2);
+  return a * b / getGreatestCommonDividor(a, b);
 }
 var ECHARTS_PREFIX = "[ECharts] ";
 var storedLogs = {};
@@ -14002,7 +13959,7 @@ function outputLog(type, str, onlyOnce) {
 function log(str, onlyOnce) {
   outputLog("log", str, onlyOnce);
 }
-function warn(str, onlyOnce) {
+function warn$1(str, onlyOnce) {
   outputLog("warn", str, onlyOnce);
 }
 function error(str, onlyOnce) {
@@ -14267,7 +14224,7 @@ function convertOptionIdName(idOrName, defaultValue) {
 }
 function warnInvalidateIdOrName(idOrName) {
   {
-    warn("`" + idOrName + "` is invalid id or name. Must be a string or number.");
+    warn$1("`" + idOrName + "` is invalid id or name. Must be a string or number.");
   }
 }
 function isValidIdOrName(idOrName) {
@@ -14612,7 +14569,7 @@ function makeStyleMapper(properties, ignoreParent) {
   }
   ignoreParent = ignoreParent || false;
   return function(model, excludes, includes) {
-    var style2 = {};
+    var style = {};
     for (var i2 = 0; i2 < properties.length; i2++) {
       var propName = properties[i2][1];
       if (excludes && indexOf(excludes, propName) >= 0 || includes && indexOf(includes, propName) < 0) {
@@ -14620,10 +14577,10 @@ function makeStyleMapper(properties, ignoreParent) {
       }
       var val = model.getShallow(propName, ignoreParent);
       if (val != null) {
-        style2[properties[i2][0]] = val;
+        style[properties[i2][0]] = val;
       }
     }
-    return style2;
+    return style;
   };
 }
 var AREA_STYLE_KEY_MAP = [
@@ -14745,12 +14702,12 @@ function truncateSingleLine(textLine, options) {
   if (lineWidth <= containerWidth) {
     return textLine;
   }
-  for (var j2 = 0; ; j2++) {
-    if (lineWidth <= contentWidth || j2 >= options.maxIterations) {
+  for (var j = 0; ; j++) {
+    if (lineWidth <= contentWidth || j >= options.maxIterations) {
       textLine += options.ellipsis;
       break;
     }
-    var subLength = j2 === 0 ? estimateLength(textLine, contentWidth, options.ascCharWidth, options.cnCharWidth) : lineWidth > 0 ? Math.floor(textLine.length * contentWidth / lineWidth) : 0;
+    var subLength = j === 0 ? estimateLength(textLine, contentWidth, options.ascCharWidth, options.cnCharWidth) : lineWidth > 0 ? Math.floor(textLine.length * contentWidth / lineWidth) : 0;
     textLine = textLine.substr(0, subLength);
     lineWidth = getWidth(textLine, font);
   }
@@ -14768,33 +14725,33 @@ function estimateLength(text, contentWidth, ascCharWidth, cnCharWidth) {
   }
   return i;
 }
-function parsePlainText(text, style2) {
+function parsePlainText(text, style) {
   text != null && (text += "");
-  var overflow = style2.overflow;
-  var padding = style2.padding;
-  var font = style2.font;
+  var overflow = style.overflow;
+  var padding = style.padding;
+  var font = style.font;
   var truncate = overflow === "truncate";
   var calculatedLineHeight = getLineHeight(font);
-  var lineHeight = retrieve2(style2.lineHeight, calculatedLineHeight);
-  var bgColorDrawn = !!style2.backgroundColor;
-  var truncateLineOverflow = style2.lineOverflow === "truncate";
-  var width = style2.width;
+  var lineHeight = retrieve2(style.lineHeight, calculatedLineHeight);
+  var bgColorDrawn = !!style.backgroundColor;
+  var truncateLineOverflow = style.lineOverflow === "truncate";
+  var width = style.width;
   var lines;
   if (width != null && (overflow === "break" || overflow === "breakAll")) {
-    lines = text ? wrapText(text, style2.font, width, overflow === "breakAll", 0).lines : [];
+    lines = text ? wrapText(text, style.font, width, overflow === "breakAll", 0).lines : [];
   } else {
     lines = text ? text.split("\n") : [];
   }
   var contentHeight = lines.length * lineHeight;
-  var height = retrieve2(style2.height, contentHeight);
+  var height = retrieve2(style.height, contentHeight);
   if (contentHeight > height && truncateLineOverflow) {
     var lineCount = Math.floor(height / lineHeight);
     lines = lines.slice(0, lineCount);
   }
   if (text && truncate && width != null) {
-    var options = prepareTruncateOptions(width, font, style2.ellipsis, {
-      minChar: style2.truncateMinChar,
-      placeholder: style2.placeholder
+    var options = prepareTruncateOptions(width, font, style.ellipsis, {
+      minChar: style.truncateMinChar,
+      placeholder: style.placeholder
     });
     for (var i = 0; i < lines.length; i++) {
       lines[i] = truncateSingleLine(lines[i], options);
@@ -14855,35 +14812,35 @@ var RichTextContentBlock = function() {
   }
   return RichTextContentBlock2;
 }();
-function parseRichText(text, style2) {
+function parseRichText(text, style) {
   var contentBlock = new RichTextContentBlock();
   text != null && (text += "");
   if (!text) {
     return contentBlock;
   }
-  var topWidth = style2.width;
-  var topHeight = style2.height;
-  var overflow = style2.overflow;
+  var topWidth = style.width;
+  var topHeight = style.height;
+  var overflow = style.overflow;
   var wrapInfo = (overflow === "break" || overflow === "breakAll") && topWidth != null ? { width: topWidth, accumWidth: 0, breakAll: overflow === "breakAll" } : null;
   var lastIndex = STYLE_REG.lastIndex = 0;
   var result;
   while ((result = STYLE_REG.exec(text)) != null) {
     var matchedIndex = result.index;
     if (matchedIndex > lastIndex) {
-      pushTokens(contentBlock, text.substring(lastIndex, matchedIndex), style2, wrapInfo);
+      pushTokens(contentBlock, text.substring(lastIndex, matchedIndex), style, wrapInfo);
     }
-    pushTokens(contentBlock, result[2], style2, wrapInfo, result[1]);
+    pushTokens(contentBlock, result[2], style, wrapInfo, result[1]);
     lastIndex = STYLE_REG.lastIndex;
   }
   if (lastIndex < text.length) {
-    pushTokens(contentBlock, text.substring(lastIndex, text.length), style2, wrapInfo);
+    pushTokens(contentBlock, text.substring(lastIndex, text.length), style, wrapInfo);
   }
   var pendingList = [];
   var calculatedHeight = 0;
   var calculatedWidth = 0;
-  var stlPadding = style2.padding;
+  var stlPadding = style.padding;
   var truncate = overflow === "truncate";
-  var truncateLine = style2.lineOverflow === "truncate";
+  var truncateLine = style.lineOverflow === "truncate";
   function finishLine(line2, lineWidth2, lineHeight2) {
     line2.width = lineWidth2;
     line2.lineHeight = lineHeight2;
@@ -14895,23 +14852,23 @@ function parseRichText(text, style2) {
       var line = contentBlock.lines[i];
       var lineHeight = 0;
       var lineWidth = 0;
-      for (var j2 = 0; j2 < line.tokens.length; j2++) {
-        var token = line.tokens[j2];
-        var tokenStyle = token.styleName && style2.rich[token.styleName] || {};
+      for (var j = 0; j < line.tokens.length; j++) {
+        var token = line.tokens[j];
+        var tokenStyle = token.styleName && style.rich[token.styleName] || {};
         var textPadding = token.textPadding = tokenStyle.padding;
         var paddingH = textPadding ? textPadding[1] + textPadding[3] : 0;
-        var font = token.font = tokenStyle.font || style2.font;
+        var font = token.font = tokenStyle.font || style.font;
         token.contentHeight = getLineHeight(font);
         var tokenHeight = retrieve2(tokenStyle.height, token.contentHeight);
         token.innerHeight = tokenHeight;
         textPadding && (tokenHeight += textPadding[0] + textPadding[2]);
         token.height = tokenHeight;
-        token.lineHeight = retrieve3(tokenStyle.lineHeight, style2.lineHeight, tokenHeight);
-        token.align = tokenStyle && tokenStyle.align || style2.align;
+        token.lineHeight = retrieve3(tokenStyle.lineHeight, style.lineHeight, tokenHeight);
+        token.align = tokenStyle && tokenStyle.align || style.align;
         token.verticalAlign = tokenStyle && tokenStyle.verticalAlign || "middle";
         if (truncateLine && topHeight != null && calculatedHeight + token.lineHeight > topHeight) {
-          if (j2 > 0) {
-            line.tokens = line.tokens.slice(0, j2);
+          if (j > 0) {
+            line.tokens = line.tokens.slice(0, j);
             finishLine(line, lineWidth, lineHeight);
             contentBlock.lines = contentBlock.lines.slice(0, i + 1);
           } else {
@@ -14942,7 +14899,7 @@ function parseRichText(text, style2) {
               token.text = "";
               token.width = token.contentWidth = 0;
             } else {
-              token.text = truncateText(token.text, remainTruncWidth - paddingH, font, style2.ellipsis, { minChar: style2.truncateMinChar });
+              token.text = truncateText(token.text, remainTruncWidth - paddingH, font, style.ellipsis, { minChar: style.truncateMinChar });
               token.width = token.contentWidth = getWidth(token.text, font);
             }
           } else {
@@ -14970,11 +14927,11 @@ function parseRichText(text, style2) {
   }
   return contentBlock;
 }
-function pushTokens(block, str, style2, wrapInfo, styleName) {
+function pushTokens(block, str, style, wrapInfo, styleName) {
   var isEmptyStr = str === "";
-  var tokenStyle = styleName && style2.rich[styleName] || {};
+  var tokenStyle = styleName && style.rich[styleName] || {};
   var lines = block.lines;
-  var font = tokenStyle.font || style2.font;
+  var font = tokenStyle.font || style.font;
   var newLine = false;
   var strLines;
   var linesWidths;
@@ -15204,14 +15161,14 @@ var Displayable = function(_super) {
     }
     return true;
   };
-  Displayable2.prototype.contain = function(x2, y2) {
-    return this.rectContain(x2, y2);
+  Displayable2.prototype.contain = function(x, y) {
+    return this.rectContain(x, y);
   };
   Displayable2.prototype.traverse = function(cb, context) {
     cb.call(context, this);
   };
-  Displayable2.prototype.rectContain = function(x2, y2) {
-    var coord = this.transformCoordToLocal(x2, y2);
+  Displayable2.prototype.rectContain = function(x, y) {
+    var coord = this.transformCoordToLocal(x, y);
     var rect = this.getBoundingRect();
     return rect.contain(coord[0], coord[1]);
   };
@@ -15220,10 +15177,10 @@ var Displayable = function(_super) {
     if (!this._paintRect || this.__dirty) {
       var transform = this.transform;
       var elRect = this.getBoundingRect();
-      var style2 = this.style;
-      var shadowSize = style2.shadowBlur || 0;
-      var shadowOffsetX = style2.shadowOffsetX || 0;
-      var shadowOffsetY = style2.shadowOffsetY || 0;
+      var style = this.style;
+      var shadowSize = style.shadowBlur || 0;
+      var shadowOffsetX = style.shadowOffsetX || 0;
+      var shadowOffsetY = style.shadowOffsetY || 0;
       rect = this._paintRect || (this._paintRect = new BoundingRect$1(0, 0, 0, 0));
       if (transform) {
         BoundingRect$1.applyTransform(rect, elRect, transform);
@@ -15484,15 +15441,15 @@ function fromCubic(x0, y0, x1, y1, x2, y2, x3, y3, min3, max3) {
   max3[0] = -Infinity;
   max3[1] = -Infinity;
   for (var i = 0; i < n; i++) {
-    var x4 = cubicAt$1(x0, x1, x2, x3, xDim[i]);
-    min3[0] = mathMin$6(x4, min3[0]);
-    max3[0] = mathMax$6(x4, max3[0]);
+    var x = cubicAt$1(x0, x1, x2, x3, xDim[i]);
+    min3[0] = mathMin$6(x, min3[0]);
+    max3[0] = mathMax$6(x, max3[0]);
   }
   n = cubicExtrema$1(y0, y1, y2, y3, yDim);
   for (var i = 0; i < n; i++) {
-    var y4 = cubicAt$1(y0, y1, y2, y3, yDim[i]);
-    min3[1] = mathMin$6(y4, min3[1]);
-    max3[1] = mathMax$6(y4, max3[1]);
+    var y = cubicAt$1(y0, y1, y2, y3, yDim[i]);
+    min3[1] = mathMin$6(y, min3[1]);
+    max3[1] = mathMax$6(y, max3[1]);
   }
   min3[0] = mathMin$6(x0, min3[0]);
   max3[0] = mathMax$6(x0, max3[0]);
@@ -15508,28 +15465,28 @@ function fromQuadratic(x0, y0, x1, y1, x2, y2, min3, max3) {
   var quadraticAt$1 = quadraticAt;
   var tx = mathMax$6(mathMin$6(quadraticExtremum$1(x0, x1, x2), 1), 0);
   var ty = mathMax$6(mathMin$6(quadraticExtremum$1(y0, y1, y2), 1), 0);
-  var x3 = quadraticAt$1(x0, x1, x2, tx);
-  var y3 = quadraticAt$1(y0, y1, y2, ty);
-  min3[0] = mathMin$6(x0, x2, x3);
-  min3[1] = mathMin$6(y0, y2, y3);
-  max3[0] = mathMax$6(x0, x2, x3);
-  max3[1] = mathMax$6(y0, y2, y3);
+  var x = quadraticAt$1(x0, x1, x2, tx);
+  var y = quadraticAt$1(y0, y1, y2, ty);
+  min3[0] = mathMin$6(x0, x2, x);
+  min3[1] = mathMin$6(y0, y2, y);
+  max3[0] = mathMax$6(x0, x2, x);
+  max3[1] = mathMax$6(y0, y2, y);
 }
-function fromArc(x2, y2, rx, ry, startAngle, endAngle, anticlockwise, min3, max3) {
+function fromArc(x, y, rx, ry, startAngle, endAngle, anticlockwise, min3, max3) {
   var vec2Min = min$1;
   var vec2Max = max$1;
   var diff2 = Math.abs(startAngle - endAngle);
   if (diff2 % PI2$7 < 1e-4 && diff2 > 1e-4) {
-    min3[0] = x2 - rx;
-    min3[1] = y2 - ry;
-    max3[0] = x2 + rx;
-    max3[1] = y2 + ry;
+    min3[0] = x - rx;
+    min3[1] = y - ry;
+    max3[0] = x + rx;
+    max3[1] = y + ry;
     return;
   }
-  start[0] = mathCos$3(startAngle) * rx + x2;
-  start[1] = mathSin$3(startAngle) * ry + y2;
-  end[0] = mathCos$3(endAngle) * rx + x2;
-  end[1] = mathSin$3(endAngle) * ry + y2;
+  start[0] = mathCos$3(startAngle) * rx + x;
+  start[1] = mathSin$3(startAngle) * ry + y;
+  end[0] = mathCos$3(endAngle) * rx + x;
+  end[1] = mathSin$3(endAngle) * ry + y;
   vec2Min(min3, start, end);
   vec2Max(max3, start, end);
   startAngle = startAngle % PI2$7;
@@ -15552,8 +15509,8 @@ function fromArc(x2, y2, rx, ry, startAngle, endAngle, anticlockwise, min3, max3
   }
   for (var angle = 0; angle < endAngle; angle += Math.PI / 2) {
     if (angle > startAngle) {
-      extremity[0] = mathCos$3(angle) * rx + x2;
-      extremity[1] = mathSin$3(angle) * ry + y2;
+      extremity[0] = mathCos$3(angle) * rx + x;
+      extremity[1] = mathSin$3(angle) * ry + y;
       vec2Min(min3, extremity, min3);
       vec2Max(max3, extremity, max3);
     }
@@ -15659,33 +15616,33 @@ var PathProxy = function() {
     }
     this._version++;
   };
-  PathProxy2.prototype.moveTo = function(x2, y2) {
+  PathProxy2.prototype.moveTo = function(x, y) {
     this._drawPendingPt();
-    this.addData(CMD$4.M, x2, y2);
-    this._ctx && this._ctx.moveTo(x2, y2);
-    this._x0 = x2;
-    this._y0 = y2;
-    this._xi = x2;
-    this._yi = y2;
+    this.addData(CMD$4.M, x, y);
+    this._ctx && this._ctx.moveTo(x, y);
+    this._x0 = x;
+    this._y0 = y;
+    this._xi = x;
+    this._yi = y;
     return this;
   };
-  PathProxy2.prototype.lineTo = function(x2, y2) {
-    var dx = mathAbs$1(x2 - this._xi);
-    var dy = mathAbs$1(y2 - this._yi);
+  PathProxy2.prototype.lineTo = function(x, y) {
+    var dx = mathAbs$1(x - this._xi);
+    var dy = mathAbs$1(y - this._yi);
     var exceedUnit = dx > this._ux || dy > this._uy;
-    this.addData(CMD$4.L, x2, y2);
+    this.addData(CMD$4.L, x, y);
     if (this._ctx && exceedUnit) {
-      this._ctx.lineTo(x2, y2);
+      this._ctx.lineTo(x, y);
     }
     if (exceedUnit) {
-      this._xi = x2;
-      this._yi = y2;
+      this._xi = x;
+      this._yi = y;
       this._pendingPtDist = 0;
     } else {
       var d2 = dx * dx + dy * dy;
       if (d2 > this._pendingPtDist) {
-        this._pendingPtX = x2;
-        this._pendingPtY = y2;
+        this._pendingPtX = x;
+        this._pendingPtY = y;
         this._pendingPtDist = d2;
       }
     }
@@ -15732,10 +15689,10 @@ var PathProxy = function() {
     }
     return this;
   };
-  PathProxy2.prototype.rect = function(x2, y2, w2, h2) {
+  PathProxy2.prototype.rect = function(x, y, w, h) {
     this._drawPendingPt();
-    this._ctx && this._ctx.rect(x2, y2, w2, h2);
-    this.addData(CMD$4.R, x2, y2, w2, h2);
+    this._ctx && this._ctx.rect(x, y, w, h);
+    this.addData(CMD$4.R, x, y, w, h);
     return this;
   };
   PathProxy2.prototype.closePath = function() {
@@ -15793,7 +15750,7 @@ var PathProxy = function() {
     }
     this._len = offset;
   };
-  PathProxy2.prototype.addData = function(cmd, a, b2, c, d, e2, f, g, h2) {
+  PathProxy2.prototype.addData = function(cmd, a, b, c, d, e2, f, g, h) {
     if (!this._saveData) {
       return;
     }
@@ -16029,8 +15986,8 @@ var PathProxy = function() {
     var y0;
     var xi;
     var yi;
-    var x2;
-    var y2;
+    var x;
+    var y;
     var drawPart = percent < 1;
     var pathSegLen;
     var pathTotalLen;
@@ -16072,29 +16029,29 @@ var PathProxy = function() {
             ctx.moveTo(xi, yi);
             break;
           case CMD$4.L: {
-            x2 = d[i++];
-            y2 = d[i++];
-            var dx = mathAbs$1(x2 - xi);
-            var dy = mathAbs$1(y2 - yi);
+            x = d[i++];
+            y = d[i++];
+            var dx = mathAbs$1(x - xi);
+            var dy = mathAbs$1(y - yi);
             if (dx > ux || dy > uy) {
               if (drawPart) {
                 var l = pathSegLen[segCount++];
                 if (accumLength + l > displayedLength) {
                   var t2 = (displayedLength - accumLength) / l;
-                  ctx.lineTo(xi * (1 - t2) + x2 * t2, yi * (1 - t2) + y2 * t2);
+                  ctx.lineTo(xi * (1 - t2) + x * t2, yi * (1 - t2) + y * t2);
                   break lo;
                 }
                 accumLength += l;
               }
-              ctx.lineTo(x2, y2);
-              xi = x2;
-              yi = y2;
+              ctx.lineTo(x, y);
+              xi = x;
+              yi = y;
               pendingPtDist = 0;
             } else {
               var d2 = dx * dx + dy * dy;
               if (d2 > pendingPtDist) {
-                pendingPtX = x2;
-                pendingPtY = y2;
+                pendingPtX = x;
+                pendingPtY = y;
                 pendingPtDist = d2;
               }
             }
@@ -16103,22 +16060,22 @@ var PathProxy = function() {
           case CMD$4.C: {
             var x1 = d[i++];
             var y1 = d[i++];
-            var x22 = d[i++];
-            var y22 = d[i++];
+            var x2 = d[i++];
+            var y2 = d[i++];
             var x3 = d[i++];
             var y3 = d[i++];
             if (drawPart) {
               var l = pathSegLen[segCount++];
               if (accumLength + l > displayedLength) {
                 var t2 = (displayedLength - accumLength) / l;
-                cubicSubdivide(xi, x1, x22, x3, t2, tmpOutX);
-                cubicSubdivide(yi, y1, y22, y3, t2, tmpOutY);
+                cubicSubdivide(xi, x1, x2, x3, t2, tmpOutX);
+                cubicSubdivide(yi, y1, y2, y3, t2, tmpOutY);
                 ctx.bezierCurveTo(tmpOutX[1], tmpOutY[1], tmpOutX[2], tmpOutY[2], tmpOutX[3], tmpOutY[3]);
                 break lo;
               }
               accumLength += l;
             }
-            ctx.bezierCurveTo(x1, y1, x22, y22, x3, y3);
+            ctx.bezierCurveTo(x1, y1, x2, y2, x3, y3);
             xi = x3;
             yi = y3;
             break;
@@ -16126,22 +16083,22 @@ var PathProxy = function() {
           case CMD$4.Q: {
             var x1 = d[i++];
             var y1 = d[i++];
-            var x22 = d[i++];
-            var y22 = d[i++];
+            var x2 = d[i++];
+            var y2 = d[i++];
             if (drawPart) {
               var l = pathSegLen[segCount++];
               if (accumLength + l > displayedLength) {
                 var t2 = (displayedLength - accumLength) / l;
-                quadraticSubdivide(xi, x1, x22, t2, tmpOutX);
-                quadraticSubdivide(yi, y1, y22, t2, tmpOutY);
+                quadraticSubdivide(xi, x1, x2, t2, tmpOutX);
+                quadraticSubdivide(yi, y1, y2, t2, tmpOutY);
                 ctx.quadraticCurveTo(tmpOutX[1], tmpOutY[1], tmpOutX[2], tmpOutY[2]);
                 break lo;
               }
               accumLength += l;
             }
-            ctx.quadraticCurveTo(x1, y1, x22, y22);
-            xi = x22;
-            yi = y22;
+            ctx.quadraticCurveTo(x1, y1, x2, y2);
+            xi = x2;
+            yi = y2;
             break;
           }
           case CMD$4.A:
@@ -16183,33 +16140,33 @@ var PathProxy = function() {
           case CMD$4.R:
             x0 = xi = d[i];
             y0 = yi = d[i + 1];
-            x2 = d[i++];
-            y2 = d[i++];
+            x = d[i++];
+            y = d[i++];
             var width = d[i++];
             var height = d[i++];
             if (drawPart) {
               var l = pathSegLen[segCount++];
               if (accumLength + l > displayedLength) {
                 var d_1 = displayedLength - accumLength;
-                ctx.moveTo(x2, y2);
-                ctx.lineTo(x2 + mathMin$5(d_1, width), y2);
+                ctx.moveTo(x, y);
+                ctx.lineTo(x + mathMin$5(d_1, width), y);
                 d_1 -= width;
                 if (d_1 > 0) {
-                  ctx.lineTo(x2 + width, y2 + mathMin$5(d_1, height));
+                  ctx.lineTo(x + width, y + mathMin$5(d_1, height));
                 }
                 d_1 -= height;
                 if (d_1 > 0) {
-                  ctx.lineTo(x2 + mathMax$5(width - d_1, 0), y2 + height);
+                  ctx.lineTo(x + mathMax$5(width - d_1, 0), y + height);
                 }
                 d_1 -= width;
                 if (d_1 > 0) {
-                  ctx.lineTo(x2, y2 + mathMax$5(height - d_1, 0));
+                  ctx.lineTo(x, y + mathMax$5(height - d_1, 0));
                 }
                 break lo;
               }
               accumLength += l;
             }
-            ctx.rect(x2, y2, width, height);
+            ctx.rect(x, y, width, height);
             break;
           case CMD$4.Z:
             if (drawPart) {
@@ -16246,46 +16203,46 @@ var PathProxy = function() {
   return PathProxy2;
 }();
 const PathProxy$1 = PathProxy;
-function containStroke$4(x0, y0, x1, y1, lineWidth, x2, y2) {
+function containStroke$4(x0, y0, x1, y1, lineWidth, x, y) {
   if (lineWidth === 0) {
     return false;
   }
   var _l = lineWidth;
   var _a2 = 0;
   var _b2 = x0;
-  if (y2 > y0 + _l && y2 > y1 + _l || y2 < y0 - _l && y2 < y1 - _l || x2 > x0 + _l && x2 > x1 + _l || x2 < x0 - _l && x2 < x1 - _l) {
+  if (y > y0 + _l && y > y1 + _l || y < y0 - _l && y < y1 - _l || x > x0 + _l && x > x1 + _l || x < x0 - _l && x < x1 - _l) {
     return false;
   }
   if (x0 !== x1) {
     _a2 = (y0 - y1) / (x0 - x1);
     _b2 = (x0 * y1 - x1 * y0) / (x0 - x1);
   } else {
-    return Math.abs(x2 - x0) <= _l / 2;
+    return Math.abs(x - x0) <= _l / 2;
   }
-  var tmp = _a2 * x2 - y2 + _b2;
+  var tmp = _a2 * x - y + _b2;
   var _s = tmp * tmp / (_a2 * _a2 + 1);
   return _s <= _l / 2 * _l / 2;
 }
-function containStroke$3(x0, y0, x1, y1, x2, y2, x3, y3, lineWidth, x4, y4) {
+function containStroke$3(x0, y0, x1, y1, x2, y2, x3, y3, lineWidth, x, y) {
   if (lineWidth === 0) {
     return false;
   }
   var _l = lineWidth;
-  if (y4 > y0 + _l && y4 > y1 + _l && y4 > y2 + _l && y4 > y3 + _l || y4 < y0 - _l && y4 < y1 - _l && y4 < y2 - _l && y4 < y3 - _l || x4 > x0 + _l && x4 > x1 + _l && x4 > x2 + _l && x4 > x3 + _l || x4 < x0 - _l && x4 < x1 - _l && x4 < x2 - _l && x4 < x3 - _l) {
+  if (y > y0 + _l && y > y1 + _l && y > y2 + _l && y > y3 + _l || y < y0 - _l && y < y1 - _l && y < y2 - _l && y < y3 - _l || x > x0 + _l && x > x1 + _l && x > x2 + _l && x > x3 + _l || x < x0 - _l && x < x1 - _l && x < x2 - _l && x < x3 - _l) {
     return false;
   }
-  var d = cubicProjectPoint(x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, null);
+  var d = cubicProjectPoint(x0, y0, x1, y1, x2, y2, x3, y3, x, y, null);
   return d <= _l / 2;
 }
-function containStroke$2(x0, y0, x1, y1, x2, y2, lineWidth, x3, y3) {
+function containStroke$2(x0, y0, x1, y1, x2, y2, lineWidth, x, y) {
   if (lineWidth === 0) {
     return false;
   }
   var _l = lineWidth;
-  if (y3 > y0 + _l && y3 > y1 + _l && y3 > y2 + _l || y3 < y0 - _l && y3 < y1 - _l && y3 < y2 - _l || x3 > x0 + _l && x3 > x1 + _l && x3 > x2 + _l || x3 < x0 - _l && x3 < x1 - _l && x3 < x2 - _l) {
+  if (y > y0 + _l && y > y1 + _l && y > y2 + _l || y < y0 - _l && y < y1 - _l && y < y2 - _l || x > x0 + _l && x > x1 + _l && x > x2 + _l || x < x0 - _l && x < x1 - _l && x < x2 - _l) {
     return false;
   }
-  var d = quadraticProjectPoint(x0, y0, x1, y1, x2, y2, x3, y3, null);
+  var d = quadraticProjectPoint(x0, y0, x1, y1, x2, y2, x, y, null);
   return d <= _l / 2;
 }
 var PI2$5 = Math.PI * 2;
@@ -16297,14 +16254,14 @@ function normalizeRadian(angle) {
   return angle;
 }
 var PI2$4 = Math.PI * 2;
-function containStroke$1(cx, cy, r, startAngle, endAngle, anticlockwise, lineWidth, x2, y2) {
+function containStroke$1(cx, cy, r, startAngle, endAngle, anticlockwise, lineWidth, x, y) {
   if (lineWidth === 0) {
     return false;
   }
   var _l = lineWidth;
-  x2 -= cx;
-  y2 -= cy;
-  var d = Math.sqrt(x2 * x2 + y2 * y2);
+  x -= cx;
+  y -= cy;
+  var d = Math.sqrt(x * x + y * y);
   if (d - _l > r || d + _l < r) {
     return false;
   }
@@ -16322,32 +16279,32 @@ function containStroke$1(cx, cy, r, startAngle, endAngle, anticlockwise, lineWid
   if (startAngle > endAngle) {
     endAngle += PI2$4;
   }
-  var angle = Math.atan2(y2, x2);
+  var angle = Math.atan2(y, x);
   if (angle < 0) {
     angle += PI2$4;
   }
   return angle >= startAngle && angle <= endAngle || angle + PI2$4 >= startAngle && angle + PI2$4 <= endAngle;
 }
-function windingLine(x0, y0, x1, y1, x2, y2) {
-  if (y2 > y0 && y2 > y1 || y2 < y0 && y2 < y1) {
+function windingLine(x0, y0, x1, y1, x, y) {
+  if (y > y0 && y > y1 || y < y0 && y < y1) {
     return 0;
   }
   if (y1 === y0) {
     return 0;
   }
-  var t2 = (y2 - y0) / (y1 - y0);
+  var t2 = (y - y0) / (y1 - y0);
   var dir3 = y1 < y0 ? 1 : -1;
   if (t2 === 1 || t2 === 0) {
     dir3 = y1 < y0 ? 0.5 : -0.5;
   }
   var x_ = t2 * (x1 - x0) + x0;
-  return x_ === x2 ? Infinity : x_ > x2 ? dir3 : 0;
+  return x_ === x ? Infinity : x_ > x ? dir3 : 0;
 }
 var CMD$3 = PathProxy$1.CMD;
 var PI2$3 = Math.PI * 2;
 var EPSILON$1 = 1e-4;
-function isAroundEqual$1(a, b2) {
-  return Math.abs(a - b2) < EPSILON$1;
+function isAroundEqual$1(a, b) {
+  return Math.abs(a - b) < EPSILON$1;
 }
 var roots = [-1, -1, -1];
 var extrema = [-1, -1];
@@ -16356,15 +16313,15 @@ function swapExtrema() {
   extrema[0] = extrema[1];
   extrema[1] = tmp;
 }
-function windingCubic(x0, y0, x1, y1, x2, y2, x3, y3, x4, y4) {
-  if (y4 > y0 && y4 > y1 && y4 > y2 && y4 > y3 || y4 < y0 && y4 < y1 && y4 < y2 && y4 < y3) {
+function windingCubic(x0, y0, x1, y1, x2, y2, x3, y3, x, y) {
+  if (y > y0 && y > y1 && y > y2 && y > y3 || y < y0 && y < y1 && y < y2 && y < y3) {
     return 0;
   }
-  var nRoots = cubicRootAt(y0, y1, y2, y3, y4, roots);
+  var nRoots = cubicRootAt(y0, y1, y2, y3, y, roots);
   if (nRoots === 0) {
     return 0;
   } else {
-    var w2 = 0;
+    var w = 0;
     var nExtrema = -1;
     var y0_ = void 0;
     var y1_ = void 0;
@@ -16372,7 +16329,7 @@ function windingCubic(x0, y0, x1, y1, x2, y2, x3, y3, x4, y4) {
       var t2 = roots[i];
       var unit = t2 === 0 || t2 === 1 ? 0.5 : 1;
       var x_ = cubicAt(x0, x1, x2, x3, t2);
-      if (x_ < x4) {
+      if (x_ < x) {
         continue;
       }
       if (nExtrema < 0) {
@@ -16387,64 +16344,64 @@ function windingCubic(x0, y0, x1, y1, x2, y2, x3, y3, x4, y4) {
       }
       if (nExtrema === 2) {
         if (t2 < extrema[0]) {
-          w2 += y0_ < y0 ? unit : -unit;
+          w += y0_ < y0 ? unit : -unit;
         } else if (t2 < extrema[1]) {
-          w2 += y1_ < y0_ ? unit : -unit;
+          w += y1_ < y0_ ? unit : -unit;
         } else {
-          w2 += y3 < y1_ ? unit : -unit;
+          w += y3 < y1_ ? unit : -unit;
         }
       } else {
         if (t2 < extrema[0]) {
-          w2 += y0_ < y0 ? unit : -unit;
+          w += y0_ < y0 ? unit : -unit;
         } else {
-          w2 += y3 < y0_ ? unit : -unit;
+          w += y3 < y0_ ? unit : -unit;
         }
       }
     }
-    return w2;
+    return w;
   }
 }
-function windingQuadratic(x0, y0, x1, y1, x2, y2, x3, y3) {
-  if (y3 > y0 && y3 > y1 && y3 > y2 || y3 < y0 && y3 < y1 && y3 < y2) {
+function windingQuadratic(x0, y0, x1, y1, x2, y2, x, y) {
+  if (y > y0 && y > y1 && y > y2 || y < y0 && y < y1 && y < y2) {
     return 0;
   }
-  var nRoots = quadraticRootAt(y0, y1, y2, y3, roots);
+  var nRoots = quadraticRootAt(y0, y1, y2, y, roots);
   if (nRoots === 0) {
     return 0;
   } else {
     var t2 = quadraticExtremum(y0, y1, y2);
     if (t2 >= 0 && t2 <= 1) {
-      var w2 = 0;
+      var w = 0;
       var y_ = quadraticAt(y0, y1, y2, t2);
       for (var i = 0; i < nRoots; i++) {
         var unit = roots[i] === 0 || roots[i] === 1 ? 0.5 : 1;
         var x_ = quadraticAt(x0, x1, x2, roots[i]);
-        if (x_ < x3) {
+        if (x_ < x) {
           continue;
         }
         if (roots[i] < t2) {
-          w2 += y_ < y0 ? unit : -unit;
+          w += y_ < y0 ? unit : -unit;
         } else {
-          w2 += y2 < y_ ? unit : -unit;
+          w += y2 < y_ ? unit : -unit;
         }
       }
-      return w2;
+      return w;
     } else {
       var unit = roots[0] === 0 || roots[0] === 1 ? 0.5 : 1;
       var x_ = quadraticAt(x0, x1, x2, roots[0]);
-      if (x_ < x3) {
+      if (x_ < x) {
         return 0;
       }
       return y2 < y0 ? unit : -unit;
     }
   }
 }
-function windingArc(cx, cy, r, startAngle, endAngle, anticlockwise, x2, y2) {
-  y2 -= cy;
-  if (y2 > r || y2 < -r) {
+function windingArc(cx, cy, r, startAngle, endAngle, anticlockwise, x, y) {
+  y -= cy;
+  if (y > r || y < -r) {
     return 0;
   }
-  var tmp = Math.sqrt(r * r - y2 * y2);
+  var tmp = Math.sqrt(r * r - y * y);
   roots[0] = -tmp;
   roots[1] = tmp;
   var dTheta = Math.abs(startAngle - endAngle);
@@ -16455,7 +16412,7 @@ function windingArc(cx, cy, r, startAngle, endAngle, anticlockwise, x2, y2) {
     startAngle = 0;
     endAngle = PI2$3;
     var dir3 = anticlockwise ? 1 : -1;
-    if (x2 >= roots[0] + cx && x2 <= roots[1] + cx) {
+    if (x >= roots[0] + cx && x <= roots[1] + cx) {
       return dir3;
     } else {
       return 0;
@@ -16470,11 +16427,11 @@ function windingArc(cx, cy, r, startAngle, endAngle, anticlockwise, x2, y2) {
     startAngle += PI2$3;
     endAngle += PI2$3;
   }
-  var w2 = 0;
+  var w = 0;
   for (var i = 0; i < 2; i++) {
     var x_ = roots[i];
-    if (x_ + cx > x2) {
-      var angle = Math.atan2(y2, x_);
+    if (x_ + cx > x) {
+      var angle = Math.atan2(y, x_);
       var dir3 = anticlockwise ? 1 : -1;
       if (angle < 0) {
         angle = PI2$3 + angle;
@@ -16483,16 +16440,16 @@ function windingArc(cx, cy, r, startAngle, endAngle, anticlockwise, x2, y2) {
         if (angle > Math.PI / 2 && angle < Math.PI * 1.5) {
           dir3 = -dir3;
         }
-        w2 += dir3;
+        w += dir3;
       }
     }
   }
-  return w2;
+  return w;
 }
-function containPath(path, lineWidth, isStroke, x2, y2) {
+function containPath(path, lineWidth, isStroke, x, y) {
   var data = path.data;
   var len2 = path.len();
-  var w2 = 0;
+  var w = 0;
   var xi = 0;
   var yi = 0;
   var x0 = 0;
@@ -16504,7 +16461,7 @@ function containPath(path, lineWidth, isStroke, x2, y2) {
     var isFirst = i === 1;
     if (cmd === CMD$3.M && i > 1) {
       if (!isStroke) {
-        w2 += windingLine(xi, yi, x0, y0, x2, y2);
+        w += windingLine(xi, yi, x0, y0, x, y);
       }
     }
     if (isFirst) {
@@ -16522,33 +16479,33 @@ function containPath(path, lineWidth, isStroke, x2, y2) {
         break;
       case CMD$3.L:
         if (isStroke) {
-          if (containStroke$4(xi, yi, data[i], data[i + 1], lineWidth, x2, y2)) {
+          if (containStroke$4(xi, yi, data[i], data[i + 1], lineWidth, x, y)) {
             return true;
           }
         } else {
-          w2 += windingLine(xi, yi, data[i], data[i + 1], x2, y2) || 0;
+          w += windingLine(xi, yi, data[i], data[i + 1], x, y) || 0;
         }
         xi = data[i++];
         yi = data[i++];
         break;
       case CMD$3.C:
         if (isStroke) {
-          if (containStroke$3(xi, yi, data[i++], data[i++], data[i++], data[i++], data[i], data[i + 1], lineWidth, x2, y2)) {
+          if (containStroke$3(xi, yi, data[i++], data[i++], data[i++], data[i++], data[i], data[i + 1], lineWidth, x, y)) {
             return true;
           }
         } else {
-          w2 += windingCubic(xi, yi, data[i++], data[i++], data[i++], data[i++], data[i], data[i + 1], x2, y2) || 0;
+          w += windingCubic(xi, yi, data[i++], data[i++], data[i++], data[i++], data[i], data[i + 1], x, y) || 0;
         }
         xi = data[i++];
         yi = data[i++];
         break;
       case CMD$3.Q:
         if (isStroke) {
-          if (containStroke$2(xi, yi, data[i++], data[i++], data[i], data[i + 1], lineWidth, x2, y2)) {
+          if (containStroke$2(xi, yi, data[i++], data[i++], data[i], data[i + 1], lineWidth, x, y)) {
             return true;
           }
         } else {
-          w2 += windingQuadratic(xi, yi, data[i++], data[i++], data[i], data[i + 1], x2, y2) || 0;
+          w += windingQuadratic(xi, yi, data[i++], data[i++], data[i], data[i + 1], x, y) || 0;
         }
         xi = data[i++];
         yi = data[i++];
@@ -16565,18 +16522,18 @@ function containPath(path, lineWidth, isStroke, x2, y2) {
         x1 = Math.cos(theta) * rx + cx;
         y1 = Math.sin(theta) * ry + cy;
         if (!isFirst) {
-          w2 += windingLine(xi, yi, x1, y1, x2, y2);
+          w += windingLine(xi, yi, x1, y1, x, y);
         } else {
           x0 = x1;
           y0 = y1;
         }
-        var _x = (x2 - cx) * ry / rx + cx;
+        var _x = (x - cx) * ry / rx + cx;
         if (isStroke) {
-          if (containStroke$1(cx, cy, ry, theta, theta + dTheta, anticlockwise, lineWidth, _x, y2)) {
+          if (containStroke$1(cx, cy, ry, theta, theta + dTheta, anticlockwise, lineWidth, _x, y)) {
             return true;
           }
         } else {
-          w2 += windingArc(cx, cy, ry, theta, theta + dTheta, anticlockwise, _x, y2);
+          w += windingArc(cx, cy, ry, theta, theta + dTheta, anticlockwise, _x, y);
         }
         xi = Math.cos(theta + dTheta) * rx + cx;
         yi = Math.sin(theta + dTheta) * ry + cy;
@@ -16589,21 +16546,21 @@ function containPath(path, lineWidth, isStroke, x2, y2) {
         x1 = x0 + width;
         y1 = y0 + height;
         if (isStroke) {
-          if (containStroke$4(x0, y0, x1, y0, lineWidth, x2, y2) || containStroke$4(x1, y0, x1, y1, lineWidth, x2, y2) || containStroke$4(x1, y1, x0, y1, lineWidth, x2, y2) || containStroke$4(x0, y1, x0, y0, lineWidth, x2, y2)) {
+          if (containStroke$4(x0, y0, x1, y0, lineWidth, x, y) || containStroke$4(x1, y0, x1, y1, lineWidth, x, y) || containStroke$4(x1, y1, x0, y1, lineWidth, x, y) || containStroke$4(x0, y1, x0, y0, lineWidth, x, y)) {
             return true;
           }
         } else {
-          w2 += windingLine(x1, y0, x1, y1, x2, y2);
-          w2 += windingLine(x0, y1, x0, y0, x2, y2);
+          w += windingLine(x1, y0, x1, y1, x, y);
+          w += windingLine(x0, y1, x0, y0, x, y);
         }
         break;
       case CMD$3.Z:
         if (isStroke) {
-          if (containStroke$4(xi, yi, x0, y0, lineWidth, x2, y2)) {
+          if (containStroke$4(xi, yi, x0, y0, lineWidth, x, y)) {
             return true;
           }
         } else {
-          w2 += windingLine(xi, yi, x0, y0, x2, y2);
+          w += windingLine(xi, yi, x0, y0, x, y);
         }
         xi = x0;
         yi = y0;
@@ -16611,15 +16568,15 @@ function containPath(path, lineWidth, isStroke, x2, y2) {
     }
   }
   if (!isStroke && !isAroundEqual$1(yi, y0)) {
-    w2 += windingLine(xi, yi, x0, y0, x2, y2) || 0;
+    w += windingLine(xi, yi, x0, y0, x, y) || 0;
   }
-  return w2 !== 0;
+  return w !== 0;
 }
-function contain$2(pathProxy, x2, y2) {
-  return containPath(pathProxy, 0, false, x2, y2);
+function contain$2(pathProxy, x, y) {
+  return containPath(pathProxy, 0, false, x, y);
 }
-function containStroke(pathProxy, lineWidth, x2, y2) {
-  return containPath(pathProxy, lineWidth, true, x2, y2);
+function containStroke(pathProxy, lineWidth, x, y) {
+  return containPath(pathProxy, lineWidth, true, x, y);
 }
 var DEFAULT_PATH_STYLE = defaults({
   fill: "#000",
@@ -16662,8 +16619,8 @@ var Path = function(_super) {
   Path2.prototype.update = function() {
     var _this = this;
     _super.prototype.update.call(this);
-    var style2 = this.style;
-    if (style2.decal) {
+    var style = this.style;
+    if (style.decal) {
       var decalEl = this._decalEl = this._decalEl || new Path2();
       if (decalEl.buildPath === Path2.prototype.buildPath) {
         decalEl.buildPath = function(ctx) {
@@ -16672,15 +16629,15 @@ var Path = function(_super) {
       }
       decalEl.silent = true;
       var decalElStyle = decalEl.style;
-      for (var key in style2) {
-        if (decalElStyle[key] !== style2[key]) {
-          decalElStyle[key] = style2[key];
+      for (var key in style) {
+        if (decalElStyle[key] !== style[key]) {
+          decalElStyle[key] = style[key];
         }
       }
-      decalElStyle.fill = style2.fill ? style2.decal : null;
+      decalElStyle.fill = style.fill ? style.decal : null;
       decalElStyle.decal = null;
       decalElStyle.shadowColor = null;
-      style2.strokeFirst && (decalElStyle.stroke = null);
+      style.strokeFirst && (decalElStyle.stroke = null);
       for (var i = 0; i < pathCopyParams.length; ++i) {
         decalEl[pathCopyParams[i]] = this[pathCopyParams[i]];
       }
@@ -16770,18 +16727,18 @@ var Path = function(_super) {
     this.path = new PathProxy$1(false);
   };
   Path2.prototype.hasStroke = function() {
-    var style2 = this.style;
-    var stroke = style2.stroke;
-    return !(stroke == null || stroke === "none" || !(style2.lineWidth > 0));
+    var style = this.style;
+    var stroke = style.stroke;
+    return !(stroke == null || stroke === "none" || !(style.lineWidth > 0));
   };
   Path2.prototype.hasFill = function() {
-    var style2 = this.style;
-    var fill = style2.fill;
+    var style = this.style;
+    var fill = style.fill;
     return fill != null && fill !== "none";
   };
   Path2.prototype.getBoundingRect = function() {
     var rect = this._rect;
-    var style2 = this.style;
+    var style = this.style;
     var needsUpdateRect = !rect;
     if (needsUpdateRect) {
       var firstInvoke = false;
@@ -16802,45 +16759,45 @@ var Path = function(_super) {
       var rectStroke = this._rectStroke || (this._rectStroke = rect.clone());
       if (this.__dirty || needsUpdateRect) {
         rectStroke.copy(rect);
-        var lineScale = style2.strokeNoScale ? this.getLineScale() : 1;
-        var w2 = style2.lineWidth;
+        var lineScale = style.strokeNoScale ? this.getLineScale() : 1;
+        var w = style.lineWidth;
         if (!this.hasFill()) {
           var strokeContainThreshold = this.strokeContainThreshold;
-          w2 = Math.max(w2, strokeContainThreshold == null ? 4 : strokeContainThreshold);
+          w = Math.max(w, strokeContainThreshold == null ? 4 : strokeContainThreshold);
         }
         if (lineScale > 1e-10) {
-          rectStroke.width += w2 / lineScale;
-          rectStroke.height += w2 / lineScale;
-          rectStroke.x -= w2 / lineScale / 2;
-          rectStroke.y -= w2 / lineScale / 2;
+          rectStroke.width += w / lineScale;
+          rectStroke.height += w / lineScale;
+          rectStroke.x -= w / lineScale / 2;
+          rectStroke.y -= w / lineScale / 2;
         }
       }
       return rectStroke;
     }
     return rect;
   };
-  Path2.prototype.contain = function(x2, y2) {
-    var localPos = this.transformCoordToLocal(x2, y2);
+  Path2.prototype.contain = function(x, y) {
+    var localPos = this.transformCoordToLocal(x, y);
     var rect = this.getBoundingRect();
-    var style2 = this.style;
-    x2 = localPos[0];
-    y2 = localPos[1];
-    if (rect.contain(x2, y2)) {
+    var style = this.style;
+    x = localPos[0];
+    y = localPos[1];
+    if (rect.contain(x, y)) {
       var pathProxy = this.path;
       if (this.hasStroke()) {
-        var lineWidth = style2.lineWidth;
-        var lineScale = style2.strokeNoScale ? this.getLineScale() : 1;
+        var lineWidth = style.lineWidth;
+        var lineScale = style.strokeNoScale ? this.getLineScale() : 1;
         if (lineScale > 1e-10) {
           if (!this.hasFill()) {
             lineWidth = Math.max(lineWidth, this.strokeContainThreshold);
           }
-          if (containStroke(pathProxy, lineWidth / lineScale, x2, y2)) {
+          if (containStroke(pathProxy, lineWidth / lineScale, x, y)) {
             return true;
           }
         }
       }
       if (this.hasFill()) {
-        return contain$2(pathProxy, x2, y2);
+        return contain$2(pathProxy, x, y);
       }
     }
     return false;
@@ -17016,13 +16973,13 @@ var TSpan = function(_super) {
     return _super !== null && _super.apply(this, arguments) || this;
   }
   TSpan2.prototype.hasStroke = function() {
-    var style2 = this.style;
-    var stroke = style2.stroke;
-    return stroke != null && stroke !== "none" && style2.lineWidth > 0;
+    var style = this.style;
+    var stroke = style.stroke;
+    return stroke != null && stroke !== "none" && style.lineWidth > 0;
   };
   TSpan2.prototype.hasFill = function() {
-    var style2 = this.style;
-    var fill = style2.fill;
+    var style = this.style;
+    var fill = style.fill;
     return fill != null && fill !== "none";
   };
   TSpan2.prototype.createStyle = function(obj) {
@@ -17032,19 +16989,19 @@ var TSpan = function(_super) {
     this._rect = rect;
   };
   TSpan2.prototype.getBoundingRect = function() {
-    var style2 = this.style;
+    var style = this.style;
     if (!this._rect) {
-      var text = style2.text;
+      var text = style.text;
       text != null ? text += "" : text = "";
-      var rect = getBoundingRect(text, style2.font, style2.textAlign, style2.textBaseline);
-      rect.x += style2.x || 0;
-      rect.y += style2.y || 0;
+      var rect = getBoundingRect(text, style.font, style.textAlign, style.textBaseline);
+      rect.x += style.x || 0;
+      rect.y += style.y || 0;
       if (this.hasStroke()) {
-        var w2 = style2.lineWidth;
-        rect.x -= w2 / 2;
-        rect.y -= w2 / 2;
-        rect.width += w2;
-        rect.height += w2;
+        var w = style.lineWidth;
+        rect.x -= w / 2;
+        rect.y -= w / 2;
+        rect.width += w;
+        rect.height += w;
       }
       this._rect = rect;
     }
@@ -17086,17 +17043,17 @@ var ZRImage = function(_super) {
     return createObject(DEFAULT_IMAGE_STYLE, obj);
   };
   ZRImage2.prototype._getSize = function(dim) {
-    var style2 = this.style;
-    var size2 = style2[dim];
+    var style = this.style;
+    var size2 = style[dim];
     if (size2 != null) {
       return size2;
     }
-    var imageSource = isImageLike(style2.image) ? style2.image : this.__image;
+    var imageSource = isImageLike(style.image) ? style.image : this.__image;
     if (!imageSource) {
       return 0;
     }
     var otherDim = dim === "width" ? "height" : "width";
-    var otherDimSize = style2[otherDim];
+    var otherDimSize = style[otherDim];
     if (otherDimSize == null) {
       return imageSource[dim];
     } else {
@@ -17113,9 +17070,9 @@ var ZRImage = function(_super) {
     return DEFAULT_IMAGE_ANIMATION_PROPS;
   };
   ZRImage2.prototype.getBoundingRect = function() {
-    var style2 = this.style;
+    var style = this.style;
     if (!this._rect) {
-      this._rect = new BoundingRect$1(style2.x || 0, style2.y || 0, this.getWidth(), this.getHeight());
+      this._rect = new BoundingRect$1(style.x || 0, style.y || 0, this.getWidth(), this.getHeight());
     }
     return this._rect;
   };
@@ -17124,8 +17081,8 @@ var ZRImage = function(_super) {
 ZRImage.prototype.type = "image";
 const ZRImage$1 = ZRImage;
 function buildPath$2(ctx, shape) {
-  var x2 = shape.x;
-  var y2 = shape.y;
+  var x = shape.x;
+  var y = shape.y;
   var width = shape.width;
   var height = shape.height;
   var r = shape.r;
@@ -17134,11 +17091,11 @@ function buildPath$2(ctx, shape) {
   var r3;
   var r4;
   if (width < 0) {
-    x2 = x2 + width;
+    x = x + width;
     width = -width;
   }
   if (height < 0) {
-    y2 = y2 + height;
+    y = y + height;
     height = -height;
   }
   if (typeof r === "number") {
@@ -17162,39 +17119,39 @@ function buildPath$2(ctx, shape) {
   } else {
     r1 = r2 = r3 = r4 = 0;
   }
-  var total2;
+  var total;
   if (r1 + r2 > width) {
-    total2 = r1 + r2;
-    r1 *= width / total2;
-    r2 *= width / total2;
+    total = r1 + r2;
+    r1 *= width / total;
+    r2 *= width / total;
   }
   if (r3 + r4 > width) {
-    total2 = r3 + r4;
-    r3 *= width / total2;
-    r4 *= width / total2;
+    total = r3 + r4;
+    r3 *= width / total;
+    r4 *= width / total;
   }
   if (r2 + r3 > height) {
-    total2 = r2 + r3;
-    r2 *= height / total2;
-    r3 *= height / total2;
+    total = r2 + r3;
+    r2 *= height / total;
+    r3 *= height / total;
   }
   if (r1 + r4 > height) {
-    total2 = r1 + r4;
-    r1 *= height / total2;
-    r4 *= height / total2;
+    total = r1 + r4;
+    r1 *= height / total;
+    r4 *= height / total;
   }
-  ctx.moveTo(x2 + r1, y2);
-  ctx.lineTo(x2 + width - r2, y2);
-  r2 !== 0 && ctx.arc(x2 + width - r2, y2 + r2, r2, -Math.PI / 2, 0);
-  ctx.lineTo(x2 + width, y2 + height - r3);
-  r3 !== 0 && ctx.arc(x2 + width - r3, y2 + height - r3, r3, 0, Math.PI / 2);
-  ctx.lineTo(x2 + r4, y2 + height);
-  r4 !== 0 && ctx.arc(x2 + r4, y2 + height - r4, r4, Math.PI / 2, Math.PI);
-  ctx.lineTo(x2, y2 + r1);
-  r1 !== 0 && ctx.arc(x2 + r1, y2 + r1, r1, Math.PI, Math.PI * 1.5);
+  ctx.moveTo(x + r1, y);
+  ctx.lineTo(x + width - r2, y);
+  r2 !== 0 && ctx.arc(x + width - r2, y + r2, r2, -Math.PI / 2, 0);
+  ctx.lineTo(x + width, y + height - r3);
+  r3 !== 0 && ctx.arc(x + width - r3, y + height - r3, r3, 0, Math.PI / 2);
+  ctx.lineTo(x + r4, y + height);
+  r4 !== 0 && ctx.arc(x + r4, y + height - r4, r4, Math.PI / 2, Math.PI);
+  ctx.lineTo(x, y + r1);
+  r1 !== 0 && ctx.arc(x + r1, y + r1, r1, Math.PI, Math.PI * 1.5);
 }
 var round = Math.round;
-function subPixelOptimizeLine$1(outputShape, inputShape, style2) {
+function subPixelOptimizeLine$1(outputShape, inputShape, style) {
   if (!inputShape) {
     return;
   }
@@ -17206,7 +17163,7 @@ function subPixelOptimizeLine$1(outputShape, inputShape, style2) {
   outputShape.x2 = x2;
   outputShape.y1 = y1;
   outputShape.y2 = y2;
-  var lineWidth = style2 && style2.lineWidth;
+  var lineWidth = style && style.lineWidth;
   if (!lineWidth) {
     return outputShape;
   }
@@ -17218,7 +17175,7 @@ function subPixelOptimizeLine$1(outputShape, inputShape, style2) {
   }
   return outputShape;
 }
-function subPixelOptimizeRect$1(outputShape, inputShape, style2) {
+function subPixelOptimizeRect$1(outputShape, inputShape, style) {
   if (!inputShape) {
     return;
   }
@@ -17230,7 +17187,7 @@ function subPixelOptimizeRect$1(outputShape, inputShape, style2) {
   outputShape.y = originY;
   outputShape.width = originWidth;
   outputShape.height = originHeight;
-  var lineWidth = style2 && style2.lineWidth;
+  var lineWidth = style && style.lineWidth;
   if (!lineWidth) {
     return outputShape;
   }
@@ -17266,26 +17223,26 @@ var Rect = function(_super) {
     return new RectShape();
   };
   Rect2.prototype.buildPath = function(ctx, shape) {
-    var x2;
-    var y2;
+    var x;
+    var y;
     var width;
     var height;
     if (this.subPixelOptimize) {
       var optimizedShape = subPixelOptimizeRect$1(subPixelOptimizeOutputShape$1, shape, this.style);
-      x2 = optimizedShape.x;
-      y2 = optimizedShape.y;
+      x = optimizedShape.x;
+      y = optimizedShape.y;
       width = optimizedShape.width;
       height = optimizedShape.height;
       optimizedShape.r = shape.r;
       shape = optimizedShape;
     } else {
-      x2 = shape.x;
-      y2 = shape.y;
+      x = shape.x;
+      y = shape.y;
       width = shape.width;
       height = shape.height;
     }
     if (!shape.r) {
-      ctx.rect(x2, y2, width, height);
+      ctx.rect(x, y, width, height);
     } else {
       buildPath$2(ctx, shape);
     }
@@ -17464,29 +17421,29 @@ var ZRText = function(_super) {
     return child;
   };
   ZRText2.prototype._updatePlainTexts = function() {
-    var style2 = this.style;
-    var textFont = style2.font || DEFAULT_FONT;
-    var textPadding = style2.padding;
-    var text = getStyleText(style2);
-    var contentBlock = parsePlainText(text, style2);
-    var needDrawBg = needDrawBackground(style2);
-    var bgColorDrawn = !!style2.backgroundColor;
+    var style = this.style;
+    var textFont = style.font || DEFAULT_FONT;
+    var textPadding = style.padding;
+    var text = getStyleText(style);
+    var contentBlock = parsePlainText(text, style);
+    var needDrawBg = needDrawBackground(style);
+    var bgColorDrawn = !!style.backgroundColor;
     var outerHeight = contentBlock.outerHeight;
     var outerWidth = contentBlock.outerWidth;
     var contentWidth = contentBlock.contentWidth;
     var textLines = contentBlock.lines;
     var lineHeight = contentBlock.lineHeight;
     var defaultStyle = this._defaultStyle;
-    var baseX = style2.x || 0;
-    var baseY = style2.y || 0;
-    var textAlign = style2.align || defaultStyle.align || "left";
-    var verticalAlign = style2.verticalAlign || defaultStyle.verticalAlign || "top";
+    var baseX = style.x || 0;
+    var baseY = style.y || 0;
+    var textAlign = style.align || defaultStyle.align || "left";
+    var verticalAlign = style.verticalAlign || defaultStyle.verticalAlign || "top";
     var textX = baseX;
     var textY = adjustTextY(baseY, contentBlock.contentHeight, verticalAlign);
     if (needDrawBg || textPadding) {
       var boxX = adjustTextX(baseX, outerWidth, textAlign);
       var boxY = adjustTextY(baseY, outerHeight, verticalAlign);
-      needDrawBg && this._renderBackground(style2, style2, boxX, boxY, outerWidth, outerHeight);
+      needDrawBg && this._renderBackground(style, style, boxX, boxY, outerWidth, outerHeight);
     }
     textY += lineHeight / 2;
     if (textPadding) {
@@ -17499,10 +17456,10 @@ var ZRText = function(_super) {
     }
     var defaultLineWidth = 0;
     var useDefaultFill = false;
-    var textFill = getFill("fill" in style2 ? style2.fill : (useDefaultFill = true, defaultStyle.fill));
-    var textStroke = getStroke("stroke" in style2 ? style2.stroke : !bgColorDrawn && (!defaultStyle.autoStroke || useDefaultFill) ? (defaultLineWidth = DEFAULT_STROKE_LINE_WIDTH, defaultStyle.stroke) : null);
-    var hasShadow = style2.textShadowBlur > 0;
-    var fixedBoundingRect = style2.width != null && (style2.overflow === "truncate" || style2.overflow === "break" || style2.overflow === "breakAll");
+    var textFill = getFill("fill" in style ? style.fill : (useDefaultFill = true, defaultStyle.fill));
+    var textStroke = getStroke("stroke" in style ? style.stroke : !bgColorDrawn && (!defaultStyle.autoStroke || useDefaultFill) ? (defaultLineWidth = DEFAULT_STROKE_LINE_WIDTH, defaultStyle.stroke) : null);
+    var hasShadow = style.textShadowBlur > 0;
+    var fixedBoundingRect = style.width != null && (style.overflow === "truncate" || style.overflow === "break" || style.overflow === "breakAll");
     var calculatedLineHeight = contentBlock.calculatedLineHeight;
     for (var i = 0; i < textLines.length; i++) {
       var el = this._getOrCreateChild(TSpan$1);
@@ -17515,42 +17472,42 @@ var ZRText = function(_super) {
         subElStyle.textAlign = textAlign;
       }
       subElStyle.textBaseline = "middle";
-      subElStyle.opacity = style2.opacity;
+      subElStyle.opacity = style.opacity;
       subElStyle.strokeFirst = true;
       if (hasShadow) {
-        subElStyle.shadowBlur = style2.textShadowBlur || 0;
-        subElStyle.shadowColor = style2.textShadowColor || "transparent";
-        subElStyle.shadowOffsetX = style2.textShadowOffsetX || 0;
-        subElStyle.shadowOffsetY = style2.textShadowOffsetY || 0;
+        subElStyle.shadowBlur = style.textShadowBlur || 0;
+        subElStyle.shadowColor = style.textShadowColor || "transparent";
+        subElStyle.shadowOffsetX = style.textShadowOffsetX || 0;
+        subElStyle.shadowOffsetY = style.textShadowOffsetY || 0;
       }
       subElStyle.stroke = textStroke;
       subElStyle.fill = textFill;
       if (textStroke) {
-        subElStyle.lineWidth = style2.lineWidth || defaultLineWidth;
-        subElStyle.lineDash = style2.lineDash;
-        subElStyle.lineDashOffset = style2.lineDashOffset || 0;
+        subElStyle.lineWidth = style.lineWidth || defaultLineWidth;
+        subElStyle.lineDash = style.lineDash;
+        subElStyle.lineDashOffset = style.lineDashOffset || 0;
       }
       subElStyle.font = textFont;
-      setSeparateFont(subElStyle, style2);
+      setSeparateFont(subElStyle, style);
       textY += lineHeight;
       if (fixedBoundingRect) {
-        el.setBoundingRect(new BoundingRect$1(adjustTextX(subElStyle.x, style2.width, subElStyle.textAlign), adjustTextY(subElStyle.y, calculatedLineHeight, subElStyle.textBaseline), contentWidth, calculatedLineHeight));
+        el.setBoundingRect(new BoundingRect$1(adjustTextX(subElStyle.x, style.width, subElStyle.textAlign), adjustTextY(subElStyle.y, calculatedLineHeight, subElStyle.textBaseline), contentWidth, calculatedLineHeight));
       }
     }
   };
   ZRText2.prototype._updateRichTexts = function() {
-    var style2 = this.style;
-    var text = getStyleText(style2);
-    var contentBlock = parseRichText(text, style2);
+    var style = this.style;
+    var text = getStyleText(style);
+    var contentBlock = parseRichText(text, style);
     var contentWidth = contentBlock.width;
     var outerWidth = contentBlock.outerWidth;
     var outerHeight = contentBlock.outerHeight;
-    var textPadding = style2.padding;
-    var baseX = style2.x || 0;
-    var baseY = style2.y || 0;
+    var textPadding = style.padding;
+    var baseX = style.x || 0;
+    var baseY = style.y || 0;
     var defaultStyle = this._defaultStyle;
-    var textAlign = style2.align || defaultStyle.align;
-    var verticalAlign = style2.verticalAlign || defaultStyle.verticalAlign;
+    var textAlign = style.align || defaultStyle.align;
+    var verticalAlign = style.verticalAlign || defaultStyle.verticalAlign;
     var boxX = adjustTextX(baseX, outerWidth, textAlign);
     var boxY = adjustTextY(baseY, outerHeight, verticalAlign);
     var xLeft = boxX;
@@ -17560,10 +17517,10 @@ var ZRText = function(_super) {
       lineTop += textPadding[0];
     }
     var xRight = xLeft + contentWidth;
-    if (needDrawBackground(style2)) {
-      this._renderBackground(style2, style2, boxX, boxY, outerWidth, outerHeight);
+    if (needDrawBackground(style)) {
+      this._renderBackground(style, style, boxX, boxY, outerWidth, outerHeight);
     }
-    var bgColorDrawn = !!style2.backgroundColor;
+    var bgColorDrawn = !!style.backgroundColor;
     for (var i = 0; i < contentBlock.lines.length; i++) {
       var line = contentBlock.lines[i];
       var tokens = line.tokens;
@@ -17576,13 +17533,13 @@ var ZRText = function(_super) {
       var rightIndex = tokenCount - 1;
       var token = void 0;
       while (leftIndex < tokenCount && (token = tokens[leftIndex], !token.align || token.align === "left")) {
-        this._placeToken(token, style2, lineHeight, lineTop, lineXLeft, "left", bgColorDrawn);
+        this._placeToken(token, style, lineHeight, lineTop, lineXLeft, "left", bgColorDrawn);
         remainedWidth -= token.width;
         lineXLeft += token.width;
         leftIndex++;
       }
       while (rightIndex >= 0 && (token = tokens[rightIndex], token.align === "right")) {
-        this._placeToken(token, style2, lineHeight, lineTop, lineXRight, "right", bgColorDrawn);
+        this._placeToken(token, style, lineHeight, lineTop, lineXRight, "right", bgColorDrawn);
         remainedWidth -= token.width;
         lineXRight -= token.width;
         rightIndex--;
@@ -17590,30 +17547,30 @@ var ZRText = function(_super) {
       lineXLeft += (contentWidth - (lineXLeft - xLeft) - (xRight - lineXRight) - remainedWidth) / 2;
       while (leftIndex <= rightIndex) {
         token = tokens[leftIndex];
-        this._placeToken(token, style2, lineHeight, lineTop, lineXLeft + token.width / 2, "center", bgColorDrawn);
+        this._placeToken(token, style, lineHeight, lineTop, lineXLeft + token.width / 2, "center", bgColorDrawn);
         lineXLeft += token.width;
         leftIndex++;
       }
       lineTop += lineHeight;
     }
   };
-  ZRText2.prototype._placeToken = function(token, style2, lineHeight, lineTop, x2, textAlign, parentBgColorDrawn) {
-    var tokenStyle = style2.rich[token.styleName] || {};
+  ZRText2.prototype._placeToken = function(token, style, lineHeight, lineTop, x, textAlign, parentBgColorDrawn) {
+    var tokenStyle = style.rich[token.styleName] || {};
     tokenStyle.text = token.text;
     var verticalAlign = token.verticalAlign;
-    var y2 = lineTop + lineHeight / 2;
+    var y = lineTop + lineHeight / 2;
     if (verticalAlign === "top") {
-      y2 = lineTop + token.height / 2;
+      y = lineTop + token.height / 2;
     } else if (verticalAlign === "bottom") {
-      y2 = lineTop + lineHeight - token.height / 2;
+      y = lineTop + lineHeight - token.height / 2;
     }
     var needDrawBg = !token.isLineHolder && needDrawBackground(tokenStyle);
-    needDrawBg && this._renderBackground(tokenStyle, style2, textAlign === "right" ? x2 - token.width : textAlign === "center" ? x2 - token.width / 2 : x2, y2 - token.height / 2, token.width, token.height);
+    needDrawBg && this._renderBackground(tokenStyle, style, textAlign === "right" ? x - token.width : textAlign === "center" ? x - token.width / 2 : x, y - token.height / 2, token.width, token.height);
     var bgColorDrawn = !!tokenStyle.backgroundColor;
     var textPadding = token.textPadding;
     if (textPadding) {
-      x2 = getTextXForPadding(x2, textAlign, textPadding);
-      y2 -= token.height / 2 - textPadding[0] - token.innerHeight / 2;
+      x = getTextXForPadding(x, textAlign, textPadding);
+      y -= token.height / 2 - textPadding[0] - token.innerHeight / 2;
     }
     var el = this._getOrCreateChild(TSpan$1);
     var subElStyle = el.createStyle();
@@ -17621,27 +17578,27 @@ var ZRText = function(_super) {
     var defaultStyle = this._defaultStyle;
     var useDefaultFill = false;
     var defaultLineWidth = 0;
-    var textFill = getFill("fill" in tokenStyle ? tokenStyle.fill : "fill" in style2 ? style2.fill : (useDefaultFill = true, defaultStyle.fill));
-    var textStroke = getStroke("stroke" in tokenStyle ? tokenStyle.stroke : "stroke" in style2 ? style2.stroke : !bgColorDrawn && !parentBgColorDrawn && (!defaultStyle.autoStroke || useDefaultFill) ? (defaultLineWidth = DEFAULT_STROKE_LINE_WIDTH, defaultStyle.stroke) : null);
-    var hasShadow = tokenStyle.textShadowBlur > 0 || style2.textShadowBlur > 0;
+    var textFill = getFill("fill" in tokenStyle ? tokenStyle.fill : "fill" in style ? style.fill : (useDefaultFill = true, defaultStyle.fill));
+    var textStroke = getStroke("stroke" in tokenStyle ? tokenStyle.stroke : "stroke" in style ? style.stroke : !bgColorDrawn && !parentBgColorDrawn && (!defaultStyle.autoStroke || useDefaultFill) ? (defaultLineWidth = DEFAULT_STROKE_LINE_WIDTH, defaultStyle.stroke) : null);
+    var hasShadow = tokenStyle.textShadowBlur > 0 || style.textShadowBlur > 0;
     subElStyle.text = token.text;
-    subElStyle.x = x2;
-    subElStyle.y = y2;
+    subElStyle.x = x;
+    subElStyle.y = y;
     if (hasShadow) {
-      subElStyle.shadowBlur = tokenStyle.textShadowBlur || style2.textShadowBlur || 0;
-      subElStyle.shadowColor = tokenStyle.textShadowColor || style2.textShadowColor || "transparent";
-      subElStyle.shadowOffsetX = tokenStyle.textShadowOffsetX || style2.textShadowOffsetX || 0;
-      subElStyle.shadowOffsetY = tokenStyle.textShadowOffsetY || style2.textShadowOffsetY || 0;
+      subElStyle.shadowBlur = tokenStyle.textShadowBlur || style.textShadowBlur || 0;
+      subElStyle.shadowColor = tokenStyle.textShadowColor || style.textShadowColor || "transparent";
+      subElStyle.shadowOffsetX = tokenStyle.textShadowOffsetX || style.textShadowOffsetX || 0;
+      subElStyle.shadowOffsetY = tokenStyle.textShadowOffsetY || style.textShadowOffsetY || 0;
     }
     subElStyle.textAlign = textAlign;
     subElStyle.textBaseline = "middle";
     subElStyle.font = token.font || DEFAULT_FONT;
-    subElStyle.opacity = retrieve3(tokenStyle.opacity, style2.opacity, 1);
+    subElStyle.opacity = retrieve3(tokenStyle.opacity, style.opacity, 1);
     setSeparateFont(subElStyle, tokenStyle);
     if (textStroke) {
-      subElStyle.lineWidth = retrieve3(tokenStyle.lineWidth, style2.lineWidth, defaultLineWidth);
-      subElStyle.lineDash = retrieve2(tokenStyle.lineDash, style2.lineDash);
-      subElStyle.lineDashOffset = style2.lineDashOffset || 0;
+      subElStyle.lineWidth = retrieve3(tokenStyle.lineWidth, style.lineWidth, defaultLineWidth);
+      subElStyle.lineDash = retrieve2(tokenStyle.lineDash, style.lineDash);
+      subElStyle.lineDashOffset = style.lineDashOffset || 0;
       subElStyle.stroke = textStroke;
     }
     if (textFill) {
@@ -17651,23 +17608,23 @@ var ZRText = function(_super) {
     var textHeight = token.contentHeight;
     el.setBoundingRect(new BoundingRect$1(adjustTextX(subElStyle.x, textWidth, subElStyle.textAlign), adjustTextY(subElStyle.y, textHeight, subElStyle.textBaseline), textWidth, textHeight));
   };
-  ZRText2.prototype._renderBackground = function(style2, topStyle, x2, y2, width, height) {
-    var textBackgroundColor = style2.backgroundColor;
-    var textBorderWidth = style2.borderWidth;
-    var textBorderColor = style2.borderColor;
+  ZRText2.prototype._renderBackground = function(style, topStyle, x, y, width, height) {
+    var textBackgroundColor = style.backgroundColor;
+    var textBorderWidth = style.borderWidth;
+    var textBorderColor = style.borderColor;
     var isImageBg = textBackgroundColor && textBackgroundColor.image;
     var isPlainOrGradientBg = textBackgroundColor && !isImageBg;
-    var textBorderRadius = style2.borderRadius;
+    var textBorderRadius = style.borderRadius;
     var self2 = this;
     var rectEl;
     var imgEl;
-    if (isPlainOrGradientBg || style2.lineHeight || textBorderWidth && textBorderColor) {
+    if (isPlainOrGradientBg || style.lineHeight || textBorderWidth && textBorderColor) {
       rectEl = this._getOrCreateChild(Rect$1);
       rectEl.useStyle(rectEl.createStyle());
       rectEl.style.fill = null;
       var rectShape = rectEl.shape;
-      rectShape.x = x2;
-      rectShape.y = y2;
+      rectShape.x = x;
+      rectShape.y = y;
       rectShape.width = width;
       rectShape.height = height;
       rectShape.r = textBorderRadius;
@@ -17676,7 +17633,7 @@ var ZRText = function(_super) {
     if (isPlainOrGradientBg) {
       var rectStyle = rectEl.style;
       rectStyle.fill = textBackgroundColor || null;
-      rectStyle.fillOpacity = retrieve2(style2.fillOpacity, 1);
+      rectStyle.fillOpacity = retrieve2(style.fillOpacity, 1);
     } else if (isImageBg) {
       imgEl = this._getOrCreateChild(ZRImage$1);
       imgEl.onload = function() {
@@ -17684,8 +17641,8 @@ var ZRText = function(_super) {
       };
       var imgStyle = imgEl.style;
       imgStyle.image = textBackgroundColor.image;
-      imgStyle.x = x2;
-      imgStyle.y = y2;
+      imgStyle.x = x;
+      imgStyle.y = y;
       imgStyle.width = width;
       imgStyle.height = height;
     }
@@ -17693,9 +17650,9 @@ var ZRText = function(_super) {
       var rectStyle = rectEl.style;
       rectStyle.lineWidth = textBorderWidth;
       rectStyle.stroke = textBorderColor;
-      rectStyle.strokeOpacity = retrieve2(style2.strokeOpacity, 1);
-      rectStyle.lineDash = style2.borderDash;
-      rectStyle.lineDashOffset = style2.borderDashOffset || 0;
+      rectStyle.strokeOpacity = retrieve2(style.strokeOpacity, 1);
+      rectStyle.lineDash = style.borderDash;
+      rectStyle.lineDashOffset = style.borderDashOffset || 0;
       rectEl.strokeContainThreshold = 0;
       if (rectEl.hasFill() && rectEl.hasStroke()) {
         rectStyle.strokeFirst = true;
@@ -17703,23 +17660,23 @@ var ZRText = function(_super) {
       }
     }
     var commonStyle = (rectEl || imgEl).style;
-    commonStyle.shadowBlur = style2.shadowBlur || 0;
-    commonStyle.shadowColor = style2.shadowColor || "transparent";
-    commonStyle.shadowOffsetX = style2.shadowOffsetX || 0;
-    commonStyle.shadowOffsetY = style2.shadowOffsetY || 0;
-    commonStyle.opacity = retrieve3(style2.opacity, topStyle.opacity, 1);
+    commonStyle.shadowBlur = style.shadowBlur || 0;
+    commonStyle.shadowColor = style.shadowColor || "transparent";
+    commonStyle.shadowOffsetX = style.shadowOffsetX || 0;
+    commonStyle.shadowOffsetY = style.shadowOffsetY || 0;
+    commonStyle.opacity = retrieve3(style.opacity, topStyle.opacity, 1);
   };
-  ZRText2.makeFont = function(style2) {
+  ZRText2.makeFont = function(style) {
     var font = "";
-    if (hasSeparateFont(style2)) {
+    if (hasSeparateFont(style)) {
       font = [
-        style2.fontStyle,
-        style2.fontWeight,
-        parseFontSize(style2.fontSize),
-        style2.fontFamily || "sans-serif"
+        style.fontStyle,
+        style.fontWeight,
+        parseFontSize(style.fontSize),
+        style.fontFamily || "sans-serif"
       ].join(" ");
     }
-    return font && trim$1(font) || style2.textFont || style2.font;
+    return font && trim$1(font) || style.textFont || style.font;
   };
   return ZRText2;
 }(Displayable$1);
@@ -17744,26 +17701,26 @@ function setSeparateFont(targetStyle, sourceStyle) {
     }
   }
 }
-function hasSeparateFont(style2) {
-  return style2.fontSize != null || style2.fontFamily || style2.fontWeight;
+function hasSeparateFont(style) {
+  return style.fontSize != null || style.fontFamily || style.fontWeight;
 }
-function normalizeTextStyle(style2) {
-  normalizeStyle(style2);
-  each$7(style2.rich, normalizeStyle);
-  return style2;
+function normalizeTextStyle(style) {
+  normalizeStyle(style);
+  each$7(style.rich, normalizeStyle);
+  return style;
 }
-function normalizeStyle(style2) {
-  if (style2) {
-    style2.font = ZRText.makeFont(style2);
-    var textAlign = style2.align;
+function normalizeStyle(style) {
+  if (style) {
+    style.font = ZRText.makeFont(style);
+    var textAlign = style.align;
     textAlign === "middle" && (textAlign = "center");
-    style2.align = textAlign == null || VALID_TEXT_ALIGN[textAlign] ? textAlign : "left";
-    var verticalAlign = style2.verticalAlign;
+    style.align = textAlign == null || VALID_TEXT_ALIGN[textAlign] ? textAlign : "left";
+    var verticalAlign = style.verticalAlign;
     verticalAlign === "center" && (verticalAlign = "middle");
-    style2.verticalAlign = verticalAlign == null || VALID_TEXT_VERTICAL_ALIGN[verticalAlign] ? verticalAlign : "top";
-    var textPadding = style2.padding;
+    style.verticalAlign = verticalAlign == null || VALID_TEXT_VERTICAL_ALIGN[verticalAlign] ? verticalAlign : "top";
+    var textPadding = style.padding;
     if (textPadding) {
-      style2.padding = normalizeCssArray$1(style2.padding);
+      style.padding = normalizeCssArray$1(style.padding);
     }
   }
 }
@@ -17773,16 +17730,16 @@ function getStroke(stroke, lineWidth) {
 function getFill(fill) {
   return fill == null || fill === "none" ? null : fill.image || fill.colorStops ? "#000" : fill;
 }
-function getTextXForPadding(x2, textAlign, textPadding) {
-  return textAlign === "right" ? x2 - textPadding[1] : textAlign === "center" ? x2 + textPadding[3] / 2 - textPadding[1] / 2 : x2 + textPadding[3];
+function getTextXForPadding(x, textAlign, textPadding) {
+  return textAlign === "right" ? x - textPadding[1] : textAlign === "center" ? x + textPadding[3] / 2 - textPadding[1] / 2 : x + textPadding[3];
 }
-function getStyleText(style2) {
-  var text = style2.text;
+function getStyleText(style) {
+  var text = style.text;
   text != null && (text += "");
   return text;
 }
-function needDrawBackground(style2) {
-  return !!(style2.backgroundColor || style2.lineHeight || style2.borderWidth && style2.borderColor);
+function needDrawBackground(style) {
+  return !!(style.backgroundColor || style.lineHeight || style.borderWidth && style.borderColor);
 }
 const ZRText$1 = ZRText;
 var getECData = makeInner();
@@ -17895,11 +17852,11 @@ function setStatesFlag(el, stateName) {
   }
 }
 function getFromStateStyle(el, props, toStateName, defaultValue) {
-  var style2 = el.style;
+  var style = el.style;
   var fromState = {};
   for (var i = 0; i < props.length; i++) {
     var propName = props[i];
-    var val = style2[propName];
+    var val = style[propName];
     fromState[propName] = val == null ? defaultValue && defaultValue[propName] : val;
   }
   for (var i = 0; i < el.animators.length; i++) {
@@ -18353,68 +18310,68 @@ function transformPath(path, m2) {
   var cmd;
   var nPoint;
   var i;
-  var j2;
+  var j;
   var k;
   var p2;
   var M = CMD$2.M;
-  var C2 = CMD$2.C;
-  var L2 = CMD$2.L;
+  var C = CMD$2.C;
+  var L = CMD$2.L;
   var R = CMD$2.R;
   var A = CMD$2.A;
   var Q = CMD$2.Q;
-  for (i = 0, j2 = 0; i < len2; ) {
+  for (i = 0, j = 0; i < len2; ) {
     cmd = data[i++];
-    j2 = i;
+    j = i;
     nPoint = 0;
     switch (cmd) {
       case M:
         nPoint = 1;
         break;
-      case L2:
+      case L:
         nPoint = 1;
         break;
-      case C2:
+      case C:
         nPoint = 3;
         break;
       case Q:
         nPoint = 2;
         break;
       case A:
-        var x2 = m2[4];
-        var y2 = m2[5];
+        var x = m2[4];
+        var y = m2[5];
         var sx = mathSqrt$2(m2[0] * m2[0] + m2[1] * m2[1]);
         var sy = mathSqrt$2(m2[2] * m2[2] + m2[3] * m2[3]);
         var angle = mathAtan2(-m2[1] / sy, m2[0] / sx);
         data[i] *= sx;
-        data[i++] += x2;
+        data[i++] += x;
         data[i] *= sy;
-        data[i++] += y2;
+        data[i++] += y;
         data[i++] *= sx;
         data[i++] *= sy;
         data[i++] += angle;
         data[i++] += angle;
         i += 2;
-        j2 = i;
+        j = i;
         break;
       case R:
         p2[0] = data[i++];
         p2[1] = data[i++];
         applyTransform$1(p2, p2, m2);
-        data[j2++] = p2[0];
-        data[j2++] = p2[1];
+        data[j++] = p2[0];
+        data[j++] = p2[1];
         p2[0] += data[i++];
         p2[1] += data[i++];
         applyTransform$1(p2, p2, m2);
-        data[j2++] = p2[0];
-        data[j2++] = p2[1];
+        data[j++] = p2[0];
+        data[j++] = p2[1];
     }
     for (k = 0; k < nPoint; k++) {
       var p_1 = points[k];
       p_1[0] = data[i++];
       p_1[1] = data[i++];
       applyTransform$1(p_1, p_1, m2);
-      data[j2++] = p_1[0];
-      data[j2++] = p_1[1];
+      data[j++] = p_1[0];
+      data[j++] = p_1[1];
     }
   }
   path.increaseVersion();
@@ -18813,17 +18770,17 @@ var Ellipse = function(_super) {
   };
   Ellipse2.prototype.buildPath = function(ctx, shape) {
     var k = 0.5522848;
-    var x2 = shape.cx;
-    var y2 = shape.cy;
+    var x = shape.cx;
+    var y = shape.cy;
     var a = shape.rx;
-    var b2 = shape.ry;
+    var b = shape.ry;
     var ox = a * k;
-    var oy = b2 * k;
-    ctx.moveTo(x2 - a, y2);
-    ctx.bezierCurveTo(x2 - a, y2 - oy, x2 - ox, y2 - b2, x2, y2 - b2);
-    ctx.bezierCurveTo(x2 + ox, y2 - b2, x2 + a, y2 - oy, x2 + a, y2);
-    ctx.bezierCurveTo(x2 + a, y2 + oy, x2 + ox, y2 + b2, x2, y2 + b2);
-    ctx.bezierCurveTo(x2 - ox, y2 + b2, x2 - a, y2 + oy, x2 - a, y2);
+    var oy = b * k;
+    ctx.moveTo(x - a, y);
+    ctx.bezierCurveTo(x - a, y - oy, x - ox, y - b, x, y - b);
+    ctx.bezierCurveTo(x + ox, y - b, x + a, y - oy, x + a, y);
+    ctx.bezierCurveTo(x + a, y + oy, x + ox, y + b, x, y + b);
+    ctx.bezierCurveTo(x - ox, y + b, x - a, y + oy, x - a, y);
     ctx.closePath();
   };
   return Ellipse2;
@@ -18996,9 +18953,9 @@ function buildPath$1(ctx, shape) {
             var x1 = xre - it_1[0];
             var y1 = yre - it_1[1];
             var a = 1 / mathSin(mathACos((x0 * x1 + y0 * y1) / (mathSqrt(x0 * x0 + y0 * y0) * mathSqrt(x1 * x1 + y1 * y1))) / 2);
-            var b2 = mathSqrt(it_1[0] * it_1[0] + it_1[1] * it_1[1]);
-            limitedOcrMax = mathMin$4(ocrMax, (radius - b2) / (a + 1));
-            limitedIcrMax = mathMin$4(icrMax, (innerRadius - b2) / (a - 1));
+            var b = mathSqrt(it_1[0] * it_1[0] + it_1[1] * it_1[1]);
+            limitedOcrMax = mathMin$4(ocrMax, (radius - b) / (a + 1));
+            limitedIcrMax = mathMin$4(icrMax, (innerRadius - b) / (a - 1));
           }
         }
       }
@@ -19093,13 +19050,13 @@ var Ring = function(_super) {
     return new RingShape();
   };
   Ring2.prototype.buildPath = function(ctx, shape) {
-    var x2 = shape.cx;
-    var y2 = shape.cy;
+    var x = shape.cx;
+    var y = shape.cy;
     var PI22 = Math.PI * 2;
-    ctx.moveTo(x2 + shape.r, y2);
-    ctx.arc(x2, y2, shape.r, 0, PI22, false);
-    ctx.moveTo(x2 + shape.r0, y2);
-    ctx.arc(x2, y2, shape.r0, 0, PI22, true);
+    ctx.moveTo(x + shape.r, y);
+    ctx.arc(x, y, shape.r, 0, PI22, false);
+    ctx.moveTo(x + shape.r0, y);
+    ctx.arc(x, y, shape.r0, 0, PI22, true);
   };
   return Ring2;
 }(Path$1);
@@ -19149,8 +19106,8 @@ function smoothBezier(points2, smooth, isLoop, constraint) {
     }
     scale$2(v1, v, -d0);
     scale$2(v2, v, d1);
-    var cp0 = add([], point, v1);
-    var cp1 = add([], point, v2);
+    var cp0 = add$1([], point, v1);
+    var cp1 = add$1([], point, v2);
     if (constraint) {
       max$1(cp0, cp0, min3);
       min$1(cp0, cp0, max3);
@@ -19422,16 +19379,16 @@ var Arc = function(_super) {
     return new ArcShape();
   };
   Arc2.prototype.buildPath = function(ctx, shape) {
-    var x2 = shape.cx;
-    var y2 = shape.cy;
+    var x = shape.cx;
+    var y = shape.cy;
     var r = Math.max(shape.r, 0);
     var startAngle = shape.startAngle;
     var endAngle = shape.endAngle;
     var clockwise = shape.clockwise;
     var unitX = Math.cos(startAngle);
     var unitY = Math.sin(startAngle);
-    ctx.moveTo(unitX * r + x2, unitY * r + y2);
-    ctx.arc(x2, y2, r, startAngle, endAngle, !clockwise);
+    ctx.moveTo(unitX * r + x, unitY * r + y);
+    ctx.arc(x, y, r, startAngle, endAngle, !clockwise);
   };
   return Arc2;
 }(Path$1);
@@ -19499,12 +19456,12 @@ var Gradient = function() {
 const Gradient$1 = Gradient;
 var LinearGradient = function(_super) {
   __extends(LinearGradient2, _super);
-  function LinearGradient2(x2, y2, x22, y22, colorStops, globalCoord) {
+  function LinearGradient2(x, y, x2, y2, colorStops, globalCoord) {
     var _this = _super.call(this, colorStops) || this;
-    _this.x = x2 == null ? 0 : x2;
-    _this.y = y2 == null ? 0 : y2;
-    _this.x2 = x22 == null ? 1 : x22;
-    _this.y2 = y22 == null ? 0 : y22;
+    _this.x = x == null ? 0 : x;
+    _this.y = y == null ? 0 : y;
+    _this.x2 = x2 == null ? 1 : x2;
+    _this.y2 = y2 == null ? 0 : y2;
     _this.type = "linear";
     _this.global = globalCoord || false;
     return _this;
@@ -19514,10 +19471,10 @@ var LinearGradient = function(_super) {
 const LinearGradient$1 = LinearGradient;
 var RadialGradient = function(_super) {
   __extends(RadialGradient2, _super);
-  function RadialGradient2(x2, y2, r, colorStops, globalCoord) {
+  function RadialGradient2(x, y, r, colorStops, globalCoord) {
     var _this = _super.call(this, colorStops) || this;
-    _this.x = x2 == null ? 0.5 : x2;
-    _this.y = y2 == null ? 0.5 : y2;
+    _this.x = x == null ? 0.5 : x;
+    _this.y = y == null ? 0.5 : y;
     _this.r = r == null ? 0.5 : r;
     _this.type = "radial";
     _this.global = globalCoord || false;
@@ -19548,14 +19505,14 @@ var OrientedBoundingRect = function() {
   OrientedBoundingRect2.prototype.fromBoundingRect = function(rect, transform) {
     var corners = this._corners;
     var axes = this._axes;
-    var x2 = rect.x;
-    var y2 = rect.y;
-    var x22 = x2 + rect.width;
-    var y22 = y2 + rect.height;
-    corners[0].set(x2, y2);
-    corners[1].set(x22, y2);
-    corners[2].set(x22, y22);
-    corners[3].set(x2, y22);
+    var x = rect.x;
+    var y = rect.y;
+    var x2 = x + rect.width;
+    var y2 = y + rect.height;
+    corners[0].set(x, y);
+    corners[1].set(x2, y);
+    corners[2].set(x2, y2);
+    corners[3].set(x, y2);
     if (transform) {
       for (var i = 0; i < 4; i++) {
         corners[i].transform(transform);
@@ -19734,13 +19691,13 @@ var IncrementalDisplayable = function(_super) {
     }
     return this._rect;
   };
-  IncrementalDisplayable2.prototype.contain = function(x2, y2) {
-    var localPos = this.transformCoordToLocal(x2, y2);
+  IncrementalDisplayable2.prototype.contain = function(x, y) {
+    var localPos = this.transformCoordToLocal(x, y);
     var rect = this.getBoundingRect();
     if (rect.contain(localPos[0], localPos[1])) {
       for (var i = 0; i < this._displayables.length; i++) {
         var displayable = this._displayables[i];
-        if (displayable.contain(x2, y2)) {
+        if (displayable.contain(x, y)) {
           return true;
         }
       }
@@ -20045,26 +20002,26 @@ function groupTransition(g1, g2, animatableModel) {
 }
 function clipPointsByRect(points2, rect) {
   return map$1(points2, function(point) {
-    var x2 = point[0];
-    x2 = mathMax$3(x2, rect.x);
-    x2 = mathMin$3(x2, rect.x + rect.width);
-    var y2 = point[1];
-    y2 = mathMax$3(y2, rect.y);
-    y2 = mathMin$3(y2, rect.y + rect.height);
-    return [x2, y2];
+    var x = point[0];
+    x = mathMax$3(x, rect.x);
+    x = mathMin$3(x, rect.x + rect.width);
+    var y = point[1];
+    y = mathMax$3(y, rect.y);
+    y = mathMin$3(y, rect.y + rect.height);
+    return [x, y];
   });
 }
 function clipRectByRect(targetRect, rect) {
-  var x2 = mathMax$3(targetRect.x, rect.x);
-  var x22 = mathMin$3(targetRect.x + targetRect.width, rect.x + rect.width);
-  var y2 = mathMax$3(targetRect.y, rect.y);
-  var y22 = mathMin$3(targetRect.y + targetRect.height, rect.y + rect.height);
-  if (x22 >= x2 && y22 >= y2) {
+  var x = mathMax$3(targetRect.x, rect.x);
+  var x2 = mathMin$3(targetRect.x + targetRect.width, rect.x + rect.width);
+  var y = mathMax$3(targetRect.y, rect.y);
+  var y2 = mathMin$3(targetRect.y + targetRect.height, rect.y + rect.height);
+  if (x2 >= x && y2 >= y) {
     return {
-      x: x2,
-      y: y2,
-      width: x22 - x2,
-      height: y22 - y2
+      x,
+      y,
+      width: x2 - x,
+      height: y2 - y
     };
   }
 }
@@ -20072,7 +20029,7 @@ function createIcon(iconStr, opt, rect) {
   var innerOpts = extend({
     rectHover: true
   }, opt);
-  var style2 = innerOpts.style = {
+  var style = innerOpts.style = {
     strokeNoScale: true
   };
   rect = rect || {
@@ -20082,7 +20039,7 @@ function createIcon(iconStr, opt, rect) {
     height: 2
   };
   if (iconStr) {
-    return iconStr.indexOf("image://") === 0 ? (style2.image = iconStr.slice(8), defaults(style2, rect), new ZRImage$1(innerOpts)) : makePath(iconStr.replace("path://", ""), innerOpts, rect, "center");
+    return iconStr.indexOf("image://") === 0 ? (style.image = iconStr.slice(8), defaults(style, rect), new ZRImage$1(innerOpts)) : makePath(iconStr.replace("path://", ""), innerOpts, rect, "center");
   }
 }
 function linePolygonIntersect(a1x, a1y, a2x, a2y, points2) {
@@ -20618,14 +20575,14 @@ var TextStyleMixin = (
       }, this.ecModel);
     };
     TextStyleMixin2.prototype.getTextRect = function(text) {
-      var style2 = {
+      var style = {
         text,
         verticalAlign: this.getShallow("verticalAlign") || this.getShallow("baseline")
       };
       for (var i = 0; i < textStyleParams.length; i++) {
-        style2[textStyleParams[i]] = this.getShallow(textStyleParams[i]);
+        style[textStyleParams[i]] = this.getShallow(textStyleParams[i]);
       }
-      tmpText.useStyle(style2);
+      tmpText.useStyle(style);
       tmpText.update();
       return tmpText.getBoundingRect();
     };
@@ -21207,13 +21164,13 @@ function getDefaultFormatPrecisionOfInterval(timeUnit) {
 }
 function format$1(time2, template, isUTC, lang) {
   var date = parseDate(time2);
-  var y2 = date[fullYearGetterName(isUTC)]();
+  var y = date[fullYearGetterName(isUTC)]();
   var M = date[monthGetterName(isUTC)]() + 1;
   var q = Math.floor((M - 1) / 3) + 1;
   var d = date[dateGetterName(isUTC)]();
   var e2 = date["get" + (isUTC ? "UTC" : "") + "Day"]();
   var H = date[hoursGetterName(isUTC)]();
-  var h2 = (H - 1) % 12 + 1;
+  var h = (H - 1) % 12 + 1;
   var m2 = date[minutesGetterName(isUTC)]();
   var s2 = date[secondsGetterName(isUTC)]();
   var S = date[millisecondsGetterName(isUTC)]();
@@ -21223,7 +21180,7 @@ function format$1(time2, template, isUTC, lang) {
   var monthAbbr = timeModel.get("monthAbbr");
   var dayOfWeek = timeModel.get("dayOfWeek");
   var dayOfWeekAbbr = timeModel.get("dayOfWeekAbbr");
-  return (template || "").replace(/{yyyy}/g, y2 + "").replace(/{yy}/g, y2 % 100 + "").replace(/{Q}/g, q + "").replace(/{MMMM}/g, month[M - 1]).replace(/{MMM}/g, monthAbbr[M - 1]).replace(/{MM}/g, pad(M, 2)).replace(/{M}/g, M + "").replace(/{dd}/g, pad(d, 2)).replace(/{d}/g, d + "").replace(/{eeee}/g, dayOfWeek[e2]).replace(/{ee}/g, dayOfWeekAbbr[e2]).replace(/{e}/g, e2 + "").replace(/{HH}/g, pad(H, 2)).replace(/{H}/g, H + "").replace(/{hh}/g, pad(h2 + "", 2)).replace(/{h}/g, h2 + "").replace(/{mm}/g, pad(m2, 2)).replace(/{m}/g, m2 + "").replace(/{ss}/g, pad(s2, 2)).replace(/{s}/g, s2 + "").replace(/{SSS}/g, pad(S, 3)).replace(/{S}/g, S + "");
+  return (template || "").replace(/{yyyy}/g, y + "").replace(/{yy}/g, y % 100 + "").replace(/{Q}/g, q + "").replace(/{MMMM}/g, month[M - 1]).replace(/{MMM}/g, monthAbbr[M - 1]).replace(/{MM}/g, pad(M, 2)).replace(/{M}/g, M + "").replace(/{dd}/g, pad(d, 2)).replace(/{d}/g, d + "").replace(/{eeee}/g, dayOfWeek[e2]).replace(/{ee}/g, dayOfWeekAbbr[e2]).replace(/{e}/g, e2 + "").replace(/{HH}/g, pad(H, 2)).replace(/{H}/g, H + "").replace(/{hh}/g, pad(h + "", 2)).replace(/{h}/g, h + "").replace(/{mm}/g, pad(m2, 2)).replace(/{m}/g, m2 + "").replace(/{ss}/g, pad(s2, 2)).replace(/{s}/g, s2 + "").replace(/{SSS}/g, pad(S, 3)).replace(/{S}/g, S + "");
 }
 function leveledFormat(tick, idx, formatter, lang, isUTC) {
   var template = null;
@@ -21266,14 +21223,14 @@ function getUnitFromValue(value, isUTC) {
   var date = parseDate(value);
   var M = date[monthGetterName(isUTC)]() + 1;
   var d = date[dateGetterName(isUTC)]();
-  var h2 = date[hoursGetterName(isUTC)]();
+  var h = date[hoursGetterName(isUTC)]();
   var m2 = date[minutesGetterName(isUTC)]();
   var s2 = date[secondsGetterName(isUTC)]();
   var S = date[millisecondsGetterName(isUTC)]();
   var isSecond = S === 0;
   var isMinute = isSecond && s2 === 0;
   var isHour = isMinute && m2 === 0;
-  var isDay = isHour && h2 === 0;
+  var isDay = isHour && h === 0;
   var isMonth = isDay && d === 1;
   var isYear = isMonth && M === 1;
   if (isYear) {
@@ -21375,11 +21332,11 @@ function getTextRect(text, font, align, verticalAlign, padding, rich, truncate, 
   });
   return textEl.getBoundingRect();
 }
-function addCommas(x2) {
-  if (!isNumeric(x2)) {
-    return isString(x2) ? x2 : "-";
+function addCommas(x) {
+  if (!isNumeric(x)) {
+    return isString(x) ? x : "-";
   }
-  var parts = (x2 + "").split(".");
+  var parts = (x + "").split(".");
   return parts[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, "$1,") + (parts.length > 1 ? "." + parts[1] : "");
 }
 function toCamelCase(str, upperCaseFirst) {
@@ -21483,14 +21440,14 @@ function formatTime(tpl, value, isUTC) {
   }
   var date = parseDate(value);
   var getUTC = isUTC ? "getUTC" : "get";
-  var y2 = date[getUTC + "FullYear"]();
+  var y = date[getUTC + "FullYear"]();
   var M = date[getUTC + "Month"]() + 1;
   var d = date[getUTC + "Date"]();
-  var h2 = date[getUTC + "Hours"]();
+  var h = date[getUTC + "Hours"]();
   var m2 = date[getUTC + "Minutes"]();
   var s2 = date[getUTC + "Seconds"]();
   var S = date[getUTC + "Milliseconds"]();
-  tpl = tpl.replace("MM", pad(M, 2)).replace("M", M).replace("yyyy", y2).replace("yy", pad(y2 % 100 + "", 2)).replace("dd", pad(d, 2)).replace("d", d).replace("hh", pad(h2, 2)).replace("h", h2).replace("mm", pad(m2, 2)).replace("m", m2).replace("ss", pad(s2, 2)).replace("s", s2).replace("SSS", pad(S, 3));
+  tpl = tpl.replace("MM", pad(M, 2)).replace("M", M).replace("yyyy", y).replace("yy", pad(y % 100 + "", 2)).replace("dd", pad(d, 2)).replace("d", d).replace("hh", pad(h, 2)).replace("h", h).replace("mm", pad(m2, 2)).replace("m", m2).replace("ss", pad(s2, 2)).replace("s", s2).replace("SSS", pad(S, 3));
   return tpl;
 }
 function capitalFirst(str) {
@@ -21513,8 +21470,8 @@ var each$6 = each$7;
 var LOCATION_PARAMS = ["left", "right", "top", "bottom", "width", "height"];
 var HV_NAMES = [["width", "left", "right"], ["height", "top", "bottom"]];
 function boxLayout(orient, group, gap, maxWidth, maxHeight) {
-  var x2 = 0;
-  var y2 = 0;
+  var x = 0;
+  var y = 0;
   if (maxWidth == null) {
     maxWidth = Infinity;
   }
@@ -21530,21 +21487,21 @@ function boxLayout(orient, group, gap, maxWidth, maxHeight) {
     var nextY;
     if (orient === "horizontal") {
       var moveX = rect.width + (nextChildRect ? -nextChildRect.x + rect.x : 0);
-      nextX = x2 + moveX;
+      nextX = x + moveX;
       if (nextX > maxWidth || child.newline) {
-        x2 = 0;
+        x = 0;
         nextX = moveX;
-        y2 += currentLineMaxSize + gap;
+        y += currentLineMaxSize + gap;
         currentLineMaxSize = rect.height;
       } else {
         currentLineMaxSize = Math.max(currentLineMaxSize, rect.height);
       }
     } else {
       var moveY = rect.height + (nextChildRect ? -nextChildRect.y + rect.y : 0);
-      nextY = y2 + moveY;
+      nextY = y + moveY;
       if (nextY > maxHeight || child.newline) {
-        x2 += currentLineMaxSize + gap;
-        y2 = 0;
+        x += currentLineMaxSize + gap;
+        y = 0;
         nextY = moveY;
         currentLineMaxSize = rect.width;
       } else {
@@ -21554,10 +21511,10 @@ function boxLayout(orient, group, gap, maxWidth, maxHeight) {
     if (child.newline) {
       return;
     }
-    child.x = x2;
-    child.y = y2;
+    child.x = x;
+    child.y = y;
     child.markRedraw();
-    orient === "horizontal" ? x2 = nextX + gap : y2 = nextY + gap;
+    orient === "horizontal" ? x = nextX + gap : y = nextY + gap;
   });
 }
 var box = boxLayout;
@@ -21633,13 +21590,13 @@ function getLayoutRect(positionInfo, containerRect, margin) {
   return rect;
 }
 function positionElement(el, positionInfo, containerRect, margin, opt, out2) {
-  var h2 = !opt || !opt.hv || opt.hv[0];
+  var h = !opt || !opt.hv || opt.hv[0];
   var v = !opt || !opt.hv || opt.hv[1];
   var boundingMode = opt && opt.boundingMode || "all";
   out2 = out2 || el;
   out2.x = el.x;
   out2.y = el.y;
-  if (!h2 && !v) {
+  if (!h && !v) {
     return false;
   }
   var rect;
@@ -21657,7 +21614,7 @@ function positionElement(el, positionInfo, containerRect, margin, opt, out2) {
     width: rect.width,
     height: rect.height
   }, positionInfo), containerRect, margin);
-  var dx = h2 ? layoutRect.x - rect.x : 0;
+  var dx = h ? layoutRect.x - rect.x : 0;
   var dy = v ? layoutRect.y - rect.y : 0;
   if (boundingMode === "raw") {
     out2.x = dx;
@@ -22463,7 +22420,7 @@ var GlobalModel = (
               if (tooltipExists) {
                 {
                   if (!tooltipWarningLogged) {
-                    warn("Currently only one tooltip component is allowed.");
+                    warn$1("Currently only one tooltip component is allowed.");
                     tooltipWarningLogged = true;
                   }
                 }
@@ -23317,7 +23274,7 @@ function globalCompatStyle(option, isTheme) {
   compatTextStyle(toObj(option.axisPointer), "label");
   compatTextStyle(toObj(option.tooltip).axisPointer, "label");
 }
-function get(opt, path) {
+function get$2(opt, path) {
   var pathArr = path.split(",");
   var obj = opt;
   for (var i = 0; i < pathArr.length; i++) {
@@ -23328,7 +23285,7 @@ function get(opt, path) {
   }
   return obj;
 }
-function set(opt, path, val, overwrite) {
+function set$2(opt, path, val, overwrite) {
   var pathArr = path.split(",");
   var obj = opt;
   var key;
@@ -23452,8 +23409,8 @@ function globalBackwardCompat(option, isTheme) {
         }
       }
     } else if (seriesType2 === "gauge") {
-      var pointerColor = get(seriesOpt, "pointer.color");
-      pointerColor != null && set(seriesOpt, "itemStyle.color", pointerColor);
+      var pointerColor = get$2(seriesOpt, "pointer.color");
+      pointerColor != null && set$2(seriesOpt, "itemStyle.color", pointerColor);
     } else if (seriesType2 === "bar") {
       compatBarItemStyle(seriesOpt);
       compatBarItemStyle(seriesOpt.backgroundStyle);
@@ -23570,8 +23527,8 @@ function calculateStack(stackInfoList) {
         byValue = targetData.get(targetStackInfo.stackedByDimension, dataIndex);
       }
       var stackedOver = NaN;
-      for (var j2 = idxInStack - 1; j2 >= 0; j2--) {
-        var stackInfo = stackInfoList[j2];
+      for (var j = idxInStack - 1; j >= 0; j--) {
+        var stackInfo = stackInfoList[j];
         if (!isStackedByIndex) {
           stackedDataRawIndex = stackInfo.data.rawIndexOf(stackInfo.stackedByDimension, byValue);
         }
@@ -24050,9 +24007,9 @@ var DataFormatMixin = (
       var rawDataIndex = data.getRawIndex(dataIndex);
       var name = data.getName(dataIndex);
       var itemOpt = data.getRawDataItem(dataIndex);
-      var style2 = data.getItemVisual(dataIndex, "style");
-      var color2 = style2 && style2[data.getItemVisual(dataIndex, "drawType") || "fill"];
-      var borderColor = style2 && style2.stroke;
+      var style = data.getItemVisual(dataIndex, "style");
+      var color2 = style && style[data.getItemVisual(dataIndex, "drawType") || "fill"];
+      var borderColor = style && style.stroke;
       var mainType = this.mainType;
       var isSeries2 = mainType === "series";
       var userOutput = data.userOutput && data.userOutput.get();
@@ -24760,8 +24717,8 @@ function prepareStore(store, dimIdx, dimType, end2, append) {
     var oldLen = oldStore && oldStore.length;
     if (!(oldLen === end2)) {
       var newStore = new DataCtor(end2);
-      for (var j2 = 0; j2 < oldLen; j2++) {
-        newStore[j2] = oldStore[j2];
+      for (var j = 0; j < oldLen; j++) {
+        newStore[j] = oldStore[j];
       }
       store[dimIdx] = newStore;
     }
@@ -24999,8 +24956,8 @@ var DataStore = (
           dimDataArray.push(val);
         }
       });
-      var sortedDimDataArray = dimDataArray.sort(function(a, b2) {
-        return a - b2;
+      var sortedDimDataArray = dimDataArray.sort(function(a, b) {
+        return a - b;
       });
       var len2 = this.count();
       return len2 === 0 ? 0 : len2 % 2 === 1 ? sortedDimDataArray[(len2 - 1) / 2] : (sortedDimDataArray[len2 / 2] + sortedDimDataArray[len2 / 2 - 1]) / 2;
@@ -25276,11 +25233,11 @@ var DataStore = (
         var avgY = 0;
         for (var idx = nextFrameStart; idx < nextFrameEnd; idx++) {
           var rawIndex = this.getRawIndex(idx);
-          var y2 = dimStore[rawIndex];
-          if (isNaN(y2)) {
+          var y = dimStore[rawIndex];
+          if (isNaN(y)) {
             continue;
           }
-          avgY += y2;
+          avgY += y;
         }
         avgY /= nextFrameEnd - nextFrameStart;
         var frameStart = i;
@@ -25293,15 +25250,15 @@ var DataStore = (
         var countNaN = 0;
         for (var idx = frameStart; idx < frameEnd; idx++) {
           var rawIndex = this.getRawIndex(idx);
-          var y2 = dimStore[rawIndex];
-          if (isNaN(y2)) {
+          var y = dimStore[rawIndex];
+          if (isNaN(y)) {
             countNaN++;
             if (firstNaNIndex < 0) {
               firstNaNIndex = rawIndex;
             }
             continue;
           }
-          area = Math.abs((pointAX - avgX) * (y2 - pointAY) - (pointAX - idx) * (avgY - pointAY));
+          area = Math.abs((pointAX - avgX) * (y - pointAY) - (pointAX - idx) * (avgY - pointAY));
           if (area > maxArea) {
             maxArea = area;
             nextRawIndex = rawIndex;
@@ -25807,8 +25764,8 @@ function buildSection(ctx, fragment, topMarginForOuterGap, toolTipTextStyle) {
     };
     if (hasOwn(orderMap, orderMode)) {
       var comparator_1 = new SortOrderComparator(orderMap[orderMode], null);
-      subBlocks.sort(function(a, b2) {
-        return comparator_1.evaluate(a.sortParam, b2.sortParam);
+      subBlocks.sort(function(a, b) {
+        return comparator_1.evaluate(a.sortParam, b.sortParam);
       });
     } else if (orderMode === "seriesDesc") {
       subBlocks.reverse();
@@ -25889,23 +25846,23 @@ function wrapBlockHTML(encodedContent, topGap) {
   var marginCSS = "margin: " + topGap + "px 0 0";
   return '<div style="' + marginCSS + ";" + TOOLTIP_LINE_HEIGHT_CSS + ';">' + encodedContent + clearfix + "</div>";
 }
-function wrapInlineNameHTML(name, leftHasMarker, style2) {
+function wrapInlineNameHTML(name, leftHasMarker, style) {
   var marginCss = leftHasMarker ? "margin-left:2px" : "";
-  return '<span style="' + style2 + ";" + marginCss + '">' + encodeHTML(name) + "</span>";
+  return '<span style="' + style + ";" + marginCss + '">' + encodeHTML(name) + "</span>";
 }
-function wrapInlineValueHTML(valueList, alignRight, valueCloseToMarker, style2) {
+function wrapInlineValueHTML(valueList, alignRight, valueCloseToMarker, style) {
   var paddingStr = valueCloseToMarker ? "10px" : "20px";
   var alignCSS = alignRight ? "float:right;margin-left:" + paddingStr : "";
   valueList = isArray(valueList) ? valueList : [valueList];
-  return '<span style="' + alignCSS + ";" + style2 + '">' + map$1(valueList, function(value) {
+  return '<span style="' + alignCSS + ";" + style + '">' + map$1(valueList, function(value) {
     return encodeHTML(value);
   }).join("&nbsp;&nbsp;") + "</span>";
 }
-function wrapInlineNameRichText(ctx, name, style2) {
-  return ctx.markupStyleCreator.wrapRichTextStyle(name, style2);
+function wrapInlineNameRichText(ctx, name, style) {
+  return ctx.markupStyleCreator.wrapRichTextStyle(name, style);
 }
-function wrapInlineValueRichText(ctx, values, alignRight, valueCloseToMarker, style2) {
-  var styles = [style2];
+function wrapInlineValueRichText(ctx, values, alignRight, valueCloseToMarker, style) {
+  var styles = [style];
   var paddingLeft = valueCloseToMarker ? 10 : 20;
   alignRight && styles.push({
     padding: [0, 0, 0, paddingLeft],
@@ -25914,8 +25871,8 @@ function wrapInlineValueRichText(ctx, values, alignRight, valueCloseToMarker, st
   return ctx.markupStyleCreator.wrapRichTextStyle(isArray(values) ? values.join("  ") : values, styles);
 }
 function retrieveVisualColorForTooltipMarker(series, dataIndex) {
-  var style2 = series.getData().getItemVisual(dataIndex, "style");
-  var color2 = style2[series.visualDrawType];
+  var style = series.getData().getItemVisual(dataIndex, "style");
+  var color2 = style[series.visualDrawType];
   return convertToColorString(color2);
 }
 function getPaddingFromTooltipModel(model, renderMode) {
@@ -26658,7 +26615,7 @@ function createOrUpdate(obj, fnAttr, rate, throttleType) {
   }
   return fn;
 }
-function clear$1(obj, fnAttr) {
+function clear$2(obj, fnAttr) {
   var fn = obj[fnAttr];
   if (fn && fn[ORIGIN_METHOD]) {
     fn.clear && fn.clear();
@@ -26754,14 +26711,14 @@ var dataStyleTask = {
         var rawItem = data2.getRawDataItem(idx);
         if (rawItem && rawItem[stylePath]) {
           sharedModel.option = rawItem[stylePath];
-          var style2 = getStyle2(sharedModel);
+          var style = getStyle2(sharedModel);
           var existsStyle = data2.ensureUniqueItemVisual(idx, "style");
-          extend(existsStyle, style2);
+          extend(existsStyle, style);
           if (sharedModel.option.decal) {
             data2.setItemVisual(idx, "decal", sharedModel.option.decal);
             sharedModel.option.decal.dirty = true;
           }
-          if (colorKey in style2) {
+          if (colorKey in style) {
             data2.setItemVisual(idx, "colorFromPalette", false);
           }
         }
@@ -27598,8 +27555,8 @@ var dataSymbolTask = {
 function getItemVisualFromData(data, dataIndex, key) {
   switch (key) {
     case "color":
-      var style2 = data.getItemVisual(dataIndex, "style");
-      return style2[data.getVisual("drawType")];
+      var style = data.getItemVisual(dataIndex, "style");
+      return style[data.getVisual("drawType")];
     case "opacity":
       return data.getItemVisual(dataIndex, "style").opacity;
     case "symbol":
@@ -27614,8 +27571,8 @@ function getItemVisualFromData(data, dataIndex, key) {
 function getVisualFromData(data, key) {
   switch (key) {
     case "color":
-      var style2 = data.getVisual("style");
-      return style2[data.getVisual("drawType")];
+      var style = data.getVisual("style");
+      return style[data.getVisual("drawType")];
     case "opacity":
       return data.getVisual("style").opacity;
     case "symbol":
@@ -27798,23 +27755,23 @@ var Pin = Path$1.extend({
     height: 0
   },
   buildPath: function(path, shape) {
-    var x2 = shape.x;
-    var y2 = shape.y;
-    var w2 = shape.width / 5 * 3;
-    var h2 = Math.max(w2, shape.height);
-    var r = w2 / 2;
-    var dy = r * r / (h2 - r);
-    var cy = y2 - h2 + r + dy;
+    var x = shape.x;
+    var y = shape.y;
+    var w = shape.width / 5 * 3;
+    var h = Math.max(w, shape.height);
+    var r = w / 2;
+    var dy = r * r / (h - r);
+    var cy = y - h + r + dy;
     var angle = Math.asin(dy / r);
     var dx = Math.cos(angle) * r;
     var tanX = Math.sin(angle);
     var tanY = Math.cos(angle);
     var cpLen = r * 0.6;
     var cpLen2 = r * 0.7;
-    path.moveTo(x2 - dx, cy + dy);
-    path.arc(x2, cy, r, Math.PI - angle, Math.PI * 2 + angle);
-    path.bezierCurveTo(x2 + dx - tanX * cpLen, cy + dy + tanY * cpLen, x2, y2 - cpLen2, x2, y2);
-    path.bezierCurveTo(x2, y2 - cpLen2, x2 - dx + tanX * cpLen, cy + dy + tanY * cpLen, x2 - dx, cy + dy);
+    path.moveTo(x - dx, cy + dy);
+    path.arc(x, cy, r, Math.PI - angle, Math.PI * 2 + angle);
+    path.bezierCurveTo(x + dx - tanX * cpLen, cy + dy + tanY * cpLen, x, y - cpLen2, x, y);
+    path.bezierCurveTo(x, y - cpLen2, x - dx + tanX * cpLen, cy + dy + tanY * cpLen, x - dx, cy + dy);
     path.closePath();
   }
 });
@@ -27829,14 +27786,14 @@ var Arrow = Path$1.extend({
   buildPath: function(ctx, shape) {
     var height = shape.height;
     var width = shape.width;
-    var x2 = shape.x;
-    var y2 = shape.y;
+    var x = shape.x;
+    var y = shape.y;
     var dx = width / 3 * 2;
-    ctx.moveTo(x2, y2);
-    ctx.lineTo(x2 + dx, y2 + height);
-    ctx.lineTo(x2, y2 + height / 4 * 3);
-    ctx.lineTo(x2 - dx, y2 + height);
-    ctx.lineTo(x2, y2);
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + dx, y + height);
+    ctx.lineTo(x, y + height / 4 * 3);
+    ctx.lineTo(x - dx, y + height);
+    ctx.lineTo(x, y);
     ctx.closePath();
   }
 });
@@ -27852,60 +27809,60 @@ var symbolCtors = {
   triangle: Triangle
 };
 var symbolShapeMakers = {
-  line: function(x2, y2, w2, h2, shape) {
-    shape.x1 = x2;
-    shape.y1 = y2 + h2 / 2;
-    shape.x2 = x2 + w2;
-    shape.y2 = y2 + h2 / 2;
+  line: function(x, y, w, h, shape) {
+    shape.x1 = x;
+    shape.y1 = y + h / 2;
+    shape.x2 = x + w;
+    shape.y2 = y + h / 2;
   },
-  rect: function(x2, y2, w2, h2, shape) {
-    shape.x = x2;
-    shape.y = y2;
-    shape.width = w2;
-    shape.height = h2;
+  rect: function(x, y, w, h, shape) {
+    shape.x = x;
+    shape.y = y;
+    shape.width = w;
+    shape.height = h;
   },
-  roundRect: function(x2, y2, w2, h2, shape) {
-    shape.x = x2;
-    shape.y = y2;
-    shape.width = w2;
-    shape.height = h2;
-    shape.r = Math.min(w2, h2) / 4;
+  roundRect: function(x, y, w, h, shape) {
+    shape.x = x;
+    shape.y = y;
+    shape.width = w;
+    shape.height = h;
+    shape.r = Math.min(w, h) / 4;
   },
-  square: function(x2, y2, w2, h2, shape) {
-    var size2 = Math.min(w2, h2);
-    shape.x = x2;
-    shape.y = y2;
+  square: function(x, y, w, h, shape) {
+    var size2 = Math.min(w, h);
+    shape.x = x;
+    shape.y = y;
     shape.width = size2;
     shape.height = size2;
   },
-  circle: function(x2, y2, w2, h2, shape) {
-    shape.cx = x2 + w2 / 2;
-    shape.cy = y2 + h2 / 2;
-    shape.r = Math.min(w2, h2) / 2;
+  circle: function(x, y, w, h, shape) {
+    shape.cx = x + w / 2;
+    shape.cy = y + h / 2;
+    shape.r = Math.min(w, h) / 2;
   },
-  diamond: function(x2, y2, w2, h2, shape) {
-    shape.cx = x2 + w2 / 2;
-    shape.cy = y2 + h2 / 2;
-    shape.width = w2;
-    shape.height = h2;
+  diamond: function(x, y, w, h, shape) {
+    shape.cx = x + w / 2;
+    shape.cy = y + h / 2;
+    shape.width = w;
+    shape.height = h;
   },
-  pin: function(x2, y2, w2, h2, shape) {
-    shape.x = x2 + w2 / 2;
-    shape.y = y2 + h2 / 2;
-    shape.width = w2;
-    shape.height = h2;
+  pin: function(x, y, w, h, shape) {
+    shape.x = x + w / 2;
+    shape.y = y + h / 2;
+    shape.width = w;
+    shape.height = h;
   },
-  arrow: function(x2, y2, w2, h2, shape) {
-    shape.x = x2 + w2 / 2;
-    shape.y = y2 + h2 / 2;
-    shape.width = w2;
-    shape.height = h2;
+  arrow: function(x, y, w, h, shape) {
+    shape.x = x + w / 2;
+    shape.y = y + h / 2;
+    shape.width = w;
+    shape.height = h;
   },
-  triangle: function(x2, y2, w2, h2, shape) {
-    shape.cx = x2 + w2 / 2;
-    shape.cy = y2 + h2 / 2;
-    shape.width = w2;
-    shape.height = h2;
+  triangle: function(x, y, w, h, shape) {
+    shape.cx = x + w / 2;
+    shape.cy = y + h / 2;
+    shape.width = w;
+    shape.height = h;
   }
 };
 var symbolBuildProxies = {};
@@ -27957,24 +27914,24 @@ function symbolPathSetColor(color2, innerColor2) {
     this.markRedraw();
   }
 }
-function createSymbol(symbolType, x2, y2, w2, h2, color2, keepAspect) {
+function createSymbol(symbolType, x, y, w, h, color2, keepAspect) {
   var isEmpty = symbolType.indexOf("empty") === 0;
   if (isEmpty) {
     symbolType = symbolType.substr(5, 1).toLowerCase() + symbolType.substr(6);
   }
   var symbolPath;
   if (symbolType.indexOf("image://") === 0) {
-    symbolPath = makeImage(symbolType.slice(8), new BoundingRect$1(x2, y2, w2, h2), keepAspect ? "center" : "cover");
+    symbolPath = makeImage(symbolType.slice(8), new BoundingRect$1(x, y, w, h), keepAspect ? "center" : "cover");
   } else if (symbolType.indexOf("path://") === 0) {
-    symbolPath = makePath(symbolType.slice(7), {}, new BoundingRect$1(x2, y2, w2, h2), keepAspect ? "center" : "cover");
+    symbolPath = makePath(symbolType.slice(7), {}, new BoundingRect$1(x, y, w, h), keepAspect ? "center" : "cover");
   } else {
     symbolPath = new SymbolClz$1({
       shape: {
         symbolType,
-        x: x2,
-        y: y2,
-        width: w2,
-        height: h2
+        x,
+        y,
+        width: w,
+        height: h
       }
     });
   }
@@ -28004,39 +27961,39 @@ function isSafeNum(num) {
   return isFinite(num);
 }
 function createLinearGradient(ctx, obj, rect) {
-  var x2 = obj.x == null ? 0 : obj.x;
-  var x22 = obj.x2 == null ? 1 : obj.x2;
-  var y2 = obj.y == null ? 0 : obj.y;
-  var y22 = obj.y2 == null ? 0 : obj.y2;
+  var x = obj.x == null ? 0 : obj.x;
+  var x2 = obj.x2 == null ? 1 : obj.x2;
+  var y = obj.y == null ? 0 : obj.y;
+  var y2 = obj.y2 == null ? 0 : obj.y2;
   if (!obj.global) {
+    x = x * rect.width + rect.x;
     x2 = x2 * rect.width + rect.x;
-    x22 = x22 * rect.width + rect.x;
+    y = y * rect.height + rect.y;
     y2 = y2 * rect.height + rect.y;
-    y22 = y22 * rect.height + rect.y;
   }
-  x2 = isSafeNum(x2) ? x2 : 0;
-  x22 = isSafeNum(x22) ? x22 : 1;
+  x = isSafeNum(x) ? x : 0;
+  x2 = isSafeNum(x2) ? x2 : 1;
+  y = isSafeNum(y) ? y : 0;
   y2 = isSafeNum(y2) ? y2 : 0;
-  y22 = isSafeNum(y22) ? y22 : 0;
-  var canvasGradient = ctx.createLinearGradient(x2, y2, x22, y22);
+  var canvasGradient = ctx.createLinearGradient(x, y, x2, y2);
   return canvasGradient;
 }
 function createRadialGradient(ctx, obj, rect) {
   var width = rect.width;
   var height = rect.height;
   var min3 = Math.min(width, height);
-  var x2 = obj.x == null ? 0.5 : obj.x;
-  var y2 = obj.y == null ? 0.5 : obj.y;
+  var x = obj.x == null ? 0.5 : obj.x;
+  var y = obj.y == null ? 0.5 : obj.y;
   var r = obj.r == null ? 0.5 : obj.r;
   if (!obj.global) {
-    x2 = x2 * width + rect.x;
-    y2 = y2 * height + rect.y;
+    x = x * width + rect.x;
+    y = y * height + rect.y;
     r = r * min3;
   }
-  x2 = isSafeNum(x2) ? x2 : 0.5;
-  y2 = isSafeNum(y2) ? y2 : 0.5;
+  x = isSafeNum(x) ? x : 0.5;
+  y = isSafeNum(y) ? y : 0.5;
   r = r >= 0 && isSafeNum(r) ? r : 0.5;
-  var canvasGradient = ctx.createRadialGradient(x2, y2, 0, x2, y2, r);
+  var canvasGradient = ctx.createRadialGradient(x, y, 0, x, y, r);
   return canvasGradient;
 }
 function getCanvasGradient(ctx, obj, rect) {
@@ -28082,11 +28039,11 @@ function normalizeLineDash(lineType, lineWidth) {
   return lineType === "dashed" ? [4 * lineWidth, 2 * lineWidth] : lineType === "dotted" ? [lineWidth] : isNumber(lineType) ? [lineType] : isArray(lineType) ? lineType : null;
 }
 function getLineDash(el) {
-  var style2 = el.style;
-  var lineDash = style2.lineDash && style2.lineWidth > 0 && normalizeLineDash(style2.lineDash, style2.lineWidth);
-  var lineDashOffset = style2.lineDashOffset;
+  var style = el.style;
+  var lineDash = style.lineDash && style.lineWidth > 0 && normalizeLineDash(style.lineDash, style.lineWidth);
+  var lineDashOffset = style.lineDashOffset;
   if (lineDash) {
-    var lineScale_1 = style2.strokeNoScale && el.getLineScale ? el.getLineScale() : 1;
+    var lineScale_1 = style.strokeNoScale && el.getLineScale ? el.getLineScale() : 1;
     if (lineScale_1 && lineScale_1 !== 1) {
       lineDash = map$1(lineDash, function(rawVal) {
         return rawVal / lineScale_1;
@@ -28097,31 +28054,31 @@ function getLineDash(el) {
   return [lineDash, lineDashOffset];
 }
 var pathProxyForDraw = new PathProxy$1(true);
-function styleHasStroke(style2) {
-  var stroke = style2.stroke;
-  return !(stroke == null || stroke === "none" || !(style2.lineWidth > 0));
+function styleHasStroke(style) {
+  var stroke = style.stroke;
+  return !(stroke == null || stroke === "none" || !(style.lineWidth > 0));
 }
 function isValidStrokeFillStyle(strokeOrFill) {
   return typeof strokeOrFill === "string" && strokeOrFill !== "none";
 }
-function styleHasFill(style2) {
-  var fill = style2.fill;
+function styleHasFill(style) {
+  var fill = style.fill;
   return fill != null && fill !== "none";
 }
-function doFillPath(ctx, style2) {
-  if (style2.fillOpacity != null && style2.fillOpacity !== 1) {
+function doFillPath(ctx, style) {
+  if (style.fillOpacity != null && style.fillOpacity !== 1) {
     var originalGlobalAlpha = ctx.globalAlpha;
-    ctx.globalAlpha = style2.fillOpacity * style2.opacity;
+    ctx.globalAlpha = style.fillOpacity * style.opacity;
     ctx.fill();
     ctx.globalAlpha = originalGlobalAlpha;
   } else {
     ctx.fill();
   }
 }
-function doStrokePath(ctx, style2) {
-  if (style2.strokeOpacity != null && style2.strokeOpacity !== 1) {
+function doStrokePath(ctx, style) {
+  if (style.strokeOpacity != null && style.strokeOpacity !== 1) {
     var originalGlobalAlpha = ctx.globalAlpha;
-    ctx.globalAlpha = style2.strokeOpacity * style2.opacity;
+    ctx.globalAlpha = style.strokeOpacity * style.opacity;
     ctx.stroke();
     ctx.globalAlpha = originalGlobalAlpha;
   } else {
@@ -28142,11 +28099,11 @@ function createCanvasPattern(ctx, pattern, el) {
     return canvasPattern;
   }
 }
-function brushPath(ctx, el, style2, inBatch) {
+function brushPath(ctx, el, style, inBatch) {
   var _a2;
-  var hasStroke = styleHasStroke(style2);
-  var hasFill = styleHasFill(style2);
-  var strokePercent = style2.strokePercent;
+  var hasStroke = styleHasStroke(style);
+  var hasFill = styleHasFill(style);
+  var strokePercent = style.strokePercent;
   var strokePart = strokePercent < 1;
   var firstDraw = !el.path;
   if ((!el.silent || strokePart) && firstDraw) {
@@ -28155,8 +28112,8 @@ function brushPath(ctx, el, style2, inBatch) {
   var path = el.path || pathProxyForDraw;
   var dirtyFlag = el.__dirty;
   if (!inBatch) {
-    var fill = style2.fill;
-    var stroke = style2.stroke;
+    var fill = style.fill;
+    var stroke = style.stroke;
     var hasFillGradient = hasFill && !!fill.colorStops;
     var hasStrokeGradient = hasStroke && !!stroke.colorStops;
     var hasFillPattern = hasFill && !!fill.image;
@@ -28208,7 +28165,7 @@ function brushPath(ctx, el, style2, inBatch) {
   path.setScale(scale2[0], scale2[1], el.segmentIgnoreThreshold);
   var lineDash;
   var lineDashOffset;
-  if (ctx.setLineDash && style2.lineDash) {
+  if (ctx.setLineDash && style.lineDash) {
     _a2 = getLineDash(el), lineDash = _a2[0], lineDashOffset = _a2[1];
   }
   var needsRebuild = true;
@@ -28233,19 +28190,19 @@ function brushPath(ctx, el, style2, inBatch) {
     ctx.lineDashOffset = lineDashOffset;
   }
   if (!inBatch) {
-    if (style2.strokeFirst) {
+    if (style.strokeFirst) {
       if (hasStroke) {
-        doStrokePath(ctx, style2);
+        doStrokePath(ctx, style);
       }
       if (hasFill) {
-        doFillPath(ctx, style2);
+        doFillPath(ctx, style);
       }
     } else {
       if (hasFill) {
-        doFillPath(ctx, style2);
+        doFillPath(ctx, style);
       }
       if (hasStroke) {
-        doStrokePath(ctx, style2);
+        doStrokePath(ctx, style);
       }
     }
   }
@@ -28253,13 +28210,13 @@ function brushPath(ctx, el, style2, inBatch) {
     ctx.setLineDash([]);
   }
 }
-function brushImage(ctx, el, style2) {
-  var image = el.__image = createOrUpdateImage(style2.image, el.__image, el, el.onload);
+function brushImage(ctx, el, style) {
+  var image = el.__image = createOrUpdateImage(style.image, el.__image, el, el.onload);
   if (!image || !isImageReady(image)) {
     return;
   }
-  var x2 = style2.x || 0;
-  var y2 = style2.y || 0;
+  var x = style.x || 0;
+  var y = style.y || 0;
   var width = el.getWidth();
   var height = el.getHeight();
   var aspect = image.width / image.height;
@@ -28271,50 +28228,50 @@ function brushImage(ctx, el, style2) {
     width = image.width;
     height = image.height;
   }
-  if (style2.sWidth && style2.sHeight) {
-    var sx = style2.sx || 0;
-    var sy = style2.sy || 0;
-    ctx.drawImage(image, sx, sy, style2.sWidth, style2.sHeight, x2, y2, width, height);
-  } else if (style2.sx && style2.sy) {
-    var sx = style2.sx;
-    var sy = style2.sy;
+  if (style.sWidth && style.sHeight) {
+    var sx = style.sx || 0;
+    var sy = style.sy || 0;
+    ctx.drawImage(image, sx, sy, style.sWidth, style.sHeight, x, y, width, height);
+  } else if (style.sx && style.sy) {
+    var sx = style.sx;
+    var sy = style.sy;
     var sWidth = width - sx;
     var sHeight = height - sy;
-    ctx.drawImage(image, sx, sy, sWidth, sHeight, x2, y2, width, height);
+    ctx.drawImage(image, sx, sy, sWidth, sHeight, x, y, width, height);
   } else {
-    ctx.drawImage(image, x2, y2, width, height);
+    ctx.drawImage(image, x, y, width, height);
   }
 }
-function brushText(ctx, el, style2) {
+function brushText(ctx, el, style) {
   var _a2;
-  var text = style2.text;
+  var text = style.text;
   text != null && (text += "");
   if (text) {
-    ctx.font = style2.font || DEFAULT_FONT;
-    ctx.textAlign = style2.textAlign;
-    ctx.textBaseline = style2.textBaseline;
+    ctx.font = style.font || DEFAULT_FONT;
+    ctx.textAlign = style.textAlign;
+    ctx.textBaseline = style.textBaseline;
     var lineDash = void 0;
     var lineDashOffset = void 0;
-    if (ctx.setLineDash && style2.lineDash) {
+    if (ctx.setLineDash && style.lineDash) {
       _a2 = getLineDash(el), lineDash = _a2[0], lineDashOffset = _a2[1];
     }
     if (lineDash) {
       ctx.setLineDash(lineDash);
       ctx.lineDashOffset = lineDashOffset;
     }
-    if (style2.strokeFirst) {
-      if (styleHasStroke(style2)) {
-        ctx.strokeText(text, style2.x, style2.y);
+    if (style.strokeFirst) {
+      if (styleHasStroke(style)) {
+        ctx.strokeText(text, style.x, style.y);
       }
-      if (styleHasFill(style2)) {
-        ctx.fillText(text, style2.x, style2.y);
+      if (styleHasFill(style)) {
+        ctx.fillText(text, style.x, style.y);
       }
     } else {
-      if (styleHasFill(style2)) {
-        ctx.fillText(text, style2.x, style2.y);
+      if (styleHasFill(style)) {
+        ctx.fillText(text, style.x, style.y);
       }
-      if (styleHasStroke(style2)) {
-        ctx.strokeText(text, style2.x, style2.y);
+      if (styleHasStroke(style)) {
+        ctx.strokeText(text, style.x, style.y);
       }
     }
     if (lineDash) {
@@ -28328,77 +28285,77 @@ var STROKE_PROPS = [
   ["lineJoin", "miter"],
   ["miterLimit", 10]
 ];
-function bindCommonProps(ctx, style2, prevStyle, forceSetAll, scope) {
+function bindCommonProps(ctx, style, prevStyle, forceSetAll, scope) {
   var styleChanged = false;
   if (!forceSetAll) {
     prevStyle = prevStyle || {};
-    if (style2 === prevStyle) {
+    if (style === prevStyle) {
       return false;
     }
   }
-  if (forceSetAll || style2.opacity !== prevStyle.opacity) {
+  if (forceSetAll || style.opacity !== prevStyle.opacity) {
     flushPathDrawn(ctx, scope);
     styleChanged = true;
-    var opacity = Math.max(Math.min(style2.opacity, 1), 0);
+    var opacity = Math.max(Math.min(style.opacity, 1), 0);
     ctx.globalAlpha = isNaN(opacity) ? DEFAULT_COMMON_STYLE.opacity : opacity;
   }
-  if (forceSetAll || style2.blend !== prevStyle.blend) {
+  if (forceSetAll || style.blend !== prevStyle.blend) {
     if (!styleChanged) {
       flushPathDrawn(ctx, scope);
       styleChanged = true;
     }
-    ctx.globalCompositeOperation = style2.blend || DEFAULT_COMMON_STYLE.blend;
+    ctx.globalCompositeOperation = style.blend || DEFAULT_COMMON_STYLE.blend;
   }
   for (var i = 0; i < SHADOW_NUMBER_PROPS.length; i++) {
     var propName = SHADOW_NUMBER_PROPS[i];
-    if (forceSetAll || style2[propName] !== prevStyle[propName]) {
+    if (forceSetAll || style[propName] !== prevStyle[propName]) {
       if (!styleChanged) {
         flushPathDrawn(ctx, scope);
         styleChanged = true;
       }
-      ctx[propName] = ctx.dpr * (style2[propName] || 0);
+      ctx[propName] = ctx.dpr * (style[propName] || 0);
     }
   }
-  if (forceSetAll || style2.shadowColor !== prevStyle.shadowColor) {
+  if (forceSetAll || style.shadowColor !== prevStyle.shadowColor) {
     if (!styleChanged) {
       flushPathDrawn(ctx, scope);
       styleChanged = true;
     }
-    ctx.shadowColor = style2.shadowColor || DEFAULT_COMMON_STYLE.shadowColor;
+    ctx.shadowColor = style.shadowColor || DEFAULT_COMMON_STYLE.shadowColor;
   }
   return styleChanged;
 }
 function bindPathAndTextCommonStyle(ctx, el, prevEl, forceSetAll, scope) {
-  var style2 = getStyle(el, scope.inHover);
+  var style = getStyle(el, scope.inHover);
   var prevStyle = forceSetAll ? null : prevEl && getStyle(prevEl, scope.inHover) || {};
-  if (style2 === prevStyle) {
+  if (style === prevStyle) {
     return false;
   }
-  var styleChanged = bindCommonProps(ctx, style2, prevStyle, forceSetAll, scope);
-  if (forceSetAll || style2.fill !== prevStyle.fill) {
+  var styleChanged = bindCommonProps(ctx, style, prevStyle, forceSetAll, scope);
+  if (forceSetAll || style.fill !== prevStyle.fill) {
     if (!styleChanged) {
       flushPathDrawn(ctx, scope);
       styleChanged = true;
     }
-    isValidStrokeFillStyle(style2.fill) && (ctx.fillStyle = style2.fill);
+    isValidStrokeFillStyle(style.fill) && (ctx.fillStyle = style.fill);
   }
-  if (forceSetAll || style2.stroke !== prevStyle.stroke) {
+  if (forceSetAll || style.stroke !== prevStyle.stroke) {
     if (!styleChanged) {
       flushPathDrawn(ctx, scope);
       styleChanged = true;
     }
-    isValidStrokeFillStyle(style2.stroke) && (ctx.strokeStyle = style2.stroke);
+    isValidStrokeFillStyle(style.stroke) && (ctx.strokeStyle = style.stroke);
   }
-  if (forceSetAll || style2.opacity !== prevStyle.opacity) {
+  if (forceSetAll || style.opacity !== prevStyle.opacity) {
     if (!styleChanged) {
       flushPathDrawn(ctx, scope);
       styleChanged = true;
     }
-    ctx.globalAlpha = style2.opacity == null ? 1 : style2.opacity;
+    ctx.globalAlpha = style.opacity == null ? 1 : style.opacity;
   }
   if (el.hasStroke()) {
-    var lineWidth = style2.lineWidth;
-    var newLineWidth = lineWidth / (style2.strokeNoScale && el.getLineScale ? el.getLineScale() : 1);
+    var lineWidth = style.lineWidth;
+    var newLineWidth = lineWidth / (style.strokeNoScale && el.getLineScale ? el.getLineScale() : 1);
     if (ctx.lineWidth !== newLineWidth) {
       if (!styleChanged) {
         flushPathDrawn(ctx, scope);
@@ -28410,12 +28367,12 @@ function bindPathAndTextCommonStyle(ctx, el, prevEl, forceSetAll, scope) {
   for (var i = 0; i < STROKE_PROPS.length; i++) {
     var prop = STROKE_PROPS[i];
     var propName = prop[0];
-    if (forceSetAll || style2[propName] !== prevStyle[propName]) {
+    if (forceSetAll || style[propName] !== prevStyle[propName]) {
       if (!styleChanged) {
         flushPathDrawn(ctx, scope);
         styleChanged = true;
       }
-      ctx[propName] = style2[propName] || prop[1];
+      ctx[propName] = style[propName] || prop[1];
     }
   }
   return styleChanged;
@@ -28456,10 +28413,10 @@ var DRAW_TYPE_PATH = 1;
 var DRAW_TYPE_IMAGE = 2;
 var DRAW_TYPE_TEXT = 3;
 var DRAW_TYPE_INCREMENTAL = 4;
-function canPathBatch(style2) {
-  var hasFill = styleHasFill(style2);
-  var hasStroke = styleHasStroke(style2);
-  return !(style2.lineDash || !(+hasFill ^ +hasStroke) || hasFill && typeof style2.fill !== "string" || hasStroke && typeof style2.stroke !== "string" || style2.strokePercent < 1 || style2.strokeOpacity < 1 || style2.fillOpacity < 1);
+function canPathBatch(style) {
+  var hasFill = styleHasFill(style);
+  var hasStroke = styleHasStroke(style);
+  return !(style.lineDash || !(+hasFill ^ +hasStroke) || hasFill && typeof style.fill !== "string" || hasStroke && typeof style.stroke !== "string" || style.strokePercent < 1 || style.strokeOpacity < 1 || style.fillOpacity < 1);
 }
 function flushPathDrawn(ctx, scope) {
   scope.batchFill && ctx.fill();
@@ -28518,7 +28475,7 @@ function brush(ctx, el, scope, isLast) {
   } else if (!canBatchPath) {
     flushPathDrawn(ctx, scope);
   }
-  var style2 = getStyle(el, scope.inHover);
+  var style = getStyle(el, scope.inHover);
   if (el instanceof Path$1) {
     if (scope.lastDrawType !== DRAW_TYPE_PATH) {
       forceSetStyle = true;
@@ -28528,10 +28485,10 @@ function brush(ctx, el, scope, isLast) {
     if (!canBatchPath || !scope.batchFill && !scope.batchStroke) {
       ctx.beginPath();
     }
-    brushPath(ctx, el, style2, canBatchPath);
+    brushPath(ctx, el, style, canBatchPath);
     if (canBatchPath) {
-      scope.batchFill = style2.fill || "";
-      scope.batchStroke = style2.stroke || "";
+      scope.batchFill = style.fill || "";
+      scope.batchStroke = style.stroke || "";
     }
   } else {
     if (el instanceof TSpan$1) {
@@ -28540,14 +28497,14 @@ function brush(ctx, el, scope, isLast) {
         scope.lastDrawType = DRAW_TYPE_TEXT;
       }
       bindPathAndTextCommonStyle(ctx, el, prevEl, forceSetStyle, scope);
-      brushText(ctx, el, style2);
+      brushText(ctx, el, style);
     } else if (el instanceof ZRImage$1) {
       if (scope.lastDrawType !== DRAW_TYPE_IMAGE) {
         forceSetStyle = true;
         scope.lastDrawType = DRAW_TYPE_IMAGE;
       }
       bindImageStyle(ctx, el, prevEl, forceSetStyle, scope);
-      brushImage(ctx, el, style2);
+      brushImage(ctx, el, style);
     } else if (el.getTemporalDisplayables) {
       if (scope.lastDrawType !== DRAW_TYPE_INCREMENTAL) {
         forceSetStyle = true;
@@ -28730,17 +28687,17 @@ function createOrUpdatePatternFromDecal(decalObject, api) {
       if (ySum <= 0) {
         return;
       }
-      var y2 = -lineBlockLengthY;
+      var y = -lineBlockLengthY;
       var yId = 0;
       var yIdTotal = 0;
       var xId0 = 0;
-      while (y2 < pSize.height) {
+      while (y < pSize.height) {
         if (yId % 2 === 0) {
           var symbolYId = yIdTotal / 2 % symbolArray.length;
-          var x2 = 0;
+          var x = 0;
           var xId1 = 0;
           var xId1Total = 0;
-          while (x2 < pSize.width * 2) {
+          while (x < pSize.width * 2) {
             var xSum = 0;
             for (var i2 = 0; i2 < dashArrayX[xId0].length; ++i2) {
               xSum += dashArrayX[xId0][i2];
@@ -28750,14 +28707,14 @@ function createOrUpdatePatternFromDecal(decalObject, api) {
             }
             if (xId1 % 2 === 0) {
               var size2 = (1 - decalOpt.symbolSize) * 0.5;
-              var left = x2 + dashArrayX[xId0][xId1] * size2;
-              var top_1 = y2 + dashArrayY[yId] * size2;
+              var left = x + dashArrayX[xId0][xId1] * size2;
+              var top_1 = y + dashArrayY[yId] * size2;
               var width = dashArrayX[xId0][xId1] * decalOpt.symbolSize;
               var height = dashArrayY[yId] * decalOpt.symbolSize;
               var symbolXId = xId1Total / 2 % symbolArray[symbolYId].length;
               brushSymbol(left, top_1, width, height, symbolArray[symbolYId][symbolXId]);
             }
-            x2 += dashArrayX[xId0][xId1];
+            x += dashArrayX[xId0][xId1];
             ++xId1Total;
             ++xId1;
             if (xId1 === dashArrayX[xId0].length) {
@@ -28769,16 +28726,16 @@ function createOrUpdatePatternFromDecal(decalObject, api) {
             xId0 = 0;
           }
         }
-        y2 += dashArrayY[yId];
+        y += dashArrayY[yId];
         ++yIdTotal;
         ++yId;
         if (yId === dashArrayY.length) {
           yId = 0;
         }
       }
-      function brushSymbol(x3, y3, width2, height2, symbolType) {
+      function brushSymbol(x2, y2, width2, height2, symbolType) {
         var scale2 = isSVG ? 1 : dpr2;
-        var symbol = createSymbol(symbolType, x3 * scale2, y3 * scale2, width2 * scale2, height2 * scale2, decalOpt.color, decalOpt.symbolKeepAspect);
+        var symbol = createSymbol(symbolType, x2 * scale2, y2 * scale2, width2 * scale2, height2 * scale2, decalOpt.color, decalOpt.symbolKeepAspect);
         if (isSVG) {
           var symbolVNode = zr.painter.renderOneToVNode(symbol);
           if (symbolVNode) {
@@ -28899,8 +28856,8 @@ function decalVisual(ecModel, api) {
     }
     var decal = data.getVisual("decal");
     if (decal) {
-      var style2 = data.getVisual("style");
-      style2.decal = createOrUpdatePatternFromDecal(decal, api);
+      var style = data.getVisual("style");
+      style.decal = createOrUpdatePatternFromDecal(decal, api);
     }
   });
 }
@@ -29074,8 +29031,8 @@ var ECharts = (
       _this._locale = createLocaleObject(opts.locale || SYSTEM_LANG);
       _this._coordSysMgr = new CoordinateSystem();
       var api = _this._api = createExtensionAPI(_this);
-      function prioritySortFunc(a, b2) {
-        return a.__prio - b2.__prio;
+      function prioritySortFunc(a, b) {
+        return a.__prio - b.__prio;
       }
       sort(visualFuncs, prioritySortFunc);
       sort(dataProcessorFuncs, prioritySortFunc);
@@ -29340,9 +29297,9 @@ var ECharts = (
         if (isSvg) {
           var content_1 = "";
           each$7(canvasList_1, function(item) {
-            var x2 = item.left - left_1;
-            var y2 = item.top - top_1;
-            content_1 += '<g transform="translate(' + x2 + "," + y2 + ')">' + item.dom + "</g>";
+            var x = item.left - left_1;
+            var y = item.top - top_1;
+            content_1 += '<g transform="translate(' + x + "," + y + ')">' + item.dom + "</g>";
           });
           zr_1.painter.getSvgRoot().innerHTML = content_1;
           if (opts.connectedBackgroundColor) {
@@ -29406,12 +29363,12 @@ var ECharts = (
               result = result || view.containPoint(value, model);
             } else {
               {
-                warn(key + ": " + (view ? "The found component do not support containPoint." : "No view mapping to the found component."));
+                warn$1(key + ": " + (view ? "The found component do not support containPoint." : "No view mapping to the found component."));
               }
             }
           } else {
             {
-              warn(key + ": containPoint is not supported");
+              warn$1(key + ": containPoint is not supported");
             }
           }
         }, this);
@@ -29426,7 +29383,7 @@ var ECharts = (
       var seriesModel = parsedFinder.seriesModel;
       {
         if (!seriesModel) {
-          warn("There is no specified series model");
+          warn$1("There is no specified series model");
         }
       }
       var data = seriesModel.getData();
@@ -29473,7 +29430,7 @@ var ECharts = (
             var view = model && _this[model.mainType === "series" ? "_chartsMap" : "_componentsMap"][model.__viewId];
             {
               if (!isGlobalOut && !(model && view)) {
-                warn("model or view can not be found by params");
+                warn$1("model or view can not be found by params");
               }
             }
             params.event = e2;
@@ -29594,7 +29551,7 @@ var ECharts = (
       this.hideLoading();
       if (!loadingEffects[name]) {
         {
-          warn("Loading effects " + name + " not exists.");
+          warn$1("Loading effects " + name + " not exists.");
         }
         return;
       }
@@ -29947,7 +29904,7 @@ var ECharts = (
           }
         }
         {
-          warn("No coordinate system that supports " + methodName + " found by the given finder.");
+          warn$1("No coordinate system that supports " + methodName + " found by the given finder.");
         }
       };
       updateStreamModes = function(ecIns, ecModel) {
@@ -30110,12 +30067,12 @@ var ECharts = (
         var hasSeperateZLevel = false;
         ecModel.eachComponent(function(componentType, componentModel) {
           var zlevel = componentModel.get("zlevel") || 0;
-          var z2 = componentModel.get("z") || 0;
+          var z = componentModel.get("z") || 0;
           var zlevelKey = componentModel.getZLevelKey();
           hasSeperateZLevel = hasSeperateZLevel || !!zlevelKey;
           (componentType === "series" ? seriesZLevels : componentZLevels).push({
             zlevel,
-            z: z2,
+            z,
             idx: componentModel.componentIndex,
             type: componentType,
             key: zlevelKey
@@ -30125,11 +30082,11 @@ var ECharts = (
           var zLevels = componentZLevels.concat(seriesZLevels);
           var lastSeriesZLevel_1;
           var lastSeriesKey_1;
-          sort(zLevels, function(a, b2) {
-            if (a.zlevel === b2.zlevel) {
-              return a.z - b2.z;
+          sort(zLevels, function(a, b) {
+            if (a.zlevel === b.zlevel) {
+              return a.z - b.z;
             }
-            return a.zlevel - b2.zlevel;
+            return a.zlevel - b.zlevel;
           });
           each$7(zLevels, function(item) {
             var componentModel = ecModel.getComponent(item.type, item.idx);
@@ -30282,35 +30239,35 @@ var ECharts = (
         if (model.preventAutoZ) {
           return;
         }
-        var z2 = model.get("z") || 0;
+        var z = model.get("z") || 0;
         var zlevel = model.get("zlevel") || 0;
         view.eachRendered(function(el) {
-          doUpdateZ(el, z2, zlevel, -Infinity);
+          doUpdateZ(el, z, zlevel, -Infinity);
           return true;
         });
       }
-      function doUpdateZ(el, z2, zlevel, maxZ2) {
+      function doUpdateZ(el, z, zlevel, maxZ2) {
         var label = el.getTextContent();
         var labelLine = el.getTextGuideLine();
         var isGroup = el.isGroup;
         if (isGroup) {
           var children = el.childrenRef();
           for (var i = 0; i < children.length; i++) {
-            maxZ2 = Math.max(doUpdateZ(children[i], z2, zlevel, maxZ2), maxZ2);
+            maxZ2 = Math.max(doUpdateZ(children[i], z, zlevel, maxZ2), maxZ2);
           }
         } else {
-          el.z = z2;
+          el.z = z;
           el.zlevel = zlevel;
           maxZ2 = Math.max(el.z2, maxZ2);
         }
         if (label) {
-          label.z = z2;
+          label.z = z;
           label.zlevel = zlevel;
           isFinite(maxZ2) && (label.z2 = maxZ2 + 2);
         }
         if (labelLine) {
           var textGuideLineConfig = el.textGuideLineConfig;
-          labelLine.z = z2;
+          labelLine.z = z;
           labelLine.zlevel = zlevel;
           isFinite(maxZ2) && (labelLine.z2 = maxZ2 + (textGuideLineConfig && textGuideLineConfig.showAbove ? 1 : -1));
         }
@@ -30490,7 +30447,7 @@ echartsProto.one = function(eventName, cb, ctx) {
 var MOUSE_EVENT_NAMES = ["click", "dblclick", "mouseover", "mouseout", "mousemove", "mousedown", "mouseup", "globalout", "contextmenu"];
 function disposedWarning(id) {
   {
-    warn("Instance " + id + " has been disposed");
+    warn$1("Instance " + id + " has been disposed");
   }
 }
 var actions = {};
@@ -30516,13 +30473,13 @@ function init(dom, theme2, opts) {
     var existInstance = getInstanceByDom(dom);
     if (existInstance) {
       {
-        warn("There is a chart instance already initialized on the dom.");
+        warn$1("There is a chart instance already initialized on the dom.");
       }
       return existInstance;
     }
     {
       if (isDom(dom) && dom.nodeName.toUpperCase() !== "CANVAS" && (!dom.clientWidth && (!opts || opts.width == null) || !dom.clientHeight && (!opts || opts.height == null))) {
-        warn("Can't get DOM width or height. Please check dom.clientWidth and dom.clientHeight. They should not be 0.For example, you may need to call this in the callback of window.onload.");
+        warn$1("Can't get DOM width or height. Please check dom.clientWidth and dom.clientHeight. They should not be 0.For example, you may need to call this in the callback of window.onload.");
       }
     }
   }
@@ -30708,6 +30665,64 @@ registerAction({
 registerTheme("light", lightTheme);
 registerTheme("dark", darkTheme);
 var dataTool = {};
+var extensions = [];
+var extensionRegisters = {
+  registerPreprocessor,
+  registerProcessor,
+  registerPostInit,
+  registerPostUpdate,
+  registerUpdateLifecycle,
+  registerAction,
+  registerCoordinateSystem,
+  registerLayout,
+  registerVisual,
+  registerTransform,
+  registerLoading,
+  registerMap,
+  registerImpl,
+  PRIORITY,
+  ComponentModel: ComponentModel$1,
+  ComponentView: ComponentView$1,
+  SeriesModel: SeriesModel$1,
+  ChartView: ChartView$1,
+  // TODO Use ComponentModel and SeriesModel instead of Constructor
+  registerComponentModel: function(ComponentModelClass) {
+    ComponentModel$1.registerClass(ComponentModelClass);
+  },
+  registerComponentView: function(ComponentViewClass) {
+    ComponentView$1.registerClass(ComponentViewClass);
+  },
+  registerSeriesModel: function(SeriesModelClass) {
+    SeriesModel$1.registerClass(SeriesModelClass);
+  },
+  registerChartView: function(ChartViewClass) {
+    ChartView$1.registerClass(ChartViewClass);
+  },
+  registerSubTypeDefaulter: function(componentType, defaulter) {
+    ComponentModel$1.registerSubTypeDefaulter(componentType, defaulter);
+  },
+  registerPainter: function(painterType, PainterCtor) {
+    registerPainter(painterType, PainterCtor);
+  }
+};
+function use(ext) {
+  if (isArray(ext)) {
+    each$7(ext, function(singleExt) {
+      use(singleExt);
+    });
+    return;
+  }
+  if (indexOf(extensions, ext) >= 0) {
+    return;
+  }
+  extensions.push(ext);
+  if (isFunction(ext)) {
+    ext = {
+      install: ext
+    };
+  }
+  ext.install(extensionRegisters);
+}
 function dataIndexMapValueLength(valNumOrArrLengthMoreThan2) {
   return valNumOrArrLengthMoreThan2 == null ? 0 : valNumOrArrLengthMoreThan2.length || 1;
 }
@@ -30822,8 +30837,8 @@ var DataDiffer = (
         var newIdxMapVal = newDataIndexMap[newKey];
         var idxMapValLen = dataIndexMapValueLength(newIdxMapVal);
         if (idxMapValLen > 1) {
-          for (var j2 = 0; j2 < idxMapValLen; j2++) {
-            this._add && this._add(newIdxMapVal[j2]);
+          for (var j = 0; j < idxMapValLen; j++) {
+            this._add && this._add(newIdxMapVal[j]);
           }
         } else if (idxMapValLen === 1) {
           this._add && this._add(newIdxMapVal);
@@ -32265,6 +32280,2725 @@ function firstDataNotNull(arr) {
   }
   return arr[i];
 }
+var LineSeriesModel = (
+  /** @class */
+  function(_super) {
+    __extends(LineSeriesModel2, _super);
+    function LineSeriesModel2() {
+      var _this = _super !== null && _super.apply(this, arguments) || this;
+      _this.type = LineSeriesModel2.type;
+      _this.hasSymbolVisual = true;
+      return _this;
+    }
+    LineSeriesModel2.prototype.getInitialData = function(option) {
+      {
+        var coordSys = option.coordinateSystem;
+        if (coordSys !== "polar" && coordSys !== "cartesian2d") {
+          throw new Error("Line not support coordinateSystem besides cartesian and polar");
+        }
+      }
+      return createSeriesData(null, this, {
+        useEncodeDefaulter: true
+      });
+    };
+    LineSeriesModel2.prototype.getLegendIcon = function(opt) {
+      var group = new Group$3();
+      var line = createSymbol("line", 0, opt.itemHeight / 2, opt.itemWidth, 0, opt.lineStyle.stroke, false);
+      group.add(line);
+      line.setStyle(opt.lineStyle);
+      var visualType = this.getData().getVisual("symbol");
+      var visualRotate = this.getData().getVisual("symbolRotate");
+      var symbolType = visualType === "none" ? "circle" : visualType;
+      var size2 = opt.itemHeight * 0.8;
+      var symbol = createSymbol(symbolType, (opt.itemWidth - size2) / 2, (opt.itemHeight - size2) / 2, size2, size2, opt.itemStyle.fill);
+      group.add(symbol);
+      symbol.setStyle(opt.itemStyle);
+      var symbolRotate = opt.iconRotate === "inherit" ? visualRotate : opt.iconRotate || 0;
+      symbol.rotation = symbolRotate * Math.PI / 180;
+      symbol.setOrigin([opt.itemWidth / 2, opt.itemHeight / 2]);
+      if (symbolType.indexOf("empty") > -1) {
+        symbol.style.stroke = symbol.style.fill;
+        symbol.style.fill = "#fff";
+        symbol.style.lineWidth = 2;
+      }
+      return group;
+    };
+    LineSeriesModel2.type = "series.line";
+    LineSeriesModel2.dependencies = ["grid", "polar"];
+    LineSeriesModel2.defaultOption = {
+      // zlevel: 0,
+      z: 3,
+      coordinateSystem: "cartesian2d",
+      legendHoverLink: true,
+      clip: true,
+      label: {
+        position: "top"
+      },
+      // itemStyle: {
+      // },
+      endLabel: {
+        show: false,
+        valueAnimation: true,
+        distance: 8
+      },
+      lineStyle: {
+        width: 2,
+        type: "solid"
+      },
+      emphasis: {
+        scale: true
+      },
+      // areaStyle: {
+      // origin of areaStyle. Valid values:
+      // `'auto'/null/undefined`: from axisLine to data
+      // `'start'`: from min to data
+      // `'end'`: from data to max
+      // origin: 'auto'
+      // },
+      // false, 'start', 'end', 'middle'
+      step: false,
+      // Disabled if step is true
+      smooth: false,
+      smoothMonotone: null,
+      symbol: "emptyCircle",
+      symbolSize: 4,
+      symbolRotate: null,
+      showSymbol: true,
+      // `false`: follow the label interval strategy.
+      // `true`: show all symbols.
+      // `'auto'`: If possible, show all symbols, otherwise
+      //           follow the label interval strategy.
+      showAllSymbol: "auto",
+      // Whether to connect break point.
+      connectNulls: false,
+      // Sampling for large data. Can be: 'average', 'max', 'min', 'sum', 'lttb'.
+      sampling: "none",
+      animationEasing: "linear",
+      // Disable progressive
+      progressive: 0,
+      hoverLayerThreshold: Infinity,
+      universalTransition: {
+        divideShape: "clone"
+      },
+      triggerLineEvent: false
+    };
+    return LineSeriesModel2;
+  }(SeriesModel$1)
+);
+const LineSeries = LineSeriesModel;
+function getDefaultLabel(data, dataIndex) {
+  var labelDims = data.mapDimensionsAll("defaultedLabel");
+  var len2 = labelDims.length;
+  if (len2 === 1) {
+    var rawVal = retrieveRawValue(data, dataIndex, labelDims[0]);
+    return rawVal != null ? rawVal + "" : null;
+  } else if (len2) {
+    var vals = [];
+    for (var i = 0; i < labelDims.length; i++) {
+      vals.push(retrieveRawValue(data, dataIndex, labelDims[i]));
+    }
+    return vals.join(" ");
+  }
+}
+function getDefaultInterpolatedLabel(data, interpolatedValue) {
+  var labelDims = data.mapDimensionsAll("defaultedLabel");
+  if (!isArray(interpolatedValue)) {
+    return interpolatedValue + "";
+  }
+  var vals = [];
+  for (var i = 0; i < labelDims.length; i++) {
+    var dimIndex = data.getDimensionIndex(labelDims[i]);
+    if (dimIndex >= 0) {
+      vals.push(interpolatedValue[dimIndex]);
+    }
+  }
+  return vals.join(" ");
+}
+var Symbol$1 = (
+  /** @class */
+  function(_super) {
+    __extends(Symbol2, _super);
+    function Symbol2(data, idx, seriesScope, opts) {
+      var _this = _super.call(this) || this;
+      _this.updateData(data, idx, seriesScope, opts);
+      return _this;
+    }
+    Symbol2.prototype._createSymbol = function(symbolType, data, idx, symbolSize, keepAspect) {
+      this.removeAll();
+      var symbolPath = createSymbol(symbolType, -1, -1, 2, 2, null, keepAspect);
+      symbolPath.attr({
+        z2: 100,
+        culling: true,
+        scaleX: symbolSize[0] / 2,
+        scaleY: symbolSize[1] / 2
+      });
+      symbolPath.drift = driftSymbol;
+      this._symbolType = symbolType;
+      this.add(symbolPath);
+    };
+    Symbol2.prototype.stopSymbolAnimation = function(toLastFrame) {
+      this.childAt(0).stopAnimation(null, toLastFrame);
+    };
+    Symbol2.prototype.getSymbolType = function() {
+      return this._symbolType;
+    };
+    Symbol2.prototype.getSymbolPath = function() {
+      return this.childAt(0);
+    };
+    Symbol2.prototype.highlight = function() {
+      enterEmphasis(this.childAt(0));
+    };
+    Symbol2.prototype.downplay = function() {
+      leaveEmphasis(this.childAt(0));
+    };
+    Symbol2.prototype.setZ = function(zlevel, z) {
+      var symbolPath = this.childAt(0);
+      symbolPath.zlevel = zlevel;
+      symbolPath.z = z;
+    };
+    Symbol2.prototype.setDraggable = function(draggable, hasCursorOption) {
+      var symbolPath = this.childAt(0);
+      symbolPath.draggable = draggable;
+      symbolPath.cursor = !hasCursorOption && draggable ? "move" : symbolPath.cursor;
+    };
+    Symbol2.prototype.updateData = function(data, idx, seriesScope, opts) {
+      this.silent = false;
+      var symbolType = data.getItemVisual(idx, "symbol") || "circle";
+      var seriesModel = data.hostModel;
+      var symbolSize = Symbol2.getSymbolSize(data, idx);
+      var isInit = symbolType !== this._symbolType;
+      var disableAnimation = opts && opts.disableAnimation;
+      if (isInit) {
+        var keepAspect = data.getItemVisual(idx, "symbolKeepAspect");
+        this._createSymbol(symbolType, data, idx, symbolSize, keepAspect);
+      } else {
+        var symbolPath = this.childAt(0);
+        symbolPath.silent = false;
+        var target = {
+          scaleX: symbolSize[0] / 2,
+          scaleY: symbolSize[1] / 2
+        };
+        disableAnimation ? symbolPath.attr(target) : updateProps$1(symbolPath, target, seriesModel, idx);
+        saveOldStyle(symbolPath);
+      }
+      this._updateCommon(data, idx, symbolSize, seriesScope, opts);
+      if (isInit) {
+        var symbolPath = this.childAt(0);
+        if (!disableAnimation) {
+          var target = {
+            scaleX: this._sizeX,
+            scaleY: this._sizeY,
+            style: {
+              // Always fadeIn. Because it has fadeOut animation when symbol is removed..
+              opacity: symbolPath.style.opacity
+            }
+          };
+          symbolPath.scaleX = symbolPath.scaleY = 0;
+          symbolPath.style.opacity = 0;
+          initProps(symbolPath, target, seriesModel, idx);
+        }
+      }
+      if (disableAnimation) {
+        this.childAt(0).stopAnimation("leave");
+      }
+    };
+    Symbol2.prototype._updateCommon = function(data, idx, symbolSize, seriesScope, opts) {
+      var symbolPath = this.childAt(0);
+      var seriesModel = data.hostModel;
+      var emphasisItemStyle;
+      var blurItemStyle;
+      var selectItemStyle;
+      var focus;
+      var blurScope;
+      var emphasisDisabled;
+      var labelStatesModels;
+      var hoverScale;
+      var cursorStyle;
+      if (seriesScope) {
+        emphasisItemStyle = seriesScope.emphasisItemStyle;
+        blurItemStyle = seriesScope.blurItemStyle;
+        selectItemStyle = seriesScope.selectItemStyle;
+        focus = seriesScope.focus;
+        blurScope = seriesScope.blurScope;
+        labelStatesModels = seriesScope.labelStatesModels;
+        hoverScale = seriesScope.hoverScale;
+        cursorStyle = seriesScope.cursorStyle;
+        emphasisDisabled = seriesScope.emphasisDisabled;
+      }
+      if (!seriesScope || data.hasItemOption) {
+        var itemModel = seriesScope && seriesScope.itemModel ? seriesScope.itemModel : data.getItemModel(idx);
+        var emphasisModel = itemModel.getModel("emphasis");
+        emphasisItemStyle = emphasisModel.getModel("itemStyle").getItemStyle();
+        selectItemStyle = itemModel.getModel(["select", "itemStyle"]).getItemStyle();
+        blurItemStyle = itemModel.getModel(["blur", "itemStyle"]).getItemStyle();
+        focus = emphasisModel.get("focus");
+        blurScope = emphasisModel.get("blurScope");
+        emphasisDisabled = emphasisModel.get("disabled");
+        labelStatesModels = getLabelStatesModels(itemModel);
+        hoverScale = emphasisModel.getShallow("scale");
+        cursorStyle = itemModel.getShallow("cursor");
+      }
+      var symbolRotate = data.getItemVisual(idx, "symbolRotate");
+      symbolPath.attr("rotation", (symbolRotate || 0) * Math.PI / 180 || 0);
+      var symbolOffset = normalizeSymbolOffset(data.getItemVisual(idx, "symbolOffset"), symbolSize);
+      if (symbolOffset) {
+        symbolPath.x = symbolOffset[0];
+        symbolPath.y = symbolOffset[1];
+      }
+      cursorStyle && symbolPath.attr("cursor", cursorStyle);
+      var symbolStyle = data.getItemVisual(idx, "style");
+      var visualColor = symbolStyle.fill;
+      if (symbolPath instanceof ZRImage$1) {
+        var pathStyle = symbolPath.style;
+        symbolPath.useStyle(extend({
+          // TODO other properties like x, y ?
+          image: pathStyle.image,
+          x: pathStyle.x,
+          y: pathStyle.y,
+          width: pathStyle.width,
+          height: pathStyle.height
+        }, symbolStyle));
+      } else {
+        if (symbolPath.__isEmptyBrush) {
+          symbolPath.useStyle(extend({}, symbolStyle));
+        } else {
+          symbolPath.useStyle(symbolStyle);
+        }
+        symbolPath.style.decal = null;
+        symbolPath.setColor(visualColor, opts && opts.symbolInnerColor);
+        symbolPath.style.strokeNoScale = true;
+      }
+      var liftZ = data.getItemVisual(idx, "liftZ");
+      var z2Origin = this._z2;
+      if (liftZ != null) {
+        if (z2Origin == null) {
+          this._z2 = symbolPath.z2;
+          symbolPath.z2 += liftZ;
+        }
+      } else if (z2Origin != null) {
+        symbolPath.z2 = z2Origin;
+        this._z2 = null;
+      }
+      var useNameLabel = opts && opts.useNameLabel;
+      setLabelStyle(symbolPath, labelStatesModels, {
+        labelFetcher: seriesModel,
+        labelDataIndex: idx,
+        defaultText: getLabelDefaultText,
+        inheritColor: visualColor,
+        defaultOpacity: symbolStyle.opacity
+      });
+      function getLabelDefaultText(idx2) {
+        return useNameLabel ? data.getName(idx2) : getDefaultLabel(data, idx2);
+      }
+      this._sizeX = symbolSize[0] / 2;
+      this._sizeY = symbolSize[1] / 2;
+      var emphasisState = symbolPath.ensureState("emphasis");
+      emphasisState.style = emphasisItemStyle;
+      symbolPath.ensureState("select").style = selectItemStyle;
+      symbolPath.ensureState("blur").style = blurItemStyle;
+      var scaleRatio = hoverScale == null || hoverScale === true ? Math.max(1.1, 3 / this._sizeY) : isFinite(hoverScale) && hoverScale > 0 ? +hoverScale : 1;
+      emphasisState.scaleX = this._sizeX * scaleRatio;
+      emphasisState.scaleY = this._sizeY * scaleRatio;
+      this.setSymbolScale(1);
+      toggleHoverEmphasis(this, focus, blurScope, emphasisDisabled);
+    };
+    Symbol2.prototype.setSymbolScale = function(scale2) {
+      this.scaleX = this.scaleY = scale2;
+    };
+    Symbol2.prototype.fadeOut = function(cb, seriesModel, opt) {
+      var symbolPath = this.childAt(0);
+      var dataIndex = getECData(this).dataIndex;
+      var animationOpt = opt && opt.animation;
+      this.silent = symbolPath.silent = true;
+      if (opt && opt.fadeLabel) {
+        var textContent = symbolPath.getTextContent();
+        if (textContent) {
+          removeElement(textContent, {
+            style: {
+              opacity: 0
+            }
+          }, seriesModel, {
+            dataIndex,
+            removeOpt: animationOpt,
+            cb: function() {
+              symbolPath.removeTextContent();
+            }
+          });
+        }
+      } else {
+        symbolPath.removeTextContent();
+      }
+      removeElement(symbolPath, {
+        style: {
+          opacity: 0
+        },
+        scaleX: 0,
+        scaleY: 0
+      }, seriesModel, {
+        dataIndex,
+        cb,
+        removeOpt: animationOpt
+      });
+    };
+    Symbol2.getSymbolSize = function(data, idx) {
+      return normalizeSymbolSize(data.getItemVisual(idx, "symbolSize"));
+    };
+    return Symbol2;
+  }(Group$3)
+);
+function driftSymbol(dx, dy) {
+  this.parent.drift(dx, dy);
+}
+const SymbolClz = Symbol$1;
+function symbolNeedsDraw(data, point, idx, opt) {
+  return point && !isNaN(point[0]) && !isNaN(point[1]) && !(opt.isIgnore && opt.isIgnore(idx)) && !(opt.clipShape && !opt.clipShape.contain(point[0], point[1])) && data.getItemVisual(idx, "symbol") !== "none";
+}
+function normalizeUpdateOpt(opt) {
+  if (opt != null && !isObject$2(opt)) {
+    opt = {
+      isIgnore: opt
+    };
+  }
+  return opt || {};
+}
+function makeSeriesScope(data) {
+  var seriesModel = data.hostModel;
+  var emphasisModel = seriesModel.getModel("emphasis");
+  return {
+    emphasisItemStyle: emphasisModel.getModel("itemStyle").getItemStyle(),
+    blurItemStyle: seriesModel.getModel(["blur", "itemStyle"]).getItemStyle(),
+    selectItemStyle: seriesModel.getModel(["select", "itemStyle"]).getItemStyle(),
+    focus: emphasisModel.get("focus"),
+    blurScope: emphasisModel.get("blurScope"),
+    emphasisDisabled: emphasisModel.get("disabled"),
+    hoverScale: emphasisModel.get("scale"),
+    labelStatesModels: getLabelStatesModels(seriesModel),
+    cursorStyle: seriesModel.get("cursor")
+  };
+}
+var SymbolDraw = (
+  /** @class */
+  function() {
+    function SymbolDraw2(SymbolCtor) {
+      this.group = new Group$3();
+      this._SymbolCtor = SymbolCtor || SymbolClz;
+    }
+    SymbolDraw2.prototype.updateData = function(data, opt) {
+      this._progressiveEls = null;
+      opt = normalizeUpdateOpt(opt);
+      var group = this.group;
+      var seriesModel = data.hostModel;
+      var oldData = this._data;
+      var SymbolCtor = this._SymbolCtor;
+      var disableAnimation = opt.disableAnimation;
+      var seriesScope = makeSeriesScope(data);
+      var symbolUpdateOpt = {
+        disableAnimation
+      };
+      var getSymbolPoint = opt.getSymbolPoint || function(idx) {
+        return data.getItemLayout(idx);
+      };
+      if (!oldData) {
+        group.removeAll();
+      }
+      data.diff(oldData).add(function(newIdx) {
+        var point = getSymbolPoint(newIdx);
+        if (symbolNeedsDraw(data, point, newIdx, opt)) {
+          var symbolEl = new SymbolCtor(data, newIdx, seriesScope, symbolUpdateOpt);
+          symbolEl.setPosition(point);
+          data.setItemGraphicEl(newIdx, symbolEl);
+          group.add(symbolEl);
+        }
+      }).update(function(newIdx, oldIdx) {
+        var symbolEl = oldData.getItemGraphicEl(oldIdx);
+        var point = getSymbolPoint(newIdx);
+        if (!symbolNeedsDraw(data, point, newIdx, opt)) {
+          group.remove(symbolEl);
+          return;
+        }
+        var newSymbolType = data.getItemVisual(newIdx, "symbol") || "circle";
+        var oldSymbolType = symbolEl && symbolEl.getSymbolType && symbolEl.getSymbolType();
+        if (!symbolEl || oldSymbolType && oldSymbolType !== newSymbolType) {
+          group.remove(symbolEl);
+          symbolEl = new SymbolCtor(data, newIdx, seriesScope, symbolUpdateOpt);
+          symbolEl.setPosition(point);
+        } else {
+          symbolEl.updateData(data, newIdx, seriesScope, symbolUpdateOpt);
+          var target = {
+            x: point[0],
+            y: point[1]
+          };
+          disableAnimation ? symbolEl.attr(target) : updateProps$1(symbolEl, target, seriesModel);
+        }
+        group.add(symbolEl);
+        data.setItemGraphicEl(newIdx, symbolEl);
+      }).remove(function(oldIdx) {
+        var el = oldData.getItemGraphicEl(oldIdx);
+        el && el.fadeOut(function() {
+          group.remove(el);
+        }, seriesModel);
+      }).execute();
+      this._getSymbolPoint = getSymbolPoint;
+      this._data = data;
+    };
+    SymbolDraw2.prototype.updateLayout = function() {
+      var _this = this;
+      var data = this._data;
+      if (data) {
+        data.eachItemGraphicEl(function(el, idx) {
+          var point = _this._getSymbolPoint(idx);
+          el.setPosition(point);
+          el.markRedraw();
+        });
+      }
+    };
+    SymbolDraw2.prototype.incrementalPrepareUpdate = function(data) {
+      this._seriesScope = makeSeriesScope(data);
+      this._data = null;
+      this.group.removeAll();
+    };
+    SymbolDraw2.prototype.incrementalUpdate = function(taskParams, data, opt) {
+      this._progressiveEls = [];
+      opt = normalizeUpdateOpt(opt);
+      function updateIncrementalAndHover(el2) {
+        if (!el2.isGroup) {
+          el2.incremental = true;
+          el2.ensureState("emphasis").hoverLayer = true;
+        }
+      }
+      for (var idx = taskParams.start; idx < taskParams.end; idx++) {
+        var point = data.getItemLayout(idx);
+        if (symbolNeedsDraw(data, point, idx, opt)) {
+          var el = new this._SymbolCtor(data, idx, this._seriesScope);
+          el.traverse(updateIncrementalAndHover);
+          el.setPosition(point);
+          this.group.add(el);
+          data.setItemGraphicEl(idx, el);
+          this._progressiveEls.push(el);
+        }
+      }
+    };
+    SymbolDraw2.prototype.eachRendered = function(cb) {
+      traverseElements(this._progressiveEls || this.group, cb);
+    };
+    SymbolDraw2.prototype.remove = function(enableAnimation) {
+      var group = this.group;
+      var data = this._data;
+      if (data && enableAnimation) {
+        data.eachItemGraphicEl(function(el) {
+          el.fadeOut(function() {
+            group.remove(el);
+          }, data.hostModel);
+        });
+      } else {
+        group.removeAll();
+      }
+    };
+    return SymbolDraw2;
+  }()
+);
+const SymbolDraw$1 = SymbolDraw;
+function prepareDataCoordInfo(coordSys, data, valueOrigin) {
+  var baseAxis = coordSys.getBaseAxis();
+  var valueAxis2 = coordSys.getOtherAxis(baseAxis);
+  var valueStart = getValueStart(valueAxis2, valueOrigin);
+  var baseAxisDim = baseAxis.dim;
+  var valueAxisDim = valueAxis2.dim;
+  var valueDim = data.mapDimension(valueAxisDim);
+  var baseDim = data.mapDimension(baseAxisDim);
+  var baseDataOffset = valueAxisDim === "x" || valueAxisDim === "radius" ? 1 : 0;
+  var dims = map$1(coordSys.dimensions, function(coordDim) {
+    return data.mapDimension(coordDim);
+  });
+  var stacked = false;
+  var stackResultDim = data.getCalculationInfo("stackResultDimension");
+  if (isDimensionStacked(
+    data,
+    dims[0]
+    /* , dims[1] */
+  )) {
+    stacked = true;
+    dims[0] = stackResultDim;
+  }
+  if (isDimensionStacked(
+    data,
+    dims[1]
+    /* , dims[0] */
+  )) {
+    stacked = true;
+    dims[1] = stackResultDim;
+  }
+  return {
+    dataDimsForPoint: dims,
+    valueStart,
+    valueAxisDim,
+    baseAxisDim,
+    stacked: !!stacked,
+    valueDim,
+    baseDim,
+    baseDataOffset,
+    stackedOverDimension: data.getCalculationInfo("stackedOverDimension")
+  };
+}
+function getValueStart(valueAxis2, valueOrigin) {
+  var valueStart = 0;
+  var extent3 = valueAxis2.scale.getExtent();
+  if (valueOrigin === "start") {
+    valueStart = extent3[0];
+  } else if (valueOrigin === "end") {
+    valueStart = extent3[1];
+  } else if (isNumber(valueOrigin) && !isNaN(valueOrigin)) {
+    valueStart = valueOrigin;
+  } else {
+    if (extent3[0] > 0) {
+      valueStart = extent3[0];
+    } else if (extent3[1] < 0) {
+      valueStart = extent3[1];
+    }
+  }
+  return valueStart;
+}
+function getStackedOnPoint(dataCoordInfo, coordSys, data, idx) {
+  var value = NaN;
+  if (dataCoordInfo.stacked) {
+    value = data.get(data.getCalculationInfo("stackedOverDimension"), idx);
+  }
+  if (isNaN(value)) {
+    value = dataCoordInfo.valueStart;
+  }
+  var baseDataOffset = dataCoordInfo.baseDataOffset;
+  var stackedData = [];
+  stackedData[baseDataOffset] = data.get(dataCoordInfo.baseDim, idx);
+  stackedData[1 - baseDataOffset] = value;
+  return coordSys.dataToPoint(stackedData);
+}
+var supportFloat32Array = typeof Float32Array !== "undefined";
+var Float32ArrayCtor = !supportFloat32Array ? Array : Float32Array;
+function createFloat32Array(arg) {
+  if (isArray(arg)) {
+    return supportFloat32Array ? new Float32Array(arg) : arg;
+  }
+  return new Float32ArrayCtor(arg);
+}
+function diffData(oldData, newData) {
+  var diffResult = [];
+  newData.diff(oldData).add(function(idx) {
+    diffResult.push({
+      cmd: "+",
+      idx
+    });
+  }).update(function(newIdx, oldIdx) {
+    diffResult.push({
+      cmd: "=",
+      idx: oldIdx,
+      idx1: newIdx
+    });
+  }).remove(function(idx) {
+    diffResult.push({
+      cmd: "-",
+      idx
+    });
+  }).execute();
+  return diffResult;
+}
+function lineAnimationDiff(oldData, newData, oldStackedOnPoints, newStackedOnPoints, oldCoordSys, newCoordSys, oldValueOrigin, newValueOrigin) {
+  var diff2 = diffData(oldData, newData);
+  var currPoints = [];
+  var nextPoints = [];
+  var currStackedPoints = [];
+  var nextStackedPoints = [];
+  var status = [];
+  var sortedIndices = [];
+  var rawIndices = [];
+  var newDataOldCoordInfo = prepareDataCoordInfo(oldCoordSys, newData, oldValueOrigin);
+  var oldPoints = oldData.getLayout("points") || [];
+  var newPoints = newData.getLayout("points") || [];
+  for (var i = 0; i < diff2.length; i++) {
+    var diffItem = diff2[i];
+    var pointAdded = true;
+    var oldIdx2 = void 0;
+    var newIdx2 = void 0;
+    switch (diffItem.cmd) {
+      case "=":
+        oldIdx2 = diffItem.idx * 2;
+        newIdx2 = diffItem.idx1 * 2;
+        var currentX = oldPoints[oldIdx2];
+        var currentY = oldPoints[oldIdx2 + 1];
+        var nextX = newPoints[newIdx2];
+        var nextY = newPoints[newIdx2 + 1];
+        if (isNaN(currentX) || isNaN(currentY)) {
+          currentX = nextX;
+          currentY = nextY;
+        }
+        currPoints.push(currentX, currentY);
+        nextPoints.push(nextX, nextY);
+        currStackedPoints.push(oldStackedOnPoints[oldIdx2], oldStackedOnPoints[oldIdx2 + 1]);
+        nextStackedPoints.push(newStackedOnPoints[newIdx2], newStackedOnPoints[newIdx2 + 1]);
+        rawIndices.push(newData.getRawIndex(diffItem.idx1));
+        break;
+      case "+":
+        var newIdx = diffItem.idx;
+        var newDataDimsForPoint = newDataOldCoordInfo.dataDimsForPoint;
+        var oldPt = oldCoordSys.dataToPoint([newData.get(newDataDimsForPoint[0], newIdx), newData.get(newDataDimsForPoint[1], newIdx)]);
+        newIdx2 = newIdx * 2;
+        currPoints.push(oldPt[0], oldPt[1]);
+        nextPoints.push(newPoints[newIdx2], newPoints[newIdx2 + 1]);
+        var stackedOnPoint = getStackedOnPoint(newDataOldCoordInfo, oldCoordSys, newData, newIdx);
+        currStackedPoints.push(stackedOnPoint[0], stackedOnPoint[1]);
+        nextStackedPoints.push(newStackedOnPoints[newIdx2], newStackedOnPoints[newIdx2 + 1]);
+        rawIndices.push(newData.getRawIndex(newIdx));
+        break;
+      case "-":
+        pointAdded = false;
+    }
+    if (pointAdded) {
+      status.push(diffItem);
+      sortedIndices.push(sortedIndices.length);
+    }
+  }
+  sortedIndices.sort(function(a, b) {
+    return rawIndices[a] - rawIndices[b];
+  });
+  var len2 = currPoints.length;
+  var sortedCurrPoints = createFloat32Array(len2);
+  var sortedNextPoints = createFloat32Array(len2);
+  var sortedCurrStackedPoints = createFloat32Array(len2);
+  var sortedNextStackedPoints = createFloat32Array(len2);
+  var sortedStatus = [];
+  for (var i = 0; i < sortedIndices.length; i++) {
+    var idx = sortedIndices[i];
+    var i2 = i * 2;
+    var idx2 = idx * 2;
+    sortedCurrPoints[i2] = currPoints[idx2];
+    sortedCurrPoints[i2 + 1] = currPoints[idx2 + 1];
+    sortedNextPoints[i2] = nextPoints[idx2];
+    sortedNextPoints[i2 + 1] = nextPoints[idx2 + 1];
+    sortedCurrStackedPoints[i2] = currStackedPoints[idx2];
+    sortedCurrStackedPoints[i2 + 1] = currStackedPoints[idx2 + 1];
+    sortedNextStackedPoints[i2] = nextStackedPoints[idx2];
+    sortedNextStackedPoints[i2 + 1] = nextStackedPoints[idx2 + 1];
+    sortedStatus[i] = status[idx];
+  }
+  return {
+    current: sortedCurrPoints,
+    next: sortedNextPoints,
+    stackedOnCurrent: sortedCurrStackedPoints,
+    stackedOnNext: sortedNextStackedPoints,
+    status: sortedStatus
+  };
+}
+var mathMin$2 = Math.min;
+var mathMax$2 = Math.max;
+function isPointNull$1(x, y) {
+  return isNaN(x) || isNaN(y);
+}
+function drawSegment(ctx, points2, start2, segLen, allLen, dir3, smooth, smoothMonotone, connectNulls) {
+  var prevX;
+  var prevY;
+  var cpx0;
+  var cpy0;
+  var cpx1;
+  var cpy1;
+  var idx = start2;
+  var k = 0;
+  for (; k < segLen; k++) {
+    var x = points2[idx * 2];
+    var y = points2[idx * 2 + 1];
+    if (idx >= allLen || idx < 0) {
+      break;
+    }
+    if (isPointNull$1(x, y)) {
+      if (connectNulls) {
+        idx += dir3;
+        continue;
+      }
+      break;
+    }
+    if (idx === start2) {
+      ctx[dir3 > 0 ? "moveTo" : "lineTo"](x, y);
+      cpx0 = x;
+      cpy0 = y;
+    } else {
+      var dx = x - prevX;
+      var dy = y - prevY;
+      if (dx * dx + dy * dy < 0.5) {
+        idx += dir3;
+        continue;
+      }
+      if (smooth > 0) {
+        var nextIdx = idx + dir3;
+        var nextX = points2[nextIdx * 2];
+        var nextY = points2[nextIdx * 2 + 1];
+        while (nextX === x && nextY === y && k < segLen) {
+          k++;
+          nextIdx += dir3;
+          idx += dir3;
+          nextX = points2[nextIdx * 2];
+          nextY = points2[nextIdx * 2 + 1];
+          x = points2[idx * 2];
+          y = points2[idx * 2 + 1];
+          dx = x - prevX;
+          dy = y - prevY;
+        }
+        var tmpK = k + 1;
+        if (connectNulls) {
+          while (isPointNull$1(nextX, nextY) && tmpK < segLen) {
+            tmpK++;
+            nextIdx += dir3;
+            nextX = points2[nextIdx * 2];
+            nextY = points2[nextIdx * 2 + 1];
+          }
+        }
+        var ratioNextSeg = 0.5;
+        var vx = 0;
+        var vy = 0;
+        var nextCpx0 = void 0;
+        var nextCpy0 = void 0;
+        if (tmpK >= segLen || isPointNull$1(nextX, nextY)) {
+          cpx1 = x;
+          cpy1 = y;
+        } else {
+          vx = nextX - prevX;
+          vy = nextY - prevY;
+          var dx0 = x - prevX;
+          var dx1 = nextX - x;
+          var dy0 = y - prevY;
+          var dy1 = nextY - y;
+          var lenPrevSeg = void 0;
+          var lenNextSeg = void 0;
+          if (smoothMonotone === "x") {
+            lenPrevSeg = Math.abs(dx0);
+            lenNextSeg = Math.abs(dx1);
+            var dir_1 = vx > 0 ? 1 : -1;
+            cpx1 = x - dir_1 * lenPrevSeg * smooth;
+            cpy1 = y;
+            nextCpx0 = x + dir_1 * lenNextSeg * smooth;
+            nextCpy0 = y;
+          } else if (smoothMonotone === "y") {
+            lenPrevSeg = Math.abs(dy0);
+            lenNextSeg = Math.abs(dy1);
+            var dir_2 = vy > 0 ? 1 : -1;
+            cpx1 = x;
+            cpy1 = y - dir_2 * lenPrevSeg * smooth;
+            nextCpx0 = x;
+            nextCpy0 = y + dir_2 * lenNextSeg * smooth;
+          } else {
+            lenPrevSeg = Math.sqrt(dx0 * dx0 + dy0 * dy0);
+            lenNextSeg = Math.sqrt(dx1 * dx1 + dy1 * dy1);
+            ratioNextSeg = lenNextSeg / (lenNextSeg + lenPrevSeg);
+            cpx1 = x - vx * smooth * (1 - ratioNextSeg);
+            cpy1 = y - vy * smooth * (1 - ratioNextSeg);
+            nextCpx0 = x + vx * smooth * ratioNextSeg;
+            nextCpy0 = y + vy * smooth * ratioNextSeg;
+            nextCpx0 = mathMin$2(nextCpx0, mathMax$2(nextX, x));
+            nextCpy0 = mathMin$2(nextCpy0, mathMax$2(nextY, y));
+            nextCpx0 = mathMax$2(nextCpx0, mathMin$2(nextX, x));
+            nextCpy0 = mathMax$2(nextCpy0, mathMin$2(nextY, y));
+            vx = nextCpx0 - x;
+            vy = nextCpy0 - y;
+            cpx1 = x - vx * lenPrevSeg / lenNextSeg;
+            cpy1 = y - vy * lenPrevSeg / lenNextSeg;
+            cpx1 = mathMin$2(cpx1, mathMax$2(prevX, x));
+            cpy1 = mathMin$2(cpy1, mathMax$2(prevY, y));
+            cpx1 = mathMax$2(cpx1, mathMin$2(prevX, x));
+            cpy1 = mathMax$2(cpy1, mathMin$2(prevY, y));
+            vx = x - cpx1;
+            vy = y - cpy1;
+            nextCpx0 = x + vx * lenNextSeg / lenPrevSeg;
+            nextCpy0 = y + vy * lenNextSeg / lenPrevSeg;
+          }
+        }
+        ctx.bezierCurveTo(cpx0, cpy0, cpx1, cpy1, x, y);
+        cpx0 = nextCpx0;
+        cpy0 = nextCpy0;
+      } else {
+        ctx.lineTo(x, y);
+      }
+    }
+    prevX = x;
+    prevY = y;
+    idx += dir3;
+  }
+  return k;
+}
+var ECPolylineShape = (
+  /** @class */
+  function() {
+    function ECPolylineShape2() {
+      this.smooth = 0;
+      this.smoothConstraint = true;
+    }
+    return ECPolylineShape2;
+  }()
+);
+var ECPolyline = (
+  /** @class */
+  function(_super) {
+    __extends(ECPolyline2, _super);
+    function ECPolyline2(opts) {
+      var _this = _super.call(this, opts) || this;
+      _this.type = "ec-polyline";
+      return _this;
+    }
+    ECPolyline2.prototype.getDefaultStyle = function() {
+      return {
+        stroke: "#000",
+        fill: null
+      };
+    };
+    ECPolyline2.prototype.getDefaultShape = function() {
+      return new ECPolylineShape();
+    };
+    ECPolyline2.prototype.buildPath = function(ctx, shape) {
+      var points2 = shape.points;
+      var i = 0;
+      var len2 = points2.length / 2;
+      if (shape.connectNulls) {
+        for (; len2 > 0; len2--) {
+          if (!isPointNull$1(points2[len2 * 2 - 2], points2[len2 * 2 - 1])) {
+            break;
+          }
+        }
+        for (; i < len2; i++) {
+          if (!isPointNull$1(points2[i * 2], points2[i * 2 + 1])) {
+            break;
+          }
+        }
+      }
+      while (i < len2) {
+        i += drawSegment(ctx, points2, i, len2, len2, 1, shape.smooth, shape.smoothMonotone, shape.connectNulls) + 1;
+      }
+    };
+    ECPolyline2.prototype.getPointOn = function(xOrY, dim) {
+      if (!this.path) {
+        this.createPathProxy();
+        this.buildPath(this.path, this.shape);
+      }
+      var path = this.path;
+      var data = path.data;
+      var CMD2 = PathProxy$1.CMD;
+      var x0;
+      var y0;
+      var isDimX = dim === "x";
+      var roots2 = [];
+      for (var i = 0; i < data.length; ) {
+        var cmd = data[i++];
+        var x = void 0;
+        var y = void 0;
+        var x2 = void 0;
+        var y2 = void 0;
+        var x3 = void 0;
+        var y3 = void 0;
+        var t2 = void 0;
+        switch (cmd) {
+          case CMD2.M:
+            x0 = data[i++];
+            y0 = data[i++];
+            break;
+          case CMD2.L:
+            x = data[i++];
+            y = data[i++];
+            t2 = isDimX ? (xOrY - x0) / (x - x0) : (xOrY - y0) / (y - y0);
+            if (t2 <= 1 && t2 >= 0) {
+              var val = isDimX ? (y - y0) * t2 + y0 : (x - x0) * t2 + x0;
+              return isDimX ? [xOrY, val] : [val, xOrY];
+            }
+            x0 = x;
+            y0 = y;
+            break;
+          case CMD2.C:
+            x = data[i++];
+            y = data[i++];
+            x2 = data[i++];
+            y2 = data[i++];
+            x3 = data[i++];
+            y3 = data[i++];
+            var nRoot = isDimX ? cubicRootAt(x0, x, x2, x3, xOrY, roots2) : cubicRootAt(y0, y, y2, y3, xOrY, roots2);
+            if (nRoot > 0) {
+              for (var i_1 = 0; i_1 < nRoot; i_1++) {
+                var t_1 = roots2[i_1];
+                if (t_1 <= 1 && t_1 >= 0) {
+                  var val = isDimX ? cubicAt(y0, y, y2, y3, t_1) : cubicAt(x0, x, x2, x3, t_1);
+                  return isDimX ? [xOrY, val] : [val, xOrY];
+                }
+              }
+            }
+            x0 = x3;
+            y0 = y3;
+            break;
+        }
+      }
+    };
+    return ECPolyline2;
+  }(Path$1)
+);
+var ECPolygonShape = (
+  /** @class */
+  function(_super) {
+    __extends(ECPolygonShape2, _super);
+    function ECPolygonShape2() {
+      return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return ECPolygonShape2;
+  }(ECPolylineShape)
+);
+var ECPolygon = (
+  /** @class */
+  function(_super) {
+    __extends(ECPolygon2, _super);
+    function ECPolygon2(opts) {
+      var _this = _super.call(this, opts) || this;
+      _this.type = "ec-polygon";
+      return _this;
+    }
+    ECPolygon2.prototype.getDefaultShape = function() {
+      return new ECPolygonShape();
+    };
+    ECPolygon2.prototype.buildPath = function(ctx, shape) {
+      var points2 = shape.points;
+      var stackedOnPoints = shape.stackedOnPoints;
+      var i = 0;
+      var len2 = points2.length / 2;
+      var smoothMonotone = shape.smoothMonotone;
+      if (shape.connectNulls) {
+        for (; len2 > 0; len2--) {
+          if (!isPointNull$1(points2[len2 * 2 - 2], points2[len2 * 2 - 1])) {
+            break;
+          }
+        }
+        for (; i < len2; i++) {
+          if (!isPointNull$1(points2[i * 2], points2[i * 2 + 1])) {
+            break;
+          }
+        }
+      }
+      while (i < len2) {
+        var k = drawSegment(ctx, points2, i, len2, len2, 1, shape.smooth, smoothMonotone, shape.connectNulls);
+        drawSegment(ctx, stackedOnPoints, i + k - 1, k, len2, -1, shape.stackedOnSmooth, smoothMonotone, shape.connectNulls);
+        i += k + 1;
+        ctx.closePath();
+      }
+    };
+    return ECPolygon2;
+  }(Path$1)
+);
+function createGridClipPath(cartesian, hasAnimation, seriesModel, done, during) {
+  var rect = cartesian.getArea();
+  var x = rect.x;
+  var y = rect.y;
+  var width = rect.width;
+  var height = rect.height;
+  var lineWidth = seriesModel.get(["lineStyle", "width"]) || 2;
+  x -= lineWidth / 2;
+  y -= lineWidth / 2;
+  width += lineWidth;
+  height += lineWidth;
+  x = Math.floor(x);
+  width = Math.round(width);
+  var clipPath = new Rect$1({
+    shape: {
+      x,
+      y,
+      width,
+      height
+    }
+  });
+  if (hasAnimation) {
+    var baseAxis = cartesian.getBaseAxis();
+    var isHorizontal = baseAxis.isHorizontal();
+    var isAxisInversed = baseAxis.inverse;
+    if (isHorizontal) {
+      if (isAxisInversed) {
+        clipPath.shape.x += width;
+      }
+      clipPath.shape.width = 0;
+    } else {
+      if (!isAxisInversed) {
+        clipPath.shape.y += height;
+      }
+      clipPath.shape.height = 0;
+    }
+    var duringCb = isFunction(during) ? function(percent) {
+      during(percent, clipPath);
+    } : null;
+    initProps(clipPath, {
+      shape: {
+        width,
+        height,
+        x,
+        y
+      }
+    }, seriesModel, null, done, duringCb);
+  }
+  return clipPath;
+}
+function createPolarClipPath(polar, hasAnimation, seriesModel) {
+  var sectorArea = polar.getArea();
+  var r0 = round$1(sectorArea.r0, 1);
+  var r = round$1(sectorArea.r, 1);
+  var clipPath = new Sector$1({
+    shape: {
+      cx: round$1(polar.cx, 1),
+      cy: round$1(polar.cy, 1),
+      r0,
+      r,
+      startAngle: sectorArea.startAngle,
+      endAngle: sectorArea.endAngle,
+      clockwise: sectorArea.clockwise
+    }
+  });
+  if (hasAnimation) {
+    var isRadial = polar.getBaseAxis().dim === "angle";
+    if (isRadial) {
+      clipPath.shape.endAngle = sectorArea.startAngle;
+    } else {
+      clipPath.shape.r = r0;
+    }
+    initProps(clipPath, {
+      shape: {
+        endAngle: sectorArea.endAngle,
+        r
+      }
+    }, seriesModel);
+  }
+  return clipPath;
+}
+function createClipPath(coordSys, hasAnimation, seriesModel, done, during) {
+  if (!coordSys) {
+    return null;
+  } else if (coordSys.type === "polar") {
+    return createPolarClipPath(coordSys, hasAnimation, seriesModel);
+  } else if (coordSys.type === "cartesian2d") {
+    return createGridClipPath(coordSys, hasAnimation, seriesModel, done, during);
+  }
+  return null;
+}
+function isCoordinateSystemType(coordSys, type) {
+  return coordSys.type === type;
+}
+function isPointsSame(points1, points2) {
+  if (points1.length !== points2.length) {
+    return;
+  }
+  for (var i = 0; i < points1.length; i++) {
+    if (points1[i] !== points2[i]) {
+      return;
+    }
+  }
+  return true;
+}
+function bboxFromPoints(points2) {
+  var minX = Infinity;
+  var minY = Infinity;
+  var maxX = -Infinity;
+  var maxY = -Infinity;
+  for (var i = 0; i < points2.length; ) {
+    var x = points2[i++];
+    var y = points2[i++];
+    if (!isNaN(x)) {
+      minX = Math.min(x, minX);
+      maxX = Math.max(x, maxX);
+    }
+    if (!isNaN(y)) {
+      minY = Math.min(y, minY);
+      maxY = Math.max(y, maxY);
+    }
+  }
+  return [[minX, minY], [maxX, maxY]];
+}
+function getBoundingDiff(points1, points2) {
+  var _a2 = bboxFromPoints(points1), min1 = _a2[0], max1 = _a2[1];
+  var _b2 = bboxFromPoints(points2), min22 = _b2[0], max22 = _b2[1];
+  return Math.max(Math.abs(min1[0] - min22[0]), Math.abs(min1[1] - min22[1]), Math.abs(max1[0] - max22[0]), Math.abs(max1[1] - max22[1]));
+}
+function getSmooth(smooth) {
+  return isNumber(smooth) ? smooth : smooth ? 0.5 : 0;
+}
+function getStackedOnPoints(coordSys, data, dataCoordInfo) {
+  if (!dataCoordInfo.valueDim) {
+    return [];
+  }
+  var len2 = data.count();
+  var points2 = createFloat32Array(len2 * 2);
+  for (var idx = 0; idx < len2; idx++) {
+    var pt = getStackedOnPoint(dataCoordInfo, coordSys, data, idx);
+    points2[idx * 2] = pt[0];
+    points2[idx * 2 + 1] = pt[1];
+  }
+  return points2;
+}
+function turnPointsIntoStep(points2, coordSys, stepTurnAt, connectNulls) {
+  var baseAxis = coordSys.getBaseAxis();
+  var baseIndex = baseAxis.dim === "x" || baseAxis.dim === "radius" ? 0 : 1;
+  var stepPoints = [];
+  var i = 0;
+  var stepPt = [];
+  var pt = [];
+  var nextPt = [];
+  var filteredPoints = [];
+  if (connectNulls) {
+    for (i = 0; i < points2.length; i += 2) {
+      if (!isNaN(points2[i]) && !isNaN(points2[i + 1])) {
+        filteredPoints.push(points2[i], points2[i + 1]);
+      }
+    }
+    points2 = filteredPoints;
+  }
+  for (i = 0; i < points2.length - 2; i += 2) {
+    nextPt[0] = points2[i + 2];
+    nextPt[1] = points2[i + 3];
+    pt[0] = points2[i];
+    pt[1] = points2[i + 1];
+    stepPoints.push(pt[0], pt[1]);
+    switch (stepTurnAt) {
+      case "end":
+        stepPt[baseIndex] = nextPt[baseIndex];
+        stepPt[1 - baseIndex] = pt[1 - baseIndex];
+        stepPoints.push(stepPt[0], stepPt[1]);
+        break;
+      case "middle":
+        var middle = (pt[baseIndex] + nextPt[baseIndex]) / 2;
+        var stepPt2 = [];
+        stepPt[baseIndex] = stepPt2[baseIndex] = middle;
+        stepPt[1 - baseIndex] = pt[1 - baseIndex];
+        stepPt2[1 - baseIndex] = nextPt[1 - baseIndex];
+        stepPoints.push(stepPt[0], stepPt[1]);
+        stepPoints.push(stepPt2[0], stepPt2[1]);
+        break;
+      default:
+        stepPt[baseIndex] = pt[baseIndex];
+        stepPt[1 - baseIndex] = nextPt[1 - baseIndex];
+        stepPoints.push(stepPt[0], stepPt[1]);
+    }
+  }
+  stepPoints.push(points2[i++], points2[i++]);
+  return stepPoints;
+}
+function clipColorStops(colorStops, maxSize) {
+  var newColorStops = [];
+  var len2 = colorStops.length;
+  var prevOutOfRangeColorStop;
+  var prevInRangeColorStop;
+  function lerpStop(stop0, stop1, clippedCoord) {
+    var coord0 = stop0.coord;
+    var p2 = (clippedCoord - coord0) / (stop1.coord - coord0);
+    var color2 = lerp(p2, [stop0.color, stop1.color]);
+    return {
+      coord: clippedCoord,
+      color: color2
+    };
+  }
+  for (var i = 0; i < len2; i++) {
+    var stop_1 = colorStops[i];
+    var coord = stop_1.coord;
+    if (coord < 0) {
+      prevOutOfRangeColorStop = stop_1;
+    } else if (coord > maxSize) {
+      if (prevInRangeColorStop) {
+        newColorStops.push(lerpStop(prevInRangeColorStop, stop_1, maxSize));
+      } else if (prevOutOfRangeColorStop) {
+        newColorStops.push(lerpStop(prevOutOfRangeColorStop, stop_1, 0), lerpStop(prevOutOfRangeColorStop, stop_1, maxSize));
+      }
+      break;
+    } else {
+      if (prevOutOfRangeColorStop) {
+        newColorStops.push(lerpStop(prevOutOfRangeColorStop, stop_1, 0));
+        prevOutOfRangeColorStop = null;
+      }
+      newColorStops.push(stop_1);
+      prevInRangeColorStop = stop_1;
+    }
+  }
+  return newColorStops;
+}
+function getVisualGradient(data, coordSys, api) {
+  var visualMetaList = data.getVisual("visualMeta");
+  if (!visualMetaList || !visualMetaList.length || !data.count()) {
+    return;
+  }
+  if (coordSys.type !== "cartesian2d") {
+    {
+      console.warn("Visual map on line style is only supported on cartesian2d.");
+    }
+    return;
+  }
+  var coordDim;
+  var visualMeta;
+  for (var i = visualMetaList.length - 1; i >= 0; i--) {
+    var dimInfo = data.getDimensionInfo(visualMetaList[i].dimension);
+    coordDim = dimInfo && dimInfo.coordDim;
+    if (coordDim === "x" || coordDim === "y") {
+      visualMeta = visualMetaList[i];
+      break;
+    }
+  }
+  if (!visualMeta) {
+    {
+      console.warn("Visual map on line style only support x or y dimension.");
+    }
+    return;
+  }
+  var axis = coordSys.getAxis(coordDim);
+  var colorStops = map$1(visualMeta.stops, function(stop2) {
+    return {
+      coord: axis.toGlobalCoord(axis.dataToCoord(stop2.value)),
+      color: stop2.color
+    };
+  });
+  var stopLen = colorStops.length;
+  var outerColors = visualMeta.outerColors.slice();
+  if (stopLen && colorStops[0].coord > colorStops[stopLen - 1].coord) {
+    colorStops.reverse();
+    outerColors.reverse();
+  }
+  var colorStopsInRange = clipColorStops(colorStops, coordDim === "x" ? api.getWidth() : api.getHeight());
+  var inRangeStopLen = colorStopsInRange.length;
+  if (!inRangeStopLen && stopLen) {
+    return colorStops[0].coord < 0 ? outerColors[1] ? outerColors[1] : colorStops[stopLen - 1].color : outerColors[0] ? outerColors[0] : colorStops[0].color;
+  }
+  var tinyExtent = 10;
+  var minCoord = colorStopsInRange[0].coord - tinyExtent;
+  var maxCoord = colorStopsInRange[inRangeStopLen - 1].coord + tinyExtent;
+  var coordSpan = maxCoord - minCoord;
+  if (coordSpan < 1e-3) {
+    return "transparent";
+  }
+  each$7(colorStopsInRange, function(stop2) {
+    stop2.offset = (stop2.coord - minCoord) / coordSpan;
+  });
+  colorStopsInRange.push({
+    // NOTE: inRangeStopLen may still be 0 if stoplen is zero.
+    offset: inRangeStopLen ? colorStopsInRange[inRangeStopLen - 1].offset : 0.5,
+    color: outerColors[1] || "transparent"
+  });
+  colorStopsInRange.unshift({
+    offset: inRangeStopLen ? colorStopsInRange[0].offset : 0.5,
+    color: outerColors[0] || "transparent"
+  });
+  var gradient = new LinearGradient$1(0, 0, 0, 0, colorStopsInRange, true);
+  gradient[coordDim] = minCoord;
+  gradient[coordDim + "2"] = maxCoord;
+  return gradient;
+}
+function getIsIgnoreFunc(seriesModel, data, coordSys) {
+  var showAllSymbol = seriesModel.get("showAllSymbol");
+  var isAuto = showAllSymbol === "auto";
+  if (showAllSymbol && !isAuto) {
+    return;
+  }
+  var categoryAxis2 = coordSys.getAxesByScale("ordinal")[0];
+  if (!categoryAxis2) {
+    return;
+  }
+  if (isAuto && canShowAllSymbolForCategory(categoryAxis2, data)) {
+    return;
+  }
+  var categoryDataDim = data.mapDimension(categoryAxis2.dim);
+  var labelMap = {};
+  each$7(categoryAxis2.getViewLabels(), function(labelItem) {
+    var ordinalNumber = categoryAxis2.scale.getRawOrdinalNumber(labelItem.tickValue);
+    labelMap[ordinalNumber] = 1;
+  });
+  return function(dataIndex) {
+    return !labelMap.hasOwnProperty(data.get(categoryDataDim, dataIndex));
+  };
+}
+function canShowAllSymbolForCategory(categoryAxis2, data) {
+  var axisExtent = categoryAxis2.getExtent();
+  var availSize = Math.abs(axisExtent[1] - axisExtent[0]) / categoryAxis2.scale.count();
+  isNaN(availSize) && (availSize = 0);
+  var dataLen = data.count();
+  var step = Math.max(1, Math.round(dataLen / 5));
+  for (var dataIndex = 0; dataIndex < dataLen; dataIndex += step) {
+    if (SymbolClz.getSymbolSize(
+      data,
+      dataIndex
+      // Only for cartesian, where `isHorizontal` exists.
+    )[categoryAxis2.isHorizontal() ? 1 : 0] * 1.5 > availSize) {
+      return false;
+    }
+  }
+  return true;
+}
+function isPointNull(x, y) {
+  return isNaN(x) || isNaN(y);
+}
+function getLastIndexNotNull(points2) {
+  var len2 = points2.length / 2;
+  for (; len2 > 0; len2--) {
+    if (!isPointNull(points2[len2 * 2 - 2], points2[len2 * 2 - 1])) {
+      break;
+    }
+  }
+  return len2 - 1;
+}
+function getPointAtIndex(points2, idx) {
+  return [points2[idx * 2], points2[idx * 2 + 1]];
+}
+function getIndexRange(points2, xOrY, dim) {
+  var len2 = points2.length / 2;
+  var dimIdx = dim === "x" ? 0 : 1;
+  var a;
+  var b;
+  var prevIndex = 0;
+  var nextIndex = -1;
+  for (var i = 0; i < len2; i++) {
+    b = points2[i * 2 + dimIdx];
+    if (isNaN(b) || isNaN(points2[i * 2 + 1 - dimIdx])) {
+      continue;
+    }
+    if (i === 0) {
+      a = b;
+      continue;
+    }
+    if (a <= xOrY && b >= xOrY || a >= xOrY && b <= xOrY) {
+      nextIndex = i;
+      break;
+    }
+    prevIndex = i;
+    a = b;
+  }
+  return {
+    range: [prevIndex, nextIndex],
+    t: (xOrY - a) / (b - a)
+  };
+}
+function anyStateShowEndLabel(seriesModel) {
+  if (seriesModel.get(["endLabel", "show"])) {
+    return true;
+  }
+  for (var i = 0; i < SPECIAL_STATES.length; i++) {
+    if (seriesModel.get([SPECIAL_STATES[i], "endLabel", "show"])) {
+      return true;
+    }
+  }
+  return false;
+}
+function createLineClipPath(lineView, coordSys, hasAnimation, seriesModel) {
+  if (isCoordinateSystemType(coordSys, "cartesian2d")) {
+    var endLabelModel_1 = seriesModel.getModel("endLabel");
+    var valueAnimation_1 = endLabelModel_1.get("valueAnimation");
+    var data_1 = seriesModel.getData();
+    var labelAnimationRecord_1 = {
+      lastFrameIndex: 0
+    };
+    var during = anyStateShowEndLabel(seriesModel) ? function(percent, clipRect) {
+      lineView._endLabelOnDuring(percent, clipRect, data_1, labelAnimationRecord_1, valueAnimation_1, endLabelModel_1, coordSys);
+    } : null;
+    var isHorizontal = coordSys.getBaseAxis().isHorizontal();
+    var clipPath = createGridClipPath(coordSys, hasAnimation, seriesModel, function() {
+      var endLabel = lineView._endLabel;
+      if (endLabel && hasAnimation) {
+        if (labelAnimationRecord_1.originalX != null) {
+          endLabel.attr({
+            x: labelAnimationRecord_1.originalX,
+            y: labelAnimationRecord_1.originalY
+          });
+        }
+      }
+    }, during);
+    if (!seriesModel.get("clip", true)) {
+      var rectShape = clipPath.shape;
+      var expandSize = Math.max(rectShape.width, rectShape.height);
+      if (isHorizontal) {
+        rectShape.y -= expandSize;
+        rectShape.height += expandSize * 2;
+      } else {
+        rectShape.x -= expandSize;
+        rectShape.width += expandSize * 2;
+      }
+    }
+    if (during) {
+      during(1, clipPath);
+    }
+    return clipPath;
+  } else {
+    {
+      if (seriesModel.get(["endLabel", "show"])) {
+        console.warn("endLabel is not supported for lines in polar systems.");
+      }
+    }
+    return createPolarClipPath(coordSys, hasAnimation, seriesModel);
+  }
+}
+function getEndLabelStateSpecified(endLabelModel, coordSys) {
+  var baseAxis = coordSys.getBaseAxis();
+  var isHorizontal = baseAxis.isHorizontal();
+  var isBaseInversed = baseAxis.inverse;
+  var align = isHorizontal ? isBaseInversed ? "right" : "left" : "center";
+  var verticalAlign = isHorizontal ? "middle" : isBaseInversed ? "top" : "bottom";
+  return {
+    normal: {
+      align: endLabelModel.get("align") || align,
+      verticalAlign: endLabelModel.get("verticalAlign") || verticalAlign
+    }
+  };
+}
+var LineView = (
+  /** @class */
+  function(_super) {
+    __extends(LineView2, _super);
+    function LineView2() {
+      return _super !== null && _super.apply(this, arguments) || this;
+    }
+    LineView2.prototype.init = function() {
+      var lineGroup = new Group$3();
+      var symbolDraw = new SymbolDraw$1();
+      this.group.add(symbolDraw.group);
+      this._symbolDraw = symbolDraw;
+      this._lineGroup = lineGroup;
+    };
+    LineView2.prototype.render = function(seriesModel, ecModel, api) {
+      var _this = this;
+      var coordSys = seriesModel.coordinateSystem;
+      var group = this.group;
+      var data = seriesModel.getData();
+      var lineStyleModel = seriesModel.getModel("lineStyle");
+      var areaStyleModel = seriesModel.getModel("areaStyle");
+      var points2 = data.getLayout("points") || [];
+      var isCoordSysPolar = coordSys.type === "polar";
+      var prevCoordSys = this._coordSys;
+      var symbolDraw = this._symbolDraw;
+      var polyline = this._polyline;
+      var polygon = this._polygon;
+      var lineGroup = this._lineGroup;
+      var hasAnimation = !ecModel.ssr && seriesModel.isAnimationEnabled();
+      var isAreaChart = !areaStyleModel.isEmpty();
+      var valueOrigin = areaStyleModel.get("origin");
+      var dataCoordInfo = prepareDataCoordInfo(coordSys, data, valueOrigin);
+      var stackedOnPoints = isAreaChart && getStackedOnPoints(coordSys, data, dataCoordInfo);
+      var showSymbol = seriesModel.get("showSymbol");
+      var connectNulls = seriesModel.get("connectNulls");
+      var isIgnoreFunc = showSymbol && !isCoordSysPolar && getIsIgnoreFunc(seriesModel, data, coordSys);
+      var oldData = this._data;
+      oldData && oldData.eachItemGraphicEl(function(el, idx) {
+        if (el.__temp) {
+          group.remove(el);
+          oldData.setItemGraphicEl(idx, null);
+        }
+      });
+      if (!showSymbol) {
+        symbolDraw.remove();
+      }
+      group.add(lineGroup);
+      var step = !isCoordSysPolar ? seriesModel.get("step") : false;
+      var clipShapeForSymbol;
+      if (coordSys && coordSys.getArea && seriesModel.get("clip", true)) {
+        clipShapeForSymbol = coordSys.getArea();
+        if (clipShapeForSymbol.width != null) {
+          clipShapeForSymbol.x -= 0.1;
+          clipShapeForSymbol.y -= 0.1;
+          clipShapeForSymbol.width += 0.2;
+          clipShapeForSymbol.height += 0.2;
+        } else if (clipShapeForSymbol.r0) {
+          clipShapeForSymbol.r0 -= 0.5;
+          clipShapeForSymbol.r += 0.5;
+        }
+      }
+      this._clipShapeForSymbol = clipShapeForSymbol;
+      var visualColor = getVisualGradient(data, coordSys, api) || data.getVisual("style")[data.getVisual("drawType")];
+      if (!(polyline && prevCoordSys.type === coordSys.type && step === this._step)) {
+        showSymbol && symbolDraw.updateData(data, {
+          isIgnore: isIgnoreFunc,
+          clipShape: clipShapeForSymbol,
+          disableAnimation: true,
+          getSymbolPoint: function(idx) {
+            return [points2[idx * 2], points2[idx * 2 + 1]];
+          }
+        });
+        hasAnimation && this._initSymbolLabelAnimation(data, coordSys, clipShapeForSymbol);
+        if (step) {
+          points2 = turnPointsIntoStep(points2, coordSys, step, connectNulls);
+          if (stackedOnPoints) {
+            stackedOnPoints = turnPointsIntoStep(stackedOnPoints, coordSys, step, connectNulls);
+          }
+        }
+        polyline = this._newPolyline(points2);
+        if (isAreaChart) {
+          polygon = this._newPolygon(points2, stackedOnPoints);
+        } else if (polygon) {
+          lineGroup.remove(polygon);
+          polygon = this._polygon = null;
+        }
+        if (!isCoordSysPolar) {
+          this._initOrUpdateEndLabel(seriesModel, coordSys, convertToColorString(visualColor));
+        }
+        lineGroup.setClipPath(createLineClipPath(this, coordSys, true, seriesModel));
+      } else {
+        if (isAreaChart && !polygon) {
+          polygon = this._newPolygon(points2, stackedOnPoints);
+        } else if (polygon && !isAreaChart) {
+          lineGroup.remove(polygon);
+          polygon = this._polygon = null;
+        }
+        if (!isCoordSysPolar) {
+          this._initOrUpdateEndLabel(seriesModel, coordSys, convertToColorString(visualColor));
+        }
+        var oldClipPath = lineGroup.getClipPath();
+        if (oldClipPath) {
+          var newClipPath = createLineClipPath(this, coordSys, false, seriesModel);
+          initProps(oldClipPath, {
+            shape: newClipPath.shape
+          }, seriesModel);
+        } else {
+          lineGroup.setClipPath(createLineClipPath(this, coordSys, true, seriesModel));
+        }
+        showSymbol && symbolDraw.updateData(data, {
+          isIgnore: isIgnoreFunc,
+          clipShape: clipShapeForSymbol,
+          disableAnimation: true,
+          getSymbolPoint: function(idx) {
+            return [points2[idx * 2], points2[idx * 2 + 1]];
+          }
+        });
+        if (!isPointsSame(this._stackedOnPoints, stackedOnPoints) || !isPointsSame(this._points, points2)) {
+          if (hasAnimation) {
+            this._doUpdateAnimation(data, stackedOnPoints, coordSys, api, step, valueOrigin, connectNulls);
+          } else {
+            if (step) {
+              points2 = turnPointsIntoStep(points2, coordSys, step, connectNulls);
+              if (stackedOnPoints) {
+                stackedOnPoints = turnPointsIntoStep(stackedOnPoints, coordSys, step, connectNulls);
+              }
+            }
+            polyline.setShape({
+              points: points2
+            });
+            polygon && polygon.setShape({
+              points: points2,
+              stackedOnPoints
+            });
+          }
+        }
+      }
+      var emphasisModel = seriesModel.getModel("emphasis");
+      var focus = emphasisModel.get("focus");
+      var blurScope = emphasisModel.get("blurScope");
+      var emphasisDisabled = emphasisModel.get("disabled");
+      polyline.useStyle(defaults(
+        // Use color in lineStyle first
+        lineStyleModel.getLineStyle(),
+        {
+          fill: "none",
+          stroke: visualColor,
+          lineJoin: "bevel"
+        }
+      ));
+      setStatesStylesFromModel(polyline, seriesModel, "lineStyle");
+      if (polyline.style.lineWidth > 0 && seriesModel.get(["emphasis", "lineStyle", "width"]) === "bolder") {
+        var emphasisLineStyle = polyline.getState("emphasis").style;
+        emphasisLineStyle.lineWidth = +polyline.style.lineWidth + 1;
+      }
+      getECData(polyline).seriesIndex = seriesModel.seriesIndex;
+      toggleHoverEmphasis(polyline, focus, blurScope, emphasisDisabled);
+      var smooth = getSmooth(seriesModel.get("smooth"));
+      var smoothMonotone = seriesModel.get("smoothMonotone");
+      polyline.setShape({
+        smooth,
+        smoothMonotone,
+        connectNulls
+      });
+      if (polygon) {
+        var stackedOnSeries = data.getCalculationInfo("stackedOnSeries");
+        var stackedOnSmooth = 0;
+        polygon.useStyle(defaults(areaStyleModel.getAreaStyle(), {
+          fill: visualColor,
+          opacity: 0.7,
+          lineJoin: "bevel",
+          decal: data.getVisual("style").decal
+        }));
+        if (stackedOnSeries) {
+          stackedOnSmooth = getSmooth(stackedOnSeries.get("smooth"));
+        }
+        polygon.setShape({
+          smooth,
+          stackedOnSmooth,
+          smoothMonotone,
+          connectNulls
+        });
+        setStatesStylesFromModel(polygon, seriesModel, "areaStyle");
+        getECData(polygon).seriesIndex = seriesModel.seriesIndex;
+        toggleHoverEmphasis(polygon, focus, blurScope, emphasisDisabled);
+      }
+      var changePolyState = function(toState) {
+        _this._changePolyState(toState);
+      };
+      data.eachItemGraphicEl(function(el) {
+        el && (el.onHoverStateChange = changePolyState);
+      });
+      this._polyline.onHoverStateChange = changePolyState;
+      this._data = data;
+      this._coordSys = coordSys;
+      this._stackedOnPoints = stackedOnPoints;
+      this._points = points2;
+      this._step = step;
+      this._valueOrigin = valueOrigin;
+      if (seriesModel.get("triggerLineEvent")) {
+        this.packEventData(seriesModel, polyline);
+        polygon && this.packEventData(seriesModel, polygon);
+      }
+    };
+    LineView2.prototype.packEventData = function(seriesModel, el) {
+      getECData(el).eventData = {
+        componentType: "series",
+        componentSubType: "line",
+        componentIndex: seriesModel.componentIndex,
+        seriesIndex: seriesModel.seriesIndex,
+        seriesName: seriesModel.name,
+        seriesType: "line"
+      };
+    };
+    LineView2.prototype.highlight = function(seriesModel, ecModel, api, payload) {
+      var data = seriesModel.getData();
+      var dataIndex = queryDataIndex(data, payload);
+      this._changePolyState("emphasis");
+      if (!(dataIndex instanceof Array) && dataIndex != null && dataIndex >= 0) {
+        var points2 = data.getLayout("points");
+        var symbol = data.getItemGraphicEl(dataIndex);
+        if (!symbol) {
+          var x = points2[dataIndex * 2];
+          var y = points2[dataIndex * 2 + 1];
+          if (isNaN(x) || isNaN(y)) {
+            return;
+          }
+          if (this._clipShapeForSymbol && !this._clipShapeForSymbol.contain(x, y)) {
+            return;
+          }
+          var zlevel = seriesModel.get("zlevel") || 0;
+          var z = seriesModel.get("z") || 0;
+          symbol = new SymbolClz(data, dataIndex);
+          symbol.x = x;
+          symbol.y = y;
+          symbol.setZ(zlevel, z);
+          var symbolLabel = symbol.getSymbolPath().getTextContent();
+          if (symbolLabel) {
+            symbolLabel.zlevel = zlevel;
+            symbolLabel.z = z;
+            symbolLabel.z2 = this._polyline.z2 + 1;
+          }
+          symbol.__temp = true;
+          data.setItemGraphicEl(dataIndex, symbol);
+          symbol.stopSymbolAnimation(true);
+          this.group.add(symbol);
+        }
+        symbol.highlight();
+      } else {
+        ChartView$1.prototype.highlight.call(this, seriesModel, ecModel, api, payload);
+      }
+    };
+    LineView2.prototype.downplay = function(seriesModel, ecModel, api, payload) {
+      var data = seriesModel.getData();
+      var dataIndex = queryDataIndex(data, payload);
+      this._changePolyState("normal");
+      if (dataIndex != null && dataIndex >= 0) {
+        var symbol = data.getItemGraphicEl(dataIndex);
+        if (symbol) {
+          if (symbol.__temp) {
+            data.setItemGraphicEl(dataIndex, null);
+            this.group.remove(symbol);
+          } else {
+            symbol.downplay();
+          }
+        }
+      } else {
+        ChartView$1.prototype.downplay.call(this, seriesModel, ecModel, api, payload);
+      }
+    };
+    LineView2.prototype._changePolyState = function(toState) {
+      var polygon = this._polygon;
+      setStatesFlag(this._polyline, toState);
+      polygon && setStatesFlag(polygon, toState);
+    };
+    LineView2.prototype._newPolyline = function(points2) {
+      var polyline = this._polyline;
+      if (polyline) {
+        this._lineGroup.remove(polyline);
+      }
+      polyline = new ECPolyline({
+        shape: {
+          points: points2
+        },
+        segmentIgnoreThreshold: 2,
+        z2: 10
+      });
+      this._lineGroup.add(polyline);
+      this._polyline = polyline;
+      return polyline;
+    };
+    LineView2.prototype._newPolygon = function(points2, stackedOnPoints) {
+      var polygon = this._polygon;
+      if (polygon) {
+        this._lineGroup.remove(polygon);
+      }
+      polygon = new ECPolygon({
+        shape: {
+          points: points2,
+          stackedOnPoints
+        },
+        segmentIgnoreThreshold: 2
+      });
+      this._lineGroup.add(polygon);
+      this._polygon = polygon;
+      return polygon;
+    };
+    LineView2.prototype._initSymbolLabelAnimation = function(data, coordSys, clipShape) {
+      var isHorizontalOrRadial;
+      var isCoordSysPolar;
+      var baseAxis = coordSys.getBaseAxis();
+      var isAxisInverse = baseAxis.inverse;
+      if (coordSys.type === "cartesian2d") {
+        isHorizontalOrRadial = baseAxis.isHorizontal();
+        isCoordSysPolar = false;
+      } else if (coordSys.type === "polar") {
+        isHorizontalOrRadial = baseAxis.dim === "angle";
+        isCoordSysPolar = true;
+      }
+      var seriesModel = data.hostModel;
+      var seriesDuration = seriesModel.get("animationDuration");
+      if (isFunction(seriesDuration)) {
+        seriesDuration = seriesDuration(null);
+      }
+      var seriesDelay = seriesModel.get("animationDelay") || 0;
+      var seriesDelayValue = isFunction(seriesDelay) ? seriesDelay(null) : seriesDelay;
+      data.eachItemGraphicEl(function(symbol, idx) {
+        var el = symbol;
+        if (el) {
+          var point = [symbol.x, symbol.y];
+          var start2 = void 0;
+          var end2 = void 0;
+          var current = void 0;
+          if (clipShape) {
+            if (isCoordSysPolar) {
+              var polarClip = clipShape;
+              var coord = coordSys.pointToCoord(point);
+              if (isHorizontalOrRadial) {
+                start2 = polarClip.startAngle;
+                end2 = polarClip.endAngle;
+                current = -coord[1] / 180 * Math.PI;
+              } else {
+                start2 = polarClip.r0;
+                end2 = polarClip.r;
+                current = coord[0];
+              }
+            } else {
+              var gridClip = clipShape;
+              if (isHorizontalOrRadial) {
+                start2 = gridClip.x;
+                end2 = gridClip.x + gridClip.width;
+                current = symbol.x;
+              } else {
+                start2 = gridClip.y + gridClip.height;
+                end2 = gridClip.y;
+                current = symbol.y;
+              }
+            }
+          }
+          var ratio = end2 === start2 ? 0 : (current - start2) / (end2 - start2);
+          if (isAxisInverse) {
+            ratio = 1 - ratio;
+          }
+          var delay = isFunction(seriesDelay) ? seriesDelay(idx) : seriesDuration * ratio + seriesDelayValue;
+          var symbolPath = el.getSymbolPath();
+          var text = symbolPath.getTextContent();
+          el.attr({
+            scaleX: 0,
+            scaleY: 0
+          });
+          el.animateTo({
+            scaleX: 1,
+            scaleY: 1
+          }, {
+            duration: 200,
+            setToFinal: true,
+            delay
+          });
+          if (text) {
+            text.animateFrom({
+              style: {
+                opacity: 0
+              }
+            }, {
+              duration: 300,
+              delay
+            });
+          }
+          symbolPath.disableLabelAnimation = true;
+        }
+      });
+    };
+    LineView2.prototype._initOrUpdateEndLabel = function(seriesModel, coordSys, inheritColor) {
+      var endLabelModel = seriesModel.getModel("endLabel");
+      if (anyStateShowEndLabel(seriesModel)) {
+        var data_2 = seriesModel.getData();
+        var polyline = this._polyline;
+        var points2 = data_2.getLayout("points");
+        if (!points2) {
+          polyline.removeTextContent();
+          this._endLabel = null;
+          return;
+        }
+        var endLabel = this._endLabel;
+        if (!endLabel) {
+          endLabel = this._endLabel = new ZRText$1({
+            z2: 200
+            // should be higher than item symbol
+          });
+          endLabel.ignoreClip = true;
+          polyline.setTextContent(this._endLabel);
+          polyline.disableLabelAnimation = true;
+        }
+        var dataIndex = getLastIndexNotNull(points2);
+        if (dataIndex >= 0) {
+          setLabelStyle(polyline, getLabelStatesModels(seriesModel, "endLabel"), {
+            inheritColor,
+            labelFetcher: seriesModel,
+            labelDataIndex: dataIndex,
+            defaultText: function(dataIndex2, opt, interpolatedValue) {
+              return interpolatedValue != null ? getDefaultInterpolatedLabel(data_2, interpolatedValue) : getDefaultLabel(data_2, dataIndex2);
+            },
+            enableTextSetter: true
+          }, getEndLabelStateSpecified(endLabelModel, coordSys));
+          polyline.textConfig.position = null;
+        }
+      } else if (this._endLabel) {
+        this._polyline.removeTextContent();
+        this._endLabel = null;
+      }
+    };
+    LineView2.prototype._endLabelOnDuring = function(percent, clipRect, data, animationRecord, valueAnimation, endLabelModel, coordSys) {
+      var endLabel = this._endLabel;
+      var polyline = this._polyline;
+      if (endLabel) {
+        if (percent < 1 && animationRecord.originalX == null) {
+          animationRecord.originalX = endLabel.x;
+          animationRecord.originalY = endLabel.y;
+        }
+        var points2 = data.getLayout("points");
+        var seriesModel = data.hostModel;
+        var connectNulls = seriesModel.get("connectNulls");
+        var precision = endLabelModel.get("precision");
+        var distance2 = endLabelModel.get("distance") || 0;
+        var baseAxis = coordSys.getBaseAxis();
+        var isHorizontal = baseAxis.isHorizontal();
+        var isBaseInversed = baseAxis.inverse;
+        var clipShape = clipRect.shape;
+        var xOrY = isBaseInversed ? isHorizontal ? clipShape.x : clipShape.y + clipShape.height : isHorizontal ? clipShape.x + clipShape.width : clipShape.y;
+        var distanceX = (isHorizontal ? distance2 : 0) * (isBaseInversed ? -1 : 1);
+        var distanceY = (isHorizontal ? 0 : -distance2) * (isBaseInversed ? -1 : 1);
+        var dim = isHorizontal ? "x" : "y";
+        var dataIndexRange = getIndexRange(points2, xOrY, dim);
+        var indices = dataIndexRange.range;
+        var diff2 = indices[1] - indices[0];
+        var value = void 0;
+        if (diff2 >= 1) {
+          if (diff2 > 1 && !connectNulls) {
+            var pt = getPointAtIndex(points2, indices[0]);
+            endLabel.attr({
+              x: pt[0] + distanceX,
+              y: pt[1] + distanceY
+            });
+            valueAnimation && (value = seriesModel.getRawValue(indices[0]));
+          } else {
+            var pt = polyline.getPointOn(xOrY, dim);
+            pt && endLabel.attr({
+              x: pt[0] + distanceX,
+              y: pt[1] + distanceY
+            });
+            var startValue = seriesModel.getRawValue(indices[0]);
+            var endValue = seriesModel.getRawValue(indices[1]);
+            valueAnimation && (value = interpolateRawValues(data, precision, startValue, endValue, dataIndexRange.t));
+          }
+          animationRecord.lastFrameIndex = indices[0];
+        } else {
+          var idx = percent === 1 || animationRecord.lastFrameIndex > 0 ? indices[0] : 0;
+          var pt = getPointAtIndex(points2, idx);
+          valueAnimation && (value = seriesModel.getRawValue(idx));
+          endLabel.attr({
+            x: pt[0] + distanceX,
+            y: pt[1] + distanceY
+          });
+        }
+        if (valueAnimation) {
+          labelInner(endLabel).setLabelText(value);
+        }
+      }
+    };
+    LineView2.prototype._doUpdateAnimation = function(data, stackedOnPoints, coordSys, api, step, valueOrigin, connectNulls) {
+      var polyline = this._polyline;
+      var polygon = this._polygon;
+      var seriesModel = data.hostModel;
+      var diff2 = lineAnimationDiff(this._data, data, this._stackedOnPoints, stackedOnPoints, this._coordSys, coordSys, this._valueOrigin);
+      var current = diff2.current;
+      var stackedOnCurrent = diff2.stackedOnCurrent;
+      var next = diff2.next;
+      var stackedOnNext = diff2.stackedOnNext;
+      if (step) {
+        current = turnPointsIntoStep(diff2.current, coordSys, step, connectNulls);
+        stackedOnCurrent = turnPointsIntoStep(diff2.stackedOnCurrent, coordSys, step, connectNulls);
+        next = turnPointsIntoStep(diff2.next, coordSys, step, connectNulls);
+        stackedOnNext = turnPointsIntoStep(diff2.stackedOnNext, coordSys, step, connectNulls);
+      }
+      if (getBoundingDiff(current, next) > 3e3 || polygon && getBoundingDiff(stackedOnCurrent, stackedOnNext) > 3e3) {
+        polyline.stopAnimation();
+        polyline.setShape({
+          points: next
+        });
+        if (polygon) {
+          polygon.stopAnimation();
+          polygon.setShape({
+            points: next,
+            stackedOnPoints: stackedOnNext
+          });
+        }
+        return;
+      }
+      polyline.shape.__points = diff2.current;
+      polyline.shape.points = current;
+      var target = {
+        shape: {
+          points: next
+        }
+      };
+      if (diff2.current !== current) {
+        target.shape.__points = diff2.next;
+      }
+      polyline.stopAnimation();
+      updateProps$1(polyline, target, seriesModel);
+      if (polygon) {
+        polygon.setShape({
+          // Reuse the points with polyline.
+          points: current,
+          stackedOnPoints: stackedOnCurrent
+        });
+        polygon.stopAnimation();
+        updateProps$1(polygon, {
+          shape: {
+            stackedOnPoints: stackedOnNext
+          }
+        }, seriesModel);
+        if (polyline.shape.points !== polygon.shape.points) {
+          polygon.shape.points = polyline.shape.points;
+        }
+      }
+      var updatedDataInfo = [];
+      var diffStatus = diff2.status;
+      for (var i = 0; i < diffStatus.length; i++) {
+        var cmd = diffStatus[i].cmd;
+        if (cmd === "=") {
+          var el = data.getItemGraphicEl(diffStatus[i].idx1);
+          if (el) {
+            updatedDataInfo.push({
+              el,
+              ptIdx: i
+              // Index of points
+            });
+          }
+        }
+      }
+      if (polyline.animators && polyline.animators.length) {
+        polyline.animators[0].during(function() {
+          polygon && polygon.dirtyShape();
+          var points2 = polyline.shape.__points;
+          for (var i2 = 0; i2 < updatedDataInfo.length; i2++) {
+            var el2 = updatedDataInfo[i2].el;
+            var offset = updatedDataInfo[i2].ptIdx * 2;
+            el2.x = points2[offset];
+            el2.y = points2[offset + 1];
+            el2.markRedraw();
+          }
+        });
+      }
+    };
+    LineView2.prototype.remove = function(ecModel) {
+      var group = this.group;
+      var oldData = this._data;
+      this._lineGroup.removeAll();
+      this._symbolDraw.remove(true);
+      oldData && oldData.eachItemGraphicEl(function(el, idx) {
+        if (el.__temp) {
+          group.remove(el);
+          oldData.setItemGraphicEl(idx, null);
+        }
+      });
+      this._polyline = this._polygon = this._coordSys = this._points = this._stackedOnPoints = this._endLabel = this._data = null;
+    };
+    LineView2.type = "line";
+    return LineView2;
+  }(ChartView$1)
+);
+const LineView$1 = LineView;
+function pointsLayout(seriesType2, forceStoreInTypedArray) {
+  return {
+    seriesType: seriesType2,
+    plan: createRenderPlanner(),
+    reset: function(seriesModel) {
+      var data = seriesModel.getData();
+      var coordSys = seriesModel.coordinateSystem;
+      var pipelineContext = seriesModel.pipelineContext;
+      var useTypedArray = forceStoreInTypedArray || pipelineContext.large;
+      if (!coordSys) {
+        return;
+      }
+      var dims = map$1(coordSys.dimensions, function(dim) {
+        return data.mapDimension(dim);
+      }).slice(0, 2);
+      var dimLen = dims.length;
+      var stackResultDim = data.getCalculationInfo("stackResultDimension");
+      if (isDimensionStacked(data, dims[0])) {
+        dims[0] = stackResultDim;
+      }
+      if (isDimensionStacked(data, dims[1])) {
+        dims[1] = stackResultDim;
+      }
+      var store = data.getStore();
+      var dimIdx0 = data.getDimensionIndex(dims[0]);
+      var dimIdx1 = data.getDimensionIndex(dims[1]);
+      return dimLen && {
+        progress: function(params, data2) {
+          var segCount = params.end - params.start;
+          var points2 = useTypedArray && createFloat32Array(segCount * dimLen);
+          var tmpIn = [];
+          var tmpOut = [];
+          for (var i = params.start, offset = 0; i < params.end; i++) {
+            var point = void 0;
+            if (dimLen === 1) {
+              var x = store.get(dimIdx0, i);
+              point = coordSys.dataToPoint(x, null, tmpOut);
+            } else {
+              tmpIn[0] = store.get(dimIdx0, i);
+              tmpIn[1] = store.get(dimIdx1, i);
+              point = coordSys.dataToPoint(tmpIn, null, tmpOut);
+            }
+            if (useTypedArray) {
+              points2[offset++] = point[0];
+              points2[offset++] = point[1];
+            } else {
+              data2.setItemLayout(i, point.slice());
+            }
+          }
+          useTypedArray && data2.setLayout("points", points2);
+        }
+      };
+    }
+  };
+}
+var samplers = {
+  average: function(frame) {
+    var sum = 0;
+    var count2 = 0;
+    for (var i = 0; i < frame.length; i++) {
+      if (!isNaN(frame[i])) {
+        sum += frame[i];
+        count2++;
+      }
+    }
+    return count2 === 0 ? NaN : sum / count2;
+  },
+  sum: function(frame) {
+    var sum = 0;
+    for (var i = 0; i < frame.length; i++) {
+      sum += frame[i] || 0;
+    }
+    return sum;
+  },
+  max: function(frame) {
+    var max3 = -Infinity;
+    for (var i = 0; i < frame.length; i++) {
+      frame[i] > max3 && (max3 = frame[i]);
+    }
+    return isFinite(max3) ? max3 : NaN;
+  },
+  min: function(frame) {
+    var min3 = Infinity;
+    for (var i = 0; i < frame.length; i++) {
+      frame[i] < min3 && (min3 = frame[i]);
+    }
+    return isFinite(min3) ? min3 : NaN;
+  },
+  // TODO
+  // Median
+  nearest: function(frame) {
+    return frame[0];
+  }
+};
+var indexSampler = function(frame) {
+  return Math.round(frame.length / 2);
+};
+function dataSample(seriesType2) {
+  return {
+    seriesType: seriesType2,
+    // FIXME:TS never used, so comment it
+    // modifyOutputEnd: true,
+    reset: function(seriesModel, ecModel, api) {
+      var data = seriesModel.getData();
+      var sampling = seriesModel.get("sampling");
+      var coordSys = seriesModel.coordinateSystem;
+      var count2 = data.count();
+      if (count2 > 10 && coordSys.type === "cartesian2d" && sampling) {
+        var baseAxis = coordSys.getBaseAxis();
+        var valueAxis2 = coordSys.getOtherAxis(baseAxis);
+        var extent3 = baseAxis.getExtent();
+        var dpr2 = api.getDevicePixelRatio();
+        var size2 = Math.abs(extent3[1] - extent3[0]) * (dpr2 || 1);
+        var rate = Math.round(count2 / size2);
+        if (isFinite(rate) && rate > 1) {
+          if (sampling === "lttb") {
+            seriesModel.setData(data.lttbDownSample(data.mapDimension(valueAxis2.dim), 1 / rate));
+          }
+          var sampler = void 0;
+          if (isString(sampling)) {
+            sampler = samplers[sampling];
+          } else if (isFunction(sampling)) {
+            sampler = sampling;
+          }
+          if (sampler) {
+            seriesModel.setData(data.downSample(data.mapDimension(valueAxis2.dim), 1 / rate, sampler, indexSampler));
+          }
+        }
+      }
+    }
+  };
+}
+function install$f(registers) {
+  registers.registerChartView(LineView$1);
+  registers.registerSeriesModel(LineSeries);
+  registers.registerLayout(pointsLayout("line", true));
+  registers.registerVisual({
+    seriesType: "line",
+    reset: function(seriesModel) {
+      var data = seriesModel.getData();
+      var lineStyle = seriesModel.getModel("lineStyle").getLineStyle();
+      if (lineStyle && !lineStyle.stroke) {
+        lineStyle.stroke = data.getVisual("style").fill;
+      }
+      data.setVisual("legendLineStyle", lineStyle);
+    }
+  });
+  registers.registerProcessor(registers.PRIORITY.PROCESSOR.STATISTIC, dataSample("line"));
+}
+use(install$f);
+function collect(ecModel, api) {
+  var result = {
+    /**
+     * key: makeKey(axis.model)
+     * value: {
+     *      axis,
+     *      coordSys,
+     *      axisPointerModel,
+     *      triggerTooltip,
+     *      involveSeries,
+     *      snap,
+     *      seriesModels,
+     *      seriesDataCount
+     * }
+     */
+    axesInfo: {},
+    seriesInvolved: false,
+    /**
+     * key: makeKey(coordSys.model)
+     * value: Object: key makeKey(axis.model), value: axisInfo
+     */
+    coordSysAxesInfo: {},
+    coordSysMap: {}
+  };
+  collectAxesInfo(result, ecModel, api);
+  result.seriesInvolved && collectSeriesInfo(result, ecModel);
+  return result;
+}
+function collectAxesInfo(result, ecModel, api) {
+  var globalTooltipModel = ecModel.getComponent("tooltip");
+  var globalAxisPointerModel = ecModel.getComponent("axisPointer");
+  var linksOption = globalAxisPointerModel.get("link", true) || [];
+  var linkGroups = [];
+  each$7(api.getCoordinateSystems(), function(coordSys) {
+    if (!coordSys.axisPointerEnabled) {
+      return;
+    }
+    var coordSysKey = makeKey(coordSys.model);
+    var axesInfoInCoordSys = result.coordSysAxesInfo[coordSysKey] = {};
+    result.coordSysMap[coordSysKey] = coordSys;
+    var coordSysModel = coordSys.model;
+    var baseTooltipModel = coordSysModel.getModel("tooltip", globalTooltipModel);
+    each$7(coordSys.getAxes(), curry$1(saveTooltipAxisInfo, false, null));
+    if (coordSys.getTooltipAxes && globalTooltipModel && baseTooltipModel.get("show")) {
+      var triggerAxis = baseTooltipModel.get("trigger") === "axis";
+      var cross = baseTooltipModel.get(["axisPointer", "type"]) === "cross";
+      var tooltipAxes = coordSys.getTooltipAxes(baseTooltipModel.get(["axisPointer", "axis"]));
+      if (triggerAxis || cross) {
+        each$7(tooltipAxes.baseAxes, curry$1(saveTooltipAxisInfo, cross ? "cross" : true, triggerAxis));
+      }
+      if (cross) {
+        each$7(tooltipAxes.otherAxes, curry$1(saveTooltipAxisInfo, "cross", false));
+      }
+    }
+    function saveTooltipAxisInfo(fromTooltip, triggerTooltip, axis) {
+      var axisPointerModel = axis.model.getModel("axisPointer", globalAxisPointerModel);
+      var axisPointerShow = axisPointerModel.get("show");
+      if (!axisPointerShow || axisPointerShow === "auto" && !fromTooltip && !isHandleTrigger(axisPointerModel)) {
+        return;
+      }
+      if (triggerTooltip == null) {
+        triggerTooltip = axisPointerModel.get("triggerTooltip");
+      }
+      axisPointerModel = fromTooltip ? makeAxisPointerModel(axis, baseTooltipModel, globalAxisPointerModel, ecModel, fromTooltip, triggerTooltip) : axisPointerModel;
+      var snap = axisPointerModel.get("snap");
+      var axisKey = makeKey(axis.model);
+      var involveSeries = triggerTooltip || snap || axis.type === "category";
+      var axisInfo = result.axesInfo[axisKey] = {
+        key: axisKey,
+        axis,
+        coordSys,
+        axisPointerModel,
+        triggerTooltip,
+        involveSeries,
+        snap,
+        useHandle: isHandleTrigger(axisPointerModel),
+        seriesModels: [],
+        linkGroup: null
+      };
+      axesInfoInCoordSys[axisKey] = axisInfo;
+      result.seriesInvolved = result.seriesInvolved || involveSeries;
+      var groupIndex = getLinkGroupIndex(linksOption, axis);
+      if (groupIndex != null) {
+        var linkGroup = linkGroups[groupIndex] || (linkGroups[groupIndex] = {
+          axesInfo: {}
+        });
+        linkGroup.axesInfo[axisKey] = axisInfo;
+        linkGroup.mapper = linksOption[groupIndex].mapper;
+        axisInfo.linkGroup = linkGroup;
+      }
+    }
+  });
+}
+function makeAxisPointerModel(axis, baseTooltipModel, globalAxisPointerModel, ecModel, fromTooltip, triggerTooltip) {
+  var tooltipAxisPointerModel = baseTooltipModel.getModel("axisPointer");
+  var fields = ["type", "snap", "lineStyle", "shadowStyle", "label", "animation", "animationDurationUpdate", "animationEasingUpdate", "z"];
+  var volatileOption = {};
+  each$7(fields, function(field) {
+    volatileOption[field] = clone$4(tooltipAxisPointerModel.get(field));
+  });
+  volatileOption.snap = axis.type !== "category" && !!triggerTooltip;
+  if (tooltipAxisPointerModel.get("type") === "cross") {
+    volatileOption.type = "line";
+  }
+  var labelOption = volatileOption.label || (volatileOption.label = {});
+  labelOption.show == null && (labelOption.show = false);
+  if (fromTooltip === "cross") {
+    var tooltipAxisPointerLabelShow = tooltipAxisPointerModel.get(["label", "show"]);
+    labelOption.show = tooltipAxisPointerLabelShow != null ? tooltipAxisPointerLabelShow : true;
+    if (!triggerTooltip) {
+      var crossStyle = volatileOption.lineStyle = tooltipAxisPointerModel.get("crossStyle");
+      crossStyle && defaults(labelOption, crossStyle.textStyle);
+    }
+  }
+  return axis.model.getModel("axisPointer", new Model$1(volatileOption, globalAxisPointerModel, ecModel));
+}
+function collectSeriesInfo(result, ecModel) {
+  ecModel.eachSeries(function(seriesModel) {
+    var coordSys = seriesModel.coordinateSystem;
+    var seriesTooltipTrigger = seriesModel.get(["tooltip", "trigger"], true);
+    var seriesTooltipShow = seriesModel.get(["tooltip", "show"], true);
+    if (!coordSys || seriesTooltipTrigger === "none" || seriesTooltipTrigger === false || seriesTooltipTrigger === "item" || seriesTooltipShow === false || seriesModel.get(["axisPointer", "show"], true) === false) {
+      return;
+    }
+    each$7(result.coordSysAxesInfo[makeKey(coordSys.model)], function(axisInfo) {
+      var axis = axisInfo.axis;
+      if (coordSys.getAxis(axis.dim) === axis) {
+        axisInfo.seriesModels.push(seriesModel);
+        axisInfo.seriesDataCount == null && (axisInfo.seriesDataCount = 0);
+        axisInfo.seriesDataCount += seriesModel.getData().count();
+      }
+    });
+  });
+}
+function getLinkGroupIndex(linksOption, axis) {
+  var axisModel = axis.model;
+  var dim = axis.dim;
+  for (var i = 0; i < linksOption.length; i++) {
+    var linkOption = linksOption[i] || {};
+    if (checkPropInLink(linkOption[dim + "AxisId"], axisModel.id) || checkPropInLink(linkOption[dim + "AxisIndex"], axisModel.componentIndex) || checkPropInLink(linkOption[dim + "AxisName"], axisModel.name)) {
+      return i;
+    }
+  }
+}
+function checkPropInLink(linkPropValue, axisPropValue) {
+  return linkPropValue === "all" || isArray(linkPropValue) && indexOf(linkPropValue, axisPropValue) >= 0 || linkPropValue === axisPropValue;
+}
+function fixValue(axisModel) {
+  var axisInfo = getAxisInfo(axisModel);
+  if (!axisInfo) {
+    return;
+  }
+  var axisPointerModel = axisInfo.axisPointerModel;
+  var scale2 = axisInfo.axis.scale;
+  var option = axisPointerModel.option;
+  var status = axisPointerModel.get("status");
+  var value = axisPointerModel.get("value");
+  if (value != null) {
+    value = scale2.parse(value);
+  }
+  var useHandle = isHandleTrigger(axisPointerModel);
+  if (status == null) {
+    option.status = useHandle ? "show" : "hide";
+  }
+  var extent3 = scale2.getExtent().slice();
+  extent3[0] > extent3[1] && extent3.reverse();
+  if (
+    // Pick a value on axis when initializing.
+    value == null || value > extent3[1]
+  ) {
+    value = extent3[1];
+  }
+  if (value < extent3[0]) {
+    value = extent3[0];
+  }
+  option.value = value;
+  if (useHandle) {
+    option.status = axisInfo.axis.scale.isBlank() ? "hide" : "show";
+  }
+}
+function getAxisInfo(axisModel) {
+  var coordSysAxesInfo = (axisModel.ecModel.getComponent("axisPointer") || {}).coordSysAxesInfo;
+  return coordSysAxesInfo && coordSysAxesInfo.axesInfo[makeKey(axisModel)];
+}
+function getAxisPointerModel(axisModel) {
+  var axisInfo = getAxisInfo(axisModel);
+  return axisInfo && axisInfo.axisPointerModel;
+}
+function isHandleTrigger(axisPointerModel) {
+  return !!axisPointerModel.get(["handle", "show"]);
+}
+function makeKey(model) {
+  return model.type + "||" + model.id;
+}
+var axisPointerClazz = {};
+var AxisView = (
+  /** @class */
+  function(_super) {
+    __extends(AxisView2, _super);
+    function AxisView2() {
+      var _this = _super !== null && _super.apply(this, arguments) || this;
+      _this.type = AxisView2.type;
+      return _this;
+    }
+    AxisView2.prototype.render = function(axisModel, ecModel, api, payload) {
+      this.axisPointerClass && fixValue(axisModel);
+      _super.prototype.render.apply(this, arguments);
+      this._doUpdateAxisPointerClass(axisModel, api, true);
+    };
+    AxisView2.prototype.updateAxisPointer = function(axisModel, ecModel, api, payload) {
+      this._doUpdateAxisPointerClass(axisModel, api, false);
+    };
+    AxisView2.prototype.remove = function(ecModel, api) {
+      var axisPointer = this._axisPointer;
+      axisPointer && axisPointer.remove(api);
+    };
+    AxisView2.prototype.dispose = function(ecModel, api) {
+      this._disposeAxisPointer(api);
+      _super.prototype.dispose.apply(this, arguments);
+    };
+    AxisView2.prototype._doUpdateAxisPointerClass = function(axisModel, api, forceRender) {
+      var Clazz = AxisView2.getAxisPointerClass(this.axisPointerClass);
+      if (!Clazz) {
+        return;
+      }
+      var axisPointerModel = getAxisPointerModel(axisModel);
+      axisPointerModel ? (this._axisPointer || (this._axisPointer = new Clazz())).render(axisModel, axisPointerModel, api, forceRender) : this._disposeAxisPointer(api);
+    };
+    AxisView2.prototype._disposeAxisPointer = function(api) {
+      this._axisPointer && this._axisPointer.dispose(api);
+      this._axisPointer = null;
+    };
+    AxisView2.registerAxisPointerClass = function(type, clazz) {
+      {
+        if (axisPointerClazz[type]) {
+          throw new Error("axisPointer " + type + " exists");
+        }
+      }
+      axisPointerClazz[type] = clazz;
+    };
+    AxisView2.getAxisPointerClass = function(type) {
+      return type && axisPointerClazz[type];
+    };
+    AxisView2.type = "axis";
+    return AxisView2;
+  }(ComponentView$1)
+);
+const AxisView$1 = AxisView;
+var inner$5 = makeInner();
+var clone$1 = clone$4;
+var bind = bind$1;
+var BaseAxisPointer = (
+  /** @class */
+  function() {
+    function BaseAxisPointer2() {
+      this._dragging = false;
+      this.animationThreshold = 15;
+    }
+    BaseAxisPointer2.prototype.render = function(axisModel, axisPointerModel, api, forceRender) {
+      var value = axisPointerModel.get("value");
+      var status = axisPointerModel.get("status");
+      this._axisModel = axisModel;
+      this._axisPointerModel = axisPointerModel;
+      this._api = api;
+      if (!forceRender && this._lastValue === value && this._lastStatus === status) {
+        return;
+      }
+      this._lastValue = value;
+      this._lastStatus = status;
+      var group = this._group;
+      var handle = this._handle;
+      if (!status || status === "hide") {
+        group && group.hide();
+        handle && handle.hide();
+        return;
+      }
+      group && group.show();
+      handle && handle.show();
+      var elOption = {};
+      this.makeElOption(elOption, value, axisModel, axisPointerModel, api);
+      var graphicKey = elOption.graphicKey;
+      if (graphicKey !== this._lastGraphicKey) {
+        this.clear(api);
+      }
+      this._lastGraphicKey = graphicKey;
+      var moveAnimation = this._moveAnimation = this.determineAnimation(axisModel, axisPointerModel);
+      if (!group) {
+        group = this._group = new Group$3();
+        this.createPointerEl(group, elOption, axisModel, axisPointerModel);
+        this.createLabelEl(group, elOption, axisModel, axisPointerModel);
+        api.getZr().add(group);
+      } else {
+        var doUpdateProps = curry$1(updateProps, axisPointerModel, moveAnimation);
+        this.updatePointerEl(group, elOption, doUpdateProps);
+        this.updateLabelEl(group, elOption, doUpdateProps, axisPointerModel);
+      }
+      updateMandatoryProps(group, axisPointerModel, true);
+      this._renderHandle(value);
+    };
+    BaseAxisPointer2.prototype.remove = function(api) {
+      this.clear(api);
+    };
+    BaseAxisPointer2.prototype.dispose = function(api) {
+      this.clear(api);
+    };
+    BaseAxisPointer2.prototype.determineAnimation = function(axisModel, axisPointerModel) {
+      var animation = axisPointerModel.get("animation");
+      var axis = axisModel.axis;
+      var isCategoryAxis = axis.type === "category";
+      var useSnap = axisPointerModel.get("snap");
+      if (!useSnap && !isCategoryAxis) {
+        return false;
+      }
+      if (animation === "auto" || animation == null) {
+        var animationThreshold = this.animationThreshold;
+        if (isCategoryAxis && axis.getBandWidth() > animationThreshold) {
+          return true;
+        }
+        if (useSnap) {
+          var seriesDataCount = getAxisInfo(axisModel).seriesDataCount;
+          var axisExtent = axis.getExtent();
+          return Math.abs(axisExtent[0] - axisExtent[1]) / seriesDataCount > animationThreshold;
+        }
+        return false;
+      }
+      return animation === true;
+    };
+    BaseAxisPointer2.prototype.makeElOption = function(elOption, value, axisModel, axisPointerModel, api) {
+    };
+    BaseAxisPointer2.prototype.createPointerEl = function(group, elOption, axisModel, axisPointerModel) {
+      var pointerOption = elOption.pointer;
+      if (pointerOption) {
+        var pointerEl = inner$5(group).pointerEl = new graphic$1[pointerOption.type](clone$1(elOption.pointer));
+        group.add(pointerEl);
+      }
+    };
+    BaseAxisPointer2.prototype.createLabelEl = function(group, elOption, axisModel, axisPointerModel) {
+      if (elOption.label) {
+        var labelEl = inner$5(group).labelEl = new ZRText$1(clone$1(elOption.label));
+        group.add(labelEl);
+        updateLabelShowHide(labelEl, axisPointerModel);
+      }
+    };
+    BaseAxisPointer2.prototype.updatePointerEl = function(group, elOption, updateProps2) {
+      var pointerEl = inner$5(group).pointerEl;
+      if (pointerEl && elOption.pointer) {
+        pointerEl.setStyle(elOption.pointer.style);
+        updateProps2(pointerEl, {
+          shape: elOption.pointer.shape
+        });
+      }
+    };
+    BaseAxisPointer2.prototype.updateLabelEl = function(group, elOption, updateProps2, axisPointerModel) {
+      var labelEl = inner$5(group).labelEl;
+      if (labelEl) {
+        labelEl.setStyle(elOption.label.style);
+        updateProps2(labelEl, {
+          // Consider text length change in vertical axis, animation should
+          // be used on shape, otherwise the effect will be weird.
+          // TODOTODO
+          // shape: elOption.label.shape,
+          x: elOption.label.x,
+          y: elOption.label.y
+        });
+        updateLabelShowHide(labelEl, axisPointerModel);
+      }
+    };
+    BaseAxisPointer2.prototype._renderHandle = function(value) {
+      if (this._dragging || !this.updateHandleTransform) {
+        return;
+      }
+      var axisPointerModel = this._axisPointerModel;
+      var zr = this._api.getZr();
+      var handle = this._handle;
+      var handleModel = axisPointerModel.getModel("handle");
+      var status = axisPointerModel.get("status");
+      if (!handleModel.get("show") || !status || status === "hide") {
+        handle && zr.remove(handle);
+        this._handle = null;
+        return;
+      }
+      var isInit;
+      if (!this._handle) {
+        isInit = true;
+        handle = this._handle = createIcon(handleModel.get("icon"), {
+          cursor: "move",
+          draggable: true,
+          onmousemove: function(e2) {
+            stop(e2.event);
+          },
+          onmousedown: bind(this._onHandleDragMove, this, 0, 0),
+          drift: bind(this._onHandleDragMove, this),
+          ondragend: bind(this._onHandleDragEnd, this)
+        });
+        zr.add(handle);
+      }
+      updateMandatoryProps(handle, axisPointerModel, false);
+      handle.setStyle(handleModel.getItemStyle(null, ["color", "borderColor", "borderWidth", "opacity", "shadowColor", "shadowBlur", "shadowOffsetX", "shadowOffsetY"]));
+      var handleSize = handleModel.get("size");
+      if (!isArray(handleSize)) {
+        handleSize = [handleSize, handleSize];
+      }
+      handle.scaleX = handleSize[0] / 2;
+      handle.scaleY = handleSize[1] / 2;
+      createOrUpdate(this, "_doDispatchAxisPointer", handleModel.get("throttle") || 0, "fixRate");
+      this._moveHandleToValue(value, isInit);
+    };
+    BaseAxisPointer2.prototype._moveHandleToValue = function(value, isInit) {
+      updateProps(this._axisPointerModel, !isInit && this._moveAnimation, this._handle, getHandleTransProps(this.getHandleTransform(value, this._axisModel, this._axisPointerModel)));
+    };
+    BaseAxisPointer2.prototype._onHandleDragMove = function(dx, dy) {
+      var handle = this._handle;
+      if (!handle) {
+        return;
+      }
+      this._dragging = true;
+      var trans = this.updateHandleTransform(getHandleTransProps(handle), [dx, dy], this._axisModel, this._axisPointerModel);
+      this._payloadInfo = trans;
+      handle.stopAnimation();
+      handle.attr(getHandleTransProps(trans));
+      inner$5(handle).lastProp = null;
+      this._doDispatchAxisPointer();
+    };
+    BaseAxisPointer2.prototype._doDispatchAxisPointer = function() {
+      var handle = this._handle;
+      if (!handle) {
+        return;
+      }
+      var payloadInfo = this._payloadInfo;
+      var axisModel = this._axisModel;
+      this._api.dispatchAction({
+        type: "updateAxisPointer",
+        x: payloadInfo.cursorPoint[0],
+        y: payloadInfo.cursorPoint[1],
+        tooltipOption: payloadInfo.tooltipOption,
+        axesInfo: [{
+          axisDim: axisModel.axis.dim,
+          axisIndex: axisModel.componentIndex
+        }]
+      });
+    };
+    BaseAxisPointer2.prototype._onHandleDragEnd = function() {
+      this._dragging = false;
+      var handle = this._handle;
+      if (!handle) {
+        return;
+      }
+      var value = this._axisPointerModel.get("value");
+      this._moveHandleToValue(value);
+      this._api.dispatchAction({
+        type: "hideTip"
+      });
+    };
+    BaseAxisPointer2.prototype.clear = function(api) {
+      this._lastValue = null;
+      this._lastStatus = null;
+      var zr = api.getZr();
+      var group = this._group;
+      var handle = this._handle;
+      if (zr && group) {
+        this._lastGraphicKey = null;
+        group && zr.remove(group);
+        handle && zr.remove(handle);
+        this._group = null;
+        this._handle = null;
+        this._payloadInfo = null;
+      }
+      clear$2(this, "_doDispatchAxisPointer");
+    };
+    BaseAxisPointer2.prototype.doClear = function() {
+    };
+    BaseAxisPointer2.prototype.buildLabel = function(xy, wh, xDimIndex) {
+      xDimIndex = xDimIndex || 0;
+      return {
+        x: xy[xDimIndex],
+        y: xy[1 - xDimIndex],
+        width: wh[xDimIndex],
+        height: wh[1 - xDimIndex]
+      };
+    };
+    return BaseAxisPointer2;
+  }()
+);
+function updateProps(animationModel, moveAnimation, el, props) {
+  if (!propsEqual(inner$5(el).lastProp, props)) {
+    inner$5(el).lastProp = props;
+    moveAnimation ? updateProps$1(el, props, animationModel) : (el.stopAnimation(), el.attr(props));
+  }
+}
+function propsEqual(lastProps, newProps) {
+  if (isObject$2(lastProps) && isObject$2(newProps)) {
+    var equals_1 = true;
+    each$7(newProps, function(item, key) {
+      equals_1 = equals_1 && propsEqual(lastProps[key], item);
+    });
+    return !!equals_1;
+  } else {
+    return lastProps === newProps;
+  }
+}
+function updateLabelShowHide(labelEl, axisPointerModel) {
+  labelEl[axisPointerModel.get(["label", "show"]) ? "show" : "hide"]();
+}
+function getHandleTransProps(trans) {
+  return {
+    x: trans.x || 0,
+    y: trans.y || 0,
+    rotation: trans.rotation || 0
+  };
+}
+function updateMandatoryProps(group, axisPointerModel, silent) {
+  var z = axisPointerModel.get("z");
+  var zlevel = axisPointerModel.get("zlevel");
+  group && group.traverse(function(el) {
+    if (el.type !== "group") {
+      z != null && (el.z = z);
+      zlevel != null && (el.zlevel = zlevel);
+      el.silent = silent;
+    }
+  });
+}
+const BaseAxisPointer$1 = BaseAxisPointer;
 var Scale = (
   /** @class */
   function() {
@@ -32736,14 +35470,6 @@ var IntervalScale = (
 );
 Scale$1.registerClass(IntervalScale);
 const IntervalScale$1 = IntervalScale;
-var supportFloat32Array = typeof Float32Array !== "undefined";
-var Float32ArrayCtor = !supportFloat32Array ? Array : Float32Array;
-function createFloat32Array(arg) {
-  if (isArray(arg)) {
-    return supportFloat32Array ? new Float32Array(arg) : arg;
-  }
-  return new Float32ArrayCtor(arg);
-}
 var STACK_PREFIX = "__ec_stack_";
 function getSeriesStackId(seriesModel) {
   return seriesModel.get("stack") || STACK_PREFIX + seriesModel.seriesIndex;
@@ -32786,12 +35512,12 @@ function getValueAxesMinGaps(barSeries) {
     if (axisValues.hasOwnProperty(key)) {
       var valuesInAxis = axisValues[key];
       if (valuesInAxis) {
-        valuesInAxis.sort(function(a, b2) {
-          return a - b2;
+        valuesInAxis.sort(function(a, b) {
+          return a - b;
         });
         var min3 = null;
-        for (var j2 = 1; j2 < valuesInAxis.length; ++j2) {
-          var delta = valuesInAxis[j2] - valuesInAxis[j2 - 1];
+        for (var j = 1; j < valuesInAxis.length; ++j) {
+          var delta = valuesInAxis[j] - valuesInAxis[j - 1];
           if (delta > 0) {
             min3 = min3 === null ? delta : Math.min(min3, delta);
           }
@@ -33026,8 +35752,8 @@ function createProgressiveLayout(seriesType2) {
             if (stacked) {
               startValue = +value - store.get(valueDimIdx, dataIndex);
             }
-            var x2 = void 0;
-            var y2 = void 0;
+            var x = void 0;
+            var y = void 0;
             var width = void 0;
             var height = void 0;
             if (isValueAxisH) {
@@ -33036,8 +35762,8 @@ function createProgressiveLayout(seriesType2) {
                 var startCoord = cartesian.dataToPoint([startValue, baseValue]);
                 baseCoord = startCoord[0];
               }
-              x2 = baseCoord;
-              y2 = coord[1] + columnOffset;
+              x = baseCoord;
+              y = coord[1] + columnOffset;
               width = coord[0] - baseCoord;
               height = columnWidth;
               if (Math.abs(width) < barMinHeight) {
@@ -33049,8 +35775,8 @@ function createProgressiveLayout(seriesType2) {
                 var startCoord = cartesian.dataToPoint([baseValue, startValue]);
                 baseCoord = startCoord[1];
               }
-              x2 = coord[0] + columnOffset;
-              y2 = baseCoord;
+              x = coord[0] + columnOffset;
+              y = baseCoord;
               width = columnWidth;
               height = coord[1] - baseCoord;
               if (Math.abs(height) < barMinHeight) {
@@ -33059,18 +35785,18 @@ function createProgressiveLayout(seriesType2) {
             }
             if (!isLarge) {
               data2.setItemLayout(dataIndex, {
-                x: x2,
-                y: y2,
+                x,
+                y,
                 width,
                 height
               });
             } else {
-              largePoints[idxOffset] = x2;
-              largePoints[idxOffset + 1] = y2;
+              largePoints[idxOffset] = x;
+              largePoints[idxOffset + 1] = y;
               largePoints[idxOffset + 2] = isValueAxisH ? width : height;
               if (largeBackgroundPoints) {
-                largeBackgroundPoints[idxOffset] = isValueAxisH ? coordLayout.x : x2;
-                largeBackgroundPoints[idxOffset + 1] = isValueAxisH ? y2 : coordLayout.y;
+                largeBackgroundPoints[idxOffset] = isValueAxisH ? coordLayout.x : x;
+                largeBackgroundPoints[idxOffset + 1] = isValueAxisH ? y : coordLayout.y;
                 largeBackgroundPoints[idxOffset + 2] = bgSize;
               }
               largeDataIndices[dataIndex] = dataIndex;
@@ -33099,10 +35825,10 @@ function isInLargeMode(seriesModel) {
 function getValueAxisStart(baseAxis, valueAxis2) {
   return valueAxis2.toGlobalCoord(valueAxis2.dataToCoord(valueAxis2.type === "log" ? 1 : 0));
 }
-var bisect = function(a, x2, lo, hi) {
+var bisect = function(a, x, lo, hi) {
   while (lo < hi) {
     var mid = lo + hi >>> 1;
-    if (a[mid][1] < x2) {
+    if (a[mid][1] < x) {
       lo = mid + 1;
     } else {
       hi = mid;
@@ -33406,8 +36132,8 @@ function getIntervalTicks(bottomUnitName, approxInterval, isUTC, extent3) {
     if (primaryTimeUnit !== nextPrimaryTimeUnit) {
       if (currentLevelTicks.length) {
         lastLevelTickCount = tickCount;
-        currentLevelTicks.sort(function(a, b2) {
-          return a.value - b2.value;
+        currentLevelTicks.sort(function(a, b) {
+          return a.value - b.value;
         });
         var levelTicksRemoveDuplicated = [];
         for (var i_1 = 0; i_1 < currentLevelTicks.length; ++i_1) {
@@ -33433,7 +36159,7 @@ function getIntervalTicks(bottomUnitName, approxInterval, isUTC, extent3) {
   }
   {
     if (iter >= safeLimit) {
-      warn("Exceed safe limit.");
+      warn$1("Exceed safe limit.");
     }
   }
   var levelsTicksInExtent = filter(map$1(levelsTicks, function(levelTicks2) {
@@ -33454,8 +36180,8 @@ function getIntervalTicks(bottomUnitName, approxInterval, isUTC, extent3) {
       });
     }
   }
-  ticks.sort(function(a, b2) {
-    return a.value - b2.value;
+  ticks.sort(function(a, b) {
+    return a.value - b.value;
   });
   var result = [];
   for (var i = 0; i < ticks.length; ++i) {
@@ -33920,1367 +36646,6 @@ function unionAxisExtentFromData(dataExtent, data, axisDim) {
     });
   }
 }
-var AxisModelCommonMixin = (
-  /** @class */
-  function() {
-    function AxisModelCommonMixin2() {
-    }
-    AxisModelCommonMixin2.prototype.getNeedCrossZero = function() {
-      var option = this.option;
-      return !option.scale;
-    };
-    AxisModelCommonMixin2.prototype.getCoordSysModel = function() {
-      return;
-    };
-    return AxisModelCommonMixin2;
-  }()
-);
-function createList(seriesModel) {
-  return createSeriesData(null, seriesModel);
-}
-var dataStack = {
-  isDimensionStacked,
-  enableDataStack,
-  getStackedDimension
-};
-function createScale(dataExtent, option) {
-  var axisModel = option;
-  if (!(option instanceof Model$1)) {
-    axisModel = new Model$1(option);
-  }
-  var scale2 = createScaleByModel(axisModel);
-  scale2.setExtent(dataExtent[0], dataExtent[1]);
-  niceScaleExtent(scale2, axisModel);
-  return scale2;
-}
-function mixinAxisModelCommonMethods(Model2) {
-  mixin(Model2, AxisModelCommonMixin);
-}
-function createTextStyle(textStyleModel, opts) {
-  opts = opts || {};
-  return createTextStyle$1(textStyleModel, null, null, opts.state !== "normal");
-}
-const helper = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  createDimensions,
-  createList,
-  createScale,
-  createSymbol,
-  createTextStyle,
-  dataStack,
-  enableHoverEmphasis,
-  getECData,
-  getLayoutRect,
-  mixinAxisModelCommonMethods
-}, Symbol.toStringTag, { value: "Module" }));
-var extensions = [];
-var extensionRegisters = {
-  registerPreprocessor,
-  registerProcessor,
-  registerPostInit,
-  registerPostUpdate,
-  registerUpdateLifecycle,
-  registerAction,
-  registerCoordinateSystem,
-  registerLayout,
-  registerVisual,
-  registerTransform,
-  registerLoading,
-  registerMap,
-  registerImpl,
-  PRIORITY,
-  ComponentModel: ComponentModel$1,
-  ComponentView: ComponentView$1,
-  SeriesModel: SeriesModel$1,
-  ChartView: ChartView$1,
-  // TODO Use ComponentModel and SeriesModel instead of Constructor
-  registerComponentModel: function(ComponentModelClass) {
-    ComponentModel$1.registerClass(ComponentModelClass);
-  },
-  registerComponentView: function(ComponentViewClass) {
-    ComponentView$1.registerClass(ComponentViewClass);
-  },
-  registerSeriesModel: function(SeriesModelClass) {
-    SeriesModel$1.registerClass(SeriesModelClass);
-  },
-  registerChartView: function(ChartViewClass) {
-    ChartView$1.registerClass(ChartViewClass);
-  },
-  registerSubTypeDefaulter: function(componentType, defaulter) {
-    ComponentModel$1.registerSubTypeDefaulter(componentType, defaulter);
-  },
-  registerPainter: function(painterType, PainterCtor) {
-    registerPainter(painterType, PainterCtor);
-  }
-};
-function use(ext) {
-  if (isArray(ext)) {
-    each$7(ext, function(singleExt) {
-      use(singleExt);
-    });
-    return;
-  }
-  if (indexOf(extensions, ext) >= 0) {
-    return;
-  }
-  extensions.push(ext);
-  if (isFunction(ext)) {
-    ext = {
-      install: ext
-    };
-  }
-  ext.install(extensionRegisters);
-}
-var EPSILON = 1e-8;
-function isAroundEqual(a, b2) {
-  return Math.abs(a - b2) < EPSILON;
-}
-function contain(points2, x2, y2) {
-  var w2 = 0;
-  var p2 = points2[0];
-  if (!p2) {
-    return false;
-  }
-  for (var i = 1; i < points2.length; i++) {
-    var p22 = points2[i];
-    w2 += windingLine(p2[0], p2[1], p22[0], p22[1], x2, y2);
-    p2 = p22;
-  }
-  var p0 = points2[0];
-  if (!isAroundEqual(p2[0], p0[0]) || !isAroundEqual(p2[1], p0[1])) {
-    w2 += windingLine(p2[0], p2[1], p0[0], p0[1], x2, y2);
-  }
-  return w2 !== 0;
-}
-var TMP_TRANSFORM = [];
-function transformPoints(points2, transform) {
-  for (var p2 = 0; p2 < points2.length; p2++) {
-    applyTransform$1(points2[p2], points2[p2], transform);
-  }
-}
-function updateBBoxFromPoints(points2, min3, max3, projection) {
-  for (var i = 0; i < points2.length; i++) {
-    var p2 = points2[i];
-    if (projection) {
-      p2 = projection.project(p2);
-    }
-    if (p2 && isFinite(p2[0]) && isFinite(p2[1])) {
-      min$1(min3, min3, p2);
-      max$1(max3, max3, p2);
-    }
-  }
-}
-function centroid$1(points2) {
-  var signedArea = 0;
-  var cx = 0;
-  var cy = 0;
-  var len2 = points2.length;
-  var x0 = points2[len2 - 1][0];
-  var y0 = points2[len2 - 1][1];
-  for (var i = 0; i < len2; i++) {
-    var x1 = points2[i][0];
-    var y1 = points2[i][1];
-    var a = x0 * y1 - x1 * y0;
-    signedArea += a;
-    cx += (x0 + x1) * a;
-    cy += (y0 + y1) * a;
-    x0 = x1;
-    y0 = y1;
-  }
-  return signedArea ? [cx / signedArea / 3, cy / signedArea / 3, signedArea] : [points2[0][0] || 0, points2[0][1] || 0];
-}
-var Region = (
-  /** @class */
-  function() {
-    function Region2(name) {
-      this.name = name;
-    }
-    Region2.prototype.setCenter = function(center2) {
-      this._center = center2;
-    };
-    Region2.prototype.getCenter = function() {
-      var center2 = this._center;
-      if (!center2) {
-        center2 = this._center = this.calcCenter();
-      }
-      return center2;
-    };
-    return Region2;
-  }()
-);
-var GeoJSONPolygonGeometry = (
-  /** @class */
-  function() {
-    function GeoJSONPolygonGeometry2(exterior, interiors) {
-      this.type = "polygon";
-      this.exterior = exterior;
-      this.interiors = interiors;
-    }
-    return GeoJSONPolygonGeometry2;
-  }()
-);
-var GeoJSONLineStringGeometry = (
-  /** @class */
-  function() {
-    function GeoJSONLineStringGeometry2(points2) {
-      this.type = "linestring";
-      this.points = points2;
-    }
-    return GeoJSONLineStringGeometry2;
-  }()
-);
-var GeoJSONRegion = (
-  /** @class */
-  function(_super) {
-    __extends(GeoJSONRegion2, _super);
-    function GeoJSONRegion2(name, geometries, cp) {
-      var _this = _super.call(this, name) || this;
-      _this.type = "geoJSON";
-      _this.geometries = geometries;
-      _this._center = cp && [cp[0], cp[1]];
-      return _this;
-    }
-    GeoJSONRegion2.prototype.calcCenter = function() {
-      var geometries = this.geometries;
-      var largestGeo;
-      var largestGeoSize = 0;
-      for (var i = 0; i < geometries.length; i++) {
-        var geo = geometries[i];
-        var exterior = geo.exterior;
-        var size2 = exterior && exterior.length;
-        if (size2 > largestGeoSize) {
-          largestGeo = geo;
-          largestGeoSize = size2;
-        }
-      }
-      if (largestGeo) {
-        return centroid$1(largestGeo.exterior);
-      }
-      var rect = this.getBoundingRect();
-      return [rect.x + rect.width / 2, rect.y + rect.height / 2];
-    };
-    GeoJSONRegion2.prototype.getBoundingRect = function(projection) {
-      var rect = this._rect;
-      if (rect && !projection) {
-        return rect;
-      }
-      var min3 = [Infinity, Infinity];
-      var max3 = [-Infinity, -Infinity];
-      var geometries = this.geometries;
-      each$7(geometries, function(geo) {
-        if (geo.type === "polygon") {
-          updateBBoxFromPoints(geo.exterior, min3, max3, projection);
-        } else {
-          each$7(geo.points, function(points2) {
-            updateBBoxFromPoints(points2, min3, max3, projection);
-          });
-        }
-      });
-      if (!(isFinite(min3[0]) && isFinite(min3[1]) && isFinite(max3[0]) && isFinite(max3[1]))) {
-        min3[0] = min3[1] = max3[0] = max3[1] = 0;
-      }
-      rect = new BoundingRect$1(min3[0], min3[1], max3[0] - min3[0], max3[1] - min3[1]);
-      if (!projection) {
-        this._rect = rect;
-      }
-      return rect;
-    };
-    GeoJSONRegion2.prototype.contain = function(coord) {
-      var rect = this.getBoundingRect();
-      var geometries = this.geometries;
-      if (!rect.contain(coord[0], coord[1])) {
-        return false;
-      }
-      loopGeo:
-        for (var i = 0, len2 = geometries.length; i < len2; i++) {
-          var geo = geometries[i];
-          if (geo.type !== "polygon") {
-            continue;
-          }
-          var exterior = geo.exterior;
-          var interiors = geo.interiors;
-          if (contain(exterior, coord[0], coord[1])) {
-            for (var k = 0; k < (interiors ? interiors.length : 0); k++) {
-              if (contain(interiors[k], coord[0], coord[1])) {
-                continue loopGeo;
-              }
-            }
-            return true;
-          }
-        }
-      return false;
-    };
-    GeoJSONRegion2.prototype.transformTo = function(x2, y2, width, height) {
-      var rect = this.getBoundingRect();
-      var aspect = rect.width / rect.height;
-      if (!width) {
-        width = aspect * height;
-      } else if (!height) {
-        height = width / aspect;
-      }
-      var target = new BoundingRect$1(x2, y2, width, height);
-      var transform = rect.calculateTransform(target);
-      var geometries = this.geometries;
-      for (var i = 0; i < geometries.length; i++) {
-        var geo = geometries[i];
-        if (geo.type === "polygon") {
-          transformPoints(geo.exterior, transform);
-          each$7(geo.interiors, function(interior) {
-            transformPoints(interior, transform);
-          });
-        } else {
-          each$7(geo.points, function(points2) {
-            transformPoints(points2, transform);
-          });
-        }
-      }
-      rect = this._rect;
-      rect.copy(target);
-      this._center = [rect.x + rect.width / 2, rect.y + rect.height / 2];
-    };
-    GeoJSONRegion2.prototype.cloneShallow = function(name) {
-      name == null && (name = this.name);
-      var newRegion = new GeoJSONRegion2(name, this.geometries, this._center);
-      newRegion._rect = this._rect;
-      newRegion.transformTo = null;
-      return newRegion;
-    };
-    return GeoJSONRegion2;
-  }(Region)
-);
-(function(_super) {
-  __extends(GeoSVGRegion, _super);
-  function GeoSVGRegion(name, elOnlyForCalculate) {
-    var _this = _super.call(this, name) || this;
-    _this.type = "geoSVG";
-    _this._elOnlyForCalculate = elOnlyForCalculate;
-    return _this;
-  }
-  GeoSVGRegion.prototype.calcCenter = function() {
-    var el = this._elOnlyForCalculate;
-    var rect = el.getBoundingRect();
-    var center2 = [rect.x + rect.width / 2, rect.y + rect.height / 2];
-    var mat = identity(TMP_TRANSFORM);
-    var target = el;
-    while (target && !target.isGeoSVGGraphicRoot) {
-      mul(mat, target.getLocalTransform(), mat);
-      target = target.parent;
-    }
-    invert(mat, mat);
-    applyTransform$1(center2, center2, mat);
-    return center2;
-  };
-  return GeoSVGRegion;
-})(Region);
-function decode(json) {
-  if (!json.UTF8Encoding) {
-    return json;
-  }
-  var jsonCompressed = json;
-  var encodeScale = jsonCompressed.UTF8Scale;
-  if (encodeScale == null) {
-    encodeScale = 1024;
-  }
-  var features2 = jsonCompressed.features;
-  each$7(features2, function(feature) {
-    var geometry = feature.geometry;
-    var encodeOffsets = geometry.encodeOffsets;
-    var coordinates = geometry.coordinates;
-    if (!encodeOffsets) {
-      return;
-    }
-    switch (geometry.type) {
-      case "LineString":
-        geometry.coordinates = decodeRing(coordinates, encodeOffsets, encodeScale);
-        break;
-      case "Polygon":
-        decodeRings(coordinates, encodeOffsets, encodeScale);
-        break;
-      case "MultiLineString":
-        decodeRings(coordinates, encodeOffsets, encodeScale);
-        break;
-      case "MultiPolygon":
-        each$7(coordinates, function(rings, idx) {
-          return decodeRings(rings, encodeOffsets[idx], encodeScale);
-        });
-    }
-  });
-  jsonCompressed.UTF8Encoding = false;
-  return jsonCompressed;
-}
-function decodeRings(rings, encodeOffsets, encodeScale) {
-  for (var c = 0; c < rings.length; c++) {
-    rings[c] = decodeRing(rings[c], encodeOffsets[c], encodeScale);
-  }
-}
-function decodeRing(coordinate, encodeOffsets, encodeScale) {
-  var result = [];
-  var prevX = encodeOffsets[0];
-  var prevY = encodeOffsets[1];
-  for (var i = 0; i < coordinate.length; i += 2) {
-    var x2 = coordinate.charCodeAt(i) - 64;
-    var y2 = coordinate.charCodeAt(i + 1) - 64;
-    x2 = x2 >> 1 ^ -(x2 & 1);
-    y2 = y2 >> 1 ^ -(y2 & 1);
-    x2 += prevX;
-    y2 += prevY;
-    prevX = x2;
-    prevY = y2;
-    result.push([x2 / encodeScale, y2 / encodeScale]);
-  }
-  return result;
-}
-function parseGeoJSON(geoJson, nameProperty) {
-  geoJson = decode(geoJson);
-  return map$1(filter(geoJson.features, function(featureObj) {
-    return featureObj.geometry && featureObj.properties && featureObj.geometry.coordinates.length > 0;
-  }), function(featureObj) {
-    var properties = featureObj.properties;
-    var geo = featureObj.geometry;
-    var geometries = [];
-    switch (geo.type) {
-      case "Polygon":
-        var coordinates = geo.coordinates;
-        geometries.push(new GeoJSONPolygonGeometry(coordinates[0], coordinates.slice(1)));
-        break;
-      case "MultiPolygon":
-        each$7(geo.coordinates, function(item) {
-          if (item[0]) {
-            geometries.push(new GeoJSONPolygonGeometry(item[0], item.slice(1)));
-          }
-        });
-        break;
-      case "LineString":
-        geometries.push(new GeoJSONLineStringGeometry([geo.coordinates]));
-        break;
-      case "MultiLineString":
-        geometries.push(new GeoJSONLineStringGeometry(geo.coordinates));
-    }
-    var region = new GeoJSONRegion(properties[nameProperty || "name"], geometries, properties.cp);
-    region.properties = properties;
-    return region;
-  });
-}
-const number = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  MAX_SAFE_INTEGER,
-  asc: asc$1,
-  getPercentWithPrecision,
-  getPixelPrecision,
-  getPrecision,
-  getPrecisionSafe,
-  isNumeric,
-  isRadianAroundZero,
-  linearMap,
-  nice,
-  numericToNumber,
-  parseDate,
-  quantile,
-  quantity,
-  quantityExponent,
-  reformIntervals,
-  remRadian,
-  round: round$1
-}, Symbol.toStringTag, { value: "Module" }));
-const time = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  format: format$1,
-  parse: parseDate
-}, Symbol.toStringTag, { value: "Module" }));
-const graphic = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  Arc: Arc$1,
-  BezierCurve: BezierCurve$1,
-  BoundingRect: BoundingRect$1,
-  Circle: Circle$1,
-  CompoundPath: CompoundPath$1,
-  Ellipse: Ellipse$1,
-  Group: Group$3,
-  Image: ZRImage$1,
-  IncrementalDisplayable: IncrementalDisplayable$1,
-  Line: Line$1,
-  LinearGradient: LinearGradient$1,
-  Polygon: Polygon$1,
-  Polyline: Polyline$1,
-  RadialGradient: RadialGradient$1,
-  Rect: Rect$1,
-  Ring: Ring$1,
-  Sector: Sector$1,
-  Text: ZRText$1,
-  clipPointsByRect,
-  clipRectByRect,
-  createIcon,
-  extendPath,
-  extendShape,
-  getShapeClass,
-  getTransform: getTransform$1,
-  initProps,
-  makeImage,
-  makePath,
-  mergePath,
-  registerShape,
-  resizePath,
-  updateProps: updateProps$1
-}, Symbol.toStringTag, { value: "Module" }));
-const format = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  addCommas,
-  capitalFirst,
-  encodeHTML,
-  formatTime,
-  formatTpl,
-  getTextRect,
-  getTooltipMarker,
-  normalizeCssArray,
-  toCamelCase,
-  truncateText
-}, Symbol.toStringTag, { value: "Module" }));
-const util = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  bind: bind$1,
-  clone: clone$4,
-  curry: curry$1,
-  defaults,
-  each: each$7,
-  extend,
-  filter,
-  indexOf,
-  inherits,
-  isArray,
-  isFunction,
-  isObject: isObject$2,
-  isString,
-  map: map$1,
-  merge,
-  reduce
-}, Symbol.toStringTag, { value: "Module" }));
-var inner$5 = makeInner();
-function createAxisLabels(axis) {
-  return axis.type === "category" ? makeCategoryLabels(axis) : makeRealNumberLabels(axis);
-}
-function createAxisTicks(axis, tickModel) {
-  return axis.type === "category" ? makeCategoryTicks(axis, tickModel) : {
-    ticks: map$1(axis.scale.getTicks(), function(tick) {
-      return tick.value;
-    })
-  };
-}
-function makeCategoryLabels(axis) {
-  var labelModel = axis.getLabelModel();
-  var result = makeCategoryLabelsActually(axis, labelModel);
-  return !labelModel.get("show") || axis.scale.isBlank() ? {
-    labels: [],
-    labelCategoryInterval: result.labelCategoryInterval
-  } : result;
-}
-function makeCategoryLabelsActually(axis, labelModel) {
-  var labelsCache = getListCache(axis, "labels");
-  var optionLabelInterval = getOptionCategoryInterval(labelModel);
-  var result = listCacheGet(labelsCache, optionLabelInterval);
-  if (result) {
-    return result;
-  }
-  var labels;
-  var numericLabelInterval;
-  if (isFunction(optionLabelInterval)) {
-    labels = makeLabelsByCustomizedCategoryInterval(axis, optionLabelInterval);
-  } else {
-    numericLabelInterval = optionLabelInterval === "auto" ? makeAutoCategoryInterval(axis) : optionLabelInterval;
-    labels = makeLabelsByNumericCategoryInterval(axis, numericLabelInterval);
-  }
-  return listCacheSet(labelsCache, optionLabelInterval, {
-    labels,
-    labelCategoryInterval: numericLabelInterval
-  });
-}
-function makeCategoryTicks(axis, tickModel) {
-  var ticksCache = getListCache(axis, "ticks");
-  var optionTickInterval = getOptionCategoryInterval(tickModel);
-  var result = listCacheGet(ticksCache, optionTickInterval);
-  if (result) {
-    return result;
-  }
-  var ticks;
-  var tickCategoryInterval;
-  if (!tickModel.get("show") || axis.scale.isBlank()) {
-    ticks = [];
-  }
-  if (isFunction(optionTickInterval)) {
-    ticks = makeLabelsByCustomizedCategoryInterval(axis, optionTickInterval, true);
-  } else if (optionTickInterval === "auto") {
-    var labelsResult = makeCategoryLabelsActually(axis, axis.getLabelModel());
-    tickCategoryInterval = labelsResult.labelCategoryInterval;
-    ticks = map$1(labelsResult.labels, function(labelItem) {
-      return labelItem.tickValue;
-    });
-  } else {
-    tickCategoryInterval = optionTickInterval;
-    ticks = makeLabelsByNumericCategoryInterval(axis, tickCategoryInterval, true);
-  }
-  return listCacheSet(ticksCache, optionTickInterval, {
-    ticks,
-    tickCategoryInterval
-  });
-}
-function makeRealNumberLabels(axis) {
-  var ticks = axis.scale.getTicks();
-  var labelFormatter = makeLabelFormatter(axis);
-  return {
-    labels: map$1(ticks, function(tick, idx) {
-      return {
-        level: tick.level,
-        formattedLabel: labelFormatter(tick, idx),
-        rawLabel: axis.scale.getLabel(tick),
-        tickValue: tick.value
-      };
-    })
-  };
-}
-function getListCache(axis, prop) {
-  return inner$5(axis)[prop] || (inner$5(axis)[prop] = []);
-}
-function listCacheGet(cache, key) {
-  for (var i = 0; i < cache.length; i++) {
-    if (cache[i].key === key) {
-      return cache[i].value;
-    }
-  }
-}
-function listCacheSet(cache, key, value) {
-  cache.push({
-    key,
-    value
-  });
-  return value;
-}
-function makeAutoCategoryInterval(axis) {
-  var result = inner$5(axis).autoInterval;
-  return result != null ? result : inner$5(axis).autoInterval = axis.calculateCategoryInterval();
-}
-function calculateCategoryInterval(axis) {
-  var params = fetchAutoCategoryIntervalCalculationParams(axis);
-  var labelFormatter = makeLabelFormatter(axis);
-  var rotation = (params.axisRotate - params.labelRotate) / 180 * Math.PI;
-  var ordinalScale = axis.scale;
-  var ordinalExtent = ordinalScale.getExtent();
-  var tickCount = ordinalScale.count();
-  if (ordinalExtent[1] - ordinalExtent[0] < 1) {
-    return 0;
-  }
-  var step = 1;
-  if (tickCount > 40) {
-    step = Math.max(1, Math.floor(tickCount / 40));
-  }
-  var tickValue = ordinalExtent[0];
-  var unitSpan = axis.dataToCoord(tickValue + 1) - axis.dataToCoord(tickValue);
-  var unitW = Math.abs(unitSpan * Math.cos(rotation));
-  var unitH = Math.abs(unitSpan * Math.sin(rotation));
-  var maxW = 0;
-  var maxH = 0;
-  for (; tickValue <= ordinalExtent[1]; tickValue += step) {
-    var width = 0;
-    var height = 0;
-    var rect = getBoundingRect(labelFormatter({
-      value: tickValue
-    }), params.font, "center", "top");
-    width = rect.width * 1.3;
-    height = rect.height * 1.3;
-    maxW = Math.max(maxW, width, 7);
-    maxH = Math.max(maxH, height, 7);
-  }
-  var dw = maxW / unitW;
-  var dh = maxH / unitH;
-  isNaN(dw) && (dw = Infinity);
-  isNaN(dh) && (dh = Infinity);
-  var interval = Math.max(0, Math.floor(Math.min(dw, dh)));
-  var cache = inner$5(axis.model);
-  var axisExtent = axis.getExtent();
-  var lastAutoInterval = cache.lastAutoInterval;
-  var lastTickCount = cache.lastTickCount;
-  if (lastAutoInterval != null && lastTickCount != null && Math.abs(lastAutoInterval - interval) <= 1 && Math.abs(lastTickCount - tickCount) <= 1 && lastAutoInterval > interval && cache.axisExtent0 === axisExtent[0] && cache.axisExtent1 === axisExtent[1]) {
-    interval = lastAutoInterval;
-  } else {
-    cache.lastTickCount = tickCount;
-    cache.lastAutoInterval = interval;
-    cache.axisExtent0 = axisExtent[0];
-    cache.axisExtent1 = axisExtent[1];
-  }
-  return interval;
-}
-function fetchAutoCategoryIntervalCalculationParams(axis) {
-  var labelModel = axis.getLabelModel();
-  return {
-    axisRotate: axis.getRotate ? axis.getRotate() : axis.isHorizontal && !axis.isHorizontal() ? 90 : 0,
-    labelRotate: labelModel.get("rotate") || 0,
-    font: labelModel.getFont()
-  };
-}
-function makeLabelsByNumericCategoryInterval(axis, categoryInterval, onlyTick) {
-  var labelFormatter = makeLabelFormatter(axis);
-  var ordinalScale = axis.scale;
-  var ordinalExtent = ordinalScale.getExtent();
-  var labelModel = axis.getLabelModel();
-  var result = [];
-  var step = Math.max((categoryInterval || 0) + 1, 1);
-  var startTick = ordinalExtent[0];
-  var tickCount = ordinalScale.count();
-  if (startTick !== 0 && step > 1 && tickCount / step > 2) {
-    startTick = Math.round(Math.ceil(startTick / step) * step);
-  }
-  var showAllLabel = shouldShowAllLabels(axis);
-  var includeMinLabel = labelModel.get("showMinLabel") || showAllLabel;
-  var includeMaxLabel = labelModel.get("showMaxLabel") || showAllLabel;
-  if (includeMinLabel && startTick !== ordinalExtent[0]) {
-    addItem(ordinalExtent[0]);
-  }
-  var tickValue = startTick;
-  for (; tickValue <= ordinalExtent[1]; tickValue += step) {
-    addItem(tickValue);
-  }
-  if (includeMaxLabel && tickValue - step !== ordinalExtent[1]) {
-    addItem(ordinalExtent[1]);
-  }
-  function addItem(tickValue2) {
-    var tickObj = {
-      value: tickValue2
-    };
-    result.push(onlyTick ? tickValue2 : {
-      formattedLabel: labelFormatter(tickObj),
-      rawLabel: ordinalScale.getLabel(tickObj),
-      tickValue: tickValue2
-    });
-  }
-  return result;
-}
-function makeLabelsByCustomizedCategoryInterval(axis, categoryInterval, onlyTick) {
-  var ordinalScale = axis.scale;
-  var labelFormatter = makeLabelFormatter(axis);
-  var result = [];
-  each$7(ordinalScale.getTicks(), function(tick) {
-    var rawLabel = ordinalScale.getLabel(tick);
-    var tickValue = tick.value;
-    if (categoryInterval(tick.value, rawLabel)) {
-      result.push(onlyTick ? tickValue : {
-        formattedLabel: labelFormatter(tick),
-        rawLabel,
-        tickValue
-      });
-    }
-  });
-  return result;
-}
-var NORMALIZED_EXTENT = [0, 1];
-var Axis = (
-  /** @class */
-  function() {
-    function Axis2(dim, scale2, extent3) {
-      this.onBand = false;
-      this.inverse = false;
-      this.dim = dim;
-      this.scale = scale2;
-      this._extent = extent3 || [0, 0];
-    }
-    Axis2.prototype.contain = function(coord) {
-      var extent3 = this._extent;
-      var min3 = Math.min(extent3[0], extent3[1]);
-      var max3 = Math.max(extent3[0], extent3[1]);
-      return coord >= min3 && coord <= max3;
-    };
-    Axis2.prototype.containData = function(data) {
-      return this.scale.contain(data);
-    };
-    Axis2.prototype.getExtent = function() {
-      return this._extent.slice();
-    };
-    Axis2.prototype.getPixelPrecision = function(dataExtent) {
-      return getPixelPrecision(dataExtent || this.scale.getExtent(), this._extent);
-    };
-    Axis2.prototype.setExtent = function(start2, end2) {
-      var extent3 = this._extent;
-      extent3[0] = start2;
-      extent3[1] = end2;
-    };
-    Axis2.prototype.dataToCoord = function(data, clamp2) {
-      var extent3 = this._extent;
-      var scale2 = this.scale;
-      data = scale2.normalize(data);
-      if (this.onBand && scale2.type === "ordinal") {
-        extent3 = extent3.slice();
-        fixExtentWithBands(extent3, scale2.count());
-      }
-      return linearMap(data, NORMALIZED_EXTENT, extent3, clamp2);
-    };
-    Axis2.prototype.coordToData = function(coord, clamp2) {
-      var extent3 = this._extent;
-      var scale2 = this.scale;
-      if (this.onBand && scale2.type === "ordinal") {
-        extent3 = extent3.slice();
-        fixExtentWithBands(extent3, scale2.count());
-      }
-      var t2 = linearMap(coord, extent3, NORMALIZED_EXTENT, clamp2);
-      return this.scale.scale(t2);
-    };
-    Axis2.prototype.pointToData = function(point, clamp2) {
-      return;
-    };
-    Axis2.prototype.getTicksCoords = function(opt) {
-      opt = opt || {};
-      var tickModel = opt.tickModel || this.getTickModel();
-      var result = createAxisTicks(this, tickModel);
-      var ticks = result.ticks;
-      var ticksCoords = map$1(ticks, function(tickVal) {
-        return {
-          coord: this.dataToCoord(this.scale.type === "ordinal" ? this.scale.getRawOrdinalNumber(tickVal) : tickVal),
-          tickValue: tickVal
-        };
-      }, this);
-      var alignWithLabel = tickModel.get("alignWithLabel");
-      fixOnBandTicksCoords(this, ticksCoords, alignWithLabel, opt.clamp);
-      return ticksCoords;
-    };
-    Axis2.prototype.getMinorTicksCoords = function() {
-      if (this.scale.type === "ordinal") {
-        return [];
-      }
-      var minorTickModel = this.model.getModel("minorTick");
-      var splitNumber = minorTickModel.get("splitNumber");
-      if (!(splitNumber > 0 && splitNumber < 100)) {
-        splitNumber = 5;
-      }
-      var minorTicks = this.scale.getMinorTicks(splitNumber);
-      var minorTicksCoords = map$1(minorTicks, function(minorTicksGroup) {
-        return map$1(minorTicksGroup, function(minorTick) {
-          return {
-            coord: this.dataToCoord(minorTick),
-            tickValue: minorTick
-          };
-        }, this);
-      }, this);
-      return minorTicksCoords;
-    };
-    Axis2.prototype.getViewLabels = function() {
-      return createAxisLabels(this).labels;
-    };
-    Axis2.prototype.getLabelModel = function() {
-      return this.model.getModel("axisLabel");
-    };
-    Axis2.prototype.getTickModel = function() {
-      return this.model.getModel("axisTick");
-    };
-    Axis2.prototype.getBandWidth = function() {
-      var axisExtent = this._extent;
-      var dataExtent = this.scale.getExtent();
-      var len2 = dataExtent[1] - dataExtent[0] + (this.onBand ? 1 : 0);
-      len2 === 0 && (len2 = 1);
-      var size2 = Math.abs(axisExtent[1] - axisExtent[0]);
-      return Math.abs(size2) / len2;
-    };
-    Axis2.prototype.calculateCategoryInterval = function() {
-      return calculateCategoryInterval(this);
-    };
-    return Axis2;
-  }()
-);
-function fixExtentWithBands(extent3, nTick) {
-  var size2 = extent3[1] - extent3[0];
-  var len2 = nTick;
-  var margin = size2 / len2 / 2;
-  extent3[0] += margin;
-  extent3[1] -= margin;
-}
-function fixOnBandTicksCoords(axis, ticksCoords, alignWithLabel, clamp2) {
-  var ticksLen = ticksCoords.length;
-  if (!axis.onBand || alignWithLabel || !ticksLen) {
-    return;
-  }
-  var axisExtent = axis.getExtent();
-  var last;
-  var diffSize;
-  if (ticksLen === 1) {
-    ticksCoords[0].coord = axisExtent[0];
-    last = ticksCoords[1] = {
-      coord: axisExtent[0]
-    };
-  } else {
-    var crossLen = ticksCoords[ticksLen - 1].tickValue - ticksCoords[0].tickValue;
-    var shift_1 = (ticksCoords[ticksLen - 1].coord - ticksCoords[0].coord) / crossLen;
-    each$7(ticksCoords, function(ticksItem) {
-      ticksItem.coord -= shift_1 / 2;
-    });
-    var dataExtent = axis.scale.getExtent();
-    diffSize = 1 + dataExtent[1] - ticksCoords[ticksLen - 1].tickValue;
-    last = {
-      coord: ticksCoords[ticksLen - 1].coord + shift_1 * diffSize
-    };
-    ticksCoords.push(last);
-  }
-  var inverse = axisExtent[0] > axisExtent[1];
-  if (littleThan(ticksCoords[0].coord, axisExtent[0])) {
-    clamp2 ? ticksCoords[0].coord = axisExtent[0] : ticksCoords.shift();
-  }
-  if (clamp2 && littleThan(axisExtent[0], ticksCoords[0].coord)) {
-    ticksCoords.unshift({
-      coord: axisExtent[0]
-    });
-  }
-  if (littleThan(axisExtent[1], last.coord)) {
-    clamp2 ? last.coord = axisExtent[1] : ticksCoords.pop();
-  }
-  if (clamp2 && littleThan(last.coord, axisExtent[1])) {
-    ticksCoords.push({
-      coord: axisExtent[1]
-    });
-  }
-  function littleThan(a, b2) {
-    a = round$1(a);
-    b2 = round$1(b2);
-    return inverse ? a > b2 : a < b2;
-  }
-}
-const Axis$1 = Axis;
-function extendComponentModel(proto2) {
-  var Model2 = ComponentModel$1.extend(proto2);
-  ComponentModel$1.registerClass(Model2);
-  return Model2;
-}
-function extendComponentView(proto2) {
-  var View = ComponentView$1.extend(proto2);
-  ComponentView$1.registerClass(View);
-  return View;
-}
-function extendSeriesModel(proto2) {
-  var Model2 = SeriesModel$1.extend(proto2);
-  SeriesModel$1.registerClass(Model2);
-  return Model2;
-}
-function extendChartView(proto2) {
-  var View = ChartView$1.extend(proto2);
-  ChartView$1.registerClass(View);
-  return View;
-}
-var PI2$1 = Math.PI * 2;
-var CMD$1 = PathProxy$1.CMD;
-var DEFAULT_SEARCH_SPACE = ["top", "right", "bottom", "left"];
-function getCandidateAnchor(pos, distance2, rect, outPt, outDir) {
-  var width = rect.width;
-  var height = rect.height;
-  switch (pos) {
-    case "top":
-      outPt.set(rect.x + width / 2, rect.y - distance2);
-      outDir.set(0, -1);
-      break;
-    case "bottom":
-      outPt.set(rect.x + width / 2, rect.y + height + distance2);
-      outDir.set(0, 1);
-      break;
-    case "left":
-      outPt.set(rect.x - distance2, rect.y + height / 2);
-      outDir.set(-1, 0);
-      break;
-    case "right":
-      outPt.set(rect.x + width + distance2, rect.y + height / 2);
-      outDir.set(1, 0);
-      break;
-  }
-}
-function projectPointToArc(cx, cy, r, startAngle, endAngle, anticlockwise, x2, y2, out2) {
-  x2 -= cx;
-  y2 -= cy;
-  var d = Math.sqrt(x2 * x2 + y2 * y2);
-  x2 /= d;
-  y2 /= d;
-  var ox = x2 * r + cx;
-  var oy = y2 * r + cy;
-  if (Math.abs(startAngle - endAngle) % PI2$1 < 1e-4) {
-    out2[0] = ox;
-    out2[1] = oy;
-    return d - r;
-  }
-  if (anticlockwise) {
-    var tmp = startAngle;
-    startAngle = normalizeRadian(endAngle);
-    endAngle = normalizeRadian(tmp);
-  } else {
-    startAngle = normalizeRadian(startAngle);
-    endAngle = normalizeRadian(endAngle);
-  }
-  if (startAngle > endAngle) {
-    endAngle += PI2$1;
-  }
-  var angle = Math.atan2(y2, x2);
-  if (angle < 0) {
-    angle += PI2$1;
-  }
-  if (angle >= startAngle && angle <= endAngle || angle + PI2$1 >= startAngle && angle + PI2$1 <= endAngle) {
-    out2[0] = ox;
-    out2[1] = oy;
-    return d - r;
-  }
-  var x1 = r * Math.cos(startAngle) + cx;
-  var y1 = r * Math.sin(startAngle) + cy;
-  var x22 = r * Math.cos(endAngle) + cx;
-  var y22 = r * Math.sin(endAngle) + cy;
-  var d1 = (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
-  var d2 = (x22 - x2) * (x22 - x2) + (y22 - y2) * (y22 - y2);
-  if (d1 < d2) {
-    out2[0] = x1;
-    out2[1] = y1;
-    return Math.sqrt(d1);
-  } else {
-    out2[0] = x22;
-    out2[1] = y22;
-    return Math.sqrt(d2);
-  }
-}
-function projectPointToLine(x1, y1, x2, y2, x3, y3, out2, limitToEnds) {
-  var dx = x3 - x1;
-  var dy = y3 - y1;
-  var dx1 = x2 - x1;
-  var dy1 = y2 - y1;
-  var lineLen = Math.sqrt(dx1 * dx1 + dy1 * dy1);
-  dx1 /= lineLen;
-  dy1 /= lineLen;
-  var projectedLen = dx * dx1 + dy * dy1;
-  var t2 = projectedLen / lineLen;
-  if (limitToEnds) {
-    t2 = Math.min(Math.max(t2, 0), 1);
-  }
-  t2 *= lineLen;
-  var ox = out2[0] = x1 + t2 * dx1;
-  var oy = out2[1] = y1 + t2 * dy1;
-  return Math.sqrt((ox - x3) * (ox - x3) + (oy - y3) * (oy - y3));
-}
-function projectPointToRect(x1, y1, width, height, x2, y2, out2) {
-  if (width < 0) {
-    x1 = x1 + width;
-    width = -width;
-  }
-  if (height < 0) {
-    y1 = y1 + height;
-    height = -height;
-  }
-  var x22 = x1 + width;
-  var y22 = y1 + height;
-  var ox = out2[0] = Math.min(Math.max(x2, x1), x22);
-  var oy = out2[1] = Math.min(Math.max(y2, y1), y22);
-  return Math.sqrt((ox - x2) * (ox - x2) + (oy - y2) * (oy - y2));
-}
-var tmpPt = [];
-function nearestPointOnRect(pt, rect, out2) {
-  var dist2 = projectPointToRect(rect.x, rect.y, rect.width, rect.height, pt.x, pt.y, tmpPt);
-  out2.set(tmpPt[0], tmpPt[1]);
-  return dist2;
-}
-function nearestPointOnPath(pt, path, out2) {
-  var xi = 0;
-  var yi = 0;
-  var x0 = 0;
-  var y0 = 0;
-  var x1;
-  var y1;
-  var minDist = Infinity;
-  var data = path.data;
-  var x2 = pt.x;
-  var y2 = pt.y;
-  for (var i = 0; i < data.length; ) {
-    var cmd = data[i++];
-    if (i === 1) {
-      xi = data[i];
-      yi = data[i + 1];
-      x0 = xi;
-      y0 = yi;
-    }
-    var d = minDist;
-    switch (cmd) {
-      case CMD$1.M:
-        x0 = data[i++];
-        y0 = data[i++];
-        xi = x0;
-        yi = y0;
-        break;
-      case CMD$1.L:
-        d = projectPointToLine(xi, yi, data[i], data[i + 1], x2, y2, tmpPt, true);
-        xi = data[i++];
-        yi = data[i++];
-        break;
-      case CMD$1.C:
-        d = cubicProjectPoint(xi, yi, data[i++], data[i++], data[i++], data[i++], data[i], data[i + 1], x2, y2, tmpPt);
-        xi = data[i++];
-        yi = data[i++];
-        break;
-      case CMD$1.Q:
-        d = quadraticProjectPoint(xi, yi, data[i++], data[i++], data[i], data[i + 1], x2, y2, tmpPt);
-        xi = data[i++];
-        yi = data[i++];
-        break;
-      case CMD$1.A:
-        var cx = data[i++];
-        var cy = data[i++];
-        var rx = data[i++];
-        var ry = data[i++];
-        var theta = data[i++];
-        var dTheta = data[i++];
-        i += 1;
-        var anticlockwise = !!(1 - data[i++]);
-        x1 = Math.cos(theta) * rx + cx;
-        y1 = Math.sin(theta) * ry + cy;
-        if (i <= 1) {
-          x0 = x1;
-          y0 = y1;
-        }
-        var _x = (x2 - cx) * ry / rx + cx;
-        d = projectPointToArc(cx, cy, ry, theta, theta + dTheta, anticlockwise, _x, y2, tmpPt);
-        xi = Math.cos(theta + dTheta) * rx + cx;
-        yi = Math.sin(theta + dTheta) * ry + cy;
-        break;
-      case CMD$1.R:
-        x0 = xi = data[i++];
-        y0 = yi = data[i++];
-        var width = data[i++];
-        var height = data[i++];
-        d = projectPointToRect(x0, y0, width, height, x2, y2, tmpPt);
-        break;
-      case CMD$1.Z:
-        d = projectPointToLine(xi, yi, x0, y0, x2, y2, tmpPt, true);
-        xi = x0;
-        yi = y0;
-        break;
-    }
-    if (d < minDist) {
-      minDist = d;
-      out2.set(tmpPt[0], tmpPt[1]);
-    }
-  }
-  return minDist;
-}
-var pt0 = new Point$1();
-var pt1 = new Point$1();
-var pt2 = new Point$1();
-var dir = new Point$1();
-var dir2 = new Point$1();
-function updateLabelLinePoints(target, labelLineModel) {
-  if (!target) {
-    return;
-  }
-  var labelLine = target.getTextGuideLine();
-  var label = target.getTextContent();
-  if (!(label && labelLine)) {
-    return;
-  }
-  var labelGuideConfig = target.textGuideLineConfig || {};
-  var points2 = [[0, 0], [0, 0], [0, 0]];
-  var searchSpace = labelGuideConfig.candidates || DEFAULT_SEARCH_SPACE;
-  var labelRect = label.getBoundingRect().clone();
-  labelRect.applyTransform(label.getComputedTransform());
-  var minDist = Infinity;
-  var anchorPoint = labelGuideConfig.anchor;
-  var targetTransform = target.getComputedTransform();
-  var targetInversedTransform = targetTransform && invert([], targetTransform);
-  var len2 = labelLineModel.get("length2") || 0;
-  if (anchorPoint) {
-    pt2.copy(anchorPoint);
-  }
-  for (var i = 0; i < searchSpace.length; i++) {
-    var candidate = searchSpace[i];
-    getCandidateAnchor(candidate, 0, labelRect, pt0, dir);
-    Point$1.scaleAndAdd(pt1, pt0, dir, len2);
-    pt1.transform(targetInversedTransform);
-    var boundingRect = target.getBoundingRect();
-    var dist2 = anchorPoint ? anchorPoint.distance(pt1) : target instanceof Path$1 ? nearestPointOnPath(pt1, target.path, pt2) : nearestPointOnRect(pt1, boundingRect, pt2);
-    if (dist2 < minDist) {
-      minDist = dist2;
-      pt1.transform(targetTransform);
-      pt2.transform(targetTransform);
-      pt2.toArray(points2[0]);
-      pt1.toArray(points2[1]);
-      pt0.toArray(points2[2]);
-    }
-  }
-  limitTurnAngle(points2, labelLineModel.get("minTurnAngle"));
-  labelLine.setShape({
-    points: points2
-  });
-}
-var tmpArr = [];
-var tmpProjPoint = new Point$1();
-function limitTurnAngle(linePoints, minTurnAngle) {
-  if (!(minTurnAngle <= 180 && minTurnAngle > 0)) {
-    return;
-  }
-  minTurnAngle = minTurnAngle / 180 * Math.PI;
-  pt0.fromArray(linePoints[0]);
-  pt1.fromArray(linePoints[1]);
-  pt2.fromArray(linePoints[2]);
-  Point$1.sub(dir, pt0, pt1);
-  Point$1.sub(dir2, pt2, pt1);
-  var len1 = dir.len();
-  var len2 = dir2.len();
-  if (len1 < 1e-3 || len2 < 1e-3) {
-    return;
-  }
-  dir.scale(1 / len1);
-  dir2.scale(1 / len2);
-  var angleCos = dir.dot(dir2);
-  var minTurnAngleCos = Math.cos(minTurnAngle);
-  if (minTurnAngleCos < angleCos) {
-    var d = projectPointToLine(pt1.x, pt1.y, pt2.x, pt2.y, pt0.x, pt0.y, tmpArr, false);
-    tmpProjPoint.fromArray(tmpArr);
-    tmpProjPoint.scaleAndAdd(dir2, d / Math.tan(Math.PI - minTurnAngle));
-    var t2 = pt2.x !== pt1.x ? (tmpProjPoint.x - pt1.x) / (pt2.x - pt1.x) : (tmpProjPoint.y - pt1.y) / (pt2.y - pt1.y);
-    if (isNaN(t2)) {
-      return;
-    }
-    if (t2 < 0) {
-      Point$1.copy(tmpProjPoint, pt1);
-    } else if (t2 > 1) {
-      Point$1.copy(tmpProjPoint, pt2);
-    }
-    tmpProjPoint.toArray(linePoints[1]);
-  }
-}
-function limitSurfaceAngle(linePoints, surfaceNormal, maxSurfaceAngle) {
-  if (!(maxSurfaceAngle <= 180 && maxSurfaceAngle > 0)) {
-    return;
-  }
-  maxSurfaceAngle = maxSurfaceAngle / 180 * Math.PI;
-  pt0.fromArray(linePoints[0]);
-  pt1.fromArray(linePoints[1]);
-  pt2.fromArray(linePoints[2]);
-  Point$1.sub(dir, pt1, pt0);
-  Point$1.sub(dir2, pt2, pt1);
-  var len1 = dir.len();
-  var len2 = dir2.len();
-  if (len1 < 1e-3 || len2 < 1e-3) {
-    return;
-  }
-  dir.scale(1 / len1);
-  dir2.scale(1 / len2);
-  var angleCos = dir.dot(surfaceNormal);
-  var maxSurfaceAngleCos = Math.cos(maxSurfaceAngle);
-  if (angleCos < maxSurfaceAngleCos) {
-    var d = projectPointToLine(pt1.x, pt1.y, pt2.x, pt2.y, pt0.x, pt0.y, tmpArr, false);
-    tmpProjPoint.fromArray(tmpArr);
-    var HALF_PI = Math.PI / 2;
-    var angle2 = Math.acos(dir2.dot(surfaceNormal));
-    var newAngle = HALF_PI + angle2 - maxSurfaceAngle;
-    if (newAngle >= HALF_PI) {
-      Point$1.copy(tmpProjPoint, pt2);
-    } else {
-      tmpProjPoint.scaleAndAdd(dir2, d / Math.tan(Math.PI / 2 - newAngle));
-      var t2 = pt2.x !== pt1.x ? (tmpProjPoint.x - pt1.x) / (pt2.x - pt1.x) : (tmpProjPoint.y - pt1.y) / (pt2.y - pt1.y);
-      if (isNaN(t2)) {
-        return;
-      }
-      if (t2 < 0) {
-        Point$1.copy(tmpProjPoint, pt1);
-      } else if (t2 > 1) {
-        Point$1.copy(tmpProjPoint, pt2);
-      }
-    }
-    tmpProjPoint.toArray(linePoints[1]);
-  }
-}
-function setLabelLineState(labelLine, ignore, stateName, stateModel) {
-  var isNormal = stateName === "normal";
-  var stateObj = isNormal ? labelLine : labelLine.ensureState(stateName);
-  stateObj.ignore = ignore;
-  var smooth = stateModel.get("smooth");
-  if (smooth && smooth === true) {
-    smooth = 0.3;
-  }
-  stateObj.shape = stateObj.shape || {};
-  if (smooth > 0) {
-    stateObj.shape.smooth = smooth;
-  }
-  var styleObj = stateModel.getModel("lineStyle").getLineStyle();
-  isNormal ? labelLine.useStyle(styleObj) : stateObj.style = styleObj;
-}
-function buildLabelLinePath(path, shape) {
-  var smooth = shape.smooth;
-  var points2 = shape.points;
-  if (!points2) {
-    return;
-  }
-  path.moveTo(points2[0][0], points2[0][1]);
-  if (smooth > 0 && points2.length >= 3) {
-    var len1 = dist$1(points2[0], points2[1]);
-    var len2 = dist$1(points2[1], points2[2]);
-    if (!len1 || !len2) {
-      path.lineTo(points2[1][0], points2[1][1]);
-      path.lineTo(points2[2][0], points2[2][1]);
-      return;
-    }
-    var moveLen = Math.min(len1, len2) * smooth;
-    var midPoint0 = lerp$1([], points2[1], points2[0], moveLen / len1);
-    var midPoint2 = lerp$1([], points2[1], points2[2], moveLen / len2);
-    var midPoint1 = lerp$1([], midPoint0, midPoint2, 0.5);
-    path.bezierCurveTo(midPoint0[0], midPoint0[1], midPoint0[0], midPoint0[1], midPoint1[0], midPoint1[1]);
-    path.bezierCurveTo(midPoint2[0], midPoint2[1], midPoint2[0], midPoint2[1], points2[2][0], points2[2][1]);
-  } else {
-    for (var i = 1; i < points2.length; i++) {
-      path.lineTo(points2[i][0], points2[i][1]);
-    }
-  }
-}
-function setLabelLineStyle(targetEl, statesModels, defaultStyle) {
-  var labelLine = targetEl.getTextGuideLine();
-  var label = targetEl.getTextContent();
-  if (!label) {
-    if (labelLine) {
-      targetEl.removeTextGuideLine();
-    }
-    return;
-  }
-  var normalModel = statesModels.normal;
-  var showNormal = normalModel.get("show");
-  var labelIgnoreNormal = label.ignore;
-  for (var i = 0; i < DISPLAY_STATES.length; i++) {
-    var stateName = DISPLAY_STATES[i];
-    var stateModel = statesModels[stateName];
-    var isNormal = stateName === "normal";
-    if (stateModel) {
-      var stateShow = stateModel.get("show");
-      var isLabelIgnored = isNormal ? labelIgnoreNormal : retrieve2(label.states[stateName] && label.states[stateName].ignore, labelIgnoreNormal);
-      if (isLabelIgnored || !retrieve2(stateShow, showNormal)) {
-        var stateObj = isNormal ? labelLine : labelLine && labelLine.states[stateName];
-        if (stateObj) {
-          stateObj.ignore = true;
-        }
-        continue;
-      }
-      if (!labelLine) {
-        labelLine = new Polyline$1();
-        targetEl.setTextGuideLine(labelLine);
-        if (!isNormal && (labelIgnoreNormal || !showNormal)) {
-          setLabelLineState(labelLine, true, "normal", statesModels.normal);
-        }
-        if (targetEl.stateProxy) {
-          labelLine.stateProxy = targetEl.stateProxy;
-        }
-      }
-      setLabelLineState(labelLine, false, stateName, stateModel);
-    }
-  }
-  if (labelLine) {
-    defaults(labelLine.style, defaultStyle);
-    labelLine.style.fill = null;
-    var showAbove = normalModel.get("showAbove");
-    var labelLineConfig = targetEl.textGuideLineConfig = targetEl.textGuideLineConfig || {};
-    labelLineConfig.showAbove = showAbove || false;
-    labelLine.buildPath = buildLabelLinePath;
-  }
-}
-function getLabelLineStatesModels(itemModel, labelLineName) {
-  labelLineName = labelLineName || "labelLine";
-  var statesModels = {
-    normal: itemModel.getModel(labelLineName)
-  };
-  for (var i = 0; i < SPECIAL_STATES.length; i++) {
-    var stateName = SPECIAL_STATES[i];
-    statesModels[stateName] = itemModel.getModel([stateName, labelLineName]);
-  }
-  return statesModels;
-}
 function prepareLayoutList(input) {
   var list = [];
   for (var i = 0; i < input.length; i++) {
@@ -35320,8 +36685,8 @@ function shiftLayout(list, xyDim, sizeDim, minBound, maxBound, balanceShift) {
   if (len2 < 2) {
     return;
   }
-  list.sort(function(a, b2) {
-    return a.rect[xyDim] - b2.rect[xyDim];
+  list.sort(function(a, b) {
+    return a.rect[xyDim] - b.rect[xyDim];
   });
   var lastPos = 0;
   var delta;
@@ -35440,8 +36805,8 @@ function shiftLayoutOnY(list, topBound, bottomBound, balanceShift) {
 }
 function hideOverlap(labelList) {
   var displayedLabels = [];
-  labelList.sort(function(a, b2) {
-    return b2.priority - a.priority;
+  labelList.sort(function(a, b) {
+    return b.priority - a.priority;
   });
   var globalRect = new BoundingRect$1(0, 0, 0, 0);
   function hideEl(el) {
@@ -35467,8 +36832,8 @@ function hideOverlap(labelList) {
     globalRect.y += 0.05;
     var obb = labelItem.obb;
     var overlapped = false;
-    for (var j2 = 0; j2 < displayedLabels.length; j2++) {
-      var existsTextCfg = displayedLabels[j2];
+    for (var j = 0; j < displayedLabels.length; j++) {
+      var existsTextCfg = displayedLabels[j];
       if (!globalRect.intersect(existsTextCfg.rect)) {
         continue;
       }
@@ -35497,3564 +36862,6 @@ function hideOverlap(labelList) {
     }
   }
 }
-function cloneArr(points2) {
-  if (points2) {
-    var newPoints = [];
-    for (var i = 0; i < points2.length; i++) {
-      newPoints.push(points2[i].slice());
-    }
-    return newPoints;
-  }
-}
-function prepareLayoutCallbackParams(labelItem, hostEl) {
-  var label = labelItem.label;
-  var labelLine = hostEl && hostEl.getTextGuideLine();
-  return {
-    dataIndex: labelItem.dataIndex,
-    dataType: labelItem.dataType,
-    seriesIndex: labelItem.seriesModel.seriesIndex,
-    text: labelItem.label.style.text,
-    rect: labelItem.hostRect,
-    labelRect: labelItem.rect,
-    // x: labelAttr.x,
-    // y: labelAttr.y,
-    align: label.style.align,
-    verticalAlign: label.style.verticalAlign,
-    labelLinePoints: cloneArr(labelLine && labelLine.shape.points)
-  };
-}
-var LABEL_OPTION_TO_STYLE_KEYS = ["align", "verticalAlign", "width", "height", "fontSize"];
-var dummyTransformable = new Transformable$1();
-var labelLayoutInnerStore = makeInner();
-var labelLineAnimationStore = makeInner();
-function extendWithKeys(target, source, keys2) {
-  for (var i = 0; i < keys2.length; i++) {
-    var key = keys2[i];
-    if (source[key] != null) {
-      target[key] = source[key];
-    }
-  }
-}
-var LABEL_LAYOUT_PROPS = ["x", "y", "rotation"];
-var LabelManager = (
-  /** @class */
-  function() {
-    function LabelManager2() {
-      this._labelList = [];
-      this._chartViewList = [];
-    }
-    LabelManager2.prototype.clearLabels = function() {
-      this._labelList = [];
-      this._chartViewList = [];
-    };
-    LabelManager2.prototype._addLabel = function(dataIndex, dataType, seriesModel, label, layoutOption) {
-      var labelStyle = label.style;
-      var hostEl = label.__hostTarget;
-      var textConfig = hostEl.textConfig || {};
-      var labelTransform = label.getComputedTransform();
-      var labelRect = label.getBoundingRect().plain();
-      BoundingRect$1.applyTransform(labelRect, labelRect, labelTransform);
-      if (labelTransform) {
-        dummyTransformable.setLocalTransform(labelTransform);
-      } else {
-        dummyTransformable.x = dummyTransformable.y = dummyTransformable.rotation = dummyTransformable.originX = dummyTransformable.originY = 0;
-        dummyTransformable.scaleX = dummyTransformable.scaleY = 1;
-      }
-      var host2 = label.__hostTarget;
-      var hostRect;
-      if (host2) {
-        hostRect = host2.getBoundingRect().plain();
-        var transform = host2.getComputedTransform();
-        BoundingRect$1.applyTransform(hostRect, hostRect, transform);
-      }
-      var labelGuide = hostRect && host2.getTextGuideLine();
-      this._labelList.push({
-        label,
-        labelLine: labelGuide,
-        seriesModel,
-        dataIndex,
-        dataType,
-        layoutOption,
-        computedLayoutOption: null,
-        rect: labelRect,
-        hostRect,
-        // Label with lower priority will be hidden when overlapped
-        // Use rect size as default priority
-        priority: hostRect ? hostRect.width * hostRect.height : 0,
-        // Save default label attributes.
-        // For restore if developers want get back to default value in callback.
-        defaultAttr: {
-          ignore: label.ignore,
-          labelGuideIgnore: labelGuide && labelGuide.ignore,
-          x: dummyTransformable.x,
-          y: dummyTransformable.y,
-          scaleX: dummyTransformable.scaleX,
-          scaleY: dummyTransformable.scaleY,
-          rotation: dummyTransformable.rotation,
-          style: {
-            x: labelStyle.x,
-            y: labelStyle.y,
-            align: labelStyle.align,
-            verticalAlign: labelStyle.verticalAlign,
-            width: labelStyle.width,
-            height: labelStyle.height,
-            fontSize: labelStyle.fontSize
-          },
-          cursor: label.cursor,
-          attachedPos: textConfig.position,
-          attachedRot: textConfig.rotation
-        }
-      });
-    };
-    LabelManager2.prototype.addLabelsOfSeries = function(chartView) {
-      var _this = this;
-      this._chartViewList.push(chartView);
-      var seriesModel = chartView.__model;
-      var layoutOption = seriesModel.get("labelLayout");
-      if (!(isFunction(layoutOption) || keys(layoutOption).length)) {
-        return;
-      }
-      chartView.group.traverse(function(child) {
-        if (child.ignore) {
-          return true;
-        }
-        var textEl = child.getTextContent();
-        var ecData = getECData(child);
-        if (textEl && !textEl.disableLabelLayout) {
-          _this._addLabel(ecData.dataIndex, ecData.dataType, seriesModel, textEl, layoutOption);
-        }
-      });
-    };
-    LabelManager2.prototype.updateLayoutConfig = function(api) {
-      var width = api.getWidth();
-      var height = api.getHeight();
-      function createDragHandler(el, labelLineModel) {
-        return function() {
-          updateLabelLinePoints(el, labelLineModel);
-        };
-      }
-      for (var i = 0; i < this._labelList.length; i++) {
-        var labelItem = this._labelList[i];
-        var label = labelItem.label;
-        var hostEl = label.__hostTarget;
-        var defaultLabelAttr = labelItem.defaultAttr;
-        var layoutOption = void 0;
-        if (isFunction(labelItem.layoutOption)) {
-          layoutOption = labelItem.layoutOption(prepareLayoutCallbackParams(labelItem, hostEl));
-        } else {
-          layoutOption = labelItem.layoutOption;
-        }
-        layoutOption = layoutOption || {};
-        labelItem.computedLayoutOption = layoutOption;
-        var degreeToRadian = Math.PI / 180;
-        if (hostEl) {
-          hostEl.setTextConfig({
-            // Force to set local false.
-            local: false,
-            // Ignore position and rotation config on the host el if x or y is changed.
-            position: layoutOption.x != null || layoutOption.y != null ? null : defaultLabelAttr.attachedPos,
-            // Ignore rotation config on the host el if rotation is changed.
-            rotation: layoutOption.rotate != null ? layoutOption.rotate * degreeToRadian : defaultLabelAttr.attachedRot,
-            offset: [layoutOption.dx || 0, layoutOption.dy || 0]
-          });
-        }
-        var needsUpdateLabelLine = false;
-        if (layoutOption.x != null) {
-          label.x = parsePercent(layoutOption.x, width);
-          label.setStyle("x", 0);
-          needsUpdateLabelLine = true;
-        } else {
-          label.x = defaultLabelAttr.x;
-          label.setStyle("x", defaultLabelAttr.style.x);
-        }
-        if (layoutOption.y != null) {
-          label.y = parsePercent(layoutOption.y, height);
-          label.setStyle("y", 0);
-          needsUpdateLabelLine = true;
-        } else {
-          label.y = defaultLabelAttr.y;
-          label.setStyle("y", defaultLabelAttr.style.y);
-        }
-        if (layoutOption.labelLinePoints) {
-          var guideLine = hostEl.getTextGuideLine();
-          if (guideLine) {
-            guideLine.setShape({
-              points: layoutOption.labelLinePoints
-            });
-            needsUpdateLabelLine = false;
-          }
-        }
-        var labelLayoutStore = labelLayoutInnerStore(label);
-        labelLayoutStore.needsUpdateLabelLine = needsUpdateLabelLine;
-        label.rotation = layoutOption.rotate != null ? layoutOption.rotate * degreeToRadian : defaultLabelAttr.rotation;
-        label.scaleX = defaultLabelAttr.scaleX;
-        label.scaleY = defaultLabelAttr.scaleY;
-        for (var k = 0; k < LABEL_OPTION_TO_STYLE_KEYS.length; k++) {
-          var key = LABEL_OPTION_TO_STYLE_KEYS[k];
-          label.setStyle(key, layoutOption[key] != null ? layoutOption[key] : defaultLabelAttr.style[key]);
-        }
-        if (layoutOption.draggable) {
-          label.draggable = true;
-          label.cursor = "move";
-          if (hostEl) {
-            var hostModel = labelItem.seriesModel;
-            if (labelItem.dataIndex != null) {
-              var data = labelItem.seriesModel.getData(labelItem.dataType);
-              hostModel = data.getItemModel(labelItem.dataIndex);
-            }
-            label.on("drag", createDragHandler(hostEl, hostModel.getModel("labelLine")));
-          }
-        } else {
-          label.off("drag");
-          label.cursor = defaultLabelAttr.cursor;
-        }
-      }
-    };
-    LabelManager2.prototype.layout = function(api) {
-      var width = api.getWidth();
-      var height = api.getHeight();
-      var labelList = prepareLayoutList(this._labelList);
-      var labelsNeedsAdjustOnX = filter(labelList, function(item) {
-        return item.layoutOption.moveOverlap === "shiftX";
-      });
-      var labelsNeedsAdjustOnY = filter(labelList, function(item) {
-        return item.layoutOption.moveOverlap === "shiftY";
-      });
-      shiftLayoutOnX(labelsNeedsAdjustOnX, 0, width);
-      shiftLayoutOnY(labelsNeedsAdjustOnY, 0, height);
-      var labelsNeedsHideOverlap = filter(labelList, function(item) {
-        return item.layoutOption.hideOverlap;
-      });
-      hideOverlap(labelsNeedsHideOverlap);
-    };
-    LabelManager2.prototype.processLabelsOverall = function() {
-      var _this = this;
-      each$7(this._chartViewList, function(chartView) {
-        var seriesModel = chartView.__model;
-        var ignoreLabelLineUpdate = chartView.ignoreLabelLineUpdate;
-        var animationEnabled = seriesModel.isAnimationEnabled();
-        chartView.group.traverse(function(child) {
-          if (child.ignore && !child.forceLabelAnimation) {
-            return true;
-          }
-          var needsUpdateLabelLine = !ignoreLabelLineUpdate;
-          var label = child.getTextContent();
-          if (!needsUpdateLabelLine && label) {
-            needsUpdateLabelLine = labelLayoutInnerStore(label).needsUpdateLabelLine;
-          }
-          if (needsUpdateLabelLine) {
-            _this._updateLabelLine(child, seriesModel);
-          }
-          if (animationEnabled) {
-            _this._animateLabels(child, seriesModel);
-          }
-        });
-      });
-    };
-    LabelManager2.prototype._updateLabelLine = function(el, seriesModel) {
-      var textEl = el.getTextContent();
-      var ecData = getECData(el);
-      var dataIndex = ecData.dataIndex;
-      if (textEl && dataIndex != null) {
-        var data = seriesModel.getData(ecData.dataType);
-        var itemModel = data.getItemModel(dataIndex);
-        var defaultStyle = {};
-        var visualStyle = data.getItemVisual(dataIndex, "style");
-        var visualType = data.getVisual("drawType");
-        defaultStyle.stroke = visualStyle[visualType];
-        var labelLineModel = itemModel.getModel("labelLine");
-        setLabelLineStyle(el, getLabelLineStatesModels(itemModel), defaultStyle);
-        updateLabelLinePoints(el, labelLineModel);
-      }
-    };
-    LabelManager2.prototype._animateLabels = function(el, seriesModel) {
-      var textEl = el.getTextContent();
-      var guideLine = el.getTextGuideLine();
-      if (textEl && (el.forceLabelAnimation || !textEl.ignore && !textEl.invisible && !el.disableLabelAnimation && !isElementRemoved(el))) {
-        var layoutStore = labelLayoutInnerStore(textEl);
-        var oldLayout = layoutStore.oldLayout;
-        var ecData = getECData(el);
-        var dataIndex = ecData.dataIndex;
-        var newProps = {
-          x: textEl.x,
-          y: textEl.y,
-          rotation: textEl.rotation
-        };
-        var data = seriesModel.getData(ecData.dataType);
-        if (!oldLayout) {
-          textEl.attr(newProps);
-          if (!labelInner(textEl).valueAnimation) {
-            var oldOpacity = retrieve2(textEl.style.opacity, 1);
-            textEl.style.opacity = 0;
-            initProps(textEl, {
-              style: {
-                opacity: oldOpacity
-              }
-            }, seriesModel, dataIndex);
-          }
-        } else {
-          textEl.attr(oldLayout);
-          var prevStates = el.prevStates;
-          if (prevStates) {
-            if (indexOf(prevStates, "select") >= 0) {
-              textEl.attr(layoutStore.oldLayoutSelect);
-            }
-            if (indexOf(prevStates, "emphasis") >= 0) {
-              textEl.attr(layoutStore.oldLayoutEmphasis);
-            }
-          }
-          updateProps$1(textEl, newProps, seriesModel, dataIndex);
-        }
-        layoutStore.oldLayout = newProps;
-        if (textEl.states.select) {
-          var layoutSelect = layoutStore.oldLayoutSelect = {};
-          extendWithKeys(layoutSelect, newProps, LABEL_LAYOUT_PROPS);
-          extendWithKeys(layoutSelect, textEl.states.select, LABEL_LAYOUT_PROPS);
-        }
-        if (textEl.states.emphasis) {
-          var layoutEmphasis = layoutStore.oldLayoutEmphasis = {};
-          extendWithKeys(layoutEmphasis, newProps, LABEL_LAYOUT_PROPS);
-          extendWithKeys(layoutEmphasis, textEl.states.emphasis, LABEL_LAYOUT_PROPS);
-        }
-        animateLabelValue(textEl, dataIndex, data, seriesModel, seriesModel);
-      }
-      if (guideLine && !guideLine.ignore && !guideLine.invisible) {
-        var layoutStore = labelLineAnimationStore(guideLine);
-        var oldLayout = layoutStore.oldLayout;
-        var newLayout = {
-          points: guideLine.shape.points
-        };
-        if (!oldLayout) {
-          guideLine.setShape(newLayout);
-          guideLine.style.strokePercent = 0;
-          initProps(guideLine, {
-            style: {
-              strokePercent: 1
-            }
-          }, seriesModel);
-        } else {
-          guideLine.attr({
-            shape: oldLayout
-          });
-          updateProps$1(guideLine, {
-            shape: newLayout
-          }, seriesModel);
-        }
-        layoutStore.oldLayout = newLayout;
-      }
-    };
-    return LabelManager2;
-  }()
-);
-const LabelManager$1 = LabelManager;
-var getLabelManager = makeInner();
-function installLabelLayout(registers) {
-  registers.registerUpdateLifecycle("series:beforeupdate", function(ecModel, api, params) {
-    var labelManager = getLabelManager(api).labelManager;
-    if (!labelManager) {
-      labelManager = getLabelManager(api).labelManager = new LabelManager$1();
-    }
-    labelManager.clearLabels();
-  });
-  registers.registerUpdateLifecycle("series:layoutlabels", function(ecModel, api, params) {
-    var labelManager = getLabelManager(api).labelManager;
-    params.updatedSeries.forEach(function(series) {
-      labelManager.addLabelsOfSeries(api.getViewOfSeriesModel(series));
-    });
-    labelManager.updateLayoutConfig(api);
-    labelManager.layout(api);
-    labelManager.processLabelsOverall();
-  });
-}
-const echarts = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  Axis: Axis$1,
-  ChartView: ChartView$1,
-  ComponentModel: ComponentModel$1,
-  ComponentView: ComponentView$1,
-  List: SeriesData$1,
-  Model: Model$1,
-  PRIORITY,
-  SeriesModel: SeriesModel$1,
-  color,
-  connect,
-  dataTool,
-  dependencies,
-  disConnect,
-  disconnect,
-  dispose,
-  env: env$1,
-  extendChartView,
-  extendComponentModel,
-  extendComponentView,
-  extendSeriesModel,
-  format,
-  getCoordinateSystemDimensions,
-  getInstanceByDom,
-  getInstanceById,
-  getMap,
-  graphic,
-  helper,
-  init,
-  innerDrawElementOnCanvas: brushSingle,
-  matrix,
-  number,
-  parseGeoJSON,
-  parseGeoJson: parseGeoJSON,
-  registerAction,
-  registerCoordinateSystem,
-  registerLayout,
-  registerLoading,
-  registerLocale,
-  registerMap,
-  registerPostInit,
-  registerPostUpdate,
-  registerPreprocessor,
-  registerProcessor,
-  registerTheme,
-  registerTransform,
-  registerUpdateLifecycle,
-  registerVisual,
-  setCanvasCreator,
-  setPlatformAPI,
-  throttle,
-  time,
-  use,
-  util,
-  vector,
-  version,
-  zrUtil: util$1,
-  zrender
-}, Symbol.toStringTag, { value: "Module" }));
-var raf = null;
-function requestAnimationFrame(callback) {
-  if (!raf) {
-    raf = (window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || function(callback2) {
-      return setTimeout(callback2, 16);
-    }).bind(window);
-  }
-  return raf(callback);
-}
-var caf = null;
-function cancelAnimationFrame(id) {
-  if (!caf) {
-    caf = (window.cancelAnimationFrame || window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame || function(id2) {
-      clearTimeout(id2);
-    }).bind(window);
-  }
-  caf(id);
-}
-function createStyles(styleText) {
-  var style2 = document.createElement("style");
-  if (style2.styleSheet) {
-    style2.styleSheet.cssText = styleText;
-  } else {
-    style2.appendChild(document.createTextNode(styleText));
-  }
-  (document.querySelector("head") || document.body).appendChild(style2);
-  return style2;
-}
-function createElement(tagName, props) {
-  if (props === void 0)
-    props = {};
-  var elem = document.createElement(tagName);
-  Object.keys(props).forEach(function(key) {
-    elem[key] = props[key];
-  });
-  return elem;
-}
-function getComputedStyle$1(elem, prop, pseudo) {
-  var computedStyle = window.getComputedStyle(elem, pseudo || null) || {
-    display: "none"
-  };
-  return computedStyle[prop];
-}
-function getRenderInfo(elem) {
-  if (!document.documentElement.contains(elem)) {
-    return {
-      detached: true,
-      rendered: false
-    };
-  }
-  var current = elem;
-  while (current !== document) {
-    if (getComputedStyle$1(current, "display") === "none") {
-      return {
-        detached: false,
-        rendered: false
-      };
-    }
-    current = current.parentNode;
-  }
-  return {
-    detached: false,
-    rendered: true
-  };
-}
-var css_248z = '.resize-triggers{visibility:hidden;opacity:0;pointer-events:none}.resize-contract-trigger,.resize-contract-trigger:before,.resize-expand-trigger,.resize-triggers{content:"";position:absolute;top:0;left:0;height:100%;width:100%;overflow:hidden}.resize-contract-trigger,.resize-expand-trigger{background:#eee;overflow:auto}.resize-contract-trigger:before{width:200%;height:200%}';
-var total = 0;
-var style = null;
-function addListener(elem, callback) {
-  if (!elem.__resize_mutation_handler__) {
-    elem.__resize_mutation_handler__ = handleMutation.bind(elem);
-  }
-  var listeners = elem.__resize_listeners__;
-  if (!listeners) {
-    elem.__resize_listeners__ = [];
-    if (window.ResizeObserver) {
-      var offsetWidth = elem.offsetWidth;
-      var offsetHeight = elem.offsetHeight;
-      var ro = new ResizeObserver(function() {
-        if (!elem.__resize_observer_triggered__) {
-          elem.__resize_observer_triggered__ = true;
-          if (elem.offsetWidth === offsetWidth && elem.offsetHeight === offsetHeight) {
-            return;
-          }
-        }
-        runCallbacks(elem);
-      });
-      var ref2 = getRenderInfo(elem);
-      var detached = ref2.detached;
-      var rendered = ref2.rendered;
-      elem.__resize_observer_triggered__ = detached === false && rendered === false;
-      elem.__resize_observer__ = ro;
-      ro.observe(elem);
-    } else if (elem.attachEvent && elem.addEventListener) {
-      elem.__resize_legacy_resize_handler__ = function handleLegacyResize() {
-        runCallbacks(elem);
-      };
-      elem.attachEvent("onresize", elem.__resize_legacy_resize_handler__);
-      document.addEventListener("DOMSubtreeModified", elem.__resize_mutation_handler__);
-    } else {
-      if (!total) {
-        style = createStyles(css_248z);
-      }
-      initTriggers(elem);
-      elem.__resize_rendered__ = getRenderInfo(elem).rendered;
-      if (window.MutationObserver) {
-        var mo = new MutationObserver(elem.__resize_mutation_handler__);
-        mo.observe(document, {
-          attributes: true,
-          childList: true,
-          characterData: true,
-          subtree: true
-        });
-        elem.__resize_mutation_observer__ = mo;
-      }
-    }
-  }
-  elem.__resize_listeners__.push(callback);
-  total++;
-}
-function removeListener(elem, callback) {
-  var listeners = elem.__resize_listeners__;
-  if (!listeners) {
-    return;
-  }
-  if (callback) {
-    listeners.splice(listeners.indexOf(callback), 1);
-  }
-  if (!listeners.length || !callback) {
-    if (elem.detachEvent && elem.removeEventListener) {
-      elem.detachEvent("onresize", elem.__resize_legacy_resize_handler__);
-      document.removeEventListener("DOMSubtreeModified", elem.__resize_mutation_handler__);
-      return;
-    }
-    if (elem.__resize_observer__) {
-      elem.__resize_observer__.unobserve(elem);
-      elem.__resize_observer__.disconnect();
-      elem.__resize_observer__ = null;
-    } else {
-      if (elem.__resize_mutation_observer__) {
-        elem.__resize_mutation_observer__.disconnect();
-        elem.__resize_mutation_observer__ = null;
-      }
-      elem.removeEventListener("scroll", handleScroll);
-      elem.removeChild(elem.__resize_triggers__.triggers);
-      elem.__resize_triggers__ = null;
-    }
-    elem.__resize_listeners__ = null;
-  }
-  if (!--total && style) {
-    style.parentNode.removeChild(style);
-  }
-}
-function getUpdatedSize(elem) {
-  var ref2 = elem.__resize_last__;
-  var width = ref2.width;
-  var height = ref2.height;
-  var offsetWidth = elem.offsetWidth;
-  var offsetHeight = elem.offsetHeight;
-  if (offsetWidth !== width || offsetHeight !== height) {
-    return {
-      width: offsetWidth,
-      height: offsetHeight
-    };
-  }
-  return null;
-}
-function handleMutation() {
-  var ref2 = getRenderInfo(this);
-  var rendered = ref2.rendered;
-  var detached = ref2.detached;
-  if (rendered !== this.__resize_rendered__) {
-    if (!detached && this.__resize_triggers__) {
-      resetTriggers(this);
-      this.addEventListener("scroll", handleScroll, true);
-    }
-    this.__resize_rendered__ = rendered;
-    runCallbacks(this);
-  }
-}
-function handleScroll() {
-  var this$1$1 = this;
-  resetTriggers(this);
-  if (this.__resize_raf__) {
-    cancelAnimationFrame(this.__resize_raf__);
-  }
-  this.__resize_raf__ = requestAnimationFrame(function() {
-    var updated = getUpdatedSize(this$1$1);
-    if (updated) {
-      this$1$1.__resize_last__ = updated;
-      runCallbacks(this$1$1);
-    }
-  });
-}
-function runCallbacks(elem) {
-  if (!elem || !elem.__resize_listeners__) {
-    return;
-  }
-  elem.__resize_listeners__.forEach(function(callback) {
-    callback.call(elem, elem);
-  });
-}
-function initTriggers(elem) {
-  var position = getComputedStyle$1(elem, "position");
-  if (!position || position === "static") {
-    elem.style.position = "relative";
-  }
-  elem.__resize_old_position__ = position;
-  elem.__resize_last__ = {};
-  var triggers = createElement("div", {
-    className: "resize-triggers"
-  });
-  var expand = createElement("div", {
-    className: "resize-expand-trigger"
-  });
-  var expandChild = createElement("div");
-  var contract = createElement("div", {
-    className: "resize-contract-trigger"
-  });
-  expand.appendChild(expandChild);
-  triggers.appendChild(expand);
-  triggers.appendChild(contract);
-  elem.appendChild(triggers);
-  elem.__resize_triggers__ = {
-    triggers,
-    expand,
-    expandChild,
-    contract
-  };
-  resetTriggers(elem);
-  elem.addEventListener("scroll", handleScroll, true);
-  elem.__resize_last__ = {
-    width: elem.offsetWidth,
-    height: elem.offsetHeight
-  };
-}
-function resetTriggers(elem) {
-  var ref2 = elem.__resize_triggers__;
-  var expand = ref2.expand;
-  var expandChild = ref2.expandChild;
-  var contract = ref2.contract;
-  var csw = contract.scrollWidth;
-  var csh = contract.scrollHeight;
-  var eow = expand.offsetWidth;
-  var eoh = expand.offsetHeight;
-  var esw = expand.scrollWidth;
-  var esh = expand.scrollHeight;
-  contract.scrollLeft = csw;
-  contract.scrollTop = csh;
-  expandChild.style.width = eow + 1 + "px";
-  expandChild.style.height = eoh + 1 + "px";
-  expand.scrollLeft = esw;
-  expand.scrollTop = esh;
-}
-var O = function() {
-  return O = Object.assign || function(e2) {
-    for (var t2, n = 1, r = arguments.length; n < r; n++)
-      for (var o2 in t2 = arguments[n])
-        Object.prototype.hasOwnProperty.call(t2, o2) && (e2[o2] = t2[o2]);
-    return e2;
-  }, O.apply(this, arguments);
-}, b = ["getWidth", "getHeight", "getDom", "getOption", "resize", "dispatchAction", "convertToPixel", "convertFromPixel", "containPixel", "getDataURL", "getConnectedDataURL", "appendData", "clear", "isDisposed", "dispose"];
-function y(e2) {
-  return t2 = /* @__PURE__ */ Object.create(null), b.forEach(function(n) {
-    t2[n] = function(t3) {
-      return function() {
-        for (var n2 = [], r = 0; r < arguments.length; r++)
-          n2[r] = arguments[r];
-        if (!e2.value)
-          throw new Error("ECharts is not initialized yet.");
-        return e2.value[t3].apply(e2.value, n2);
-      };
-    }(n);
-  }), t2;
-  var t2;
-}
-var _ = { autoresize: [Boolean, Object] }, E = /^on[^a-z]/, x = function(e2) {
-  return E.test(e2);
-};
-function j(e2, n) {
-  var r = unref(e2);
-  return r && "object" == typeof r && "value" in r ? r.value || n : r || n;
-}
-var z = { loading: Boolean, loadingOptions: Object }, L = null;
-var w = [], C = [];
-!function(e2, t2) {
-  if (e2 && "undefined" != typeof document) {
-    var n, r = true === t2.prepend ? "prepend" : "append", o2 = true === t2.singleTag, i = "string" == typeof t2.container ? document.querySelector(t2.container) : document.getElementsByTagName("head")[0];
-    if (o2) {
-      var a = w.indexOf(i);
-      -1 === a && (a = w.push(i) - 1, C[a] = {}), n = C[a] && C[a][r] ? C[a][r] : C[a][r] = u();
-    } else
-      n = u();
-    65279 === e2.charCodeAt(0) && (e2 = e2.substring(1)), n.styleSheet ? n.styleSheet.cssText += e2 : n.appendChild(document.createTextNode(e2));
-  }
-  function u() {
-    var e3 = document.createElement("style");
-    if (e3.setAttribute("type", "text/css"), t2.attributes)
-      for (var n2 = Object.keys(t2.attributes), o3 = 0; o3 < n2.length; o3++)
-        e3.setAttribute(n2[o3], t2.attributes[n2[o3]]);
-    var a2 = "prepend" === r ? "afterbegin" : "beforeend";
-    return i.insertAdjacentElement(a2, e3), e3;
-  }
-}("x-vue-echarts{display:block;width:100%;height:100%;min-width:0}\n", {});
-var T = function() {
-  if (null != L)
-    return L;
-  if ("undefined" == typeof HTMLElement || "undefined" == typeof customElements)
-    return L = false;
-  try {
-    new Function("tag", "class EChartsElement extends HTMLElement {\n  __dispose = null;\n\n  disconnectedCallback() {\n    if (this.__dispose) {\n      this.__dispose();\n      this.__dispose = null;\n    }\n  }\n}\n\nif (customElements.get(tag) == null) {\n  customElements.define(tag, EChartsElement);\n}\n")("x-vue-echarts");
-  } catch (e2) {
-    return L = false;
-  }
-  return L = true;
-}();
-defineComponent({ name: "echarts", props: O(O({ option: Object, theme: { type: [Object, String] }, initOptions: Object, updateOptions: Object, group: String, manualUpdate: Boolean }, _), z), emits: {}, inheritAttrs: false, setup: function(t2, i) {
-  var a = i.attrs, p2 = shallowRef(), b2 = shallowRef(), _2 = shallowRef(), E2 = inject("ecTheme", null), A = inject("ecInitOptions", null), z2 = inject("ecUpdateOptions", null), L2 = toRefs(t2), w2 = L2.autoresize, C2 = L2.manualUpdate, U = L2.loading, D = L2.loadingOptions, k = computed(function() {
-    return _2.value || t2.option || null;
-  }), S = computed(function() {
-    return t2.theme || j(E2, {});
-  }), B = computed(function() {
-    return t2.initOptions || j(A, {});
-  }), P = computed(function() {
-    return t2.updateOptions || j(z2, {});
-  }), H = computed(function() {
-    return function(e2) {
-      var t3 = {};
-      for (var n in e2)
-        x(n) || (t3[n] = e2[n]);
-      return t3;
-    }(a);
-  }), M = getCurrentInstance().proxy.$listeners;
-  function R(e2) {
-    if (p2.value) {
-      var n = b2.value = init(p2.value, S.value, B.value);
-      t2.group && (n.group = t2.group);
-      var r = M;
-      r || (r = {}, Object.keys(a).filter(function(e3) {
-        return 0 === e3.indexOf("on") && e3.length > 2;
-      }).forEach(function(e3) {
-        var t3 = e3.charAt(2).toLowerCase() + e3.slice(3);
-        "Once" === t3.substring(t3.length - 4) && (t3 = "~".concat(t3.substring(0, t3.length - 4))), r[t3] = a[e3];
-      })), Object.keys(r).forEach(function(e3) {
-        var t3 = r[e3];
-        if (t3) {
-          var o3 = e3.toLowerCase();
-          "~" === o3.charAt(0) && (o3 = o3.substring(1), t3.__once__ = true);
-          var i2 = n;
-          if (0 === o3.indexOf("zr:") && (i2 = n.getZr(), o3 = o3.substring(3)), t3.__once__) {
-            delete t3.__once__;
-            var a2 = t3;
-            t3 = function() {
-              for (var e4 = [], n2 = 0; n2 < arguments.length; n2++)
-                e4[n2] = arguments[n2];
-              a2.apply(void 0, e4), i2.off(o3, t3);
-            };
-          }
-          i2.on(o3, t3);
-        }
-      }), w2.value ? nextTick$1(function() {
-        n && !n.isDisposed() && n.resize(), o2();
-      }) : o2();
-    }
-    function o2() {
-      var t3 = e2 || k.value;
-      t3 && n.setOption(t3, P.value);
-    }
-  }
-  function F() {
-    b2.value && (b2.value.dispose(), b2.value = void 0);
-  }
-  var I = null;
-  watch(C2, function(n) {
-    "function" == typeof I && (I(), I = null), n || (I = watch(function() {
-      return t2.option;
-    }, function(e2, t3) {
-      e2 && (b2.value ? b2.value.setOption(e2, O({ notMerge: e2 !== t3 }, P.value)) : R());
-    }, { deep: true }));
-  }, { immediate: true }), watch([S, B], function() {
-    F(), R();
-  }, { deep: true }), watchEffect(function() {
-    t2.group && b2.value && (b2.value.group = t2.group);
-  });
-  var N = y(b2);
-  return function(e2, t3, i2) {
-    var a2 = inject("ecLoadingOptions", {}), u = computed(function() {
-      return O(O({}, j(a2, {})), null == i2 ? void 0 : i2.value);
-    });
-    watchEffect(function() {
-      var n = e2.value;
-      n && (t3.value ? n.showLoading(u.value) : n.hideLoading());
-    });
-  }(b2, U, D), function(t3, n, r) {
-    var o2 = null;
-    watch([r, t3, n], function(e2, t4, n2) {
-      var r2 = e2[0], i2 = e2[1], a2 = e2[2];
-      if (r2 && i2 && a2) {
-        var u = true === a2 ? {} : a2, s2 = u.throttle, c = void 0 === s2 ? 100 : s2, l = u.onResize, f = function() {
-          i2.resize(), null == l || l();
-        };
-        o2 = c ? throttle(f, c) : f, addListener(r2, o2);
-      }
-      n2(function() {
-        r2 && o2 && removeListener(r2, o2);
-      });
-    });
-  }(b2, w2, p2), onMounted(function() {
-    R();
-  }), onBeforeUnmount(function() {
-    T && p2.value ? p2.value.__dispose = F : F();
-  }), O({ chart: b2, root: p2, setOption: function(e2, n) {
-    t2.manualUpdate && (_2.value = e2), b2.value ? b2.value.setOption(e2, n || {}) : R(e2);
-  }, nonEventAttrs: H }, N);
-}, render: function() {
-  var e2 = O({}, this.nonEventAttrs);
-  return e2.ref = "root", e2.class = e2.class ? ["echarts"].concat(e2.class) : "echarts", h("x-vue-echarts");
-} });
-var LineSeriesModel = (
-  /** @class */
-  function(_super) {
-    __extends(LineSeriesModel2, _super);
-    function LineSeriesModel2() {
-      var _this = _super !== null && _super.apply(this, arguments) || this;
-      _this.type = LineSeriesModel2.type;
-      _this.hasSymbolVisual = true;
-      return _this;
-    }
-    LineSeriesModel2.prototype.getInitialData = function(option) {
-      {
-        var coordSys = option.coordinateSystem;
-        if (coordSys !== "polar" && coordSys !== "cartesian2d") {
-          throw new Error("Line not support coordinateSystem besides cartesian and polar");
-        }
-      }
-      return createSeriesData(null, this, {
-        useEncodeDefaulter: true
-      });
-    };
-    LineSeriesModel2.prototype.getLegendIcon = function(opt) {
-      var group = new Group$3();
-      var line = createSymbol("line", 0, opt.itemHeight / 2, opt.itemWidth, 0, opt.lineStyle.stroke, false);
-      group.add(line);
-      line.setStyle(opt.lineStyle);
-      var visualType = this.getData().getVisual("symbol");
-      var visualRotate = this.getData().getVisual("symbolRotate");
-      var symbolType = visualType === "none" ? "circle" : visualType;
-      var size2 = opt.itemHeight * 0.8;
-      var symbol = createSymbol(symbolType, (opt.itemWidth - size2) / 2, (opt.itemHeight - size2) / 2, size2, size2, opt.itemStyle.fill);
-      group.add(symbol);
-      symbol.setStyle(opt.itemStyle);
-      var symbolRotate = opt.iconRotate === "inherit" ? visualRotate : opt.iconRotate || 0;
-      symbol.rotation = symbolRotate * Math.PI / 180;
-      symbol.setOrigin([opt.itemWidth / 2, opt.itemHeight / 2]);
-      if (symbolType.indexOf("empty") > -1) {
-        symbol.style.stroke = symbol.style.fill;
-        symbol.style.fill = "#fff";
-        symbol.style.lineWidth = 2;
-      }
-      return group;
-    };
-    LineSeriesModel2.type = "series.line";
-    LineSeriesModel2.dependencies = ["grid", "polar"];
-    LineSeriesModel2.defaultOption = {
-      // zlevel: 0,
-      z: 3,
-      coordinateSystem: "cartesian2d",
-      legendHoverLink: true,
-      clip: true,
-      label: {
-        position: "top"
-      },
-      // itemStyle: {
-      // },
-      endLabel: {
-        show: false,
-        valueAnimation: true,
-        distance: 8
-      },
-      lineStyle: {
-        width: 2,
-        type: "solid"
-      },
-      emphasis: {
-        scale: true
-      },
-      // areaStyle: {
-      // origin of areaStyle. Valid values:
-      // `'auto'/null/undefined`: from axisLine to data
-      // `'start'`: from min to data
-      // `'end'`: from data to max
-      // origin: 'auto'
-      // },
-      // false, 'start', 'end', 'middle'
-      step: false,
-      // Disabled if step is true
-      smooth: false,
-      smoothMonotone: null,
-      symbol: "emptyCircle",
-      symbolSize: 4,
-      symbolRotate: null,
-      showSymbol: true,
-      // `false`: follow the label interval strategy.
-      // `true`: show all symbols.
-      // `'auto'`: If possible, show all symbols, otherwise
-      //           follow the label interval strategy.
-      showAllSymbol: "auto",
-      // Whether to connect break point.
-      connectNulls: false,
-      // Sampling for large data. Can be: 'average', 'max', 'min', 'sum', 'lttb'.
-      sampling: "none",
-      animationEasing: "linear",
-      // Disable progressive
-      progressive: 0,
-      hoverLayerThreshold: Infinity,
-      universalTransition: {
-        divideShape: "clone"
-      },
-      triggerLineEvent: false
-    };
-    return LineSeriesModel2;
-  }(SeriesModel$1)
-);
-const LineSeries = LineSeriesModel;
-function getDefaultLabel(data, dataIndex) {
-  var labelDims = data.mapDimensionsAll("defaultedLabel");
-  var len2 = labelDims.length;
-  if (len2 === 1) {
-    var rawVal = retrieveRawValue(data, dataIndex, labelDims[0]);
-    return rawVal != null ? rawVal + "" : null;
-  } else if (len2) {
-    var vals = [];
-    for (var i = 0; i < labelDims.length; i++) {
-      vals.push(retrieveRawValue(data, dataIndex, labelDims[i]));
-    }
-    return vals.join(" ");
-  }
-}
-function getDefaultInterpolatedLabel(data, interpolatedValue) {
-  var labelDims = data.mapDimensionsAll("defaultedLabel");
-  if (!isArray(interpolatedValue)) {
-    return interpolatedValue + "";
-  }
-  var vals = [];
-  for (var i = 0; i < labelDims.length; i++) {
-    var dimIndex = data.getDimensionIndex(labelDims[i]);
-    if (dimIndex >= 0) {
-      vals.push(interpolatedValue[dimIndex]);
-    }
-  }
-  return vals.join(" ");
-}
-var Symbol$1 = (
-  /** @class */
-  function(_super) {
-    __extends(Symbol2, _super);
-    function Symbol2(data, idx, seriesScope, opts) {
-      var _this = _super.call(this) || this;
-      _this.updateData(data, idx, seriesScope, opts);
-      return _this;
-    }
-    Symbol2.prototype._createSymbol = function(symbolType, data, idx, symbolSize, keepAspect) {
-      this.removeAll();
-      var symbolPath = createSymbol(symbolType, -1, -1, 2, 2, null, keepAspect);
-      symbolPath.attr({
-        z2: 100,
-        culling: true,
-        scaleX: symbolSize[0] / 2,
-        scaleY: symbolSize[1] / 2
-      });
-      symbolPath.drift = driftSymbol;
-      this._symbolType = symbolType;
-      this.add(symbolPath);
-    };
-    Symbol2.prototype.stopSymbolAnimation = function(toLastFrame) {
-      this.childAt(0).stopAnimation(null, toLastFrame);
-    };
-    Symbol2.prototype.getSymbolType = function() {
-      return this._symbolType;
-    };
-    Symbol2.prototype.getSymbolPath = function() {
-      return this.childAt(0);
-    };
-    Symbol2.prototype.highlight = function() {
-      enterEmphasis(this.childAt(0));
-    };
-    Symbol2.prototype.downplay = function() {
-      leaveEmphasis(this.childAt(0));
-    };
-    Symbol2.prototype.setZ = function(zlevel, z2) {
-      var symbolPath = this.childAt(0);
-      symbolPath.zlevel = zlevel;
-      symbolPath.z = z2;
-    };
-    Symbol2.prototype.setDraggable = function(draggable, hasCursorOption) {
-      var symbolPath = this.childAt(0);
-      symbolPath.draggable = draggable;
-      symbolPath.cursor = !hasCursorOption && draggable ? "move" : symbolPath.cursor;
-    };
-    Symbol2.prototype.updateData = function(data, idx, seriesScope, opts) {
-      this.silent = false;
-      var symbolType = data.getItemVisual(idx, "symbol") || "circle";
-      var seriesModel = data.hostModel;
-      var symbolSize = Symbol2.getSymbolSize(data, idx);
-      var isInit = symbolType !== this._symbolType;
-      var disableAnimation = opts && opts.disableAnimation;
-      if (isInit) {
-        var keepAspect = data.getItemVisual(idx, "symbolKeepAspect");
-        this._createSymbol(symbolType, data, idx, symbolSize, keepAspect);
-      } else {
-        var symbolPath = this.childAt(0);
-        symbolPath.silent = false;
-        var target = {
-          scaleX: symbolSize[0] / 2,
-          scaleY: symbolSize[1] / 2
-        };
-        disableAnimation ? symbolPath.attr(target) : updateProps$1(symbolPath, target, seriesModel, idx);
-        saveOldStyle(symbolPath);
-      }
-      this._updateCommon(data, idx, symbolSize, seriesScope, opts);
-      if (isInit) {
-        var symbolPath = this.childAt(0);
-        if (!disableAnimation) {
-          var target = {
-            scaleX: this._sizeX,
-            scaleY: this._sizeY,
-            style: {
-              // Always fadeIn. Because it has fadeOut animation when symbol is removed..
-              opacity: symbolPath.style.opacity
-            }
-          };
-          symbolPath.scaleX = symbolPath.scaleY = 0;
-          symbolPath.style.opacity = 0;
-          initProps(symbolPath, target, seriesModel, idx);
-        }
-      }
-      if (disableAnimation) {
-        this.childAt(0).stopAnimation("leave");
-      }
-    };
-    Symbol2.prototype._updateCommon = function(data, idx, symbolSize, seriesScope, opts) {
-      var symbolPath = this.childAt(0);
-      var seriesModel = data.hostModel;
-      var emphasisItemStyle;
-      var blurItemStyle;
-      var selectItemStyle;
-      var focus;
-      var blurScope;
-      var emphasisDisabled;
-      var labelStatesModels;
-      var hoverScale;
-      var cursorStyle;
-      if (seriesScope) {
-        emphasisItemStyle = seriesScope.emphasisItemStyle;
-        blurItemStyle = seriesScope.blurItemStyle;
-        selectItemStyle = seriesScope.selectItemStyle;
-        focus = seriesScope.focus;
-        blurScope = seriesScope.blurScope;
-        labelStatesModels = seriesScope.labelStatesModels;
-        hoverScale = seriesScope.hoverScale;
-        cursorStyle = seriesScope.cursorStyle;
-        emphasisDisabled = seriesScope.emphasisDisabled;
-      }
-      if (!seriesScope || data.hasItemOption) {
-        var itemModel = seriesScope && seriesScope.itemModel ? seriesScope.itemModel : data.getItemModel(idx);
-        var emphasisModel = itemModel.getModel("emphasis");
-        emphasisItemStyle = emphasisModel.getModel("itemStyle").getItemStyle();
-        selectItemStyle = itemModel.getModel(["select", "itemStyle"]).getItemStyle();
-        blurItemStyle = itemModel.getModel(["blur", "itemStyle"]).getItemStyle();
-        focus = emphasisModel.get("focus");
-        blurScope = emphasisModel.get("blurScope");
-        emphasisDisabled = emphasisModel.get("disabled");
-        labelStatesModels = getLabelStatesModels(itemModel);
-        hoverScale = emphasisModel.getShallow("scale");
-        cursorStyle = itemModel.getShallow("cursor");
-      }
-      var symbolRotate = data.getItemVisual(idx, "symbolRotate");
-      symbolPath.attr("rotation", (symbolRotate || 0) * Math.PI / 180 || 0);
-      var symbolOffset = normalizeSymbolOffset(data.getItemVisual(idx, "symbolOffset"), symbolSize);
-      if (symbolOffset) {
-        symbolPath.x = symbolOffset[0];
-        symbolPath.y = symbolOffset[1];
-      }
-      cursorStyle && symbolPath.attr("cursor", cursorStyle);
-      var symbolStyle = data.getItemVisual(idx, "style");
-      var visualColor = symbolStyle.fill;
-      if (symbolPath instanceof ZRImage$1) {
-        var pathStyle = symbolPath.style;
-        symbolPath.useStyle(extend({
-          // TODO other properties like x, y ?
-          image: pathStyle.image,
-          x: pathStyle.x,
-          y: pathStyle.y,
-          width: pathStyle.width,
-          height: pathStyle.height
-        }, symbolStyle));
-      } else {
-        if (symbolPath.__isEmptyBrush) {
-          symbolPath.useStyle(extend({}, symbolStyle));
-        } else {
-          symbolPath.useStyle(symbolStyle);
-        }
-        symbolPath.style.decal = null;
-        symbolPath.setColor(visualColor, opts && opts.symbolInnerColor);
-        symbolPath.style.strokeNoScale = true;
-      }
-      var liftZ = data.getItemVisual(idx, "liftZ");
-      var z2Origin = this._z2;
-      if (liftZ != null) {
-        if (z2Origin == null) {
-          this._z2 = symbolPath.z2;
-          symbolPath.z2 += liftZ;
-        }
-      } else if (z2Origin != null) {
-        symbolPath.z2 = z2Origin;
-        this._z2 = null;
-      }
-      var useNameLabel = opts && opts.useNameLabel;
-      setLabelStyle(symbolPath, labelStatesModels, {
-        labelFetcher: seriesModel,
-        labelDataIndex: idx,
-        defaultText: getLabelDefaultText,
-        inheritColor: visualColor,
-        defaultOpacity: symbolStyle.opacity
-      });
-      function getLabelDefaultText(idx2) {
-        return useNameLabel ? data.getName(idx2) : getDefaultLabel(data, idx2);
-      }
-      this._sizeX = symbolSize[0] / 2;
-      this._sizeY = symbolSize[1] / 2;
-      var emphasisState = symbolPath.ensureState("emphasis");
-      emphasisState.style = emphasisItemStyle;
-      symbolPath.ensureState("select").style = selectItemStyle;
-      symbolPath.ensureState("blur").style = blurItemStyle;
-      var scaleRatio = hoverScale == null || hoverScale === true ? Math.max(1.1, 3 / this._sizeY) : isFinite(hoverScale) && hoverScale > 0 ? +hoverScale : 1;
-      emphasisState.scaleX = this._sizeX * scaleRatio;
-      emphasisState.scaleY = this._sizeY * scaleRatio;
-      this.setSymbolScale(1);
-      toggleHoverEmphasis(this, focus, blurScope, emphasisDisabled);
-    };
-    Symbol2.prototype.setSymbolScale = function(scale2) {
-      this.scaleX = this.scaleY = scale2;
-    };
-    Symbol2.prototype.fadeOut = function(cb, seriesModel, opt) {
-      var symbolPath = this.childAt(0);
-      var dataIndex = getECData(this).dataIndex;
-      var animationOpt = opt && opt.animation;
-      this.silent = symbolPath.silent = true;
-      if (opt && opt.fadeLabel) {
-        var textContent = symbolPath.getTextContent();
-        if (textContent) {
-          removeElement(textContent, {
-            style: {
-              opacity: 0
-            }
-          }, seriesModel, {
-            dataIndex,
-            removeOpt: animationOpt,
-            cb: function() {
-              symbolPath.removeTextContent();
-            }
-          });
-        }
-      } else {
-        symbolPath.removeTextContent();
-      }
-      removeElement(symbolPath, {
-        style: {
-          opacity: 0
-        },
-        scaleX: 0,
-        scaleY: 0
-      }, seriesModel, {
-        dataIndex,
-        cb,
-        removeOpt: animationOpt
-      });
-    };
-    Symbol2.getSymbolSize = function(data, idx) {
-      return normalizeSymbolSize(data.getItemVisual(idx, "symbolSize"));
-    };
-    return Symbol2;
-  }(Group$3)
-);
-function driftSymbol(dx, dy) {
-  this.parent.drift(dx, dy);
-}
-const SymbolClz = Symbol$1;
-function symbolNeedsDraw(data, point, idx, opt) {
-  return point && !isNaN(point[0]) && !isNaN(point[1]) && !(opt.isIgnore && opt.isIgnore(idx)) && !(opt.clipShape && !opt.clipShape.contain(point[0], point[1])) && data.getItemVisual(idx, "symbol") !== "none";
-}
-function normalizeUpdateOpt(opt) {
-  if (opt != null && !isObject$2(opt)) {
-    opt = {
-      isIgnore: opt
-    };
-  }
-  return opt || {};
-}
-function makeSeriesScope(data) {
-  var seriesModel = data.hostModel;
-  var emphasisModel = seriesModel.getModel("emphasis");
-  return {
-    emphasisItemStyle: emphasisModel.getModel("itemStyle").getItemStyle(),
-    blurItemStyle: seriesModel.getModel(["blur", "itemStyle"]).getItemStyle(),
-    selectItemStyle: seriesModel.getModel(["select", "itemStyle"]).getItemStyle(),
-    focus: emphasisModel.get("focus"),
-    blurScope: emphasisModel.get("blurScope"),
-    emphasisDisabled: emphasisModel.get("disabled"),
-    hoverScale: emphasisModel.get("scale"),
-    labelStatesModels: getLabelStatesModels(seriesModel),
-    cursorStyle: seriesModel.get("cursor")
-  };
-}
-var SymbolDraw = (
-  /** @class */
-  function() {
-    function SymbolDraw2(SymbolCtor) {
-      this.group = new Group$3();
-      this._SymbolCtor = SymbolCtor || SymbolClz;
-    }
-    SymbolDraw2.prototype.updateData = function(data, opt) {
-      this._progressiveEls = null;
-      opt = normalizeUpdateOpt(opt);
-      var group = this.group;
-      var seriesModel = data.hostModel;
-      var oldData = this._data;
-      var SymbolCtor = this._SymbolCtor;
-      var disableAnimation = opt.disableAnimation;
-      var seriesScope = makeSeriesScope(data);
-      var symbolUpdateOpt = {
-        disableAnimation
-      };
-      var getSymbolPoint = opt.getSymbolPoint || function(idx) {
-        return data.getItemLayout(idx);
-      };
-      if (!oldData) {
-        group.removeAll();
-      }
-      data.diff(oldData).add(function(newIdx) {
-        var point = getSymbolPoint(newIdx);
-        if (symbolNeedsDraw(data, point, newIdx, opt)) {
-          var symbolEl = new SymbolCtor(data, newIdx, seriesScope, symbolUpdateOpt);
-          symbolEl.setPosition(point);
-          data.setItemGraphicEl(newIdx, symbolEl);
-          group.add(symbolEl);
-        }
-      }).update(function(newIdx, oldIdx) {
-        var symbolEl = oldData.getItemGraphicEl(oldIdx);
-        var point = getSymbolPoint(newIdx);
-        if (!symbolNeedsDraw(data, point, newIdx, opt)) {
-          group.remove(symbolEl);
-          return;
-        }
-        var newSymbolType = data.getItemVisual(newIdx, "symbol") || "circle";
-        var oldSymbolType = symbolEl && symbolEl.getSymbolType && symbolEl.getSymbolType();
-        if (!symbolEl || oldSymbolType && oldSymbolType !== newSymbolType) {
-          group.remove(symbolEl);
-          symbolEl = new SymbolCtor(data, newIdx, seriesScope, symbolUpdateOpt);
-          symbolEl.setPosition(point);
-        } else {
-          symbolEl.updateData(data, newIdx, seriesScope, symbolUpdateOpt);
-          var target = {
-            x: point[0],
-            y: point[1]
-          };
-          disableAnimation ? symbolEl.attr(target) : updateProps$1(symbolEl, target, seriesModel);
-        }
-        group.add(symbolEl);
-        data.setItemGraphicEl(newIdx, symbolEl);
-      }).remove(function(oldIdx) {
-        var el = oldData.getItemGraphicEl(oldIdx);
-        el && el.fadeOut(function() {
-          group.remove(el);
-        }, seriesModel);
-      }).execute();
-      this._getSymbolPoint = getSymbolPoint;
-      this._data = data;
-    };
-    SymbolDraw2.prototype.updateLayout = function() {
-      var _this = this;
-      var data = this._data;
-      if (data) {
-        data.eachItemGraphicEl(function(el, idx) {
-          var point = _this._getSymbolPoint(idx);
-          el.setPosition(point);
-          el.markRedraw();
-        });
-      }
-    };
-    SymbolDraw2.prototype.incrementalPrepareUpdate = function(data) {
-      this._seriesScope = makeSeriesScope(data);
-      this._data = null;
-      this.group.removeAll();
-    };
-    SymbolDraw2.prototype.incrementalUpdate = function(taskParams, data, opt) {
-      this._progressiveEls = [];
-      opt = normalizeUpdateOpt(opt);
-      function updateIncrementalAndHover(el2) {
-        if (!el2.isGroup) {
-          el2.incremental = true;
-          el2.ensureState("emphasis").hoverLayer = true;
-        }
-      }
-      for (var idx = taskParams.start; idx < taskParams.end; idx++) {
-        var point = data.getItemLayout(idx);
-        if (symbolNeedsDraw(data, point, idx, opt)) {
-          var el = new this._SymbolCtor(data, idx, this._seriesScope);
-          el.traverse(updateIncrementalAndHover);
-          el.setPosition(point);
-          this.group.add(el);
-          data.setItemGraphicEl(idx, el);
-          this._progressiveEls.push(el);
-        }
-      }
-    };
-    SymbolDraw2.prototype.eachRendered = function(cb) {
-      traverseElements(this._progressiveEls || this.group, cb);
-    };
-    SymbolDraw2.prototype.remove = function(enableAnimation) {
-      var group = this.group;
-      var data = this._data;
-      if (data && enableAnimation) {
-        data.eachItemGraphicEl(function(el) {
-          el.fadeOut(function() {
-            group.remove(el);
-          }, data.hostModel);
-        });
-      } else {
-        group.removeAll();
-      }
-    };
-    return SymbolDraw2;
-  }()
-);
-const SymbolDraw$1 = SymbolDraw;
-function prepareDataCoordInfo(coordSys, data, valueOrigin) {
-  var baseAxis = coordSys.getBaseAxis();
-  var valueAxis2 = coordSys.getOtherAxis(baseAxis);
-  var valueStart = getValueStart(valueAxis2, valueOrigin);
-  var baseAxisDim = baseAxis.dim;
-  var valueAxisDim = valueAxis2.dim;
-  var valueDim = data.mapDimension(valueAxisDim);
-  var baseDim = data.mapDimension(baseAxisDim);
-  var baseDataOffset = valueAxisDim === "x" || valueAxisDim === "radius" ? 1 : 0;
-  var dims = map$1(coordSys.dimensions, function(coordDim) {
-    return data.mapDimension(coordDim);
-  });
-  var stacked = false;
-  var stackResultDim = data.getCalculationInfo("stackResultDimension");
-  if (isDimensionStacked(
-    data,
-    dims[0]
-    /* , dims[1] */
-  )) {
-    stacked = true;
-    dims[0] = stackResultDim;
-  }
-  if (isDimensionStacked(
-    data,
-    dims[1]
-    /* , dims[0] */
-  )) {
-    stacked = true;
-    dims[1] = stackResultDim;
-  }
-  return {
-    dataDimsForPoint: dims,
-    valueStart,
-    valueAxisDim,
-    baseAxisDim,
-    stacked: !!stacked,
-    valueDim,
-    baseDim,
-    baseDataOffset,
-    stackedOverDimension: data.getCalculationInfo("stackedOverDimension")
-  };
-}
-function getValueStart(valueAxis2, valueOrigin) {
-  var valueStart = 0;
-  var extent3 = valueAxis2.scale.getExtent();
-  if (valueOrigin === "start") {
-    valueStart = extent3[0];
-  } else if (valueOrigin === "end") {
-    valueStart = extent3[1];
-  } else if (isNumber(valueOrigin) && !isNaN(valueOrigin)) {
-    valueStart = valueOrigin;
-  } else {
-    if (extent3[0] > 0) {
-      valueStart = extent3[0];
-    } else if (extent3[1] < 0) {
-      valueStart = extent3[1];
-    }
-  }
-  return valueStart;
-}
-function getStackedOnPoint(dataCoordInfo, coordSys, data, idx) {
-  var value = NaN;
-  if (dataCoordInfo.stacked) {
-    value = data.get(data.getCalculationInfo("stackedOverDimension"), idx);
-  }
-  if (isNaN(value)) {
-    value = dataCoordInfo.valueStart;
-  }
-  var baseDataOffset = dataCoordInfo.baseDataOffset;
-  var stackedData = [];
-  stackedData[baseDataOffset] = data.get(dataCoordInfo.baseDim, idx);
-  stackedData[1 - baseDataOffset] = value;
-  return coordSys.dataToPoint(stackedData);
-}
-function diffData(oldData, newData) {
-  var diffResult = [];
-  newData.diff(oldData).add(function(idx) {
-    diffResult.push({
-      cmd: "+",
-      idx
-    });
-  }).update(function(newIdx, oldIdx) {
-    diffResult.push({
-      cmd: "=",
-      idx: oldIdx,
-      idx1: newIdx
-    });
-  }).remove(function(idx) {
-    diffResult.push({
-      cmd: "-",
-      idx
-    });
-  }).execute();
-  return diffResult;
-}
-function lineAnimationDiff(oldData, newData, oldStackedOnPoints, newStackedOnPoints, oldCoordSys, newCoordSys, oldValueOrigin, newValueOrigin) {
-  var diff2 = diffData(oldData, newData);
-  var currPoints = [];
-  var nextPoints = [];
-  var currStackedPoints = [];
-  var nextStackedPoints = [];
-  var status = [];
-  var sortedIndices = [];
-  var rawIndices = [];
-  var newDataOldCoordInfo = prepareDataCoordInfo(oldCoordSys, newData, oldValueOrigin);
-  var oldPoints = oldData.getLayout("points") || [];
-  var newPoints = newData.getLayout("points") || [];
-  for (var i = 0; i < diff2.length; i++) {
-    var diffItem = diff2[i];
-    var pointAdded = true;
-    var oldIdx2 = void 0;
-    var newIdx2 = void 0;
-    switch (diffItem.cmd) {
-      case "=":
-        oldIdx2 = diffItem.idx * 2;
-        newIdx2 = diffItem.idx1 * 2;
-        var currentX = oldPoints[oldIdx2];
-        var currentY = oldPoints[oldIdx2 + 1];
-        var nextX = newPoints[newIdx2];
-        var nextY = newPoints[newIdx2 + 1];
-        if (isNaN(currentX) || isNaN(currentY)) {
-          currentX = nextX;
-          currentY = nextY;
-        }
-        currPoints.push(currentX, currentY);
-        nextPoints.push(nextX, nextY);
-        currStackedPoints.push(oldStackedOnPoints[oldIdx2], oldStackedOnPoints[oldIdx2 + 1]);
-        nextStackedPoints.push(newStackedOnPoints[newIdx2], newStackedOnPoints[newIdx2 + 1]);
-        rawIndices.push(newData.getRawIndex(diffItem.idx1));
-        break;
-      case "+":
-        var newIdx = diffItem.idx;
-        var newDataDimsForPoint = newDataOldCoordInfo.dataDimsForPoint;
-        var oldPt = oldCoordSys.dataToPoint([newData.get(newDataDimsForPoint[0], newIdx), newData.get(newDataDimsForPoint[1], newIdx)]);
-        newIdx2 = newIdx * 2;
-        currPoints.push(oldPt[0], oldPt[1]);
-        nextPoints.push(newPoints[newIdx2], newPoints[newIdx2 + 1]);
-        var stackedOnPoint = getStackedOnPoint(newDataOldCoordInfo, oldCoordSys, newData, newIdx);
-        currStackedPoints.push(stackedOnPoint[0], stackedOnPoint[1]);
-        nextStackedPoints.push(newStackedOnPoints[newIdx2], newStackedOnPoints[newIdx2 + 1]);
-        rawIndices.push(newData.getRawIndex(newIdx));
-        break;
-      case "-":
-        pointAdded = false;
-    }
-    if (pointAdded) {
-      status.push(diffItem);
-      sortedIndices.push(sortedIndices.length);
-    }
-  }
-  sortedIndices.sort(function(a, b2) {
-    return rawIndices[a] - rawIndices[b2];
-  });
-  var len2 = currPoints.length;
-  var sortedCurrPoints = createFloat32Array(len2);
-  var sortedNextPoints = createFloat32Array(len2);
-  var sortedCurrStackedPoints = createFloat32Array(len2);
-  var sortedNextStackedPoints = createFloat32Array(len2);
-  var sortedStatus = [];
-  for (var i = 0; i < sortedIndices.length; i++) {
-    var idx = sortedIndices[i];
-    var i2 = i * 2;
-    var idx2 = idx * 2;
-    sortedCurrPoints[i2] = currPoints[idx2];
-    sortedCurrPoints[i2 + 1] = currPoints[idx2 + 1];
-    sortedNextPoints[i2] = nextPoints[idx2];
-    sortedNextPoints[i2 + 1] = nextPoints[idx2 + 1];
-    sortedCurrStackedPoints[i2] = currStackedPoints[idx2];
-    sortedCurrStackedPoints[i2 + 1] = currStackedPoints[idx2 + 1];
-    sortedNextStackedPoints[i2] = nextStackedPoints[idx2];
-    sortedNextStackedPoints[i2 + 1] = nextStackedPoints[idx2 + 1];
-    sortedStatus[i] = status[idx];
-  }
-  return {
-    current: sortedCurrPoints,
-    next: sortedNextPoints,
-    stackedOnCurrent: sortedCurrStackedPoints,
-    stackedOnNext: sortedNextStackedPoints,
-    status: sortedStatus
-  };
-}
-var mathMin$2 = Math.min;
-var mathMax$2 = Math.max;
-function isPointNull$1(x2, y2) {
-  return isNaN(x2) || isNaN(y2);
-}
-function drawSegment(ctx, points2, start2, segLen, allLen, dir3, smooth, smoothMonotone, connectNulls) {
-  var prevX;
-  var prevY;
-  var cpx0;
-  var cpy0;
-  var cpx1;
-  var cpy1;
-  var idx = start2;
-  var k = 0;
-  for (; k < segLen; k++) {
-    var x2 = points2[idx * 2];
-    var y2 = points2[idx * 2 + 1];
-    if (idx >= allLen || idx < 0) {
-      break;
-    }
-    if (isPointNull$1(x2, y2)) {
-      if (connectNulls) {
-        idx += dir3;
-        continue;
-      }
-      break;
-    }
-    if (idx === start2) {
-      ctx[dir3 > 0 ? "moveTo" : "lineTo"](x2, y2);
-      cpx0 = x2;
-      cpy0 = y2;
-    } else {
-      var dx = x2 - prevX;
-      var dy = y2 - prevY;
-      if (dx * dx + dy * dy < 0.5) {
-        idx += dir3;
-        continue;
-      }
-      if (smooth > 0) {
-        var nextIdx = idx + dir3;
-        var nextX = points2[nextIdx * 2];
-        var nextY = points2[nextIdx * 2 + 1];
-        while (nextX === x2 && nextY === y2 && k < segLen) {
-          k++;
-          nextIdx += dir3;
-          idx += dir3;
-          nextX = points2[nextIdx * 2];
-          nextY = points2[nextIdx * 2 + 1];
-          x2 = points2[idx * 2];
-          y2 = points2[idx * 2 + 1];
-          dx = x2 - prevX;
-          dy = y2 - prevY;
-        }
-        var tmpK = k + 1;
-        if (connectNulls) {
-          while (isPointNull$1(nextX, nextY) && tmpK < segLen) {
-            tmpK++;
-            nextIdx += dir3;
-            nextX = points2[nextIdx * 2];
-            nextY = points2[nextIdx * 2 + 1];
-          }
-        }
-        var ratioNextSeg = 0.5;
-        var vx = 0;
-        var vy = 0;
-        var nextCpx0 = void 0;
-        var nextCpy0 = void 0;
-        if (tmpK >= segLen || isPointNull$1(nextX, nextY)) {
-          cpx1 = x2;
-          cpy1 = y2;
-        } else {
-          vx = nextX - prevX;
-          vy = nextY - prevY;
-          var dx0 = x2 - prevX;
-          var dx1 = nextX - x2;
-          var dy0 = y2 - prevY;
-          var dy1 = nextY - y2;
-          var lenPrevSeg = void 0;
-          var lenNextSeg = void 0;
-          if (smoothMonotone === "x") {
-            lenPrevSeg = Math.abs(dx0);
-            lenNextSeg = Math.abs(dx1);
-            var dir_1 = vx > 0 ? 1 : -1;
-            cpx1 = x2 - dir_1 * lenPrevSeg * smooth;
-            cpy1 = y2;
-            nextCpx0 = x2 + dir_1 * lenNextSeg * smooth;
-            nextCpy0 = y2;
-          } else if (smoothMonotone === "y") {
-            lenPrevSeg = Math.abs(dy0);
-            lenNextSeg = Math.abs(dy1);
-            var dir_2 = vy > 0 ? 1 : -1;
-            cpx1 = x2;
-            cpy1 = y2 - dir_2 * lenPrevSeg * smooth;
-            nextCpx0 = x2;
-            nextCpy0 = y2 + dir_2 * lenNextSeg * smooth;
-          } else {
-            lenPrevSeg = Math.sqrt(dx0 * dx0 + dy0 * dy0);
-            lenNextSeg = Math.sqrt(dx1 * dx1 + dy1 * dy1);
-            ratioNextSeg = lenNextSeg / (lenNextSeg + lenPrevSeg);
-            cpx1 = x2 - vx * smooth * (1 - ratioNextSeg);
-            cpy1 = y2 - vy * smooth * (1 - ratioNextSeg);
-            nextCpx0 = x2 + vx * smooth * ratioNextSeg;
-            nextCpy0 = y2 + vy * smooth * ratioNextSeg;
-            nextCpx0 = mathMin$2(nextCpx0, mathMax$2(nextX, x2));
-            nextCpy0 = mathMin$2(nextCpy0, mathMax$2(nextY, y2));
-            nextCpx0 = mathMax$2(nextCpx0, mathMin$2(nextX, x2));
-            nextCpy0 = mathMax$2(nextCpy0, mathMin$2(nextY, y2));
-            vx = nextCpx0 - x2;
-            vy = nextCpy0 - y2;
-            cpx1 = x2 - vx * lenPrevSeg / lenNextSeg;
-            cpy1 = y2 - vy * lenPrevSeg / lenNextSeg;
-            cpx1 = mathMin$2(cpx1, mathMax$2(prevX, x2));
-            cpy1 = mathMin$2(cpy1, mathMax$2(prevY, y2));
-            cpx1 = mathMax$2(cpx1, mathMin$2(prevX, x2));
-            cpy1 = mathMax$2(cpy1, mathMin$2(prevY, y2));
-            vx = x2 - cpx1;
-            vy = y2 - cpy1;
-            nextCpx0 = x2 + vx * lenNextSeg / lenPrevSeg;
-            nextCpy0 = y2 + vy * lenNextSeg / lenPrevSeg;
-          }
-        }
-        ctx.bezierCurveTo(cpx0, cpy0, cpx1, cpy1, x2, y2);
-        cpx0 = nextCpx0;
-        cpy0 = nextCpy0;
-      } else {
-        ctx.lineTo(x2, y2);
-      }
-    }
-    prevX = x2;
-    prevY = y2;
-    idx += dir3;
-  }
-  return k;
-}
-var ECPolylineShape = (
-  /** @class */
-  function() {
-    function ECPolylineShape2() {
-      this.smooth = 0;
-      this.smoothConstraint = true;
-    }
-    return ECPolylineShape2;
-  }()
-);
-var ECPolyline = (
-  /** @class */
-  function(_super) {
-    __extends(ECPolyline2, _super);
-    function ECPolyline2(opts) {
-      var _this = _super.call(this, opts) || this;
-      _this.type = "ec-polyline";
-      return _this;
-    }
-    ECPolyline2.prototype.getDefaultStyle = function() {
-      return {
-        stroke: "#000",
-        fill: null
-      };
-    };
-    ECPolyline2.prototype.getDefaultShape = function() {
-      return new ECPolylineShape();
-    };
-    ECPolyline2.prototype.buildPath = function(ctx, shape) {
-      var points2 = shape.points;
-      var i = 0;
-      var len2 = points2.length / 2;
-      if (shape.connectNulls) {
-        for (; len2 > 0; len2--) {
-          if (!isPointNull$1(points2[len2 * 2 - 2], points2[len2 * 2 - 1])) {
-            break;
-          }
-        }
-        for (; i < len2; i++) {
-          if (!isPointNull$1(points2[i * 2], points2[i * 2 + 1])) {
-            break;
-          }
-        }
-      }
-      while (i < len2) {
-        i += drawSegment(ctx, points2, i, len2, len2, 1, shape.smooth, shape.smoothMonotone, shape.connectNulls) + 1;
-      }
-    };
-    ECPolyline2.prototype.getPointOn = function(xOrY, dim) {
-      if (!this.path) {
-        this.createPathProxy();
-        this.buildPath(this.path, this.shape);
-      }
-      var path = this.path;
-      var data = path.data;
-      var CMD2 = PathProxy$1.CMD;
-      var x0;
-      var y0;
-      var isDimX = dim === "x";
-      var roots2 = [];
-      for (var i = 0; i < data.length; ) {
-        var cmd = data[i++];
-        var x2 = void 0;
-        var y2 = void 0;
-        var x22 = void 0;
-        var y22 = void 0;
-        var x3 = void 0;
-        var y3 = void 0;
-        var t2 = void 0;
-        switch (cmd) {
-          case CMD2.M:
-            x0 = data[i++];
-            y0 = data[i++];
-            break;
-          case CMD2.L:
-            x2 = data[i++];
-            y2 = data[i++];
-            t2 = isDimX ? (xOrY - x0) / (x2 - x0) : (xOrY - y0) / (y2 - y0);
-            if (t2 <= 1 && t2 >= 0) {
-              var val = isDimX ? (y2 - y0) * t2 + y0 : (x2 - x0) * t2 + x0;
-              return isDimX ? [xOrY, val] : [val, xOrY];
-            }
-            x0 = x2;
-            y0 = y2;
-            break;
-          case CMD2.C:
-            x2 = data[i++];
-            y2 = data[i++];
-            x22 = data[i++];
-            y22 = data[i++];
-            x3 = data[i++];
-            y3 = data[i++];
-            var nRoot = isDimX ? cubicRootAt(x0, x2, x22, x3, xOrY, roots2) : cubicRootAt(y0, y2, y22, y3, xOrY, roots2);
-            if (nRoot > 0) {
-              for (var i_1 = 0; i_1 < nRoot; i_1++) {
-                var t_1 = roots2[i_1];
-                if (t_1 <= 1 && t_1 >= 0) {
-                  var val = isDimX ? cubicAt(y0, y2, y22, y3, t_1) : cubicAt(x0, x2, x22, x3, t_1);
-                  return isDimX ? [xOrY, val] : [val, xOrY];
-                }
-              }
-            }
-            x0 = x3;
-            y0 = y3;
-            break;
-        }
-      }
-    };
-    return ECPolyline2;
-  }(Path$1)
-);
-var ECPolygonShape = (
-  /** @class */
-  function(_super) {
-    __extends(ECPolygonShape2, _super);
-    function ECPolygonShape2() {
-      return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return ECPolygonShape2;
-  }(ECPolylineShape)
-);
-var ECPolygon = (
-  /** @class */
-  function(_super) {
-    __extends(ECPolygon2, _super);
-    function ECPolygon2(opts) {
-      var _this = _super.call(this, opts) || this;
-      _this.type = "ec-polygon";
-      return _this;
-    }
-    ECPolygon2.prototype.getDefaultShape = function() {
-      return new ECPolygonShape();
-    };
-    ECPolygon2.prototype.buildPath = function(ctx, shape) {
-      var points2 = shape.points;
-      var stackedOnPoints = shape.stackedOnPoints;
-      var i = 0;
-      var len2 = points2.length / 2;
-      var smoothMonotone = shape.smoothMonotone;
-      if (shape.connectNulls) {
-        for (; len2 > 0; len2--) {
-          if (!isPointNull$1(points2[len2 * 2 - 2], points2[len2 * 2 - 1])) {
-            break;
-          }
-        }
-        for (; i < len2; i++) {
-          if (!isPointNull$1(points2[i * 2], points2[i * 2 + 1])) {
-            break;
-          }
-        }
-      }
-      while (i < len2) {
-        var k = drawSegment(ctx, points2, i, len2, len2, 1, shape.smooth, smoothMonotone, shape.connectNulls);
-        drawSegment(ctx, stackedOnPoints, i + k - 1, k, len2, -1, shape.stackedOnSmooth, smoothMonotone, shape.connectNulls);
-        i += k + 1;
-        ctx.closePath();
-      }
-    };
-    return ECPolygon2;
-  }(Path$1)
-);
-function createGridClipPath(cartesian, hasAnimation, seriesModel, done, during) {
-  var rect = cartesian.getArea();
-  var x2 = rect.x;
-  var y2 = rect.y;
-  var width = rect.width;
-  var height = rect.height;
-  var lineWidth = seriesModel.get(["lineStyle", "width"]) || 2;
-  x2 -= lineWidth / 2;
-  y2 -= lineWidth / 2;
-  width += lineWidth;
-  height += lineWidth;
-  x2 = Math.floor(x2);
-  width = Math.round(width);
-  var clipPath = new Rect$1({
-    shape: {
-      x: x2,
-      y: y2,
-      width,
-      height
-    }
-  });
-  if (hasAnimation) {
-    var baseAxis = cartesian.getBaseAxis();
-    var isHorizontal = baseAxis.isHorizontal();
-    var isAxisInversed = baseAxis.inverse;
-    if (isHorizontal) {
-      if (isAxisInversed) {
-        clipPath.shape.x += width;
-      }
-      clipPath.shape.width = 0;
-    } else {
-      if (!isAxisInversed) {
-        clipPath.shape.y += height;
-      }
-      clipPath.shape.height = 0;
-    }
-    var duringCb = isFunction(during) ? function(percent) {
-      during(percent, clipPath);
-    } : null;
-    initProps(clipPath, {
-      shape: {
-        width,
-        height,
-        x: x2,
-        y: y2
-      }
-    }, seriesModel, null, done, duringCb);
-  }
-  return clipPath;
-}
-function createPolarClipPath(polar, hasAnimation, seriesModel) {
-  var sectorArea = polar.getArea();
-  var r0 = round$1(sectorArea.r0, 1);
-  var r = round$1(sectorArea.r, 1);
-  var clipPath = new Sector$1({
-    shape: {
-      cx: round$1(polar.cx, 1),
-      cy: round$1(polar.cy, 1),
-      r0,
-      r,
-      startAngle: sectorArea.startAngle,
-      endAngle: sectorArea.endAngle,
-      clockwise: sectorArea.clockwise
-    }
-  });
-  if (hasAnimation) {
-    var isRadial = polar.getBaseAxis().dim === "angle";
-    if (isRadial) {
-      clipPath.shape.endAngle = sectorArea.startAngle;
-    } else {
-      clipPath.shape.r = r0;
-    }
-    initProps(clipPath, {
-      shape: {
-        endAngle: sectorArea.endAngle,
-        r
-      }
-    }, seriesModel);
-  }
-  return clipPath;
-}
-function createClipPath(coordSys, hasAnimation, seriesModel, done, during) {
-  if (!coordSys) {
-    return null;
-  } else if (coordSys.type === "polar") {
-    return createPolarClipPath(coordSys, hasAnimation, seriesModel);
-  } else if (coordSys.type === "cartesian2d") {
-    return createGridClipPath(coordSys, hasAnimation, seriesModel, done, during);
-  }
-  return null;
-}
-function isCoordinateSystemType(coordSys, type) {
-  return coordSys.type === type;
-}
-function isPointsSame(points1, points2) {
-  if (points1.length !== points2.length) {
-    return;
-  }
-  for (var i = 0; i < points1.length; i++) {
-    if (points1[i] !== points2[i]) {
-      return;
-    }
-  }
-  return true;
-}
-function bboxFromPoints(points2) {
-  var minX = Infinity;
-  var minY = Infinity;
-  var maxX = -Infinity;
-  var maxY = -Infinity;
-  for (var i = 0; i < points2.length; ) {
-    var x2 = points2[i++];
-    var y2 = points2[i++];
-    if (!isNaN(x2)) {
-      minX = Math.min(x2, minX);
-      maxX = Math.max(x2, maxX);
-    }
-    if (!isNaN(y2)) {
-      minY = Math.min(y2, minY);
-      maxY = Math.max(y2, maxY);
-    }
-  }
-  return [[minX, minY], [maxX, maxY]];
-}
-function getBoundingDiff(points1, points2) {
-  var _a2 = bboxFromPoints(points1), min1 = _a2[0], max1 = _a2[1];
-  var _b2 = bboxFromPoints(points2), min22 = _b2[0], max22 = _b2[1];
-  return Math.max(Math.abs(min1[0] - min22[0]), Math.abs(min1[1] - min22[1]), Math.abs(max1[0] - max22[0]), Math.abs(max1[1] - max22[1]));
-}
-function getSmooth(smooth) {
-  return isNumber(smooth) ? smooth : smooth ? 0.5 : 0;
-}
-function getStackedOnPoints(coordSys, data, dataCoordInfo) {
-  if (!dataCoordInfo.valueDim) {
-    return [];
-  }
-  var len2 = data.count();
-  var points2 = createFloat32Array(len2 * 2);
-  for (var idx = 0; idx < len2; idx++) {
-    var pt = getStackedOnPoint(dataCoordInfo, coordSys, data, idx);
-    points2[idx * 2] = pt[0];
-    points2[idx * 2 + 1] = pt[1];
-  }
-  return points2;
-}
-function turnPointsIntoStep(points2, coordSys, stepTurnAt, connectNulls) {
-  var baseAxis = coordSys.getBaseAxis();
-  var baseIndex = baseAxis.dim === "x" || baseAxis.dim === "radius" ? 0 : 1;
-  var stepPoints = [];
-  var i = 0;
-  var stepPt = [];
-  var pt = [];
-  var nextPt = [];
-  var filteredPoints = [];
-  if (connectNulls) {
-    for (i = 0; i < points2.length; i += 2) {
-      if (!isNaN(points2[i]) && !isNaN(points2[i + 1])) {
-        filteredPoints.push(points2[i], points2[i + 1]);
-      }
-    }
-    points2 = filteredPoints;
-  }
-  for (i = 0; i < points2.length - 2; i += 2) {
-    nextPt[0] = points2[i + 2];
-    nextPt[1] = points2[i + 3];
-    pt[0] = points2[i];
-    pt[1] = points2[i + 1];
-    stepPoints.push(pt[0], pt[1]);
-    switch (stepTurnAt) {
-      case "end":
-        stepPt[baseIndex] = nextPt[baseIndex];
-        stepPt[1 - baseIndex] = pt[1 - baseIndex];
-        stepPoints.push(stepPt[0], stepPt[1]);
-        break;
-      case "middle":
-        var middle = (pt[baseIndex] + nextPt[baseIndex]) / 2;
-        var stepPt2 = [];
-        stepPt[baseIndex] = stepPt2[baseIndex] = middle;
-        stepPt[1 - baseIndex] = pt[1 - baseIndex];
-        stepPt2[1 - baseIndex] = nextPt[1 - baseIndex];
-        stepPoints.push(stepPt[0], stepPt[1]);
-        stepPoints.push(stepPt2[0], stepPt2[1]);
-        break;
-      default:
-        stepPt[baseIndex] = pt[baseIndex];
-        stepPt[1 - baseIndex] = nextPt[1 - baseIndex];
-        stepPoints.push(stepPt[0], stepPt[1]);
-    }
-  }
-  stepPoints.push(points2[i++], points2[i++]);
-  return stepPoints;
-}
-function clipColorStops(colorStops, maxSize) {
-  var newColorStops = [];
-  var len2 = colorStops.length;
-  var prevOutOfRangeColorStop;
-  var prevInRangeColorStop;
-  function lerpStop(stop0, stop1, clippedCoord) {
-    var coord0 = stop0.coord;
-    var p2 = (clippedCoord - coord0) / (stop1.coord - coord0);
-    var color2 = lerp(p2, [stop0.color, stop1.color]);
-    return {
-      coord: clippedCoord,
-      color: color2
-    };
-  }
-  for (var i = 0; i < len2; i++) {
-    var stop_1 = colorStops[i];
-    var coord = stop_1.coord;
-    if (coord < 0) {
-      prevOutOfRangeColorStop = stop_1;
-    } else if (coord > maxSize) {
-      if (prevInRangeColorStop) {
-        newColorStops.push(lerpStop(prevInRangeColorStop, stop_1, maxSize));
-      } else if (prevOutOfRangeColorStop) {
-        newColorStops.push(lerpStop(prevOutOfRangeColorStop, stop_1, 0), lerpStop(prevOutOfRangeColorStop, stop_1, maxSize));
-      }
-      break;
-    } else {
-      if (prevOutOfRangeColorStop) {
-        newColorStops.push(lerpStop(prevOutOfRangeColorStop, stop_1, 0));
-        prevOutOfRangeColorStop = null;
-      }
-      newColorStops.push(stop_1);
-      prevInRangeColorStop = stop_1;
-    }
-  }
-  return newColorStops;
-}
-function getVisualGradient(data, coordSys, api) {
-  var visualMetaList = data.getVisual("visualMeta");
-  if (!visualMetaList || !visualMetaList.length || !data.count()) {
-    return;
-  }
-  if (coordSys.type !== "cartesian2d") {
-    {
-      console.warn("Visual map on line style is only supported on cartesian2d.");
-    }
-    return;
-  }
-  var coordDim;
-  var visualMeta;
-  for (var i = visualMetaList.length - 1; i >= 0; i--) {
-    var dimInfo = data.getDimensionInfo(visualMetaList[i].dimension);
-    coordDim = dimInfo && dimInfo.coordDim;
-    if (coordDim === "x" || coordDim === "y") {
-      visualMeta = visualMetaList[i];
-      break;
-    }
-  }
-  if (!visualMeta) {
-    {
-      console.warn("Visual map on line style only support x or y dimension.");
-    }
-    return;
-  }
-  var axis = coordSys.getAxis(coordDim);
-  var colorStops = map$1(visualMeta.stops, function(stop2) {
-    return {
-      coord: axis.toGlobalCoord(axis.dataToCoord(stop2.value)),
-      color: stop2.color
-    };
-  });
-  var stopLen = colorStops.length;
-  var outerColors = visualMeta.outerColors.slice();
-  if (stopLen && colorStops[0].coord > colorStops[stopLen - 1].coord) {
-    colorStops.reverse();
-    outerColors.reverse();
-  }
-  var colorStopsInRange = clipColorStops(colorStops, coordDim === "x" ? api.getWidth() : api.getHeight());
-  var inRangeStopLen = colorStopsInRange.length;
-  if (!inRangeStopLen && stopLen) {
-    return colorStops[0].coord < 0 ? outerColors[1] ? outerColors[1] : colorStops[stopLen - 1].color : outerColors[0] ? outerColors[0] : colorStops[0].color;
-  }
-  var tinyExtent = 10;
-  var minCoord = colorStopsInRange[0].coord - tinyExtent;
-  var maxCoord = colorStopsInRange[inRangeStopLen - 1].coord + tinyExtent;
-  var coordSpan = maxCoord - minCoord;
-  if (coordSpan < 1e-3) {
-    return "transparent";
-  }
-  each$7(colorStopsInRange, function(stop2) {
-    stop2.offset = (stop2.coord - minCoord) / coordSpan;
-  });
-  colorStopsInRange.push({
-    // NOTE: inRangeStopLen may still be 0 if stoplen is zero.
-    offset: inRangeStopLen ? colorStopsInRange[inRangeStopLen - 1].offset : 0.5,
-    color: outerColors[1] || "transparent"
-  });
-  colorStopsInRange.unshift({
-    offset: inRangeStopLen ? colorStopsInRange[0].offset : 0.5,
-    color: outerColors[0] || "transparent"
-  });
-  var gradient = new LinearGradient$1(0, 0, 0, 0, colorStopsInRange, true);
-  gradient[coordDim] = minCoord;
-  gradient[coordDim + "2"] = maxCoord;
-  return gradient;
-}
-function getIsIgnoreFunc(seriesModel, data, coordSys) {
-  var showAllSymbol = seriesModel.get("showAllSymbol");
-  var isAuto = showAllSymbol === "auto";
-  if (showAllSymbol && !isAuto) {
-    return;
-  }
-  var categoryAxis2 = coordSys.getAxesByScale("ordinal")[0];
-  if (!categoryAxis2) {
-    return;
-  }
-  if (isAuto && canShowAllSymbolForCategory(categoryAxis2, data)) {
-    return;
-  }
-  var categoryDataDim = data.mapDimension(categoryAxis2.dim);
-  var labelMap = {};
-  each$7(categoryAxis2.getViewLabels(), function(labelItem) {
-    var ordinalNumber = categoryAxis2.scale.getRawOrdinalNumber(labelItem.tickValue);
-    labelMap[ordinalNumber] = 1;
-  });
-  return function(dataIndex) {
-    return !labelMap.hasOwnProperty(data.get(categoryDataDim, dataIndex));
-  };
-}
-function canShowAllSymbolForCategory(categoryAxis2, data) {
-  var axisExtent = categoryAxis2.getExtent();
-  var availSize = Math.abs(axisExtent[1] - axisExtent[0]) / categoryAxis2.scale.count();
-  isNaN(availSize) && (availSize = 0);
-  var dataLen = data.count();
-  var step = Math.max(1, Math.round(dataLen / 5));
-  for (var dataIndex = 0; dataIndex < dataLen; dataIndex += step) {
-    if (SymbolClz.getSymbolSize(
-      data,
-      dataIndex
-      // Only for cartesian, where `isHorizontal` exists.
-    )[categoryAxis2.isHorizontal() ? 1 : 0] * 1.5 > availSize) {
-      return false;
-    }
-  }
-  return true;
-}
-function isPointNull(x2, y2) {
-  return isNaN(x2) || isNaN(y2);
-}
-function getLastIndexNotNull(points2) {
-  var len2 = points2.length / 2;
-  for (; len2 > 0; len2--) {
-    if (!isPointNull(points2[len2 * 2 - 2], points2[len2 * 2 - 1])) {
-      break;
-    }
-  }
-  return len2 - 1;
-}
-function getPointAtIndex(points2, idx) {
-  return [points2[idx * 2], points2[idx * 2 + 1]];
-}
-function getIndexRange(points2, xOrY, dim) {
-  var len2 = points2.length / 2;
-  var dimIdx = dim === "x" ? 0 : 1;
-  var a;
-  var b2;
-  var prevIndex = 0;
-  var nextIndex = -1;
-  for (var i = 0; i < len2; i++) {
-    b2 = points2[i * 2 + dimIdx];
-    if (isNaN(b2) || isNaN(points2[i * 2 + 1 - dimIdx])) {
-      continue;
-    }
-    if (i === 0) {
-      a = b2;
-      continue;
-    }
-    if (a <= xOrY && b2 >= xOrY || a >= xOrY && b2 <= xOrY) {
-      nextIndex = i;
-      break;
-    }
-    prevIndex = i;
-    a = b2;
-  }
-  return {
-    range: [prevIndex, nextIndex],
-    t: (xOrY - a) / (b2 - a)
-  };
-}
-function anyStateShowEndLabel(seriesModel) {
-  if (seriesModel.get(["endLabel", "show"])) {
-    return true;
-  }
-  for (var i = 0; i < SPECIAL_STATES.length; i++) {
-    if (seriesModel.get([SPECIAL_STATES[i], "endLabel", "show"])) {
-      return true;
-    }
-  }
-  return false;
-}
-function createLineClipPath(lineView, coordSys, hasAnimation, seriesModel) {
-  if (isCoordinateSystemType(coordSys, "cartesian2d")) {
-    var endLabelModel_1 = seriesModel.getModel("endLabel");
-    var valueAnimation_1 = endLabelModel_1.get("valueAnimation");
-    var data_1 = seriesModel.getData();
-    var labelAnimationRecord_1 = {
-      lastFrameIndex: 0
-    };
-    var during = anyStateShowEndLabel(seriesModel) ? function(percent, clipRect) {
-      lineView._endLabelOnDuring(percent, clipRect, data_1, labelAnimationRecord_1, valueAnimation_1, endLabelModel_1, coordSys);
-    } : null;
-    var isHorizontal = coordSys.getBaseAxis().isHorizontal();
-    var clipPath = createGridClipPath(coordSys, hasAnimation, seriesModel, function() {
-      var endLabel = lineView._endLabel;
-      if (endLabel && hasAnimation) {
-        if (labelAnimationRecord_1.originalX != null) {
-          endLabel.attr({
-            x: labelAnimationRecord_1.originalX,
-            y: labelAnimationRecord_1.originalY
-          });
-        }
-      }
-    }, during);
-    if (!seriesModel.get("clip", true)) {
-      var rectShape = clipPath.shape;
-      var expandSize = Math.max(rectShape.width, rectShape.height);
-      if (isHorizontal) {
-        rectShape.y -= expandSize;
-        rectShape.height += expandSize * 2;
-      } else {
-        rectShape.x -= expandSize;
-        rectShape.width += expandSize * 2;
-      }
-    }
-    if (during) {
-      during(1, clipPath);
-    }
-    return clipPath;
-  } else {
-    {
-      if (seriesModel.get(["endLabel", "show"])) {
-        console.warn("endLabel is not supported for lines in polar systems.");
-      }
-    }
-    return createPolarClipPath(coordSys, hasAnimation, seriesModel);
-  }
-}
-function getEndLabelStateSpecified(endLabelModel, coordSys) {
-  var baseAxis = coordSys.getBaseAxis();
-  var isHorizontal = baseAxis.isHorizontal();
-  var isBaseInversed = baseAxis.inverse;
-  var align = isHorizontal ? isBaseInversed ? "right" : "left" : "center";
-  var verticalAlign = isHorizontal ? "middle" : isBaseInversed ? "top" : "bottom";
-  return {
-    normal: {
-      align: endLabelModel.get("align") || align,
-      verticalAlign: endLabelModel.get("verticalAlign") || verticalAlign
-    }
-  };
-}
-var LineView = (
-  /** @class */
-  function(_super) {
-    __extends(LineView2, _super);
-    function LineView2() {
-      return _super !== null && _super.apply(this, arguments) || this;
-    }
-    LineView2.prototype.init = function() {
-      var lineGroup = new Group$3();
-      var symbolDraw = new SymbolDraw$1();
-      this.group.add(symbolDraw.group);
-      this._symbolDraw = symbolDraw;
-      this._lineGroup = lineGroup;
-    };
-    LineView2.prototype.render = function(seriesModel, ecModel, api) {
-      var _this = this;
-      var coordSys = seriesModel.coordinateSystem;
-      var group = this.group;
-      var data = seriesModel.getData();
-      var lineStyleModel = seriesModel.getModel("lineStyle");
-      var areaStyleModel = seriesModel.getModel("areaStyle");
-      var points2 = data.getLayout("points") || [];
-      var isCoordSysPolar = coordSys.type === "polar";
-      var prevCoordSys = this._coordSys;
-      var symbolDraw = this._symbolDraw;
-      var polyline = this._polyline;
-      var polygon = this._polygon;
-      var lineGroup = this._lineGroup;
-      var hasAnimation = !ecModel.ssr && seriesModel.isAnimationEnabled();
-      var isAreaChart = !areaStyleModel.isEmpty();
-      var valueOrigin = areaStyleModel.get("origin");
-      var dataCoordInfo = prepareDataCoordInfo(coordSys, data, valueOrigin);
-      var stackedOnPoints = isAreaChart && getStackedOnPoints(coordSys, data, dataCoordInfo);
-      var showSymbol = seriesModel.get("showSymbol");
-      var connectNulls = seriesModel.get("connectNulls");
-      var isIgnoreFunc = showSymbol && !isCoordSysPolar && getIsIgnoreFunc(seriesModel, data, coordSys);
-      var oldData = this._data;
-      oldData && oldData.eachItemGraphicEl(function(el, idx) {
-        if (el.__temp) {
-          group.remove(el);
-          oldData.setItemGraphicEl(idx, null);
-        }
-      });
-      if (!showSymbol) {
-        symbolDraw.remove();
-      }
-      group.add(lineGroup);
-      var step = !isCoordSysPolar ? seriesModel.get("step") : false;
-      var clipShapeForSymbol;
-      if (coordSys && coordSys.getArea && seriesModel.get("clip", true)) {
-        clipShapeForSymbol = coordSys.getArea();
-        if (clipShapeForSymbol.width != null) {
-          clipShapeForSymbol.x -= 0.1;
-          clipShapeForSymbol.y -= 0.1;
-          clipShapeForSymbol.width += 0.2;
-          clipShapeForSymbol.height += 0.2;
-        } else if (clipShapeForSymbol.r0) {
-          clipShapeForSymbol.r0 -= 0.5;
-          clipShapeForSymbol.r += 0.5;
-        }
-      }
-      this._clipShapeForSymbol = clipShapeForSymbol;
-      var visualColor = getVisualGradient(data, coordSys, api) || data.getVisual("style")[data.getVisual("drawType")];
-      if (!(polyline && prevCoordSys.type === coordSys.type && step === this._step)) {
-        showSymbol && symbolDraw.updateData(data, {
-          isIgnore: isIgnoreFunc,
-          clipShape: clipShapeForSymbol,
-          disableAnimation: true,
-          getSymbolPoint: function(idx) {
-            return [points2[idx * 2], points2[idx * 2 + 1]];
-          }
-        });
-        hasAnimation && this._initSymbolLabelAnimation(data, coordSys, clipShapeForSymbol);
-        if (step) {
-          points2 = turnPointsIntoStep(points2, coordSys, step, connectNulls);
-          if (stackedOnPoints) {
-            stackedOnPoints = turnPointsIntoStep(stackedOnPoints, coordSys, step, connectNulls);
-          }
-        }
-        polyline = this._newPolyline(points2);
-        if (isAreaChart) {
-          polygon = this._newPolygon(points2, stackedOnPoints);
-        } else if (polygon) {
-          lineGroup.remove(polygon);
-          polygon = this._polygon = null;
-        }
-        if (!isCoordSysPolar) {
-          this._initOrUpdateEndLabel(seriesModel, coordSys, convertToColorString(visualColor));
-        }
-        lineGroup.setClipPath(createLineClipPath(this, coordSys, true, seriesModel));
-      } else {
-        if (isAreaChart && !polygon) {
-          polygon = this._newPolygon(points2, stackedOnPoints);
-        } else if (polygon && !isAreaChart) {
-          lineGroup.remove(polygon);
-          polygon = this._polygon = null;
-        }
-        if (!isCoordSysPolar) {
-          this._initOrUpdateEndLabel(seriesModel, coordSys, convertToColorString(visualColor));
-        }
-        var oldClipPath = lineGroup.getClipPath();
-        if (oldClipPath) {
-          var newClipPath = createLineClipPath(this, coordSys, false, seriesModel);
-          initProps(oldClipPath, {
-            shape: newClipPath.shape
-          }, seriesModel);
-        } else {
-          lineGroup.setClipPath(createLineClipPath(this, coordSys, true, seriesModel));
-        }
-        showSymbol && symbolDraw.updateData(data, {
-          isIgnore: isIgnoreFunc,
-          clipShape: clipShapeForSymbol,
-          disableAnimation: true,
-          getSymbolPoint: function(idx) {
-            return [points2[idx * 2], points2[idx * 2 + 1]];
-          }
-        });
-        if (!isPointsSame(this._stackedOnPoints, stackedOnPoints) || !isPointsSame(this._points, points2)) {
-          if (hasAnimation) {
-            this._doUpdateAnimation(data, stackedOnPoints, coordSys, api, step, valueOrigin, connectNulls);
-          } else {
-            if (step) {
-              points2 = turnPointsIntoStep(points2, coordSys, step, connectNulls);
-              if (stackedOnPoints) {
-                stackedOnPoints = turnPointsIntoStep(stackedOnPoints, coordSys, step, connectNulls);
-              }
-            }
-            polyline.setShape({
-              points: points2
-            });
-            polygon && polygon.setShape({
-              points: points2,
-              stackedOnPoints
-            });
-          }
-        }
-      }
-      var emphasisModel = seriesModel.getModel("emphasis");
-      var focus = emphasisModel.get("focus");
-      var blurScope = emphasisModel.get("blurScope");
-      var emphasisDisabled = emphasisModel.get("disabled");
-      polyline.useStyle(defaults(
-        // Use color in lineStyle first
-        lineStyleModel.getLineStyle(),
-        {
-          fill: "none",
-          stroke: visualColor,
-          lineJoin: "bevel"
-        }
-      ));
-      setStatesStylesFromModel(polyline, seriesModel, "lineStyle");
-      if (polyline.style.lineWidth > 0 && seriesModel.get(["emphasis", "lineStyle", "width"]) === "bolder") {
-        var emphasisLineStyle = polyline.getState("emphasis").style;
-        emphasisLineStyle.lineWidth = +polyline.style.lineWidth + 1;
-      }
-      getECData(polyline).seriesIndex = seriesModel.seriesIndex;
-      toggleHoverEmphasis(polyline, focus, blurScope, emphasisDisabled);
-      var smooth = getSmooth(seriesModel.get("smooth"));
-      var smoothMonotone = seriesModel.get("smoothMonotone");
-      polyline.setShape({
-        smooth,
-        smoothMonotone,
-        connectNulls
-      });
-      if (polygon) {
-        var stackedOnSeries = data.getCalculationInfo("stackedOnSeries");
-        var stackedOnSmooth = 0;
-        polygon.useStyle(defaults(areaStyleModel.getAreaStyle(), {
-          fill: visualColor,
-          opacity: 0.7,
-          lineJoin: "bevel",
-          decal: data.getVisual("style").decal
-        }));
-        if (stackedOnSeries) {
-          stackedOnSmooth = getSmooth(stackedOnSeries.get("smooth"));
-        }
-        polygon.setShape({
-          smooth,
-          stackedOnSmooth,
-          smoothMonotone,
-          connectNulls
-        });
-        setStatesStylesFromModel(polygon, seriesModel, "areaStyle");
-        getECData(polygon).seriesIndex = seriesModel.seriesIndex;
-        toggleHoverEmphasis(polygon, focus, blurScope, emphasisDisabled);
-      }
-      var changePolyState = function(toState) {
-        _this._changePolyState(toState);
-      };
-      data.eachItemGraphicEl(function(el) {
-        el && (el.onHoverStateChange = changePolyState);
-      });
-      this._polyline.onHoverStateChange = changePolyState;
-      this._data = data;
-      this._coordSys = coordSys;
-      this._stackedOnPoints = stackedOnPoints;
-      this._points = points2;
-      this._step = step;
-      this._valueOrigin = valueOrigin;
-      if (seriesModel.get("triggerLineEvent")) {
-        this.packEventData(seriesModel, polyline);
-        polygon && this.packEventData(seriesModel, polygon);
-      }
-    };
-    LineView2.prototype.packEventData = function(seriesModel, el) {
-      getECData(el).eventData = {
-        componentType: "series",
-        componentSubType: "line",
-        componentIndex: seriesModel.componentIndex,
-        seriesIndex: seriesModel.seriesIndex,
-        seriesName: seriesModel.name,
-        seriesType: "line"
-      };
-    };
-    LineView2.prototype.highlight = function(seriesModel, ecModel, api, payload) {
-      var data = seriesModel.getData();
-      var dataIndex = queryDataIndex(data, payload);
-      this._changePolyState("emphasis");
-      if (!(dataIndex instanceof Array) && dataIndex != null && dataIndex >= 0) {
-        var points2 = data.getLayout("points");
-        var symbol = data.getItemGraphicEl(dataIndex);
-        if (!symbol) {
-          var x2 = points2[dataIndex * 2];
-          var y2 = points2[dataIndex * 2 + 1];
-          if (isNaN(x2) || isNaN(y2)) {
-            return;
-          }
-          if (this._clipShapeForSymbol && !this._clipShapeForSymbol.contain(x2, y2)) {
-            return;
-          }
-          var zlevel = seriesModel.get("zlevel") || 0;
-          var z2 = seriesModel.get("z") || 0;
-          symbol = new SymbolClz(data, dataIndex);
-          symbol.x = x2;
-          symbol.y = y2;
-          symbol.setZ(zlevel, z2);
-          var symbolLabel = symbol.getSymbolPath().getTextContent();
-          if (symbolLabel) {
-            symbolLabel.zlevel = zlevel;
-            symbolLabel.z = z2;
-            symbolLabel.z2 = this._polyline.z2 + 1;
-          }
-          symbol.__temp = true;
-          data.setItemGraphicEl(dataIndex, symbol);
-          symbol.stopSymbolAnimation(true);
-          this.group.add(symbol);
-        }
-        symbol.highlight();
-      } else {
-        ChartView$1.prototype.highlight.call(this, seriesModel, ecModel, api, payload);
-      }
-    };
-    LineView2.prototype.downplay = function(seriesModel, ecModel, api, payload) {
-      var data = seriesModel.getData();
-      var dataIndex = queryDataIndex(data, payload);
-      this._changePolyState("normal");
-      if (dataIndex != null && dataIndex >= 0) {
-        var symbol = data.getItemGraphicEl(dataIndex);
-        if (symbol) {
-          if (symbol.__temp) {
-            data.setItemGraphicEl(dataIndex, null);
-            this.group.remove(symbol);
-          } else {
-            symbol.downplay();
-          }
-        }
-      } else {
-        ChartView$1.prototype.downplay.call(this, seriesModel, ecModel, api, payload);
-      }
-    };
-    LineView2.prototype._changePolyState = function(toState) {
-      var polygon = this._polygon;
-      setStatesFlag(this._polyline, toState);
-      polygon && setStatesFlag(polygon, toState);
-    };
-    LineView2.prototype._newPolyline = function(points2) {
-      var polyline = this._polyline;
-      if (polyline) {
-        this._lineGroup.remove(polyline);
-      }
-      polyline = new ECPolyline({
-        shape: {
-          points: points2
-        },
-        segmentIgnoreThreshold: 2,
-        z2: 10
-      });
-      this._lineGroup.add(polyline);
-      this._polyline = polyline;
-      return polyline;
-    };
-    LineView2.prototype._newPolygon = function(points2, stackedOnPoints) {
-      var polygon = this._polygon;
-      if (polygon) {
-        this._lineGroup.remove(polygon);
-      }
-      polygon = new ECPolygon({
-        shape: {
-          points: points2,
-          stackedOnPoints
-        },
-        segmentIgnoreThreshold: 2
-      });
-      this._lineGroup.add(polygon);
-      this._polygon = polygon;
-      return polygon;
-    };
-    LineView2.prototype._initSymbolLabelAnimation = function(data, coordSys, clipShape) {
-      var isHorizontalOrRadial;
-      var isCoordSysPolar;
-      var baseAxis = coordSys.getBaseAxis();
-      var isAxisInverse = baseAxis.inverse;
-      if (coordSys.type === "cartesian2d") {
-        isHorizontalOrRadial = baseAxis.isHorizontal();
-        isCoordSysPolar = false;
-      } else if (coordSys.type === "polar") {
-        isHorizontalOrRadial = baseAxis.dim === "angle";
-        isCoordSysPolar = true;
-      }
-      var seriesModel = data.hostModel;
-      var seriesDuration = seriesModel.get("animationDuration");
-      if (isFunction(seriesDuration)) {
-        seriesDuration = seriesDuration(null);
-      }
-      var seriesDelay = seriesModel.get("animationDelay") || 0;
-      var seriesDelayValue = isFunction(seriesDelay) ? seriesDelay(null) : seriesDelay;
-      data.eachItemGraphicEl(function(symbol, idx) {
-        var el = symbol;
-        if (el) {
-          var point = [symbol.x, symbol.y];
-          var start2 = void 0;
-          var end2 = void 0;
-          var current = void 0;
-          if (clipShape) {
-            if (isCoordSysPolar) {
-              var polarClip = clipShape;
-              var coord = coordSys.pointToCoord(point);
-              if (isHorizontalOrRadial) {
-                start2 = polarClip.startAngle;
-                end2 = polarClip.endAngle;
-                current = -coord[1] / 180 * Math.PI;
-              } else {
-                start2 = polarClip.r0;
-                end2 = polarClip.r;
-                current = coord[0];
-              }
-            } else {
-              var gridClip = clipShape;
-              if (isHorizontalOrRadial) {
-                start2 = gridClip.x;
-                end2 = gridClip.x + gridClip.width;
-                current = symbol.x;
-              } else {
-                start2 = gridClip.y + gridClip.height;
-                end2 = gridClip.y;
-                current = symbol.y;
-              }
-            }
-          }
-          var ratio = end2 === start2 ? 0 : (current - start2) / (end2 - start2);
-          if (isAxisInverse) {
-            ratio = 1 - ratio;
-          }
-          var delay = isFunction(seriesDelay) ? seriesDelay(idx) : seriesDuration * ratio + seriesDelayValue;
-          var symbolPath = el.getSymbolPath();
-          var text = symbolPath.getTextContent();
-          el.attr({
-            scaleX: 0,
-            scaleY: 0
-          });
-          el.animateTo({
-            scaleX: 1,
-            scaleY: 1
-          }, {
-            duration: 200,
-            setToFinal: true,
-            delay
-          });
-          if (text) {
-            text.animateFrom({
-              style: {
-                opacity: 0
-              }
-            }, {
-              duration: 300,
-              delay
-            });
-          }
-          symbolPath.disableLabelAnimation = true;
-        }
-      });
-    };
-    LineView2.prototype._initOrUpdateEndLabel = function(seriesModel, coordSys, inheritColor) {
-      var endLabelModel = seriesModel.getModel("endLabel");
-      if (anyStateShowEndLabel(seriesModel)) {
-        var data_2 = seriesModel.getData();
-        var polyline = this._polyline;
-        var points2 = data_2.getLayout("points");
-        if (!points2) {
-          polyline.removeTextContent();
-          this._endLabel = null;
-          return;
-        }
-        var endLabel = this._endLabel;
-        if (!endLabel) {
-          endLabel = this._endLabel = new ZRText$1({
-            z2: 200
-            // should be higher than item symbol
-          });
-          endLabel.ignoreClip = true;
-          polyline.setTextContent(this._endLabel);
-          polyline.disableLabelAnimation = true;
-        }
-        var dataIndex = getLastIndexNotNull(points2);
-        if (dataIndex >= 0) {
-          setLabelStyle(polyline, getLabelStatesModels(seriesModel, "endLabel"), {
-            inheritColor,
-            labelFetcher: seriesModel,
-            labelDataIndex: dataIndex,
-            defaultText: function(dataIndex2, opt, interpolatedValue) {
-              return interpolatedValue != null ? getDefaultInterpolatedLabel(data_2, interpolatedValue) : getDefaultLabel(data_2, dataIndex2);
-            },
-            enableTextSetter: true
-          }, getEndLabelStateSpecified(endLabelModel, coordSys));
-          polyline.textConfig.position = null;
-        }
-      } else if (this._endLabel) {
-        this._polyline.removeTextContent();
-        this._endLabel = null;
-      }
-    };
-    LineView2.prototype._endLabelOnDuring = function(percent, clipRect, data, animationRecord, valueAnimation, endLabelModel, coordSys) {
-      var endLabel = this._endLabel;
-      var polyline = this._polyline;
-      if (endLabel) {
-        if (percent < 1 && animationRecord.originalX == null) {
-          animationRecord.originalX = endLabel.x;
-          animationRecord.originalY = endLabel.y;
-        }
-        var points2 = data.getLayout("points");
-        var seriesModel = data.hostModel;
-        var connectNulls = seriesModel.get("connectNulls");
-        var precision = endLabelModel.get("precision");
-        var distance2 = endLabelModel.get("distance") || 0;
-        var baseAxis = coordSys.getBaseAxis();
-        var isHorizontal = baseAxis.isHorizontal();
-        var isBaseInversed = baseAxis.inverse;
-        var clipShape = clipRect.shape;
-        var xOrY = isBaseInversed ? isHorizontal ? clipShape.x : clipShape.y + clipShape.height : isHorizontal ? clipShape.x + clipShape.width : clipShape.y;
-        var distanceX = (isHorizontal ? distance2 : 0) * (isBaseInversed ? -1 : 1);
-        var distanceY = (isHorizontal ? 0 : -distance2) * (isBaseInversed ? -1 : 1);
-        var dim = isHorizontal ? "x" : "y";
-        var dataIndexRange = getIndexRange(points2, xOrY, dim);
-        var indices = dataIndexRange.range;
-        var diff2 = indices[1] - indices[0];
-        var value = void 0;
-        if (diff2 >= 1) {
-          if (diff2 > 1 && !connectNulls) {
-            var pt = getPointAtIndex(points2, indices[0]);
-            endLabel.attr({
-              x: pt[0] + distanceX,
-              y: pt[1] + distanceY
-            });
-            valueAnimation && (value = seriesModel.getRawValue(indices[0]));
-          } else {
-            var pt = polyline.getPointOn(xOrY, dim);
-            pt && endLabel.attr({
-              x: pt[0] + distanceX,
-              y: pt[1] + distanceY
-            });
-            var startValue = seriesModel.getRawValue(indices[0]);
-            var endValue = seriesModel.getRawValue(indices[1]);
-            valueAnimation && (value = interpolateRawValues(data, precision, startValue, endValue, dataIndexRange.t));
-          }
-          animationRecord.lastFrameIndex = indices[0];
-        } else {
-          var idx = percent === 1 || animationRecord.lastFrameIndex > 0 ? indices[0] : 0;
-          var pt = getPointAtIndex(points2, idx);
-          valueAnimation && (value = seriesModel.getRawValue(idx));
-          endLabel.attr({
-            x: pt[0] + distanceX,
-            y: pt[1] + distanceY
-          });
-        }
-        if (valueAnimation) {
-          labelInner(endLabel).setLabelText(value);
-        }
-      }
-    };
-    LineView2.prototype._doUpdateAnimation = function(data, stackedOnPoints, coordSys, api, step, valueOrigin, connectNulls) {
-      var polyline = this._polyline;
-      var polygon = this._polygon;
-      var seriesModel = data.hostModel;
-      var diff2 = lineAnimationDiff(this._data, data, this._stackedOnPoints, stackedOnPoints, this._coordSys, coordSys, this._valueOrigin);
-      var current = diff2.current;
-      var stackedOnCurrent = diff2.stackedOnCurrent;
-      var next = diff2.next;
-      var stackedOnNext = diff2.stackedOnNext;
-      if (step) {
-        current = turnPointsIntoStep(diff2.current, coordSys, step, connectNulls);
-        stackedOnCurrent = turnPointsIntoStep(diff2.stackedOnCurrent, coordSys, step, connectNulls);
-        next = turnPointsIntoStep(diff2.next, coordSys, step, connectNulls);
-        stackedOnNext = turnPointsIntoStep(diff2.stackedOnNext, coordSys, step, connectNulls);
-      }
-      if (getBoundingDiff(current, next) > 3e3 || polygon && getBoundingDiff(stackedOnCurrent, stackedOnNext) > 3e3) {
-        polyline.stopAnimation();
-        polyline.setShape({
-          points: next
-        });
-        if (polygon) {
-          polygon.stopAnimation();
-          polygon.setShape({
-            points: next,
-            stackedOnPoints: stackedOnNext
-          });
-        }
-        return;
-      }
-      polyline.shape.__points = diff2.current;
-      polyline.shape.points = current;
-      var target = {
-        shape: {
-          points: next
-        }
-      };
-      if (diff2.current !== current) {
-        target.shape.__points = diff2.next;
-      }
-      polyline.stopAnimation();
-      updateProps$1(polyline, target, seriesModel);
-      if (polygon) {
-        polygon.setShape({
-          // Reuse the points with polyline.
-          points: current,
-          stackedOnPoints: stackedOnCurrent
-        });
-        polygon.stopAnimation();
-        updateProps$1(polygon, {
-          shape: {
-            stackedOnPoints: stackedOnNext
-          }
-        }, seriesModel);
-        if (polyline.shape.points !== polygon.shape.points) {
-          polygon.shape.points = polyline.shape.points;
-        }
-      }
-      var updatedDataInfo = [];
-      var diffStatus = diff2.status;
-      for (var i = 0; i < diffStatus.length; i++) {
-        var cmd = diffStatus[i].cmd;
-        if (cmd === "=") {
-          var el = data.getItemGraphicEl(diffStatus[i].idx1);
-          if (el) {
-            updatedDataInfo.push({
-              el,
-              ptIdx: i
-              // Index of points
-            });
-          }
-        }
-      }
-      if (polyline.animators && polyline.animators.length) {
-        polyline.animators[0].during(function() {
-          polygon && polygon.dirtyShape();
-          var points2 = polyline.shape.__points;
-          for (var i2 = 0; i2 < updatedDataInfo.length; i2++) {
-            var el2 = updatedDataInfo[i2].el;
-            var offset = updatedDataInfo[i2].ptIdx * 2;
-            el2.x = points2[offset];
-            el2.y = points2[offset + 1];
-            el2.markRedraw();
-          }
-        });
-      }
-    };
-    LineView2.prototype.remove = function(ecModel) {
-      var group = this.group;
-      var oldData = this._data;
-      this._lineGroup.removeAll();
-      this._symbolDraw.remove(true);
-      oldData && oldData.eachItemGraphicEl(function(el, idx) {
-        if (el.__temp) {
-          group.remove(el);
-          oldData.setItemGraphicEl(idx, null);
-        }
-      });
-      this._polyline = this._polygon = this._coordSys = this._points = this._stackedOnPoints = this._endLabel = this._data = null;
-    };
-    LineView2.type = "line";
-    return LineView2;
-  }(ChartView$1)
-);
-const LineView$1 = LineView;
-function pointsLayout(seriesType2, forceStoreInTypedArray) {
-  return {
-    seriesType: seriesType2,
-    plan: createRenderPlanner(),
-    reset: function(seriesModel) {
-      var data = seriesModel.getData();
-      var coordSys = seriesModel.coordinateSystem;
-      var pipelineContext = seriesModel.pipelineContext;
-      var useTypedArray = forceStoreInTypedArray || pipelineContext.large;
-      if (!coordSys) {
-        return;
-      }
-      var dims = map$1(coordSys.dimensions, function(dim) {
-        return data.mapDimension(dim);
-      }).slice(0, 2);
-      var dimLen = dims.length;
-      var stackResultDim = data.getCalculationInfo("stackResultDimension");
-      if (isDimensionStacked(data, dims[0])) {
-        dims[0] = stackResultDim;
-      }
-      if (isDimensionStacked(data, dims[1])) {
-        dims[1] = stackResultDim;
-      }
-      var store = data.getStore();
-      var dimIdx0 = data.getDimensionIndex(dims[0]);
-      var dimIdx1 = data.getDimensionIndex(dims[1]);
-      return dimLen && {
-        progress: function(params, data2) {
-          var segCount = params.end - params.start;
-          var points2 = useTypedArray && createFloat32Array(segCount * dimLen);
-          var tmpIn = [];
-          var tmpOut = [];
-          for (var i = params.start, offset = 0; i < params.end; i++) {
-            var point = void 0;
-            if (dimLen === 1) {
-              var x2 = store.get(dimIdx0, i);
-              point = coordSys.dataToPoint(x2, null, tmpOut);
-            } else {
-              tmpIn[0] = store.get(dimIdx0, i);
-              tmpIn[1] = store.get(dimIdx1, i);
-              point = coordSys.dataToPoint(tmpIn, null, tmpOut);
-            }
-            if (useTypedArray) {
-              points2[offset++] = point[0];
-              points2[offset++] = point[1];
-            } else {
-              data2.setItemLayout(i, point.slice());
-            }
-          }
-          useTypedArray && data2.setLayout("points", points2);
-        }
-      };
-    }
-  };
-}
-var samplers = {
-  average: function(frame) {
-    var sum = 0;
-    var count2 = 0;
-    for (var i = 0; i < frame.length; i++) {
-      if (!isNaN(frame[i])) {
-        sum += frame[i];
-        count2++;
-      }
-    }
-    return count2 === 0 ? NaN : sum / count2;
-  },
-  sum: function(frame) {
-    var sum = 0;
-    for (var i = 0; i < frame.length; i++) {
-      sum += frame[i] || 0;
-    }
-    return sum;
-  },
-  max: function(frame) {
-    var max3 = -Infinity;
-    for (var i = 0; i < frame.length; i++) {
-      frame[i] > max3 && (max3 = frame[i]);
-    }
-    return isFinite(max3) ? max3 : NaN;
-  },
-  min: function(frame) {
-    var min3 = Infinity;
-    for (var i = 0; i < frame.length; i++) {
-      frame[i] < min3 && (min3 = frame[i]);
-    }
-    return isFinite(min3) ? min3 : NaN;
-  },
-  // TODO
-  // Median
-  nearest: function(frame) {
-    return frame[0];
-  }
-};
-var indexSampler = function(frame) {
-  return Math.round(frame.length / 2);
-};
-function dataSample(seriesType2) {
-  return {
-    seriesType: seriesType2,
-    // FIXME:TS never used, so comment it
-    // modifyOutputEnd: true,
-    reset: function(seriesModel, ecModel, api) {
-      var data = seriesModel.getData();
-      var sampling = seriesModel.get("sampling");
-      var coordSys = seriesModel.coordinateSystem;
-      var count2 = data.count();
-      if (count2 > 10 && coordSys.type === "cartesian2d" && sampling) {
-        var baseAxis = coordSys.getBaseAxis();
-        var valueAxis2 = coordSys.getOtherAxis(baseAxis);
-        var extent3 = baseAxis.getExtent();
-        var dpr2 = api.getDevicePixelRatio();
-        var size2 = Math.abs(extent3[1] - extent3[0]) * (dpr2 || 1);
-        var rate = Math.round(count2 / size2);
-        if (isFinite(rate) && rate > 1) {
-          if (sampling === "lttb") {
-            seriesModel.setData(data.lttbDownSample(data.mapDimension(valueAxis2.dim), 1 / rate));
-          }
-          var sampler = void 0;
-          if (isString(sampling)) {
-            sampler = samplers[sampling];
-          } else if (isFunction(sampling)) {
-            sampler = sampling;
-          }
-          if (sampler) {
-            seriesModel.setData(data.downSample(data.mapDimension(valueAxis2.dim), 1 / rate, sampler, indexSampler));
-          }
-        }
-      }
-    }
-  };
-}
-function install$f(registers) {
-  registers.registerChartView(LineView$1);
-  registers.registerSeriesModel(LineSeries);
-  registers.registerLayout(pointsLayout("line", true));
-  registers.registerVisual({
-    seriesType: "line",
-    reset: function(seriesModel) {
-      var data = seriesModel.getData();
-      var lineStyle = seriesModel.getModel("lineStyle").getLineStyle();
-      if (lineStyle && !lineStyle.stroke) {
-        lineStyle.stroke = data.getVisual("style").fill;
-      }
-      data.setVisual("legendLineStyle", lineStyle);
-    }
-  });
-  registers.registerProcessor(registers.PRIORITY.PROCESSOR.STATISTIC, dataSample("line"));
-}
-use(install$f);
-function collect(ecModel, api) {
-  var result = {
-    /**
-     * key: makeKey(axis.model)
-     * value: {
-     *      axis,
-     *      coordSys,
-     *      axisPointerModel,
-     *      triggerTooltip,
-     *      involveSeries,
-     *      snap,
-     *      seriesModels,
-     *      seriesDataCount
-     * }
-     */
-    axesInfo: {},
-    seriesInvolved: false,
-    /**
-     * key: makeKey(coordSys.model)
-     * value: Object: key makeKey(axis.model), value: axisInfo
-     */
-    coordSysAxesInfo: {},
-    coordSysMap: {}
-  };
-  collectAxesInfo(result, ecModel, api);
-  result.seriesInvolved && collectSeriesInfo(result, ecModel);
-  return result;
-}
-function collectAxesInfo(result, ecModel, api) {
-  var globalTooltipModel = ecModel.getComponent("tooltip");
-  var globalAxisPointerModel = ecModel.getComponent("axisPointer");
-  var linksOption = globalAxisPointerModel.get("link", true) || [];
-  var linkGroups = [];
-  each$7(api.getCoordinateSystems(), function(coordSys) {
-    if (!coordSys.axisPointerEnabled) {
-      return;
-    }
-    var coordSysKey = makeKey(coordSys.model);
-    var axesInfoInCoordSys = result.coordSysAxesInfo[coordSysKey] = {};
-    result.coordSysMap[coordSysKey] = coordSys;
-    var coordSysModel = coordSys.model;
-    var baseTooltipModel = coordSysModel.getModel("tooltip", globalTooltipModel);
-    each$7(coordSys.getAxes(), curry$1(saveTooltipAxisInfo, false, null));
-    if (coordSys.getTooltipAxes && globalTooltipModel && baseTooltipModel.get("show")) {
-      var triggerAxis = baseTooltipModel.get("trigger") === "axis";
-      var cross = baseTooltipModel.get(["axisPointer", "type"]) === "cross";
-      var tooltipAxes = coordSys.getTooltipAxes(baseTooltipModel.get(["axisPointer", "axis"]));
-      if (triggerAxis || cross) {
-        each$7(tooltipAxes.baseAxes, curry$1(saveTooltipAxisInfo, cross ? "cross" : true, triggerAxis));
-      }
-      if (cross) {
-        each$7(tooltipAxes.otherAxes, curry$1(saveTooltipAxisInfo, "cross", false));
-      }
-    }
-    function saveTooltipAxisInfo(fromTooltip, triggerTooltip, axis) {
-      var axisPointerModel = axis.model.getModel("axisPointer", globalAxisPointerModel);
-      var axisPointerShow = axisPointerModel.get("show");
-      if (!axisPointerShow || axisPointerShow === "auto" && !fromTooltip && !isHandleTrigger(axisPointerModel)) {
-        return;
-      }
-      if (triggerTooltip == null) {
-        triggerTooltip = axisPointerModel.get("triggerTooltip");
-      }
-      axisPointerModel = fromTooltip ? makeAxisPointerModel(axis, baseTooltipModel, globalAxisPointerModel, ecModel, fromTooltip, triggerTooltip) : axisPointerModel;
-      var snap = axisPointerModel.get("snap");
-      var axisKey = makeKey(axis.model);
-      var involveSeries = triggerTooltip || snap || axis.type === "category";
-      var axisInfo = result.axesInfo[axisKey] = {
-        key: axisKey,
-        axis,
-        coordSys,
-        axisPointerModel,
-        triggerTooltip,
-        involveSeries,
-        snap,
-        useHandle: isHandleTrigger(axisPointerModel),
-        seriesModels: [],
-        linkGroup: null
-      };
-      axesInfoInCoordSys[axisKey] = axisInfo;
-      result.seriesInvolved = result.seriesInvolved || involveSeries;
-      var groupIndex = getLinkGroupIndex(linksOption, axis);
-      if (groupIndex != null) {
-        var linkGroup = linkGroups[groupIndex] || (linkGroups[groupIndex] = {
-          axesInfo: {}
-        });
-        linkGroup.axesInfo[axisKey] = axisInfo;
-        linkGroup.mapper = linksOption[groupIndex].mapper;
-        axisInfo.linkGroup = linkGroup;
-      }
-    }
-  });
-}
-function makeAxisPointerModel(axis, baseTooltipModel, globalAxisPointerModel, ecModel, fromTooltip, triggerTooltip) {
-  var tooltipAxisPointerModel = baseTooltipModel.getModel("axisPointer");
-  var fields = ["type", "snap", "lineStyle", "shadowStyle", "label", "animation", "animationDurationUpdate", "animationEasingUpdate", "z"];
-  var volatileOption = {};
-  each$7(fields, function(field) {
-    volatileOption[field] = clone$4(tooltipAxisPointerModel.get(field));
-  });
-  volatileOption.snap = axis.type !== "category" && !!triggerTooltip;
-  if (tooltipAxisPointerModel.get("type") === "cross") {
-    volatileOption.type = "line";
-  }
-  var labelOption = volatileOption.label || (volatileOption.label = {});
-  labelOption.show == null && (labelOption.show = false);
-  if (fromTooltip === "cross") {
-    var tooltipAxisPointerLabelShow = tooltipAxisPointerModel.get(["label", "show"]);
-    labelOption.show = tooltipAxisPointerLabelShow != null ? tooltipAxisPointerLabelShow : true;
-    if (!triggerTooltip) {
-      var crossStyle = volatileOption.lineStyle = tooltipAxisPointerModel.get("crossStyle");
-      crossStyle && defaults(labelOption, crossStyle.textStyle);
-    }
-  }
-  return axis.model.getModel("axisPointer", new Model$1(volatileOption, globalAxisPointerModel, ecModel));
-}
-function collectSeriesInfo(result, ecModel) {
-  ecModel.eachSeries(function(seriesModel) {
-    var coordSys = seriesModel.coordinateSystem;
-    var seriesTooltipTrigger = seriesModel.get(["tooltip", "trigger"], true);
-    var seriesTooltipShow = seriesModel.get(["tooltip", "show"], true);
-    if (!coordSys || seriesTooltipTrigger === "none" || seriesTooltipTrigger === false || seriesTooltipTrigger === "item" || seriesTooltipShow === false || seriesModel.get(["axisPointer", "show"], true) === false) {
-      return;
-    }
-    each$7(result.coordSysAxesInfo[makeKey(coordSys.model)], function(axisInfo) {
-      var axis = axisInfo.axis;
-      if (coordSys.getAxis(axis.dim) === axis) {
-        axisInfo.seriesModels.push(seriesModel);
-        axisInfo.seriesDataCount == null && (axisInfo.seriesDataCount = 0);
-        axisInfo.seriesDataCount += seriesModel.getData().count();
-      }
-    });
-  });
-}
-function getLinkGroupIndex(linksOption, axis) {
-  var axisModel = axis.model;
-  var dim = axis.dim;
-  for (var i = 0; i < linksOption.length; i++) {
-    var linkOption = linksOption[i] || {};
-    if (checkPropInLink(linkOption[dim + "AxisId"], axisModel.id) || checkPropInLink(linkOption[dim + "AxisIndex"], axisModel.componentIndex) || checkPropInLink(linkOption[dim + "AxisName"], axisModel.name)) {
-      return i;
-    }
-  }
-}
-function checkPropInLink(linkPropValue, axisPropValue) {
-  return linkPropValue === "all" || isArray(linkPropValue) && indexOf(linkPropValue, axisPropValue) >= 0 || linkPropValue === axisPropValue;
-}
-function fixValue(axisModel) {
-  var axisInfo = getAxisInfo(axisModel);
-  if (!axisInfo) {
-    return;
-  }
-  var axisPointerModel = axisInfo.axisPointerModel;
-  var scale2 = axisInfo.axis.scale;
-  var option = axisPointerModel.option;
-  var status = axisPointerModel.get("status");
-  var value = axisPointerModel.get("value");
-  if (value != null) {
-    value = scale2.parse(value);
-  }
-  var useHandle = isHandleTrigger(axisPointerModel);
-  if (status == null) {
-    option.status = useHandle ? "show" : "hide";
-  }
-  var extent3 = scale2.getExtent().slice();
-  extent3[0] > extent3[1] && extent3.reverse();
-  if (
-    // Pick a value on axis when initializing.
-    value == null || value > extent3[1]
-  ) {
-    value = extent3[1];
-  }
-  if (value < extent3[0]) {
-    value = extent3[0];
-  }
-  option.value = value;
-  if (useHandle) {
-    option.status = axisInfo.axis.scale.isBlank() ? "hide" : "show";
-  }
-}
-function getAxisInfo(axisModel) {
-  var coordSysAxesInfo = (axisModel.ecModel.getComponent("axisPointer") || {}).coordSysAxesInfo;
-  return coordSysAxesInfo && coordSysAxesInfo.axesInfo[makeKey(axisModel)];
-}
-function getAxisPointerModel(axisModel) {
-  var axisInfo = getAxisInfo(axisModel);
-  return axisInfo && axisInfo.axisPointerModel;
-}
-function isHandleTrigger(axisPointerModel) {
-  return !!axisPointerModel.get(["handle", "show"]);
-}
-function makeKey(model) {
-  return model.type + "||" + model.id;
-}
-var axisPointerClazz = {};
-var AxisView = (
-  /** @class */
-  function(_super) {
-    __extends(AxisView2, _super);
-    function AxisView2() {
-      var _this = _super !== null && _super.apply(this, arguments) || this;
-      _this.type = AxisView2.type;
-      return _this;
-    }
-    AxisView2.prototype.render = function(axisModel, ecModel, api, payload) {
-      this.axisPointerClass && fixValue(axisModel);
-      _super.prototype.render.apply(this, arguments);
-      this._doUpdateAxisPointerClass(axisModel, api, true);
-    };
-    AxisView2.prototype.updateAxisPointer = function(axisModel, ecModel, api, payload) {
-      this._doUpdateAxisPointerClass(axisModel, api, false);
-    };
-    AxisView2.prototype.remove = function(ecModel, api) {
-      var axisPointer = this._axisPointer;
-      axisPointer && axisPointer.remove(api);
-    };
-    AxisView2.prototype.dispose = function(ecModel, api) {
-      this._disposeAxisPointer(api);
-      _super.prototype.dispose.apply(this, arguments);
-    };
-    AxisView2.prototype._doUpdateAxisPointerClass = function(axisModel, api, forceRender) {
-      var Clazz = AxisView2.getAxisPointerClass(this.axisPointerClass);
-      if (!Clazz) {
-        return;
-      }
-      var axisPointerModel = getAxisPointerModel(axisModel);
-      axisPointerModel ? (this._axisPointer || (this._axisPointer = new Clazz())).render(axisModel, axisPointerModel, api, forceRender) : this._disposeAxisPointer(api);
-    };
-    AxisView2.prototype._disposeAxisPointer = function(api) {
-      this._axisPointer && this._axisPointer.dispose(api);
-      this._axisPointer = null;
-    };
-    AxisView2.registerAxisPointerClass = function(type, clazz) {
-      {
-        if (axisPointerClazz[type]) {
-          throw new Error("axisPointer " + type + " exists");
-        }
-      }
-      axisPointerClazz[type] = clazz;
-    };
-    AxisView2.getAxisPointerClass = function(type) {
-      return type && axisPointerClazz[type];
-    };
-    AxisView2.type = "axis";
-    return AxisView2;
-  }(ComponentView$1)
-);
-const AxisView$1 = AxisView;
-var inner$4 = makeInner();
-var clone$1 = clone$4;
-var bind = bind$1;
-var BaseAxisPointer = (
-  /** @class */
-  function() {
-    function BaseAxisPointer2() {
-      this._dragging = false;
-      this.animationThreshold = 15;
-    }
-    BaseAxisPointer2.prototype.render = function(axisModel, axisPointerModel, api, forceRender) {
-      var value = axisPointerModel.get("value");
-      var status = axisPointerModel.get("status");
-      this._axisModel = axisModel;
-      this._axisPointerModel = axisPointerModel;
-      this._api = api;
-      if (!forceRender && this._lastValue === value && this._lastStatus === status) {
-        return;
-      }
-      this._lastValue = value;
-      this._lastStatus = status;
-      var group = this._group;
-      var handle = this._handle;
-      if (!status || status === "hide") {
-        group && group.hide();
-        handle && handle.hide();
-        return;
-      }
-      group && group.show();
-      handle && handle.show();
-      var elOption = {};
-      this.makeElOption(elOption, value, axisModel, axisPointerModel, api);
-      var graphicKey = elOption.graphicKey;
-      if (graphicKey !== this._lastGraphicKey) {
-        this.clear(api);
-      }
-      this._lastGraphicKey = graphicKey;
-      var moveAnimation = this._moveAnimation = this.determineAnimation(axisModel, axisPointerModel);
-      if (!group) {
-        group = this._group = new Group$3();
-        this.createPointerEl(group, elOption, axisModel, axisPointerModel);
-        this.createLabelEl(group, elOption, axisModel, axisPointerModel);
-        api.getZr().add(group);
-      } else {
-        var doUpdateProps = curry$1(updateProps, axisPointerModel, moveAnimation);
-        this.updatePointerEl(group, elOption, doUpdateProps);
-        this.updateLabelEl(group, elOption, doUpdateProps, axisPointerModel);
-      }
-      updateMandatoryProps(group, axisPointerModel, true);
-      this._renderHandle(value);
-    };
-    BaseAxisPointer2.prototype.remove = function(api) {
-      this.clear(api);
-    };
-    BaseAxisPointer2.prototype.dispose = function(api) {
-      this.clear(api);
-    };
-    BaseAxisPointer2.prototype.determineAnimation = function(axisModel, axisPointerModel) {
-      var animation = axisPointerModel.get("animation");
-      var axis = axisModel.axis;
-      var isCategoryAxis = axis.type === "category";
-      var useSnap = axisPointerModel.get("snap");
-      if (!useSnap && !isCategoryAxis) {
-        return false;
-      }
-      if (animation === "auto" || animation == null) {
-        var animationThreshold = this.animationThreshold;
-        if (isCategoryAxis && axis.getBandWidth() > animationThreshold) {
-          return true;
-        }
-        if (useSnap) {
-          var seriesDataCount = getAxisInfo(axisModel).seriesDataCount;
-          var axisExtent = axis.getExtent();
-          return Math.abs(axisExtent[0] - axisExtent[1]) / seriesDataCount > animationThreshold;
-        }
-        return false;
-      }
-      return animation === true;
-    };
-    BaseAxisPointer2.prototype.makeElOption = function(elOption, value, axisModel, axisPointerModel, api) {
-    };
-    BaseAxisPointer2.prototype.createPointerEl = function(group, elOption, axisModel, axisPointerModel) {
-      var pointerOption = elOption.pointer;
-      if (pointerOption) {
-        var pointerEl = inner$4(group).pointerEl = new graphic$1[pointerOption.type](clone$1(elOption.pointer));
-        group.add(pointerEl);
-      }
-    };
-    BaseAxisPointer2.prototype.createLabelEl = function(group, elOption, axisModel, axisPointerModel) {
-      if (elOption.label) {
-        var labelEl = inner$4(group).labelEl = new ZRText$1(clone$1(elOption.label));
-        group.add(labelEl);
-        updateLabelShowHide(labelEl, axisPointerModel);
-      }
-    };
-    BaseAxisPointer2.prototype.updatePointerEl = function(group, elOption, updateProps2) {
-      var pointerEl = inner$4(group).pointerEl;
-      if (pointerEl && elOption.pointer) {
-        pointerEl.setStyle(elOption.pointer.style);
-        updateProps2(pointerEl, {
-          shape: elOption.pointer.shape
-        });
-      }
-    };
-    BaseAxisPointer2.prototype.updateLabelEl = function(group, elOption, updateProps2, axisPointerModel) {
-      var labelEl = inner$4(group).labelEl;
-      if (labelEl) {
-        labelEl.setStyle(elOption.label.style);
-        updateProps2(labelEl, {
-          // Consider text length change in vertical axis, animation should
-          // be used on shape, otherwise the effect will be weird.
-          // TODOTODO
-          // shape: elOption.label.shape,
-          x: elOption.label.x,
-          y: elOption.label.y
-        });
-        updateLabelShowHide(labelEl, axisPointerModel);
-      }
-    };
-    BaseAxisPointer2.prototype._renderHandle = function(value) {
-      if (this._dragging || !this.updateHandleTransform) {
-        return;
-      }
-      var axisPointerModel = this._axisPointerModel;
-      var zr = this._api.getZr();
-      var handle = this._handle;
-      var handleModel = axisPointerModel.getModel("handle");
-      var status = axisPointerModel.get("status");
-      if (!handleModel.get("show") || !status || status === "hide") {
-        handle && zr.remove(handle);
-        this._handle = null;
-        return;
-      }
-      var isInit;
-      if (!this._handle) {
-        isInit = true;
-        handle = this._handle = createIcon(handleModel.get("icon"), {
-          cursor: "move",
-          draggable: true,
-          onmousemove: function(e2) {
-            stop(e2.event);
-          },
-          onmousedown: bind(this._onHandleDragMove, this, 0, 0),
-          drift: bind(this._onHandleDragMove, this),
-          ondragend: bind(this._onHandleDragEnd, this)
-        });
-        zr.add(handle);
-      }
-      updateMandatoryProps(handle, axisPointerModel, false);
-      handle.setStyle(handleModel.getItemStyle(null, ["color", "borderColor", "borderWidth", "opacity", "shadowColor", "shadowBlur", "shadowOffsetX", "shadowOffsetY"]));
-      var handleSize = handleModel.get("size");
-      if (!isArray(handleSize)) {
-        handleSize = [handleSize, handleSize];
-      }
-      handle.scaleX = handleSize[0] / 2;
-      handle.scaleY = handleSize[1] / 2;
-      createOrUpdate(this, "_doDispatchAxisPointer", handleModel.get("throttle") || 0, "fixRate");
-      this._moveHandleToValue(value, isInit);
-    };
-    BaseAxisPointer2.prototype._moveHandleToValue = function(value, isInit) {
-      updateProps(this._axisPointerModel, !isInit && this._moveAnimation, this._handle, getHandleTransProps(this.getHandleTransform(value, this._axisModel, this._axisPointerModel)));
-    };
-    BaseAxisPointer2.prototype._onHandleDragMove = function(dx, dy) {
-      var handle = this._handle;
-      if (!handle) {
-        return;
-      }
-      this._dragging = true;
-      var trans = this.updateHandleTransform(getHandleTransProps(handle), [dx, dy], this._axisModel, this._axisPointerModel);
-      this._payloadInfo = trans;
-      handle.stopAnimation();
-      handle.attr(getHandleTransProps(trans));
-      inner$4(handle).lastProp = null;
-      this._doDispatchAxisPointer();
-    };
-    BaseAxisPointer2.prototype._doDispatchAxisPointer = function() {
-      var handle = this._handle;
-      if (!handle) {
-        return;
-      }
-      var payloadInfo = this._payloadInfo;
-      var axisModel = this._axisModel;
-      this._api.dispatchAction({
-        type: "updateAxisPointer",
-        x: payloadInfo.cursorPoint[0],
-        y: payloadInfo.cursorPoint[1],
-        tooltipOption: payloadInfo.tooltipOption,
-        axesInfo: [{
-          axisDim: axisModel.axis.dim,
-          axisIndex: axisModel.componentIndex
-        }]
-      });
-    };
-    BaseAxisPointer2.prototype._onHandleDragEnd = function() {
-      this._dragging = false;
-      var handle = this._handle;
-      if (!handle) {
-        return;
-      }
-      var value = this._axisPointerModel.get("value");
-      this._moveHandleToValue(value);
-      this._api.dispatchAction({
-        type: "hideTip"
-      });
-    };
-    BaseAxisPointer2.prototype.clear = function(api) {
-      this._lastValue = null;
-      this._lastStatus = null;
-      var zr = api.getZr();
-      var group = this._group;
-      var handle = this._handle;
-      if (zr && group) {
-        this._lastGraphicKey = null;
-        group && zr.remove(group);
-        handle && zr.remove(handle);
-        this._group = null;
-        this._handle = null;
-        this._payloadInfo = null;
-      }
-      clear$1(this, "_doDispatchAxisPointer");
-    };
-    BaseAxisPointer2.prototype.doClear = function() {
-    };
-    BaseAxisPointer2.prototype.buildLabel = function(xy, wh, xDimIndex) {
-      xDimIndex = xDimIndex || 0;
-      return {
-        x: xy[xDimIndex],
-        y: xy[1 - xDimIndex],
-        width: wh[xDimIndex],
-        height: wh[1 - xDimIndex]
-      };
-    };
-    return BaseAxisPointer2;
-  }()
-);
-function updateProps(animationModel, moveAnimation, el, props) {
-  if (!propsEqual(inner$4(el).lastProp, props)) {
-    inner$4(el).lastProp = props;
-    moveAnimation ? updateProps$1(el, props, animationModel) : (el.stopAnimation(), el.attr(props));
-  }
-}
-function propsEqual(lastProps, newProps) {
-  if (isObject$2(lastProps) && isObject$2(newProps)) {
-    var equals_1 = true;
-    each$7(newProps, function(item, key) {
-      equals_1 = equals_1 && propsEqual(lastProps[key], item);
-    });
-    return !!equals_1;
-  } else {
-    return lastProps === newProps;
-  }
-}
-function updateLabelShowHide(labelEl, axisPointerModel) {
-  labelEl[axisPointerModel.get(["label", "show"]) ? "show" : "hide"]();
-}
-function getHandleTransProps(trans) {
-  return {
-    x: trans.x || 0,
-    y: trans.y || 0,
-    rotation: trans.rotation || 0
-  };
-}
-function updateMandatoryProps(group, axisPointerModel, silent) {
-  var z2 = axisPointerModel.get("z");
-  var zlevel = axisPointerModel.get("zlevel");
-  group && group.traverse(function(el) {
-    if (el.type !== "group") {
-      z2 != null && (el.z = z2);
-      zlevel != null && (el.zlevel = zlevel);
-      el.silent = silent;
-    }
-  });
-}
-const BaseAxisPointer$1 = BaseAxisPointer;
 var PI = Math.PI;
 var AxisBuilder = (
   /** @class */
@@ -39531,15 +37338,15 @@ const AxisBuilder$1 = AxisBuilder;
 function buildElStyle(axisPointerModel) {
   var axisPointerType = axisPointerModel.get("type");
   var styleModel = axisPointerModel.getModel(axisPointerType + "Style");
-  var style2;
+  var style;
   if (axisPointerType === "line") {
-    style2 = styleModel.getLineStyle();
-    style2.fill = null;
+    style = styleModel.getLineStyle();
+    style.fill = null;
   } else if (axisPointerType === "shadow") {
-    style2 = styleModel.getAreaStyle();
-    style2.stroke = null;
+    style = styleModel.getAreaStyle();
+    style.stroke = null;
   }
-  return style2;
+  return style;
 }
 function buildLabelElOption(elOption, axisModel, axisPointerModel, api, labelPos) {
   var value = axisPointerModel.get("value");
@@ -39887,30 +37694,30 @@ var AxisPointerModel = (
   }(ComponentModel$1)
 );
 const AxisPointerModel$1 = AxisPointerModel;
-var inner$3 = makeInner();
+var inner$4 = makeInner();
 var each$4 = each$7;
 function register(key, api, handler) {
   if (env$1.node) {
     return;
   }
   var zr = api.getZr();
-  inner$3(zr).records || (inner$3(zr).records = {});
+  inner$4(zr).records || (inner$4(zr).records = {});
   initGlobalListeners(zr, api);
-  var record = inner$3(zr).records[key] || (inner$3(zr).records[key] = {});
+  var record = inner$4(zr).records[key] || (inner$4(zr).records[key] = {});
   record.handler = handler;
 }
 function initGlobalListeners(zr, api) {
-  if (inner$3(zr).initialized) {
+  if (inner$4(zr).initialized) {
     return;
   }
-  inner$3(zr).initialized = true;
+  inner$4(zr).initialized = true;
   useHandler("click", curry$1(doEnter, "click"));
   useHandler("mousemove", curry$1(doEnter, "mousemove"));
   useHandler("globalout", onLeave);
   function useHandler(eventType, cb) {
     zr.on(eventType, function(e2) {
       var dis = makeDispatchAction$1(api);
-      each$4(inner$3(zr).records, function(record) {
+      each$4(inner$4(zr).records, function(record) {
         record && cb(record, e2, dis.dispatchAction);
       });
       dispatchTooltipFinally(dis.pendings, api);
@@ -39961,9 +37768,9 @@ function unregister(key, api) {
     return;
   }
   var zr = api.getZr();
-  var record = (inner$3(zr).records || {})[key];
+  var record = (inner$4(zr).records || {})[key];
   if (record) {
-    inner$3(zr).records[key] = null;
+    inner$4(zr).records[key] = null;
   }
 }
 var AxisPointerView = (
@@ -40047,7 +37854,7 @@ function findPointFromSeries(finder, ecModel) {
     el
   };
 }
-var inner$2 = makeInner();
+var inner$3 = makeInner();
 function axisTrigger(payload, ecModel, api) {
   var currTrigger = payload.currTrigger;
   var point = [payload.x, payload.y];
@@ -40280,8 +38087,8 @@ function dispatchTooltipActually(dataByCoordSys, point, payload, dispatchAction)
 function dispatchHighDownActually(axesInfo, dispatchAction, api) {
   var zr = api.getZr();
   var highDownKey = "axisPointerLastHighlights";
-  var lastHighlights = inner$2(zr)[highDownKey] || {};
-  var newHighlights = inner$2(zr)[highDownKey] = {};
+  var lastHighlights = inner$3(zr)[highDownKey] || {};
+  var newHighlights = inner$3(zr)[highDownKey] = {};
   each$7(axesInfo, function(axisInfo, key) {
     var option = axisInfo.axisPointerModel.option;
     option.status === "show" && each$7(option.seriesDataIndices, function(batchItem) {
@@ -40444,9 +38251,9 @@ function testStyle(styleProps) {
   if (!env$1.domSupported) {
     return;
   }
-  var style2 = document.documentElement.style;
+  var style = document.documentElement.style;
   for (var i = 0, len2 = styleProps.length; i < len2; i++) {
-    if (styleProps[i] in style2) {
+    if (styleProps[i] in style) {
       return styleProps[i];
     }
   }
@@ -40462,9 +38269,9 @@ function toCSSVendorPrefix(styleVendor, styleProp) {
   styleVendor = idx === -1 ? styleProp : "-" + styleVendor.slice(0, idx) + "-" + styleProp;
   return styleVendor.toLowerCase();
 }
-function getComputedStyle(el, style2) {
+function getComputedStyle(el, style) {
   var stl = el.currentStyle || document.defaultView && document.defaultView.getComputedStyle(el);
-  return stl ? style2 ? stl[style2] : stl : null;
+  return stl ? style ? stl[style] : stl : null;
 }
 var CSS_TRANSITION_VENDOR = toCSSVendorPrefix(TRANSITION_VENDOR, "transition");
 var CSS_TRANSFORM_VENDOR = toCSSVendorPrefix(TRANSFORM_VENDOR, "transform");
@@ -40511,9 +38318,9 @@ function assembleTransition(duration, onlyFade) {
   }
   return CSS_TRANSITION_VENDOR + ":" + transitionText;
 }
-function assembleTransform(x2, y2, toString) {
-  var x0 = x2.toFixed(0) + "px";
-  var y0 = y2.toFixed(0) + "px";
+function assembleTransform(x, y, toString) {
+  var x0 = x.toFixed(0) + "px";
+  var y0 = y.toFixed(0) + "px";
   if (!env$1.transformSupported) {
     return toString ? "top:" + y0 + ";left:" + x0 + ";" : [["top", y0], ["left", x0]];
   }
@@ -40653,12 +38460,12 @@ var TooltipHTMLContent = (
       clearTimeout(this._hideTimeout);
       clearTimeout(this._longHideTimeout);
       var el = this.el;
-      var style2 = el.style;
+      var style = el.style;
       var styleCoord = this._styleCoord;
       if (!el.innerHTML) {
-        style2.display = "none";
+        style.display = "none";
       } else {
-        style2.cssText = gCssText + assembleCssText(tooltipModel, !this._firstShow, this._longHide) + assembleTransform(styleCoord[0], styleCoord[1], true) + ("border-color:" + convertToColorString(nearPointColor) + ";") + (tooltipModel.get("extraCssText") || "") + (";pointer-events:" + (this._enterable ? "auto" : "none"));
+        style.cssText = gCssText + assembleCssText(tooltipModel, !this._firstShow, this._longHide) + assembleTransform(styleCoord[0], styleCoord[1], true) + ("border-color:" + convertToColorString(nearPointColor) + ";") + (tooltipModel.get("extraCssText") || "") + (";pointer-events:" + (this._enterable ? "auto" : "none"));
       }
       this._show = true;
       this._firstShow = false;
@@ -40718,10 +38525,10 @@ var TooltipHTMLContent = (
     };
     TooltipHTMLContent2.prototype.hide = function() {
       var _this = this;
-      var style2 = this.el.style;
-      style2.visibility = "hidden";
-      style2.opacity = "0";
-      env$1.transform3dSupported && (style2.willChange = "");
+      var style = this.el.style;
+      style.visibility = "hidden";
+      style.opacity = "0";
+      env$1.transform3dSupported && (style.willChange = "");
       this._show = false;
       this._longHideTimeout = setTimeout(function() {
         return _this._longHide = true;
@@ -40828,18 +38635,18 @@ var TooltipRichContent = (
       var shadowOuterSize = calcShadowOuterSize(el.style);
       return [bounding.width + shadowOuterSize.left + shadowOuterSize.right, bounding.height + shadowOuterSize.top + shadowOuterSize.bottom];
     };
-    TooltipRichContent2.prototype.moveTo = function(x2, y2) {
+    TooltipRichContent2.prototype.moveTo = function(x, y) {
       var el = this.el;
       if (el) {
         var styleCoord = this._styleCoord;
-        makeStyleCoord(styleCoord, this._zr, x2, y2);
-        x2 = styleCoord[0];
-        y2 = styleCoord[1];
-        var style2 = el.style;
-        var borderWidth = mathMaxWith0(style2.borderWidth || 0);
-        var shadowOuterSize = calcShadowOuterSize(style2);
-        el.x = x2 + borderWidth + shadowOuterSize.left;
-        el.y = y2 + borderWidth + shadowOuterSize.top;
+        makeStyleCoord(styleCoord, this._zr, x, y);
+        x = styleCoord[0];
+        y = styleCoord[1];
+        var style = el.style;
+        var borderWidth = mathMaxWith0(style.borderWidth || 0);
+        var shadowOuterSize = calcShadowOuterSize(style);
+        el.x = x + borderWidth + shadowOuterSize.left;
+        el.y = y + borderWidth + shadowOuterSize.top;
         el.markRedraw();
       }
     };
@@ -40877,10 +38684,10 @@ var TooltipRichContent = (
 function mathMaxWith0(val) {
   return Math.max(0, val);
 }
-function calcShadowOuterSize(style2) {
-  var shadowBlur = mathMaxWith0(style2.shadowBlur || 0);
-  var shadowOffsetX = mathMaxWith0(style2.shadowOffsetX || 0);
-  var shadowOffsetY = mathMaxWith0(style2.shadowOffsetY || 0);
+function calcShadowOuterSize(style) {
+  var shadowBlur = mathMaxWith0(style.shadowBlur || 0);
+  var shadowOffsetX = mathMaxWith0(style.shadowOffsetX || 0);
+  var shadowOffsetY = mathMaxWith0(style.shadowOffsetY || 0);
   return {
     left: mathMaxWith0(shadowBlur - shadowOffsetX),
     right: mathMaxWith0(shadowBlur + shadowOffsetX),
@@ -40938,7 +38745,7 @@ var TooltipView = (
       if (this._renderMode !== "richText" && tooltipModel.get("transitionDuration")) {
         createOrUpdate(this, "_updatePosition", 50, "fixRate");
       } else {
-        clear$1(this, "_updatePosition");
+        clear$2(this, "_updatePosition");
       }
     };
     TooltipView2.prototype._initGlobalListener = function() {
@@ -41273,7 +39080,7 @@ var TooltipView = (
         from: this.uid
       });
     };
-    TooltipView2.prototype._showTooltipContent = function(tooltipModel, defaultHtml, params, asyncTicket, x2, y2, positionExpr, el, markupStyleCreator) {
+    TooltipView2.prototype._showTooltipContent = function(tooltipModel, defaultHtml, params, asyncTicket, x, y, positionExpr, el, markupStyleCreator) {
       this._ticket = "";
       if (!tooltipModel.get("showContent") || !tooltipModel.get("show")) {
         return;
@@ -41283,7 +39090,7 @@ var TooltipView = (
       var formatter = tooltipModel.get("formatter");
       positionExpr = positionExpr || tooltipModel.get("position");
       var html = defaultHtml;
-      var nearPoint = this._getNearestPoint([x2, y2], params, tooltipModel.get("trigger"), tooltipModel.get("borderColor"));
+      var nearPoint = this._getNearestPoint([x, y], params, tooltipModel.get("trigger"), tooltipModel.get("borderColor"));
       var nearPointColor = nearPoint.color;
       if (formatter) {
         if (isString(formatter)) {
@@ -41299,7 +39106,7 @@ var TooltipView = (
           var callback = bind$1(function(cbTicket, html2) {
             if (cbTicket === this._ticket) {
               tooltipContent.setContent(html2, markupStyleCreator, tooltipModel, nearPointColor, positionExpr);
-              this._updatePosition(tooltipModel, positionExpr, x2, y2, tooltipContent, params, el);
+              this._updatePosition(tooltipModel, positionExpr, x, y, tooltipContent, params, el);
             }
           }, this);
           this._ticket = asyncTicket;
@@ -41310,7 +39117,7 @@ var TooltipView = (
       }
       tooltipContent.setContent(html, markupStyleCreator, tooltipModel, nearPointColor, positionExpr);
       tooltipContent.show(tooltipModel, nearPointColor);
-      this._updatePosition(tooltipModel, positionExpr, x2, y2, tooltipContent, params, el);
+      this._updatePosition(tooltipModel, positionExpr, x, y, tooltipContent, params, el);
     };
     TooltipView2.prototype._getNearestPoint = function(point, tooltipDataParams, trigger2, borderColor) {
       if (trigger2 === "axis" || isArray(tooltipDataParams)) {
@@ -41324,7 +39131,7 @@ var TooltipView = (
         };
       }
     };
-    TooltipView2.prototype._updatePosition = function(tooltipModel, positionExpr, x2, y2, content, params, el) {
+    TooltipView2.prototype._updatePosition = function(tooltipModel, positionExpr, x, y, content, params, el) {
       var viewWidth = this._api.getWidth();
       var viewHeight = this._api.getHeight();
       positionExpr = positionExpr || tooltipModel.get("position");
@@ -41334,14 +39141,14 @@ var TooltipView = (
       var rect = el && el.getBoundingRect().clone();
       el && rect.applyTransform(el.transform);
       if (isFunction(positionExpr)) {
-        positionExpr = positionExpr([x2, y2], params, content.el, rect, {
+        positionExpr = positionExpr([x, y], params, content.el, rect, {
           viewSize: [viewWidth, viewHeight],
           contentSize: contentSize.slice()
         });
       }
       if (isArray(positionExpr)) {
-        x2 = parsePercent(positionExpr[0], viewWidth);
-        y2 = parsePercent(positionExpr[1], viewHeight);
+        x = parsePercent(positionExpr[0], viewWidth);
+        y = parsePercent(positionExpr[1], viewHeight);
       } else if (isObject$2(positionExpr)) {
         var boxLayoutPosition = positionExpr;
         boxLayoutPosition.width = contentSize[0];
@@ -41350,27 +39157,27 @@ var TooltipView = (
           width: viewWidth,
           height: viewHeight
         });
-        x2 = layoutRect.x;
-        y2 = layoutRect.y;
+        x = layoutRect.x;
+        y = layoutRect.y;
         align = null;
         vAlign = null;
       } else if (isString(positionExpr) && el) {
         var pos = calcTooltipPosition(positionExpr, rect, contentSize, tooltipModel.get("borderWidth"));
-        x2 = pos[0];
-        y2 = pos[1];
+        x = pos[0];
+        y = pos[1];
       } else {
-        var pos = refixTooltipPosition(x2, y2, content, viewWidth, viewHeight, align ? null : 20, vAlign ? null : 20);
-        x2 = pos[0];
-        y2 = pos[1];
+        var pos = refixTooltipPosition(x, y, content, viewWidth, viewHeight, align ? null : 20, vAlign ? null : 20);
+        x = pos[0];
+        y = pos[1];
       }
-      align && (x2 -= isCenterAlign(align) ? contentSize[0] / 2 : align === "right" ? contentSize[0] : 0);
-      vAlign && (y2 -= isCenterAlign(vAlign) ? contentSize[1] / 2 : vAlign === "bottom" ? contentSize[1] : 0);
+      align && (x -= isCenterAlign(align) ? contentSize[0] / 2 : align === "right" ? contentSize[0] : 0);
+      vAlign && (y -= isCenterAlign(vAlign) ? contentSize[1] / 2 : vAlign === "bottom" ? contentSize[1] : 0);
       if (shouldTooltipConfine(tooltipModel)) {
-        var pos = confineTooltipPosition(x2, y2, content, viewWidth, viewHeight);
-        x2 = pos[0];
-        y2 = pos[1];
+        var pos = confineTooltipPosition(x, y, content, viewWidth, viewHeight);
+        x = pos[0];
+        y = pos[1];
       }
-      content.moveTo(x2, y2);
+      content.moveTo(x, y);
     };
     TooltipView2.prototype._updateContentNotChangedOnAxis = function(dataByCoordSys, cbParamsList) {
       var lastCoordSys = this._lastDataByCoordSys;
@@ -41386,8 +39193,8 @@ var TooltipView = (
           var lastIndices = lastItem.seriesDataIndices || [];
           var newIndices = thisItem.seriesDataIndices || [];
           contentNotChanged = contentNotChanged && lastItem.value === thisItem.value && lastItem.axisType === thisItem.axisType && lastItem.axisId === thisItem.axisId && lastIndices.length === newIndices.length;
-          contentNotChanged && each$7(lastIndices, function(lastIdxItem, j2) {
-            var newIdxItem = newIndices[j2];
+          contentNotChanged && each$7(lastIndices, function(lastIdxItem, j) {
+            var newIdxItem = newIndices[j];
             contentNotChanged = contentNotChanged && lastIdxItem.seriesIndex === newIdxItem.seriesIndex && lastIdxItem.dataIndex === newIdxItem.dataIndex;
           });
           lastCbParamsList && each$7(lastItem.seriesDataIndices, function(idxItem) {
@@ -41415,7 +39222,7 @@ var TooltipView = (
       if (env$1.node || !api.getDom()) {
         return;
       }
-      clear$1(this, "_updatePosition");
+      clear$2(this, "_updatePosition");
       this._tooltipContent.dispose();
       unregister("itemTooltip", api);
     };
@@ -41453,66 +39260,66 @@ function buildTooltipModel(modelCascade, globalTooltipModel, defaultTooltipOptio
 function makeDispatchAction(payload, api) {
   return payload.dispatchAction || bind$1(api.dispatchAction, api);
 }
-function refixTooltipPosition(x2, y2, content, viewWidth, viewHeight, gapH, gapV) {
+function refixTooltipPosition(x, y, content, viewWidth, viewHeight, gapH, gapV) {
   var size2 = content.getSize();
   var width = size2[0];
   var height = size2[1];
   if (gapH != null) {
-    if (x2 + width + gapH + 2 > viewWidth) {
-      x2 -= width + gapH;
+    if (x + width + gapH + 2 > viewWidth) {
+      x -= width + gapH;
     } else {
-      x2 += gapH;
+      x += gapH;
     }
   }
   if (gapV != null) {
-    if (y2 + height + gapV > viewHeight) {
-      y2 -= height + gapV;
+    if (y + height + gapV > viewHeight) {
+      y -= height + gapV;
     } else {
-      y2 += gapV;
+      y += gapV;
     }
   }
-  return [x2, y2];
+  return [x, y];
 }
-function confineTooltipPosition(x2, y2, content, viewWidth, viewHeight) {
+function confineTooltipPosition(x, y, content, viewWidth, viewHeight) {
   var size2 = content.getSize();
   var width = size2[0];
   var height = size2[1];
-  x2 = Math.min(x2 + width, viewWidth) - width;
-  y2 = Math.min(y2 + height, viewHeight) - height;
-  x2 = Math.max(x2, 0);
-  y2 = Math.max(y2, 0);
-  return [x2, y2];
+  x = Math.min(x + width, viewWidth) - width;
+  y = Math.min(y + height, viewHeight) - height;
+  x = Math.max(x, 0);
+  y = Math.max(y, 0);
+  return [x, y];
 }
 function calcTooltipPosition(position, rect, contentSize, borderWidth) {
   var domWidth = contentSize[0];
   var domHeight = contentSize[1];
   var offset = Math.ceil(Math.SQRT2 * borderWidth) + 8;
-  var x2 = 0;
-  var y2 = 0;
+  var x = 0;
+  var y = 0;
   var rectWidth = rect.width;
   var rectHeight = rect.height;
   switch (position) {
     case "inside":
-      x2 = rect.x + rectWidth / 2 - domWidth / 2;
-      y2 = rect.y + rectHeight / 2 - domHeight / 2;
+      x = rect.x + rectWidth / 2 - domWidth / 2;
+      y = rect.y + rectHeight / 2 - domHeight / 2;
       break;
     case "top":
-      x2 = rect.x + rectWidth / 2 - domWidth / 2;
-      y2 = rect.y - domHeight - offset;
+      x = rect.x + rectWidth / 2 - domWidth / 2;
+      y = rect.y - domHeight - offset;
       break;
     case "bottom":
-      x2 = rect.x + rectWidth / 2 - domWidth / 2;
-      y2 = rect.y + rectHeight + offset;
+      x = rect.x + rectWidth / 2 - domWidth / 2;
+      y = rect.y + rectHeight + offset;
       break;
     case "left":
-      x2 = rect.x - domWidth - offset;
-      y2 = rect.y + rectHeight / 2 - domHeight / 2;
+      x = rect.x - domWidth - offset;
+      y = rect.y + rectHeight / 2 - domHeight / 2;
       break;
     case "right":
-      x2 = rect.x + rectWidth + offset;
-      y2 = rect.y + rectHeight / 2 - domHeight / 2;
+      x = rect.x + rectWidth + offset;
+      y = rect.y + rectHeight / 2 - domHeight / 2;
   }
-  return [x2, y2];
+  return [x, y];
 }
 function isCenterAlign(align) {
   return align === "center" || align === "middle";
@@ -41712,8 +39519,8 @@ var TitleView = (
       subTextEl.setStyle(alignStyle);
       groupRect = group.getBoundingRect();
       var padding = layoutRect.margin;
-      var style2 = titleModel.getItemStyle(["color", "opacity"]);
-      style2.fill = titleModel.get("backgroundColor");
+      var style = titleModel.getItemStyle(["color", "opacity"]);
+      style.fill = titleModel.get("backgroundColor");
       var rect = new Rect$1({
         shape: {
           x: groupRect.x - padding[3],
@@ -41722,7 +39529,7 @@ var TitleView = (
           height: groupRect.height + padding[0] + padding[2],
           r: titleModel.get("borderRadius")
         },
-        style: style2,
+        style,
         subPixelOptimize: true,
         silent: true
       });
@@ -41737,6 +39544,2397 @@ function install$c(registers) {
   registers.registerComponentView(TitleView);
 }
 use(install$c);
+function warn(msg, ...args) {
+  console.warn(`[Vue warn] ${msg}`, ...args);
+}
+const createDep = (effects) => {
+  const dep = new Set(effects);
+  dep.w = 0;
+  dep.n = 0;
+  return dep;
+};
+const wasTracked = (dep) => (dep.w & trackOpBit) > 0;
+const newTracked = (dep) => (dep.n & trackOpBit) > 0;
+const targetMap = /* @__PURE__ */ new WeakMap();
+let trackOpBit = 1;
+let activeEffect;
+const ITERATE_KEY = Symbol("iterate");
+const MAP_KEY_ITERATE_KEY = Symbol("Map key iterate");
+let shouldTrack = true;
+const trackStack = [];
+function pauseTracking() {
+  trackStack.push(shouldTrack);
+  shouldTrack = false;
+}
+function resetTracking() {
+  const last = trackStack.pop();
+  shouldTrack = last === void 0 ? true : last;
+}
+function track(target, type, key) {
+  if (shouldTrack && activeEffect) {
+    let depsMap = targetMap.get(target);
+    if (!depsMap) {
+      targetMap.set(target, depsMap = /* @__PURE__ */ new Map());
+    }
+    let dep = depsMap.get(key);
+    if (!dep) {
+      depsMap.set(key, dep = createDep());
+    }
+    trackEffects(dep);
+  }
+}
+function trackEffects(dep, debuggerEventExtraInfo) {
+  let shouldTrack2 = false;
+  {
+    if (!newTracked(dep)) {
+      dep.n |= trackOpBit;
+      shouldTrack2 = !wasTracked(dep);
+    }
+  }
+  if (shouldTrack2) {
+    dep.add(activeEffect);
+    activeEffect.deps.push(dep);
+    if (activeEffect.onTrack)
+      ;
+  }
+}
+function trigger$1(target, type, key, newValue, oldValue, oldTarget) {
+  const depsMap = targetMap.get(target);
+  if (!depsMap) {
+    return;
+  }
+  let deps = [];
+  if (type === "clear") {
+    deps = [...depsMap.values()];
+  } else if (key === "length" && isArray$1(target)) {
+    const newLength = Number(newValue);
+    depsMap.forEach((dep, key2) => {
+      if (key2 === "length" || key2 >= newLength) {
+        deps.push(dep);
+      }
+    });
+  } else {
+    if (key !== void 0) {
+      deps.push(depsMap.get(key));
+    }
+    switch (type) {
+      case "add":
+        if (!isArray$1(target)) {
+          deps.push(depsMap.get(ITERATE_KEY));
+          if (isMap(target)) {
+            deps.push(depsMap.get(MAP_KEY_ITERATE_KEY));
+          }
+        } else if (isIntegerKey(key)) {
+          deps.push(depsMap.get("length"));
+        }
+        break;
+      case "delete":
+        if (!isArray$1(target)) {
+          deps.push(depsMap.get(ITERATE_KEY));
+          if (isMap(target)) {
+            deps.push(depsMap.get(MAP_KEY_ITERATE_KEY));
+          }
+        }
+        break;
+      case "set":
+        if (isMap(target)) {
+          deps.push(depsMap.get(ITERATE_KEY));
+        }
+        break;
+    }
+  }
+  const eventInfo = { target, type, key, newValue, oldValue, oldTarget };
+  if (deps.length === 1) {
+    if (deps[0]) {
+      {
+        triggerEffects(deps[0], eventInfo);
+      }
+    }
+  } else {
+    const effects = [];
+    for (const dep of deps) {
+      if (dep) {
+        effects.push(...dep);
+      }
+    }
+    {
+      triggerEffects(createDep(effects), eventInfo);
+    }
+  }
+}
+function triggerEffects(dep, debuggerEventExtraInfo) {
+  const effects = isArray$1(dep) ? dep : [...dep];
+  for (const effect2 of effects) {
+    if (effect2.computed) {
+      triggerEffect(effect2, debuggerEventExtraInfo);
+    }
+  }
+  for (const effect2 of effects) {
+    if (!effect2.computed) {
+      triggerEffect(effect2, debuggerEventExtraInfo);
+    }
+  }
+}
+function triggerEffect(effect2, debuggerEventExtraInfo) {
+  if (effect2 !== activeEffect || effect2.allowRecurse) {
+    if (effect2.onTrigger) {
+      effect2.onTrigger(extend$1({ effect: effect2 }, debuggerEventExtraInfo));
+    }
+    if (effect2.scheduler) {
+      effect2.scheduler();
+    } else {
+      effect2.run();
+    }
+  }
+}
+const isNonTrackableKeys = /* @__PURE__ */ makeMap(`__proto__,__v_isRef,__isVue`);
+const builtInSymbols = new Set(
+  /* @__PURE__ */ Object.getOwnPropertyNames(Symbol).filter((key) => key !== "arguments" && key !== "caller").map((key) => Symbol[key]).filter(isSymbol)
+);
+const get$1 = /* @__PURE__ */ createGetter();
+const readonlyGet = /* @__PURE__ */ createGetter(true);
+const arrayInstrumentations = /* @__PURE__ */ createArrayInstrumentations();
+function createArrayInstrumentations() {
+  const instrumentations = {};
+  ["includes", "indexOf", "lastIndexOf"].forEach((key) => {
+    instrumentations[key] = function(...args) {
+      const arr = toRaw(this);
+      for (let i = 0, l = this.length; i < l; i++) {
+        track(arr, "get", i + "");
+      }
+      const res = arr[key](...args);
+      if (res === -1 || res === false) {
+        return arr[key](...args.map(toRaw));
+      } else {
+        return res;
+      }
+    };
+  });
+  ["push", "pop", "shift", "unshift", "splice"].forEach((key) => {
+    instrumentations[key] = function(...args) {
+      pauseTracking();
+      const res = toRaw(this)[key].apply(this, args);
+      resetTracking();
+      return res;
+    };
+  });
+  return instrumentations;
+}
+function hasOwnProperty(key) {
+  const obj = toRaw(this);
+  track(obj, "has", key);
+  return obj.hasOwnProperty(key);
+}
+function createGetter(isReadonly2 = false, shallow = false) {
+  return function get2(target, key, receiver) {
+    if (key === "__v_isReactive") {
+      return !isReadonly2;
+    } else if (key === "__v_isReadonly") {
+      return isReadonly2;
+    } else if (key === "__v_isShallow") {
+      return shallow;
+    } else if (key === "__v_raw" && receiver === (isReadonly2 ? shallow ? shallowReadonlyMap : readonlyMap : shallow ? shallowReactiveMap : reactiveMap).get(target)) {
+      return target;
+    }
+    const targetIsArray = isArray$1(target);
+    if (!isReadonly2) {
+      if (targetIsArray && hasOwn$1(arrayInstrumentations, key)) {
+        return Reflect.get(arrayInstrumentations, key, receiver);
+      }
+      if (key === "hasOwnProperty") {
+        return hasOwnProperty;
+      }
+    }
+    const res = Reflect.get(target, key, receiver);
+    if (isSymbol(key) ? builtInSymbols.has(key) : isNonTrackableKeys(key)) {
+      return res;
+    }
+    if (!isReadonly2) {
+      track(target, "get", key);
+    }
+    if (shallow) {
+      return res;
+    }
+    if (isRef(res)) {
+      return targetIsArray && isIntegerKey(key) ? res : res.value;
+    }
+    if (isObject$3(res)) {
+      return isReadonly2 ? readonly(res) : reactive(res);
+    }
+    return res;
+  };
+}
+const set$1 = /* @__PURE__ */ createSetter();
+function createSetter(shallow = false) {
+  return function set2(target, key, value, receiver) {
+    let oldValue = target[key];
+    if (isReadonly(oldValue) && isRef(oldValue) && !isRef(value)) {
+      return false;
+    }
+    if (!shallow) {
+      if (!isShallow(value) && !isReadonly(value)) {
+        oldValue = toRaw(oldValue);
+        value = toRaw(value);
+      }
+      if (!isArray$1(target) && isRef(oldValue) && !isRef(value)) {
+        oldValue.value = value;
+        return true;
+      }
+    }
+    const hadKey = isArray$1(target) && isIntegerKey(key) ? Number(key) < target.length : hasOwn$1(target, key);
+    const result = Reflect.set(target, key, value, receiver);
+    if (target === toRaw(receiver)) {
+      if (!hadKey) {
+        trigger$1(target, "add", key, value);
+      } else if (hasChanged(value, oldValue)) {
+        trigger$1(target, "set", key, value, oldValue);
+      }
+    }
+    return result;
+  };
+}
+function deleteProperty(target, key) {
+  const hadKey = hasOwn$1(target, key);
+  const oldValue = target[key];
+  const result = Reflect.deleteProperty(target, key);
+  if (result && hadKey) {
+    trigger$1(target, "delete", key, void 0, oldValue);
+  }
+  return result;
+}
+function has$1(target, key) {
+  const result = Reflect.has(target, key);
+  if (!isSymbol(key) || !builtInSymbols.has(key)) {
+    track(target, "has", key);
+  }
+  return result;
+}
+function ownKeys(target) {
+  track(target, "iterate", isArray$1(target) ? "length" : ITERATE_KEY);
+  return Reflect.ownKeys(target);
+}
+const mutableHandlers = {
+  get: get$1,
+  set: set$1,
+  deleteProperty,
+  has: has$1,
+  ownKeys
+};
+const readonlyHandlers = {
+  get: readonlyGet,
+  set(target, key) {
+    {
+      warn(
+        `Set operation on key "${String(key)}" failed: target is readonly.`,
+        target
+      );
+    }
+    return true;
+  },
+  deleteProperty(target, key) {
+    {
+      warn(
+        `Delete operation on key "${String(key)}" failed: target is readonly.`,
+        target
+      );
+    }
+    return true;
+  }
+};
+const toShallow = (value) => value;
+const getProto = (v) => Reflect.getPrototypeOf(v);
+function get(target, key, isReadonly2 = false, isShallow2 = false) {
+  target = target["__v_raw"];
+  const rawTarget = toRaw(target);
+  const rawKey = toRaw(key);
+  if (!isReadonly2) {
+    if (key !== rawKey) {
+      track(rawTarget, "get", key);
+    }
+    track(rawTarget, "get", rawKey);
+  }
+  const { has: has2 } = getProto(rawTarget);
+  const wrap = isShallow2 ? toShallow : isReadonly2 ? toReadonly : toReactive;
+  if (has2.call(rawTarget, key)) {
+    return wrap(target.get(key));
+  } else if (has2.call(rawTarget, rawKey)) {
+    return wrap(target.get(rawKey));
+  } else if (target !== rawTarget) {
+    target.get(key);
+  }
+}
+function has(key, isReadonly2 = false) {
+  const target = this["__v_raw"];
+  const rawTarget = toRaw(target);
+  const rawKey = toRaw(key);
+  if (!isReadonly2) {
+    if (key !== rawKey) {
+      track(rawTarget, "has", key);
+    }
+    track(rawTarget, "has", rawKey);
+  }
+  return key === rawKey ? target.has(key) : target.has(key) || target.has(rawKey);
+}
+function size(target, isReadonly2 = false) {
+  target = target["__v_raw"];
+  !isReadonly2 && track(toRaw(target), "iterate", ITERATE_KEY);
+  return Reflect.get(target, "size", target);
+}
+function add(value) {
+  value = toRaw(value);
+  const target = toRaw(this);
+  const proto2 = getProto(target);
+  const hadKey = proto2.has.call(target, value);
+  if (!hadKey) {
+    target.add(value);
+    trigger$1(target, "add", value, value);
+  }
+  return this;
+}
+function set(key, value) {
+  value = toRaw(value);
+  const target = toRaw(this);
+  const { has: has2, get: get2 } = getProto(target);
+  let hadKey = has2.call(target, key);
+  if (!hadKey) {
+    key = toRaw(key);
+    hadKey = has2.call(target, key);
+  } else {
+    checkIdentityKeys(target, has2, key);
+  }
+  const oldValue = get2.call(target, key);
+  target.set(key, value);
+  if (!hadKey) {
+    trigger$1(target, "add", key, value);
+  } else if (hasChanged(value, oldValue)) {
+    trigger$1(target, "set", key, value, oldValue);
+  }
+  return this;
+}
+function deleteEntry(key) {
+  const target = toRaw(this);
+  const { has: has2, get: get2 } = getProto(target);
+  let hadKey = has2.call(target, key);
+  if (!hadKey) {
+    key = toRaw(key);
+    hadKey = has2.call(target, key);
+  } else {
+    checkIdentityKeys(target, has2, key);
+  }
+  const oldValue = get2 ? get2.call(target, key) : void 0;
+  const result = target.delete(key);
+  if (hadKey) {
+    trigger$1(target, "delete", key, void 0, oldValue);
+  }
+  return result;
+}
+function clear$1() {
+  const target = toRaw(this);
+  const hadItems = target.size !== 0;
+  const oldTarget = isMap(target) ? new Map(target) : new Set(target);
+  const result = target.clear();
+  if (hadItems) {
+    trigger$1(target, "clear", void 0, void 0, oldTarget);
+  }
+  return result;
+}
+function createForEach(isReadonly2, isShallow2) {
+  return function forEach(callback, thisArg) {
+    const observed = this;
+    const target = observed["__v_raw"];
+    const rawTarget = toRaw(target);
+    const wrap = isShallow2 ? toShallow : isReadonly2 ? toReadonly : toReactive;
+    !isReadonly2 && track(rawTarget, "iterate", ITERATE_KEY);
+    return target.forEach((value, key) => {
+      return callback.call(thisArg, wrap(value), wrap(key), observed);
+    });
+  };
+}
+function createIterableMethod(method, isReadonly2, isShallow2) {
+  return function(...args) {
+    const target = this["__v_raw"];
+    const rawTarget = toRaw(target);
+    const targetIsMap = isMap(rawTarget);
+    const isPair = method === "entries" || method === Symbol.iterator && targetIsMap;
+    const isKeyOnly = method === "keys" && targetIsMap;
+    const innerIterator = target[method](...args);
+    const wrap = isShallow2 ? toShallow : isReadonly2 ? toReadonly : toReactive;
+    !isReadonly2 && track(
+      rawTarget,
+      "iterate",
+      isKeyOnly ? MAP_KEY_ITERATE_KEY : ITERATE_KEY
+    );
+    return {
+      // iterator protocol
+      next() {
+        const { value, done } = innerIterator.next();
+        return done ? { value, done } : {
+          value: isPair ? [wrap(value[0]), wrap(value[1])] : wrap(value),
+          done
+        };
+      },
+      // iterable protocol
+      [Symbol.iterator]() {
+        return this;
+      }
+    };
+  };
+}
+function createReadonlyMethod(type) {
+  return function(...args) {
+    {
+      const key = args[0] ? `on key "${args[0]}" ` : ``;
+      console.warn(
+        `${capitalize(type)} operation ${key}failed: target is readonly.`,
+        toRaw(this)
+      );
+    }
+    return type === "delete" ? false : this;
+  };
+}
+function createInstrumentations() {
+  const mutableInstrumentations2 = {
+    get(key) {
+      return get(this, key);
+    },
+    get size() {
+      return size(this);
+    },
+    has,
+    add,
+    set,
+    delete: deleteEntry,
+    clear: clear$1,
+    forEach: createForEach(false, false)
+  };
+  const shallowInstrumentations2 = {
+    get(key) {
+      return get(this, key, false, true);
+    },
+    get size() {
+      return size(this);
+    },
+    has,
+    add,
+    set,
+    delete: deleteEntry,
+    clear: clear$1,
+    forEach: createForEach(false, true)
+  };
+  const readonlyInstrumentations2 = {
+    get(key) {
+      return get(this, key, true);
+    },
+    get size() {
+      return size(this, true);
+    },
+    has(key) {
+      return has.call(this, key, true);
+    },
+    add: createReadonlyMethod("add"),
+    set: createReadonlyMethod("set"),
+    delete: createReadonlyMethod("delete"),
+    clear: createReadonlyMethod("clear"),
+    forEach: createForEach(true, false)
+  };
+  const shallowReadonlyInstrumentations2 = {
+    get(key) {
+      return get(this, key, true, true);
+    },
+    get size() {
+      return size(this, true);
+    },
+    has(key) {
+      return has.call(this, key, true);
+    },
+    add: createReadonlyMethod("add"),
+    set: createReadonlyMethod("set"),
+    delete: createReadonlyMethod("delete"),
+    clear: createReadonlyMethod("clear"),
+    forEach: createForEach(true, true)
+  };
+  const iteratorMethods = ["keys", "values", "entries", Symbol.iterator];
+  iteratorMethods.forEach((method) => {
+    mutableInstrumentations2[method] = createIterableMethod(
+      method,
+      false,
+      false
+    );
+    readonlyInstrumentations2[method] = createIterableMethod(
+      method,
+      true,
+      false
+    );
+    shallowInstrumentations2[method] = createIterableMethod(
+      method,
+      false,
+      true
+    );
+    shallowReadonlyInstrumentations2[method] = createIterableMethod(
+      method,
+      true,
+      true
+    );
+  });
+  return [
+    mutableInstrumentations2,
+    readonlyInstrumentations2,
+    shallowInstrumentations2,
+    shallowReadonlyInstrumentations2
+  ];
+}
+const [
+  mutableInstrumentations,
+  readonlyInstrumentations,
+  shallowInstrumentations,
+  shallowReadonlyInstrumentations
+] = /* @__PURE__ */ createInstrumentations();
+function createInstrumentationGetter(isReadonly2, shallow) {
+  const instrumentations = shallow ? isReadonly2 ? shallowReadonlyInstrumentations : shallowInstrumentations : isReadonly2 ? readonlyInstrumentations : mutableInstrumentations;
+  return (target, key, receiver) => {
+    if (key === "__v_isReactive") {
+      return !isReadonly2;
+    } else if (key === "__v_isReadonly") {
+      return isReadonly2;
+    } else if (key === "__v_raw") {
+      return target;
+    }
+    return Reflect.get(
+      hasOwn$1(instrumentations, key) && key in target ? instrumentations : target,
+      key,
+      receiver
+    );
+  };
+}
+const mutableCollectionHandlers = {
+  get: /* @__PURE__ */ createInstrumentationGetter(false, false)
+};
+const readonlyCollectionHandlers = {
+  get: /* @__PURE__ */ createInstrumentationGetter(true, false)
+};
+function checkIdentityKeys(target, has2, key) {
+  const rawKey = toRaw(key);
+  if (rawKey !== key && has2.call(target, rawKey)) {
+    const type = toRawType(target);
+    console.warn(
+      `Reactive ${type} contains both the raw and reactive versions of the same object${type === `Map` ? ` as keys` : ``}, which can lead to inconsistencies. Avoid differentiating between the raw and reactive versions of an object and only use the reactive version if possible.`
+    );
+  }
+}
+const reactiveMap = /* @__PURE__ */ new WeakMap();
+const shallowReactiveMap = /* @__PURE__ */ new WeakMap();
+const readonlyMap = /* @__PURE__ */ new WeakMap();
+const shallowReadonlyMap = /* @__PURE__ */ new WeakMap();
+function targetTypeMap(rawType) {
+  switch (rawType) {
+    case "Object":
+    case "Array":
+      return 1;
+    case "Map":
+    case "Set":
+    case "WeakMap":
+    case "WeakSet":
+      return 2;
+    default:
+      return 0;
+  }
+}
+function getTargetType(value) {
+  return value["__v_skip"] || !Object.isExtensible(value) ? 0 : targetTypeMap(toRawType(value));
+}
+function reactive(target) {
+  if (isReadonly(target)) {
+    return target;
+  }
+  return createReactiveObject(
+    target,
+    false,
+    mutableHandlers,
+    mutableCollectionHandlers,
+    reactiveMap
+  );
+}
+function readonly(target) {
+  return createReactiveObject(
+    target,
+    true,
+    readonlyHandlers,
+    readonlyCollectionHandlers,
+    readonlyMap
+  );
+}
+function createReactiveObject(target, isReadonly2, baseHandlers, collectionHandlers, proxyMap) {
+  if (!isObject$3(target)) {
+    {
+      console.warn(`value cannot be made reactive: ${String(target)}`);
+    }
+    return target;
+  }
+  if (target["__v_raw"] && !(isReadonly2 && target["__v_isReactive"])) {
+    return target;
+  }
+  const existingProxy = proxyMap.get(target);
+  if (existingProxy) {
+    return existingProxy;
+  }
+  const targetType = getTargetType(target);
+  if (targetType === 0) {
+    return target;
+  }
+  const proxy = new Proxy(
+    target,
+    targetType === 2 ? collectionHandlers : baseHandlers
+  );
+  proxyMap.set(target, proxy);
+  return proxy;
+}
+function isReadonly(value) {
+  return !!(value && value["__v_isReadonly"]);
+}
+function isShallow(value) {
+  return !!(value && value["__v_isShallow"]);
+}
+function toRaw(observed) {
+  const raw = observed && observed["__v_raw"];
+  return raw ? toRaw(raw) : observed;
+}
+const toReactive = (value) => isObject$3(value) ? reactive(value) : value;
+const toReadonly = (value) => isObject$3(value) ? readonly(value) : value;
+function isRef(r) {
+  return !!(r && r.__v_isRef === true);
+}
+var AxisModelCommonMixin = (
+  /** @class */
+  function() {
+    function AxisModelCommonMixin2() {
+    }
+    AxisModelCommonMixin2.prototype.getNeedCrossZero = function() {
+      var option = this.option;
+      return !option.scale;
+    };
+    AxisModelCommonMixin2.prototype.getCoordSysModel = function() {
+      return;
+    };
+    return AxisModelCommonMixin2;
+  }()
+);
+function createList(seriesModel) {
+  return createSeriesData(null, seriesModel);
+}
+var dataStack = {
+  isDimensionStacked,
+  enableDataStack,
+  getStackedDimension
+};
+function createScale(dataExtent, option) {
+  var axisModel = option;
+  if (!(option instanceof Model$1)) {
+    axisModel = new Model$1(option);
+  }
+  var scale2 = createScaleByModel(axisModel);
+  scale2.setExtent(dataExtent[0], dataExtent[1]);
+  niceScaleExtent(scale2, axisModel);
+  return scale2;
+}
+function mixinAxisModelCommonMethods(Model2) {
+  mixin(Model2, AxisModelCommonMixin);
+}
+function createTextStyle(textStyleModel, opts) {
+  opts = opts || {};
+  return createTextStyle$1(textStyleModel, null, null, opts.state !== "normal");
+}
+const helper = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  createDimensions,
+  createList,
+  createScale,
+  createSymbol,
+  createTextStyle,
+  dataStack,
+  enableHoverEmphasis,
+  getECData,
+  getLayoutRect,
+  mixinAxisModelCommonMethods
+}, Symbol.toStringTag, { value: "Module" }));
+var EPSILON = 1e-8;
+function isAroundEqual(a, b) {
+  return Math.abs(a - b) < EPSILON;
+}
+function contain(points2, x, y) {
+  var w = 0;
+  var p2 = points2[0];
+  if (!p2) {
+    return false;
+  }
+  for (var i = 1; i < points2.length; i++) {
+    var p22 = points2[i];
+    w += windingLine(p2[0], p2[1], p22[0], p22[1], x, y);
+    p2 = p22;
+  }
+  var p0 = points2[0];
+  if (!isAroundEqual(p2[0], p0[0]) || !isAroundEqual(p2[1], p0[1])) {
+    w += windingLine(p2[0], p2[1], p0[0], p0[1], x, y);
+  }
+  return w !== 0;
+}
+var TMP_TRANSFORM = [];
+function transformPoints(points2, transform) {
+  for (var p2 = 0; p2 < points2.length; p2++) {
+    applyTransform$1(points2[p2], points2[p2], transform);
+  }
+}
+function updateBBoxFromPoints(points2, min3, max3, projection) {
+  for (var i = 0; i < points2.length; i++) {
+    var p2 = points2[i];
+    if (projection) {
+      p2 = projection.project(p2);
+    }
+    if (p2 && isFinite(p2[0]) && isFinite(p2[1])) {
+      min$1(min3, min3, p2);
+      max$1(max3, max3, p2);
+    }
+  }
+}
+function centroid$1(points2) {
+  var signedArea = 0;
+  var cx = 0;
+  var cy = 0;
+  var len2 = points2.length;
+  var x0 = points2[len2 - 1][0];
+  var y0 = points2[len2 - 1][1];
+  for (var i = 0; i < len2; i++) {
+    var x1 = points2[i][0];
+    var y1 = points2[i][1];
+    var a = x0 * y1 - x1 * y0;
+    signedArea += a;
+    cx += (x0 + x1) * a;
+    cy += (y0 + y1) * a;
+    x0 = x1;
+    y0 = y1;
+  }
+  return signedArea ? [cx / signedArea / 3, cy / signedArea / 3, signedArea] : [points2[0][0] || 0, points2[0][1] || 0];
+}
+var Region = (
+  /** @class */
+  function() {
+    function Region2(name) {
+      this.name = name;
+    }
+    Region2.prototype.setCenter = function(center2) {
+      this._center = center2;
+    };
+    Region2.prototype.getCenter = function() {
+      var center2 = this._center;
+      if (!center2) {
+        center2 = this._center = this.calcCenter();
+      }
+      return center2;
+    };
+    return Region2;
+  }()
+);
+var GeoJSONPolygonGeometry = (
+  /** @class */
+  function() {
+    function GeoJSONPolygonGeometry2(exterior, interiors) {
+      this.type = "polygon";
+      this.exterior = exterior;
+      this.interiors = interiors;
+    }
+    return GeoJSONPolygonGeometry2;
+  }()
+);
+var GeoJSONLineStringGeometry = (
+  /** @class */
+  function() {
+    function GeoJSONLineStringGeometry2(points2) {
+      this.type = "linestring";
+      this.points = points2;
+    }
+    return GeoJSONLineStringGeometry2;
+  }()
+);
+var GeoJSONRegion = (
+  /** @class */
+  function(_super) {
+    __extends(GeoJSONRegion2, _super);
+    function GeoJSONRegion2(name, geometries, cp) {
+      var _this = _super.call(this, name) || this;
+      _this.type = "geoJSON";
+      _this.geometries = geometries;
+      _this._center = cp && [cp[0], cp[1]];
+      return _this;
+    }
+    GeoJSONRegion2.prototype.calcCenter = function() {
+      var geometries = this.geometries;
+      var largestGeo;
+      var largestGeoSize = 0;
+      for (var i = 0; i < geometries.length; i++) {
+        var geo = geometries[i];
+        var exterior = geo.exterior;
+        var size2 = exterior && exterior.length;
+        if (size2 > largestGeoSize) {
+          largestGeo = geo;
+          largestGeoSize = size2;
+        }
+      }
+      if (largestGeo) {
+        return centroid$1(largestGeo.exterior);
+      }
+      var rect = this.getBoundingRect();
+      return [rect.x + rect.width / 2, rect.y + rect.height / 2];
+    };
+    GeoJSONRegion2.prototype.getBoundingRect = function(projection) {
+      var rect = this._rect;
+      if (rect && !projection) {
+        return rect;
+      }
+      var min3 = [Infinity, Infinity];
+      var max3 = [-Infinity, -Infinity];
+      var geometries = this.geometries;
+      each$7(geometries, function(geo) {
+        if (geo.type === "polygon") {
+          updateBBoxFromPoints(geo.exterior, min3, max3, projection);
+        } else {
+          each$7(geo.points, function(points2) {
+            updateBBoxFromPoints(points2, min3, max3, projection);
+          });
+        }
+      });
+      if (!(isFinite(min3[0]) && isFinite(min3[1]) && isFinite(max3[0]) && isFinite(max3[1]))) {
+        min3[0] = min3[1] = max3[0] = max3[1] = 0;
+      }
+      rect = new BoundingRect$1(min3[0], min3[1], max3[0] - min3[0], max3[1] - min3[1]);
+      if (!projection) {
+        this._rect = rect;
+      }
+      return rect;
+    };
+    GeoJSONRegion2.prototype.contain = function(coord) {
+      var rect = this.getBoundingRect();
+      var geometries = this.geometries;
+      if (!rect.contain(coord[0], coord[1])) {
+        return false;
+      }
+      loopGeo:
+        for (var i = 0, len2 = geometries.length; i < len2; i++) {
+          var geo = geometries[i];
+          if (geo.type !== "polygon") {
+            continue;
+          }
+          var exterior = geo.exterior;
+          var interiors = geo.interiors;
+          if (contain(exterior, coord[0], coord[1])) {
+            for (var k = 0; k < (interiors ? interiors.length : 0); k++) {
+              if (contain(interiors[k], coord[0], coord[1])) {
+                continue loopGeo;
+              }
+            }
+            return true;
+          }
+        }
+      return false;
+    };
+    GeoJSONRegion2.prototype.transformTo = function(x, y, width, height) {
+      var rect = this.getBoundingRect();
+      var aspect = rect.width / rect.height;
+      if (!width) {
+        width = aspect * height;
+      } else if (!height) {
+        height = width / aspect;
+      }
+      var target = new BoundingRect$1(x, y, width, height);
+      var transform = rect.calculateTransform(target);
+      var geometries = this.geometries;
+      for (var i = 0; i < geometries.length; i++) {
+        var geo = geometries[i];
+        if (geo.type === "polygon") {
+          transformPoints(geo.exterior, transform);
+          each$7(geo.interiors, function(interior) {
+            transformPoints(interior, transform);
+          });
+        } else {
+          each$7(geo.points, function(points2) {
+            transformPoints(points2, transform);
+          });
+        }
+      }
+      rect = this._rect;
+      rect.copy(target);
+      this._center = [rect.x + rect.width / 2, rect.y + rect.height / 2];
+    };
+    GeoJSONRegion2.prototype.cloneShallow = function(name) {
+      name == null && (name = this.name);
+      var newRegion = new GeoJSONRegion2(name, this.geometries, this._center);
+      newRegion._rect = this._rect;
+      newRegion.transformTo = null;
+      return newRegion;
+    };
+    return GeoJSONRegion2;
+  }(Region)
+);
+(function(_super) {
+  __extends(GeoSVGRegion, _super);
+  function GeoSVGRegion(name, elOnlyForCalculate) {
+    var _this = _super.call(this, name) || this;
+    _this.type = "geoSVG";
+    _this._elOnlyForCalculate = elOnlyForCalculate;
+    return _this;
+  }
+  GeoSVGRegion.prototype.calcCenter = function() {
+    var el = this._elOnlyForCalculate;
+    var rect = el.getBoundingRect();
+    var center2 = [rect.x + rect.width / 2, rect.y + rect.height / 2];
+    var mat = identity(TMP_TRANSFORM);
+    var target = el;
+    while (target && !target.isGeoSVGGraphicRoot) {
+      mul(mat, target.getLocalTransform(), mat);
+      target = target.parent;
+    }
+    invert(mat, mat);
+    applyTransform$1(center2, center2, mat);
+    return center2;
+  };
+  return GeoSVGRegion;
+})(Region);
+function decode(json) {
+  if (!json.UTF8Encoding) {
+    return json;
+  }
+  var jsonCompressed = json;
+  var encodeScale = jsonCompressed.UTF8Scale;
+  if (encodeScale == null) {
+    encodeScale = 1024;
+  }
+  var features2 = jsonCompressed.features;
+  each$7(features2, function(feature) {
+    var geometry = feature.geometry;
+    var encodeOffsets = geometry.encodeOffsets;
+    var coordinates = geometry.coordinates;
+    if (!encodeOffsets) {
+      return;
+    }
+    switch (geometry.type) {
+      case "LineString":
+        geometry.coordinates = decodeRing(coordinates, encodeOffsets, encodeScale);
+        break;
+      case "Polygon":
+        decodeRings(coordinates, encodeOffsets, encodeScale);
+        break;
+      case "MultiLineString":
+        decodeRings(coordinates, encodeOffsets, encodeScale);
+        break;
+      case "MultiPolygon":
+        each$7(coordinates, function(rings, idx) {
+          return decodeRings(rings, encodeOffsets[idx], encodeScale);
+        });
+    }
+  });
+  jsonCompressed.UTF8Encoding = false;
+  return jsonCompressed;
+}
+function decodeRings(rings, encodeOffsets, encodeScale) {
+  for (var c = 0; c < rings.length; c++) {
+    rings[c] = decodeRing(rings[c], encodeOffsets[c], encodeScale);
+  }
+}
+function decodeRing(coordinate, encodeOffsets, encodeScale) {
+  var result = [];
+  var prevX = encodeOffsets[0];
+  var prevY = encodeOffsets[1];
+  for (var i = 0; i < coordinate.length; i += 2) {
+    var x = coordinate.charCodeAt(i) - 64;
+    var y = coordinate.charCodeAt(i + 1) - 64;
+    x = x >> 1 ^ -(x & 1);
+    y = y >> 1 ^ -(y & 1);
+    x += prevX;
+    y += prevY;
+    prevX = x;
+    prevY = y;
+    result.push([x / encodeScale, y / encodeScale]);
+  }
+  return result;
+}
+function parseGeoJSON(geoJson, nameProperty) {
+  geoJson = decode(geoJson);
+  return map$1(filter(geoJson.features, function(featureObj) {
+    return featureObj.geometry && featureObj.properties && featureObj.geometry.coordinates.length > 0;
+  }), function(featureObj) {
+    var properties = featureObj.properties;
+    var geo = featureObj.geometry;
+    var geometries = [];
+    switch (geo.type) {
+      case "Polygon":
+        var coordinates = geo.coordinates;
+        geometries.push(new GeoJSONPolygonGeometry(coordinates[0], coordinates.slice(1)));
+        break;
+      case "MultiPolygon":
+        each$7(geo.coordinates, function(item) {
+          if (item[0]) {
+            geometries.push(new GeoJSONPolygonGeometry(item[0], item.slice(1)));
+          }
+        });
+        break;
+      case "LineString":
+        geometries.push(new GeoJSONLineStringGeometry([geo.coordinates]));
+        break;
+      case "MultiLineString":
+        geometries.push(new GeoJSONLineStringGeometry(geo.coordinates));
+    }
+    var region = new GeoJSONRegion(properties[nameProperty || "name"], geometries, properties.cp);
+    region.properties = properties;
+    return region;
+  });
+}
+const number = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  MAX_SAFE_INTEGER,
+  asc: asc$1,
+  getPercentWithPrecision,
+  getPixelPrecision,
+  getPrecision,
+  getPrecisionSafe,
+  isNumeric,
+  isRadianAroundZero,
+  linearMap,
+  nice,
+  numericToNumber,
+  parseDate,
+  quantile,
+  quantity,
+  quantityExponent,
+  reformIntervals,
+  remRadian,
+  round: round$1
+}, Symbol.toStringTag, { value: "Module" }));
+const time = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  format: format$1,
+  parse: parseDate
+}, Symbol.toStringTag, { value: "Module" }));
+const graphic = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  Arc: Arc$1,
+  BezierCurve: BezierCurve$1,
+  BoundingRect: BoundingRect$1,
+  Circle: Circle$1,
+  CompoundPath: CompoundPath$1,
+  Ellipse: Ellipse$1,
+  Group: Group$3,
+  Image: ZRImage$1,
+  IncrementalDisplayable: IncrementalDisplayable$1,
+  Line: Line$1,
+  LinearGradient: LinearGradient$1,
+  Polygon: Polygon$1,
+  Polyline: Polyline$1,
+  RadialGradient: RadialGradient$1,
+  Rect: Rect$1,
+  Ring: Ring$1,
+  Sector: Sector$1,
+  Text: ZRText$1,
+  clipPointsByRect,
+  clipRectByRect,
+  createIcon,
+  extendPath,
+  extendShape,
+  getShapeClass,
+  getTransform: getTransform$1,
+  initProps,
+  makeImage,
+  makePath,
+  mergePath,
+  registerShape,
+  resizePath,
+  updateProps: updateProps$1
+}, Symbol.toStringTag, { value: "Module" }));
+const format = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  addCommas,
+  capitalFirst,
+  encodeHTML,
+  formatTime,
+  formatTpl,
+  getTextRect,
+  getTooltipMarker,
+  normalizeCssArray,
+  toCamelCase,
+  truncateText
+}, Symbol.toStringTag, { value: "Module" }));
+const util = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  bind: bind$1,
+  clone: clone$4,
+  curry: curry$1,
+  defaults,
+  each: each$7,
+  extend,
+  filter,
+  indexOf,
+  inherits,
+  isArray,
+  isFunction,
+  isObject: isObject$2,
+  isString,
+  map: map$1,
+  merge,
+  reduce
+}, Symbol.toStringTag, { value: "Module" }));
+var inner$2 = makeInner();
+function createAxisLabels(axis) {
+  return axis.type === "category" ? makeCategoryLabels(axis) : makeRealNumberLabels(axis);
+}
+function createAxisTicks(axis, tickModel) {
+  return axis.type === "category" ? makeCategoryTicks(axis, tickModel) : {
+    ticks: map$1(axis.scale.getTicks(), function(tick) {
+      return tick.value;
+    })
+  };
+}
+function makeCategoryLabels(axis) {
+  var labelModel = axis.getLabelModel();
+  var result = makeCategoryLabelsActually(axis, labelModel);
+  return !labelModel.get("show") || axis.scale.isBlank() ? {
+    labels: [],
+    labelCategoryInterval: result.labelCategoryInterval
+  } : result;
+}
+function makeCategoryLabelsActually(axis, labelModel) {
+  var labelsCache = getListCache(axis, "labels");
+  var optionLabelInterval = getOptionCategoryInterval(labelModel);
+  var result = listCacheGet(labelsCache, optionLabelInterval);
+  if (result) {
+    return result;
+  }
+  var labels;
+  var numericLabelInterval;
+  if (isFunction(optionLabelInterval)) {
+    labels = makeLabelsByCustomizedCategoryInterval(axis, optionLabelInterval);
+  } else {
+    numericLabelInterval = optionLabelInterval === "auto" ? makeAutoCategoryInterval(axis) : optionLabelInterval;
+    labels = makeLabelsByNumericCategoryInterval(axis, numericLabelInterval);
+  }
+  return listCacheSet(labelsCache, optionLabelInterval, {
+    labels,
+    labelCategoryInterval: numericLabelInterval
+  });
+}
+function makeCategoryTicks(axis, tickModel) {
+  var ticksCache = getListCache(axis, "ticks");
+  var optionTickInterval = getOptionCategoryInterval(tickModel);
+  var result = listCacheGet(ticksCache, optionTickInterval);
+  if (result) {
+    return result;
+  }
+  var ticks;
+  var tickCategoryInterval;
+  if (!tickModel.get("show") || axis.scale.isBlank()) {
+    ticks = [];
+  }
+  if (isFunction(optionTickInterval)) {
+    ticks = makeLabelsByCustomizedCategoryInterval(axis, optionTickInterval, true);
+  } else if (optionTickInterval === "auto") {
+    var labelsResult = makeCategoryLabelsActually(axis, axis.getLabelModel());
+    tickCategoryInterval = labelsResult.labelCategoryInterval;
+    ticks = map$1(labelsResult.labels, function(labelItem) {
+      return labelItem.tickValue;
+    });
+  } else {
+    tickCategoryInterval = optionTickInterval;
+    ticks = makeLabelsByNumericCategoryInterval(axis, tickCategoryInterval, true);
+  }
+  return listCacheSet(ticksCache, optionTickInterval, {
+    ticks,
+    tickCategoryInterval
+  });
+}
+function makeRealNumberLabels(axis) {
+  var ticks = axis.scale.getTicks();
+  var labelFormatter = makeLabelFormatter(axis);
+  return {
+    labels: map$1(ticks, function(tick, idx) {
+      return {
+        level: tick.level,
+        formattedLabel: labelFormatter(tick, idx),
+        rawLabel: axis.scale.getLabel(tick),
+        tickValue: tick.value
+      };
+    })
+  };
+}
+function getListCache(axis, prop) {
+  return inner$2(axis)[prop] || (inner$2(axis)[prop] = []);
+}
+function listCacheGet(cache, key) {
+  for (var i = 0; i < cache.length; i++) {
+    if (cache[i].key === key) {
+      return cache[i].value;
+    }
+  }
+}
+function listCacheSet(cache, key, value) {
+  cache.push({
+    key,
+    value
+  });
+  return value;
+}
+function makeAutoCategoryInterval(axis) {
+  var result = inner$2(axis).autoInterval;
+  return result != null ? result : inner$2(axis).autoInterval = axis.calculateCategoryInterval();
+}
+function calculateCategoryInterval(axis) {
+  var params = fetchAutoCategoryIntervalCalculationParams(axis);
+  var labelFormatter = makeLabelFormatter(axis);
+  var rotation = (params.axisRotate - params.labelRotate) / 180 * Math.PI;
+  var ordinalScale = axis.scale;
+  var ordinalExtent = ordinalScale.getExtent();
+  var tickCount = ordinalScale.count();
+  if (ordinalExtent[1] - ordinalExtent[0] < 1) {
+    return 0;
+  }
+  var step = 1;
+  if (tickCount > 40) {
+    step = Math.max(1, Math.floor(tickCount / 40));
+  }
+  var tickValue = ordinalExtent[0];
+  var unitSpan = axis.dataToCoord(tickValue + 1) - axis.dataToCoord(tickValue);
+  var unitW = Math.abs(unitSpan * Math.cos(rotation));
+  var unitH = Math.abs(unitSpan * Math.sin(rotation));
+  var maxW = 0;
+  var maxH = 0;
+  for (; tickValue <= ordinalExtent[1]; tickValue += step) {
+    var width = 0;
+    var height = 0;
+    var rect = getBoundingRect(labelFormatter({
+      value: tickValue
+    }), params.font, "center", "top");
+    width = rect.width * 1.3;
+    height = rect.height * 1.3;
+    maxW = Math.max(maxW, width, 7);
+    maxH = Math.max(maxH, height, 7);
+  }
+  var dw = maxW / unitW;
+  var dh = maxH / unitH;
+  isNaN(dw) && (dw = Infinity);
+  isNaN(dh) && (dh = Infinity);
+  var interval = Math.max(0, Math.floor(Math.min(dw, dh)));
+  var cache = inner$2(axis.model);
+  var axisExtent = axis.getExtent();
+  var lastAutoInterval = cache.lastAutoInterval;
+  var lastTickCount = cache.lastTickCount;
+  if (lastAutoInterval != null && lastTickCount != null && Math.abs(lastAutoInterval - interval) <= 1 && Math.abs(lastTickCount - tickCount) <= 1 && lastAutoInterval > interval && cache.axisExtent0 === axisExtent[0] && cache.axisExtent1 === axisExtent[1]) {
+    interval = lastAutoInterval;
+  } else {
+    cache.lastTickCount = tickCount;
+    cache.lastAutoInterval = interval;
+    cache.axisExtent0 = axisExtent[0];
+    cache.axisExtent1 = axisExtent[1];
+  }
+  return interval;
+}
+function fetchAutoCategoryIntervalCalculationParams(axis) {
+  var labelModel = axis.getLabelModel();
+  return {
+    axisRotate: axis.getRotate ? axis.getRotate() : axis.isHorizontal && !axis.isHorizontal() ? 90 : 0,
+    labelRotate: labelModel.get("rotate") || 0,
+    font: labelModel.getFont()
+  };
+}
+function makeLabelsByNumericCategoryInterval(axis, categoryInterval, onlyTick) {
+  var labelFormatter = makeLabelFormatter(axis);
+  var ordinalScale = axis.scale;
+  var ordinalExtent = ordinalScale.getExtent();
+  var labelModel = axis.getLabelModel();
+  var result = [];
+  var step = Math.max((categoryInterval || 0) + 1, 1);
+  var startTick = ordinalExtent[0];
+  var tickCount = ordinalScale.count();
+  if (startTick !== 0 && step > 1 && tickCount / step > 2) {
+    startTick = Math.round(Math.ceil(startTick / step) * step);
+  }
+  var showAllLabel = shouldShowAllLabels(axis);
+  var includeMinLabel = labelModel.get("showMinLabel") || showAllLabel;
+  var includeMaxLabel = labelModel.get("showMaxLabel") || showAllLabel;
+  if (includeMinLabel && startTick !== ordinalExtent[0]) {
+    addItem(ordinalExtent[0]);
+  }
+  var tickValue = startTick;
+  for (; tickValue <= ordinalExtent[1]; tickValue += step) {
+    addItem(tickValue);
+  }
+  if (includeMaxLabel && tickValue - step !== ordinalExtent[1]) {
+    addItem(ordinalExtent[1]);
+  }
+  function addItem(tickValue2) {
+    var tickObj = {
+      value: tickValue2
+    };
+    result.push(onlyTick ? tickValue2 : {
+      formattedLabel: labelFormatter(tickObj),
+      rawLabel: ordinalScale.getLabel(tickObj),
+      tickValue: tickValue2
+    });
+  }
+  return result;
+}
+function makeLabelsByCustomizedCategoryInterval(axis, categoryInterval, onlyTick) {
+  var ordinalScale = axis.scale;
+  var labelFormatter = makeLabelFormatter(axis);
+  var result = [];
+  each$7(ordinalScale.getTicks(), function(tick) {
+    var rawLabel = ordinalScale.getLabel(tick);
+    var tickValue = tick.value;
+    if (categoryInterval(tick.value, rawLabel)) {
+      result.push(onlyTick ? tickValue : {
+        formattedLabel: labelFormatter(tick),
+        rawLabel,
+        tickValue
+      });
+    }
+  });
+  return result;
+}
+var NORMALIZED_EXTENT = [0, 1];
+var Axis = (
+  /** @class */
+  function() {
+    function Axis2(dim, scale2, extent3) {
+      this.onBand = false;
+      this.inverse = false;
+      this.dim = dim;
+      this.scale = scale2;
+      this._extent = extent3 || [0, 0];
+    }
+    Axis2.prototype.contain = function(coord) {
+      var extent3 = this._extent;
+      var min3 = Math.min(extent3[0], extent3[1]);
+      var max3 = Math.max(extent3[0], extent3[1]);
+      return coord >= min3 && coord <= max3;
+    };
+    Axis2.prototype.containData = function(data) {
+      return this.scale.contain(data);
+    };
+    Axis2.prototype.getExtent = function() {
+      return this._extent.slice();
+    };
+    Axis2.prototype.getPixelPrecision = function(dataExtent) {
+      return getPixelPrecision(dataExtent || this.scale.getExtent(), this._extent);
+    };
+    Axis2.prototype.setExtent = function(start2, end2) {
+      var extent3 = this._extent;
+      extent3[0] = start2;
+      extent3[1] = end2;
+    };
+    Axis2.prototype.dataToCoord = function(data, clamp2) {
+      var extent3 = this._extent;
+      var scale2 = this.scale;
+      data = scale2.normalize(data);
+      if (this.onBand && scale2.type === "ordinal") {
+        extent3 = extent3.slice();
+        fixExtentWithBands(extent3, scale2.count());
+      }
+      return linearMap(data, NORMALIZED_EXTENT, extent3, clamp2);
+    };
+    Axis2.prototype.coordToData = function(coord, clamp2) {
+      var extent3 = this._extent;
+      var scale2 = this.scale;
+      if (this.onBand && scale2.type === "ordinal") {
+        extent3 = extent3.slice();
+        fixExtentWithBands(extent3, scale2.count());
+      }
+      var t2 = linearMap(coord, extent3, NORMALIZED_EXTENT, clamp2);
+      return this.scale.scale(t2);
+    };
+    Axis2.prototype.pointToData = function(point, clamp2) {
+      return;
+    };
+    Axis2.prototype.getTicksCoords = function(opt) {
+      opt = opt || {};
+      var tickModel = opt.tickModel || this.getTickModel();
+      var result = createAxisTicks(this, tickModel);
+      var ticks = result.ticks;
+      var ticksCoords = map$1(ticks, function(tickVal) {
+        return {
+          coord: this.dataToCoord(this.scale.type === "ordinal" ? this.scale.getRawOrdinalNumber(tickVal) : tickVal),
+          tickValue: tickVal
+        };
+      }, this);
+      var alignWithLabel = tickModel.get("alignWithLabel");
+      fixOnBandTicksCoords(this, ticksCoords, alignWithLabel, opt.clamp);
+      return ticksCoords;
+    };
+    Axis2.prototype.getMinorTicksCoords = function() {
+      if (this.scale.type === "ordinal") {
+        return [];
+      }
+      var minorTickModel = this.model.getModel("minorTick");
+      var splitNumber = minorTickModel.get("splitNumber");
+      if (!(splitNumber > 0 && splitNumber < 100)) {
+        splitNumber = 5;
+      }
+      var minorTicks = this.scale.getMinorTicks(splitNumber);
+      var minorTicksCoords = map$1(minorTicks, function(minorTicksGroup) {
+        return map$1(minorTicksGroup, function(minorTick) {
+          return {
+            coord: this.dataToCoord(minorTick),
+            tickValue: minorTick
+          };
+        }, this);
+      }, this);
+      return minorTicksCoords;
+    };
+    Axis2.prototype.getViewLabels = function() {
+      return createAxisLabels(this).labels;
+    };
+    Axis2.prototype.getLabelModel = function() {
+      return this.model.getModel("axisLabel");
+    };
+    Axis2.prototype.getTickModel = function() {
+      return this.model.getModel("axisTick");
+    };
+    Axis2.prototype.getBandWidth = function() {
+      var axisExtent = this._extent;
+      var dataExtent = this.scale.getExtent();
+      var len2 = dataExtent[1] - dataExtent[0] + (this.onBand ? 1 : 0);
+      len2 === 0 && (len2 = 1);
+      var size2 = Math.abs(axisExtent[1] - axisExtent[0]);
+      return Math.abs(size2) / len2;
+    };
+    Axis2.prototype.calculateCategoryInterval = function() {
+      return calculateCategoryInterval(this);
+    };
+    return Axis2;
+  }()
+);
+function fixExtentWithBands(extent3, nTick) {
+  var size2 = extent3[1] - extent3[0];
+  var len2 = nTick;
+  var margin = size2 / len2 / 2;
+  extent3[0] += margin;
+  extent3[1] -= margin;
+}
+function fixOnBandTicksCoords(axis, ticksCoords, alignWithLabel, clamp2) {
+  var ticksLen = ticksCoords.length;
+  if (!axis.onBand || alignWithLabel || !ticksLen) {
+    return;
+  }
+  var axisExtent = axis.getExtent();
+  var last;
+  var diffSize;
+  if (ticksLen === 1) {
+    ticksCoords[0].coord = axisExtent[0];
+    last = ticksCoords[1] = {
+      coord: axisExtent[0]
+    };
+  } else {
+    var crossLen = ticksCoords[ticksLen - 1].tickValue - ticksCoords[0].tickValue;
+    var shift_1 = (ticksCoords[ticksLen - 1].coord - ticksCoords[0].coord) / crossLen;
+    each$7(ticksCoords, function(ticksItem) {
+      ticksItem.coord -= shift_1 / 2;
+    });
+    var dataExtent = axis.scale.getExtent();
+    diffSize = 1 + dataExtent[1] - ticksCoords[ticksLen - 1].tickValue;
+    last = {
+      coord: ticksCoords[ticksLen - 1].coord + shift_1 * diffSize
+    };
+    ticksCoords.push(last);
+  }
+  var inverse = axisExtent[0] > axisExtent[1];
+  if (littleThan(ticksCoords[0].coord, axisExtent[0])) {
+    clamp2 ? ticksCoords[0].coord = axisExtent[0] : ticksCoords.shift();
+  }
+  if (clamp2 && littleThan(axisExtent[0], ticksCoords[0].coord)) {
+    ticksCoords.unshift({
+      coord: axisExtent[0]
+    });
+  }
+  if (littleThan(axisExtent[1], last.coord)) {
+    clamp2 ? last.coord = axisExtent[1] : ticksCoords.pop();
+  }
+  if (clamp2 && littleThan(last.coord, axisExtent[1])) {
+    ticksCoords.push({
+      coord: axisExtent[1]
+    });
+  }
+  function littleThan(a, b) {
+    a = round$1(a);
+    b = round$1(b);
+    return inverse ? a > b : a < b;
+  }
+}
+const Axis$1 = Axis;
+function extendComponentModel(proto2) {
+  var Model2 = ComponentModel$1.extend(proto2);
+  ComponentModel$1.registerClass(Model2);
+  return Model2;
+}
+function extendComponentView(proto2) {
+  var View = ComponentView$1.extend(proto2);
+  ComponentView$1.registerClass(View);
+  return View;
+}
+function extendSeriesModel(proto2) {
+  var Model2 = SeriesModel$1.extend(proto2);
+  SeriesModel$1.registerClass(Model2);
+  return Model2;
+}
+function extendChartView(proto2) {
+  var View = ChartView$1.extend(proto2);
+  ChartView$1.registerClass(View);
+  return View;
+}
+var PI2$1 = Math.PI * 2;
+var CMD$1 = PathProxy$1.CMD;
+var DEFAULT_SEARCH_SPACE = ["top", "right", "bottom", "left"];
+function getCandidateAnchor(pos, distance2, rect, outPt, outDir) {
+  var width = rect.width;
+  var height = rect.height;
+  switch (pos) {
+    case "top":
+      outPt.set(rect.x + width / 2, rect.y - distance2);
+      outDir.set(0, -1);
+      break;
+    case "bottom":
+      outPt.set(rect.x + width / 2, rect.y + height + distance2);
+      outDir.set(0, 1);
+      break;
+    case "left":
+      outPt.set(rect.x - distance2, rect.y + height / 2);
+      outDir.set(-1, 0);
+      break;
+    case "right":
+      outPt.set(rect.x + width + distance2, rect.y + height / 2);
+      outDir.set(1, 0);
+      break;
+  }
+}
+function projectPointToArc(cx, cy, r, startAngle, endAngle, anticlockwise, x, y, out2) {
+  x -= cx;
+  y -= cy;
+  var d = Math.sqrt(x * x + y * y);
+  x /= d;
+  y /= d;
+  var ox = x * r + cx;
+  var oy = y * r + cy;
+  if (Math.abs(startAngle - endAngle) % PI2$1 < 1e-4) {
+    out2[0] = ox;
+    out2[1] = oy;
+    return d - r;
+  }
+  if (anticlockwise) {
+    var tmp = startAngle;
+    startAngle = normalizeRadian(endAngle);
+    endAngle = normalizeRadian(tmp);
+  } else {
+    startAngle = normalizeRadian(startAngle);
+    endAngle = normalizeRadian(endAngle);
+  }
+  if (startAngle > endAngle) {
+    endAngle += PI2$1;
+  }
+  var angle = Math.atan2(y, x);
+  if (angle < 0) {
+    angle += PI2$1;
+  }
+  if (angle >= startAngle && angle <= endAngle || angle + PI2$1 >= startAngle && angle + PI2$1 <= endAngle) {
+    out2[0] = ox;
+    out2[1] = oy;
+    return d - r;
+  }
+  var x1 = r * Math.cos(startAngle) + cx;
+  var y1 = r * Math.sin(startAngle) + cy;
+  var x2 = r * Math.cos(endAngle) + cx;
+  var y2 = r * Math.sin(endAngle) + cy;
+  var d1 = (x1 - x) * (x1 - x) + (y1 - y) * (y1 - y);
+  var d2 = (x2 - x) * (x2 - x) + (y2 - y) * (y2 - y);
+  if (d1 < d2) {
+    out2[0] = x1;
+    out2[1] = y1;
+    return Math.sqrt(d1);
+  } else {
+    out2[0] = x2;
+    out2[1] = y2;
+    return Math.sqrt(d2);
+  }
+}
+function projectPointToLine(x1, y1, x2, y2, x, y, out2, limitToEnds) {
+  var dx = x - x1;
+  var dy = y - y1;
+  var dx1 = x2 - x1;
+  var dy1 = y2 - y1;
+  var lineLen = Math.sqrt(dx1 * dx1 + dy1 * dy1);
+  dx1 /= lineLen;
+  dy1 /= lineLen;
+  var projectedLen = dx * dx1 + dy * dy1;
+  var t2 = projectedLen / lineLen;
+  if (limitToEnds) {
+    t2 = Math.min(Math.max(t2, 0), 1);
+  }
+  t2 *= lineLen;
+  var ox = out2[0] = x1 + t2 * dx1;
+  var oy = out2[1] = y1 + t2 * dy1;
+  return Math.sqrt((ox - x) * (ox - x) + (oy - y) * (oy - y));
+}
+function projectPointToRect(x1, y1, width, height, x, y, out2) {
+  if (width < 0) {
+    x1 = x1 + width;
+    width = -width;
+  }
+  if (height < 0) {
+    y1 = y1 + height;
+    height = -height;
+  }
+  var x2 = x1 + width;
+  var y2 = y1 + height;
+  var ox = out2[0] = Math.min(Math.max(x, x1), x2);
+  var oy = out2[1] = Math.min(Math.max(y, y1), y2);
+  return Math.sqrt((ox - x) * (ox - x) + (oy - y) * (oy - y));
+}
+var tmpPt = [];
+function nearestPointOnRect(pt, rect, out2) {
+  var dist2 = projectPointToRect(rect.x, rect.y, rect.width, rect.height, pt.x, pt.y, tmpPt);
+  out2.set(tmpPt[0], tmpPt[1]);
+  return dist2;
+}
+function nearestPointOnPath(pt, path, out2) {
+  var xi = 0;
+  var yi = 0;
+  var x0 = 0;
+  var y0 = 0;
+  var x1;
+  var y1;
+  var minDist = Infinity;
+  var data = path.data;
+  var x = pt.x;
+  var y = pt.y;
+  for (var i = 0; i < data.length; ) {
+    var cmd = data[i++];
+    if (i === 1) {
+      xi = data[i];
+      yi = data[i + 1];
+      x0 = xi;
+      y0 = yi;
+    }
+    var d = minDist;
+    switch (cmd) {
+      case CMD$1.M:
+        x0 = data[i++];
+        y0 = data[i++];
+        xi = x0;
+        yi = y0;
+        break;
+      case CMD$1.L:
+        d = projectPointToLine(xi, yi, data[i], data[i + 1], x, y, tmpPt, true);
+        xi = data[i++];
+        yi = data[i++];
+        break;
+      case CMD$1.C:
+        d = cubicProjectPoint(xi, yi, data[i++], data[i++], data[i++], data[i++], data[i], data[i + 1], x, y, tmpPt);
+        xi = data[i++];
+        yi = data[i++];
+        break;
+      case CMD$1.Q:
+        d = quadraticProjectPoint(xi, yi, data[i++], data[i++], data[i], data[i + 1], x, y, tmpPt);
+        xi = data[i++];
+        yi = data[i++];
+        break;
+      case CMD$1.A:
+        var cx = data[i++];
+        var cy = data[i++];
+        var rx = data[i++];
+        var ry = data[i++];
+        var theta = data[i++];
+        var dTheta = data[i++];
+        i += 1;
+        var anticlockwise = !!(1 - data[i++]);
+        x1 = Math.cos(theta) * rx + cx;
+        y1 = Math.sin(theta) * ry + cy;
+        if (i <= 1) {
+          x0 = x1;
+          y0 = y1;
+        }
+        var _x = (x - cx) * ry / rx + cx;
+        d = projectPointToArc(cx, cy, ry, theta, theta + dTheta, anticlockwise, _x, y, tmpPt);
+        xi = Math.cos(theta + dTheta) * rx + cx;
+        yi = Math.sin(theta + dTheta) * ry + cy;
+        break;
+      case CMD$1.R:
+        x0 = xi = data[i++];
+        y0 = yi = data[i++];
+        var width = data[i++];
+        var height = data[i++];
+        d = projectPointToRect(x0, y0, width, height, x, y, tmpPt);
+        break;
+      case CMD$1.Z:
+        d = projectPointToLine(xi, yi, x0, y0, x, y, tmpPt, true);
+        xi = x0;
+        yi = y0;
+        break;
+    }
+    if (d < minDist) {
+      minDist = d;
+      out2.set(tmpPt[0], tmpPt[1]);
+    }
+  }
+  return minDist;
+}
+var pt0 = new Point$1();
+var pt1 = new Point$1();
+var pt2 = new Point$1();
+var dir = new Point$1();
+var dir2 = new Point$1();
+function updateLabelLinePoints(target, labelLineModel) {
+  if (!target) {
+    return;
+  }
+  var labelLine = target.getTextGuideLine();
+  var label = target.getTextContent();
+  if (!(label && labelLine)) {
+    return;
+  }
+  var labelGuideConfig = target.textGuideLineConfig || {};
+  var points2 = [[0, 0], [0, 0], [0, 0]];
+  var searchSpace = labelGuideConfig.candidates || DEFAULT_SEARCH_SPACE;
+  var labelRect = label.getBoundingRect().clone();
+  labelRect.applyTransform(label.getComputedTransform());
+  var minDist = Infinity;
+  var anchorPoint = labelGuideConfig.anchor;
+  var targetTransform = target.getComputedTransform();
+  var targetInversedTransform = targetTransform && invert([], targetTransform);
+  var len2 = labelLineModel.get("length2") || 0;
+  if (anchorPoint) {
+    pt2.copy(anchorPoint);
+  }
+  for (var i = 0; i < searchSpace.length; i++) {
+    var candidate = searchSpace[i];
+    getCandidateAnchor(candidate, 0, labelRect, pt0, dir);
+    Point$1.scaleAndAdd(pt1, pt0, dir, len2);
+    pt1.transform(targetInversedTransform);
+    var boundingRect = target.getBoundingRect();
+    var dist2 = anchorPoint ? anchorPoint.distance(pt1) : target instanceof Path$1 ? nearestPointOnPath(pt1, target.path, pt2) : nearestPointOnRect(pt1, boundingRect, pt2);
+    if (dist2 < minDist) {
+      minDist = dist2;
+      pt1.transform(targetTransform);
+      pt2.transform(targetTransform);
+      pt2.toArray(points2[0]);
+      pt1.toArray(points2[1]);
+      pt0.toArray(points2[2]);
+    }
+  }
+  limitTurnAngle(points2, labelLineModel.get("minTurnAngle"));
+  labelLine.setShape({
+    points: points2
+  });
+}
+var tmpArr = [];
+var tmpProjPoint = new Point$1();
+function limitTurnAngle(linePoints, minTurnAngle) {
+  if (!(minTurnAngle <= 180 && minTurnAngle > 0)) {
+    return;
+  }
+  minTurnAngle = minTurnAngle / 180 * Math.PI;
+  pt0.fromArray(linePoints[0]);
+  pt1.fromArray(linePoints[1]);
+  pt2.fromArray(linePoints[2]);
+  Point$1.sub(dir, pt0, pt1);
+  Point$1.sub(dir2, pt2, pt1);
+  var len1 = dir.len();
+  var len2 = dir2.len();
+  if (len1 < 1e-3 || len2 < 1e-3) {
+    return;
+  }
+  dir.scale(1 / len1);
+  dir2.scale(1 / len2);
+  var angleCos = dir.dot(dir2);
+  var minTurnAngleCos = Math.cos(minTurnAngle);
+  if (minTurnAngleCos < angleCos) {
+    var d = projectPointToLine(pt1.x, pt1.y, pt2.x, pt2.y, pt0.x, pt0.y, tmpArr, false);
+    tmpProjPoint.fromArray(tmpArr);
+    tmpProjPoint.scaleAndAdd(dir2, d / Math.tan(Math.PI - minTurnAngle));
+    var t2 = pt2.x !== pt1.x ? (tmpProjPoint.x - pt1.x) / (pt2.x - pt1.x) : (tmpProjPoint.y - pt1.y) / (pt2.y - pt1.y);
+    if (isNaN(t2)) {
+      return;
+    }
+    if (t2 < 0) {
+      Point$1.copy(tmpProjPoint, pt1);
+    } else if (t2 > 1) {
+      Point$1.copy(tmpProjPoint, pt2);
+    }
+    tmpProjPoint.toArray(linePoints[1]);
+  }
+}
+function limitSurfaceAngle(linePoints, surfaceNormal, maxSurfaceAngle) {
+  if (!(maxSurfaceAngle <= 180 && maxSurfaceAngle > 0)) {
+    return;
+  }
+  maxSurfaceAngle = maxSurfaceAngle / 180 * Math.PI;
+  pt0.fromArray(linePoints[0]);
+  pt1.fromArray(linePoints[1]);
+  pt2.fromArray(linePoints[2]);
+  Point$1.sub(dir, pt1, pt0);
+  Point$1.sub(dir2, pt2, pt1);
+  var len1 = dir.len();
+  var len2 = dir2.len();
+  if (len1 < 1e-3 || len2 < 1e-3) {
+    return;
+  }
+  dir.scale(1 / len1);
+  dir2.scale(1 / len2);
+  var angleCos = dir.dot(surfaceNormal);
+  var maxSurfaceAngleCos = Math.cos(maxSurfaceAngle);
+  if (angleCos < maxSurfaceAngleCos) {
+    var d = projectPointToLine(pt1.x, pt1.y, pt2.x, pt2.y, pt0.x, pt0.y, tmpArr, false);
+    tmpProjPoint.fromArray(tmpArr);
+    var HALF_PI = Math.PI / 2;
+    var angle2 = Math.acos(dir2.dot(surfaceNormal));
+    var newAngle = HALF_PI + angle2 - maxSurfaceAngle;
+    if (newAngle >= HALF_PI) {
+      Point$1.copy(tmpProjPoint, pt2);
+    } else {
+      tmpProjPoint.scaleAndAdd(dir2, d / Math.tan(Math.PI / 2 - newAngle));
+      var t2 = pt2.x !== pt1.x ? (tmpProjPoint.x - pt1.x) / (pt2.x - pt1.x) : (tmpProjPoint.y - pt1.y) / (pt2.y - pt1.y);
+      if (isNaN(t2)) {
+        return;
+      }
+      if (t2 < 0) {
+        Point$1.copy(tmpProjPoint, pt1);
+      } else if (t2 > 1) {
+        Point$1.copy(tmpProjPoint, pt2);
+      }
+    }
+    tmpProjPoint.toArray(linePoints[1]);
+  }
+}
+function setLabelLineState(labelLine, ignore, stateName, stateModel) {
+  var isNormal = stateName === "normal";
+  var stateObj = isNormal ? labelLine : labelLine.ensureState(stateName);
+  stateObj.ignore = ignore;
+  var smooth = stateModel.get("smooth");
+  if (smooth && smooth === true) {
+    smooth = 0.3;
+  }
+  stateObj.shape = stateObj.shape || {};
+  if (smooth > 0) {
+    stateObj.shape.smooth = smooth;
+  }
+  var styleObj = stateModel.getModel("lineStyle").getLineStyle();
+  isNormal ? labelLine.useStyle(styleObj) : stateObj.style = styleObj;
+}
+function buildLabelLinePath(path, shape) {
+  var smooth = shape.smooth;
+  var points2 = shape.points;
+  if (!points2) {
+    return;
+  }
+  path.moveTo(points2[0][0], points2[0][1]);
+  if (smooth > 0 && points2.length >= 3) {
+    var len1 = dist$1(points2[0], points2[1]);
+    var len2 = dist$1(points2[1], points2[2]);
+    if (!len1 || !len2) {
+      path.lineTo(points2[1][0], points2[1][1]);
+      path.lineTo(points2[2][0], points2[2][1]);
+      return;
+    }
+    var moveLen = Math.min(len1, len2) * smooth;
+    var midPoint0 = lerp$1([], points2[1], points2[0], moveLen / len1);
+    var midPoint2 = lerp$1([], points2[1], points2[2], moveLen / len2);
+    var midPoint1 = lerp$1([], midPoint0, midPoint2, 0.5);
+    path.bezierCurveTo(midPoint0[0], midPoint0[1], midPoint0[0], midPoint0[1], midPoint1[0], midPoint1[1]);
+    path.bezierCurveTo(midPoint2[0], midPoint2[1], midPoint2[0], midPoint2[1], points2[2][0], points2[2][1]);
+  } else {
+    for (var i = 1; i < points2.length; i++) {
+      path.lineTo(points2[i][0], points2[i][1]);
+    }
+  }
+}
+function setLabelLineStyle(targetEl, statesModels, defaultStyle) {
+  var labelLine = targetEl.getTextGuideLine();
+  var label = targetEl.getTextContent();
+  if (!label) {
+    if (labelLine) {
+      targetEl.removeTextGuideLine();
+    }
+    return;
+  }
+  var normalModel = statesModels.normal;
+  var showNormal = normalModel.get("show");
+  var labelIgnoreNormal = label.ignore;
+  for (var i = 0; i < DISPLAY_STATES.length; i++) {
+    var stateName = DISPLAY_STATES[i];
+    var stateModel = statesModels[stateName];
+    var isNormal = stateName === "normal";
+    if (stateModel) {
+      var stateShow = stateModel.get("show");
+      var isLabelIgnored = isNormal ? labelIgnoreNormal : retrieve2(label.states[stateName] && label.states[stateName].ignore, labelIgnoreNormal);
+      if (isLabelIgnored || !retrieve2(stateShow, showNormal)) {
+        var stateObj = isNormal ? labelLine : labelLine && labelLine.states[stateName];
+        if (stateObj) {
+          stateObj.ignore = true;
+        }
+        continue;
+      }
+      if (!labelLine) {
+        labelLine = new Polyline$1();
+        targetEl.setTextGuideLine(labelLine);
+        if (!isNormal && (labelIgnoreNormal || !showNormal)) {
+          setLabelLineState(labelLine, true, "normal", statesModels.normal);
+        }
+        if (targetEl.stateProxy) {
+          labelLine.stateProxy = targetEl.stateProxy;
+        }
+      }
+      setLabelLineState(labelLine, false, stateName, stateModel);
+    }
+  }
+  if (labelLine) {
+    defaults(labelLine.style, defaultStyle);
+    labelLine.style.fill = null;
+    var showAbove = normalModel.get("showAbove");
+    var labelLineConfig = targetEl.textGuideLineConfig = targetEl.textGuideLineConfig || {};
+    labelLineConfig.showAbove = showAbove || false;
+    labelLine.buildPath = buildLabelLinePath;
+  }
+}
+function getLabelLineStatesModels(itemModel, labelLineName) {
+  labelLineName = labelLineName || "labelLine";
+  var statesModels = {
+    normal: itemModel.getModel(labelLineName)
+  };
+  for (var i = 0; i < SPECIAL_STATES.length; i++) {
+    var stateName = SPECIAL_STATES[i];
+    statesModels[stateName] = itemModel.getModel([stateName, labelLineName]);
+  }
+  return statesModels;
+}
+function cloneArr(points2) {
+  if (points2) {
+    var newPoints = [];
+    for (var i = 0; i < points2.length; i++) {
+      newPoints.push(points2[i].slice());
+    }
+    return newPoints;
+  }
+}
+function prepareLayoutCallbackParams(labelItem, hostEl) {
+  var label = labelItem.label;
+  var labelLine = hostEl && hostEl.getTextGuideLine();
+  return {
+    dataIndex: labelItem.dataIndex,
+    dataType: labelItem.dataType,
+    seriesIndex: labelItem.seriesModel.seriesIndex,
+    text: labelItem.label.style.text,
+    rect: labelItem.hostRect,
+    labelRect: labelItem.rect,
+    // x: labelAttr.x,
+    // y: labelAttr.y,
+    align: label.style.align,
+    verticalAlign: label.style.verticalAlign,
+    labelLinePoints: cloneArr(labelLine && labelLine.shape.points)
+  };
+}
+var LABEL_OPTION_TO_STYLE_KEYS = ["align", "verticalAlign", "width", "height", "fontSize"];
+var dummyTransformable = new Transformable$1();
+var labelLayoutInnerStore = makeInner();
+var labelLineAnimationStore = makeInner();
+function extendWithKeys(target, source, keys2) {
+  for (var i = 0; i < keys2.length; i++) {
+    var key = keys2[i];
+    if (source[key] != null) {
+      target[key] = source[key];
+    }
+  }
+}
+var LABEL_LAYOUT_PROPS = ["x", "y", "rotation"];
+var LabelManager = (
+  /** @class */
+  function() {
+    function LabelManager2() {
+      this._labelList = [];
+      this._chartViewList = [];
+    }
+    LabelManager2.prototype.clearLabels = function() {
+      this._labelList = [];
+      this._chartViewList = [];
+    };
+    LabelManager2.prototype._addLabel = function(dataIndex, dataType, seriesModel, label, layoutOption) {
+      var labelStyle = label.style;
+      var hostEl = label.__hostTarget;
+      var textConfig = hostEl.textConfig || {};
+      var labelTransform = label.getComputedTransform();
+      var labelRect = label.getBoundingRect().plain();
+      BoundingRect$1.applyTransform(labelRect, labelRect, labelTransform);
+      if (labelTransform) {
+        dummyTransformable.setLocalTransform(labelTransform);
+      } else {
+        dummyTransformable.x = dummyTransformable.y = dummyTransformable.rotation = dummyTransformable.originX = dummyTransformable.originY = 0;
+        dummyTransformable.scaleX = dummyTransformable.scaleY = 1;
+      }
+      var host2 = label.__hostTarget;
+      var hostRect;
+      if (host2) {
+        hostRect = host2.getBoundingRect().plain();
+        var transform = host2.getComputedTransform();
+        BoundingRect$1.applyTransform(hostRect, hostRect, transform);
+      }
+      var labelGuide = hostRect && host2.getTextGuideLine();
+      this._labelList.push({
+        label,
+        labelLine: labelGuide,
+        seriesModel,
+        dataIndex,
+        dataType,
+        layoutOption,
+        computedLayoutOption: null,
+        rect: labelRect,
+        hostRect,
+        // Label with lower priority will be hidden when overlapped
+        // Use rect size as default priority
+        priority: hostRect ? hostRect.width * hostRect.height : 0,
+        // Save default label attributes.
+        // For restore if developers want get back to default value in callback.
+        defaultAttr: {
+          ignore: label.ignore,
+          labelGuideIgnore: labelGuide && labelGuide.ignore,
+          x: dummyTransformable.x,
+          y: dummyTransformable.y,
+          scaleX: dummyTransformable.scaleX,
+          scaleY: dummyTransformable.scaleY,
+          rotation: dummyTransformable.rotation,
+          style: {
+            x: labelStyle.x,
+            y: labelStyle.y,
+            align: labelStyle.align,
+            verticalAlign: labelStyle.verticalAlign,
+            width: labelStyle.width,
+            height: labelStyle.height,
+            fontSize: labelStyle.fontSize
+          },
+          cursor: label.cursor,
+          attachedPos: textConfig.position,
+          attachedRot: textConfig.rotation
+        }
+      });
+    };
+    LabelManager2.prototype.addLabelsOfSeries = function(chartView) {
+      var _this = this;
+      this._chartViewList.push(chartView);
+      var seriesModel = chartView.__model;
+      var layoutOption = seriesModel.get("labelLayout");
+      if (!(isFunction(layoutOption) || keys(layoutOption).length)) {
+        return;
+      }
+      chartView.group.traverse(function(child) {
+        if (child.ignore) {
+          return true;
+        }
+        var textEl = child.getTextContent();
+        var ecData = getECData(child);
+        if (textEl && !textEl.disableLabelLayout) {
+          _this._addLabel(ecData.dataIndex, ecData.dataType, seriesModel, textEl, layoutOption);
+        }
+      });
+    };
+    LabelManager2.prototype.updateLayoutConfig = function(api) {
+      var width = api.getWidth();
+      var height = api.getHeight();
+      function createDragHandler(el, labelLineModel) {
+        return function() {
+          updateLabelLinePoints(el, labelLineModel);
+        };
+      }
+      for (var i = 0; i < this._labelList.length; i++) {
+        var labelItem = this._labelList[i];
+        var label = labelItem.label;
+        var hostEl = label.__hostTarget;
+        var defaultLabelAttr = labelItem.defaultAttr;
+        var layoutOption = void 0;
+        if (isFunction(labelItem.layoutOption)) {
+          layoutOption = labelItem.layoutOption(prepareLayoutCallbackParams(labelItem, hostEl));
+        } else {
+          layoutOption = labelItem.layoutOption;
+        }
+        layoutOption = layoutOption || {};
+        labelItem.computedLayoutOption = layoutOption;
+        var degreeToRadian = Math.PI / 180;
+        if (hostEl) {
+          hostEl.setTextConfig({
+            // Force to set local false.
+            local: false,
+            // Ignore position and rotation config on the host el if x or y is changed.
+            position: layoutOption.x != null || layoutOption.y != null ? null : defaultLabelAttr.attachedPos,
+            // Ignore rotation config on the host el if rotation is changed.
+            rotation: layoutOption.rotate != null ? layoutOption.rotate * degreeToRadian : defaultLabelAttr.attachedRot,
+            offset: [layoutOption.dx || 0, layoutOption.dy || 0]
+          });
+        }
+        var needsUpdateLabelLine = false;
+        if (layoutOption.x != null) {
+          label.x = parsePercent(layoutOption.x, width);
+          label.setStyle("x", 0);
+          needsUpdateLabelLine = true;
+        } else {
+          label.x = defaultLabelAttr.x;
+          label.setStyle("x", defaultLabelAttr.style.x);
+        }
+        if (layoutOption.y != null) {
+          label.y = parsePercent(layoutOption.y, height);
+          label.setStyle("y", 0);
+          needsUpdateLabelLine = true;
+        } else {
+          label.y = defaultLabelAttr.y;
+          label.setStyle("y", defaultLabelAttr.style.y);
+        }
+        if (layoutOption.labelLinePoints) {
+          var guideLine = hostEl.getTextGuideLine();
+          if (guideLine) {
+            guideLine.setShape({
+              points: layoutOption.labelLinePoints
+            });
+            needsUpdateLabelLine = false;
+          }
+        }
+        var labelLayoutStore = labelLayoutInnerStore(label);
+        labelLayoutStore.needsUpdateLabelLine = needsUpdateLabelLine;
+        label.rotation = layoutOption.rotate != null ? layoutOption.rotate * degreeToRadian : defaultLabelAttr.rotation;
+        label.scaleX = defaultLabelAttr.scaleX;
+        label.scaleY = defaultLabelAttr.scaleY;
+        for (var k = 0; k < LABEL_OPTION_TO_STYLE_KEYS.length; k++) {
+          var key = LABEL_OPTION_TO_STYLE_KEYS[k];
+          label.setStyle(key, layoutOption[key] != null ? layoutOption[key] : defaultLabelAttr.style[key]);
+        }
+        if (layoutOption.draggable) {
+          label.draggable = true;
+          label.cursor = "move";
+          if (hostEl) {
+            var hostModel = labelItem.seriesModel;
+            if (labelItem.dataIndex != null) {
+              var data = labelItem.seriesModel.getData(labelItem.dataType);
+              hostModel = data.getItemModel(labelItem.dataIndex);
+            }
+            label.on("drag", createDragHandler(hostEl, hostModel.getModel("labelLine")));
+          }
+        } else {
+          label.off("drag");
+          label.cursor = defaultLabelAttr.cursor;
+        }
+      }
+    };
+    LabelManager2.prototype.layout = function(api) {
+      var width = api.getWidth();
+      var height = api.getHeight();
+      var labelList = prepareLayoutList(this._labelList);
+      var labelsNeedsAdjustOnX = filter(labelList, function(item) {
+        return item.layoutOption.moveOverlap === "shiftX";
+      });
+      var labelsNeedsAdjustOnY = filter(labelList, function(item) {
+        return item.layoutOption.moveOverlap === "shiftY";
+      });
+      shiftLayoutOnX(labelsNeedsAdjustOnX, 0, width);
+      shiftLayoutOnY(labelsNeedsAdjustOnY, 0, height);
+      var labelsNeedsHideOverlap = filter(labelList, function(item) {
+        return item.layoutOption.hideOverlap;
+      });
+      hideOverlap(labelsNeedsHideOverlap);
+    };
+    LabelManager2.prototype.processLabelsOverall = function() {
+      var _this = this;
+      each$7(this._chartViewList, function(chartView) {
+        var seriesModel = chartView.__model;
+        var ignoreLabelLineUpdate = chartView.ignoreLabelLineUpdate;
+        var animationEnabled = seriesModel.isAnimationEnabled();
+        chartView.group.traverse(function(child) {
+          if (child.ignore && !child.forceLabelAnimation) {
+            return true;
+          }
+          var needsUpdateLabelLine = !ignoreLabelLineUpdate;
+          var label = child.getTextContent();
+          if (!needsUpdateLabelLine && label) {
+            needsUpdateLabelLine = labelLayoutInnerStore(label).needsUpdateLabelLine;
+          }
+          if (needsUpdateLabelLine) {
+            _this._updateLabelLine(child, seriesModel);
+          }
+          if (animationEnabled) {
+            _this._animateLabels(child, seriesModel);
+          }
+        });
+      });
+    };
+    LabelManager2.prototype._updateLabelLine = function(el, seriesModel) {
+      var textEl = el.getTextContent();
+      var ecData = getECData(el);
+      var dataIndex = ecData.dataIndex;
+      if (textEl && dataIndex != null) {
+        var data = seriesModel.getData(ecData.dataType);
+        var itemModel = data.getItemModel(dataIndex);
+        var defaultStyle = {};
+        var visualStyle = data.getItemVisual(dataIndex, "style");
+        var visualType = data.getVisual("drawType");
+        defaultStyle.stroke = visualStyle[visualType];
+        var labelLineModel = itemModel.getModel("labelLine");
+        setLabelLineStyle(el, getLabelLineStatesModels(itemModel), defaultStyle);
+        updateLabelLinePoints(el, labelLineModel);
+      }
+    };
+    LabelManager2.prototype._animateLabels = function(el, seriesModel) {
+      var textEl = el.getTextContent();
+      var guideLine = el.getTextGuideLine();
+      if (textEl && (el.forceLabelAnimation || !textEl.ignore && !textEl.invisible && !el.disableLabelAnimation && !isElementRemoved(el))) {
+        var layoutStore = labelLayoutInnerStore(textEl);
+        var oldLayout = layoutStore.oldLayout;
+        var ecData = getECData(el);
+        var dataIndex = ecData.dataIndex;
+        var newProps = {
+          x: textEl.x,
+          y: textEl.y,
+          rotation: textEl.rotation
+        };
+        var data = seriesModel.getData(ecData.dataType);
+        if (!oldLayout) {
+          textEl.attr(newProps);
+          if (!labelInner(textEl).valueAnimation) {
+            var oldOpacity = retrieve2(textEl.style.opacity, 1);
+            textEl.style.opacity = 0;
+            initProps(textEl, {
+              style: {
+                opacity: oldOpacity
+              }
+            }, seriesModel, dataIndex);
+          }
+        } else {
+          textEl.attr(oldLayout);
+          var prevStates = el.prevStates;
+          if (prevStates) {
+            if (indexOf(prevStates, "select") >= 0) {
+              textEl.attr(layoutStore.oldLayoutSelect);
+            }
+            if (indexOf(prevStates, "emphasis") >= 0) {
+              textEl.attr(layoutStore.oldLayoutEmphasis);
+            }
+          }
+          updateProps$1(textEl, newProps, seriesModel, dataIndex);
+        }
+        layoutStore.oldLayout = newProps;
+        if (textEl.states.select) {
+          var layoutSelect = layoutStore.oldLayoutSelect = {};
+          extendWithKeys(layoutSelect, newProps, LABEL_LAYOUT_PROPS);
+          extendWithKeys(layoutSelect, textEl.states.select, LABEL_LAYOUT_PROPS);
+        }
+        if (textEl.states.emphasis) {
+          var layoutEmphasis = layoutStore.oldLayoutEmphasis = {};
+          extendWithKeys(layoutEmphasis, newProps, LABEL_LAYOUT_PROPS);
+          extendWithKeys(layoutEmphasis, textEl.states.emphasis, LABEL_LAYOUT_PROPS);
+        }
+        animateLabelValue(textEl, dataIndex, data, seriesModel, seriesModel);
+      }
+      if (guideLine && !guideLine.ignore && !guideLine.invisible) {
+        var layoutStore = labelLineAnimationStore(guideLine);
+        var oldLayout = layoutStore.oldLayout;
+        var newLayout = {
+          points: guideLine.shape.points
+        };
+        if (!oldLayout) {
+          guideLine.setShape(newLayout);
+          guideLine.style.strokePercent = 0;
+          initProps(guideLine, {
+            style: {
+              strokePercent: 1
+            }
+          }, seriesModel);
+        } else {
+          guideLine.attr({
+            shape: oldLayout
+          });
+          updateProps$1(guideLine, {
+            shape: newLayout
+          }, seriesModel);
+        }
+        layoutStore.oldLayout = newLayout;
+      }
+    };
+    return LabelManager2;
+  }()
+);
+const LabelManager$1 = LabelManager;
+var getLabelManager = makeInner();
+function installLabelLayout(registers) {
+  registers.registerUpdateLifecycle("series:beforeupdate", function(ecModel, api, params) {
+    var labelManager = getLabelManager(api).labelManager;
+    if (!labelManager) {
+      labelManager = getLabelManager(api).labelManager = new LabelManager$1();
+    }
+    labelManager.clearLabels();
+  });
+  registers.registerUpdateLifecycle("series:layoutlabels", function(ecModel, api, params) {
+    var labelManager = getLabelManager(api).labelManager;
+    params.updatedSeries.forEach(function(series) {
+      labelManager.addLabelsOfSeries(api.getViewOfSeriesModel(series));
+    });
+    labelManager.updateLayoutConfig(api);
+    labelManager.layout(api);
+    labelManager.processLabelsOverall();
+  });
+}
+const echarts = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  Axis: Axis$1,
+  ChartView: ChartView$1,
+  ComponentModel: ComponentModel$1,
+  ComponentView: ComponentView$1,
+  List: SeriesData$1,
+  Model: Model$1,
+  PRIORITY,
+  SeriesModel: SeriesModel$1,
+  color,
+  connect,
+  dataTool,
+  dependencies,
+  disConnect,
+  disconnect,
+  dispose,
+  env: env$1,
+  extendChartView,
+  extendComponentModel,
+  extendComponentView,
+  extendSeriesModel,
+  format,
+  getCoordinateSystemDimensions,
+  getInstanceByDom,
+  getInstanceById,
+  getMap,
+  graphic,
+  helper,
+  init,
+  innerDrawElementOnCanvas: brushSingle,
+  matrix,
+  number,
+  parseGeoJSON,
+  parseGeoJson: parseGeoJSON,
+  registerAction,
+  registerCoordinateSystem,
+  registerLayout,
+  registerLoading,
+  registerLocale,
+  registerMap,
+  registerPostInit,
+  registerPostUpdate,
+  registerPreprocessor,
+  registerProcessor,
+  registerTheme,
+  registerTransform,
+  registerUpdateLifecycle,
+  registerVisual,
+  setCanvasCreator,
+  setPlatformAPI,
+  throttle,
+  time,
+  use,
+  util,
+  vector,
+  version,
+  zrUtil: util$1,
+  zrender
+}, Symbol.toStringTag, { value: "Module" }));
 var BaseBarSeriesModel = (
   /** @class */
   function(_super) {
@@ -41978,62 +42176,62 @@ function createSectorCalculateTextPosition(positionMapping, opts) {
     var extraDist = isRoundCap ? Math.abs(r - r0) / 2 : 0;
     var mathCos2 = Math.cos;
     var mathSin2 = Math.sin;
-    var x2 = cx + r * mathCos2(startAngle);
-    var y2 = cy + r * mathSin2(startAngle);
+    var x = cx + r * mathCos2(startAngle);
+    var y = cy + r * mathSin2(startAngle);
     var textAlign = "left";
     var textVerticalAlign = "top";
     switch (mappedSectorPosition) {
       case "startArc":
-        x2 = cx + (r0 - distance2) * mathCos2(middleAngle);
-        y2 = cy + (r0 - distance2) * mathSin2(middleAngle);
+        x = cx + (r0 - distance2) * mathCos2(middleAngle);
+        y = cy + (r0 - distance2) * mathSin2(middleAngle);
         textAlign = "center";
         textVerticalAlign = "top";
         break;
       case "insideStartArc":
-        x2 = cx + (r0 + distance2) * mathCos2(middleAngle);
-        y2 = cy + (r0 + distance2) * mathSin2(middleAngle);
+        x = cx + (r0 + distance2) * mathCos2(middleAngle);
+        y = cy + (r0 + distance2) * mathSin2(middleAngle);
         textAlign = "center";
         textVerticalAlign = "bottom";
         break;
       case "startAngle":
-        x2 = cx + middleR * mathCos2(startAngle) + adjustAngleDistanceX(startAngle, distance2 + extraDist, false);
-        y2 = cy + middleR * mathSin2(startAngle) + adjustAngleDistanceY(startAngle, distance2 + extraDist, false);
+        x = cx + middleR * mathCos2(startAngle) + adjustAngleDistanceX(startAngle, distance2 + extraDist, false);
+        y = cy + middleR * mathSin2(startAngle) + adjustAngleDistanceY(startAngle, distance2 + extraDist, false);
         textAlign = "right";
         textVerticalAlign = "middle";
         break;
       case "insideStartAngle":
-        x2 = cx + middleR * mathCos2(startAngle) + adjustAngleDistanceX(startAngle, -distance2 + extraDist, false);
-        y2 = cy + middleR * mathSin2(startAngle) + adjustAngleDistanceY(startAngle, -distance2 + extraDist, false);
+        x = cx + middleR * mathCos2(startAngle) + adjustAngleDistanceX(startAngle, -distance2 + extraDist, false);
+        y = cy + middleR * mathSin2(startAngle) + adjustAngleDistanceY(startAngle, -distance2 + extraDist, false);
         textAlign = "left";
         textVerticalAlign = "middle";
         break;
       case "middle":
-        x2 = cx + middleR * mathCos2(middleAngle);
-        y2 = cy + middleR * mathSin2(middleAngle);
+        x = cx + middleR * mathCos2(middleAngle);
+        y = cy + middleR * mathSin2(middleAngle);
         textAlign = "center";
         textVerticalAlign = "middle";
         break;
       case "endArc":
-        x2 = cx + (r + distance2) * mathCos2(middleAngle);
-        y2 = cy + (r + distance2) * mathSin2(middleAngle);
+        x = cx + (r + distance2) * mathCos2(middleAngle);
+        y = cy + (r + distance2) * mathSin2(middleAngle);
         textAlign = "center";
         textVerticalAlign = "bottom";
         break;
       case "insideEndArc":
-        x2 = cx + (r - distance2) * mathCos2(middleAngle);
-        y2 = cy + (r - distance2) * mathSin2(middleAngle);
+        x = cx + (r - distance2) * mathCos2(middleAngle);
+        y = cy + (r - distance2) * mathSin2(middleAngle);
         textAlign = "center";
         textVerticalAlign = "top";
         break;
       case "endAngle":
-        x2 = cx + middleR * mathCos2(endAngle) + adjustAngleDistanceX(endAngle, distance2 + extraDist, true);
-        y2 = cy + middleR * mathSin2(endAngle) + adjustAngleDistanceY(endAngle, distance2 + extraDist, true);
+        x = cx + middleR * mathCos2(endAngle) + adjustAngleDistanceX(endAngle, distance2 + extraDist, true);
+        y = cy + middleR * mathSin2(endAngle) + adjustAngleDistanceY(endAngle, distance2 + extraDist, true);
         textAlign = "left";
         textVerticalAlign = "middle";
         break;
       case "insideEndAngle":
-        x2 = cx + middleR * mathCos2(endAngle) + adjustAngleDistanceX(endAngle, -distance2 + extraDist, true);
-        y2 = cy + middleR * mathSin2(endAngle) + adjustAngleDistanceY(endAngle, -distance2 + extraDist, true);
+        x = cx + middleR * mathCos2(endAngle) + adjustAngleDistanceX(endAngle, -distance2 + extraDist, true);
+        y = cy + middleR * mathSin2(endAngle) + adjustAngleDistanceY(endAngle, -distance2 + extraDist, true);
         textAlign = "right";
         textVerticalAlign = "middle";
         break;
@@ -42041,8 +42239,8 @@ function createSectorCalculateTextPosition(positionMapping, opts) {
         return calculateTextPosition(out2, opts2, boundingRect);
     }
     out2 = out2 || {};
-    out2.x = x2;
-    out2.y = y2;
+    out2.x = x;
+    out2.y = y;
     out2.align = textAlign;
     out2.verticalAlign = textVerticalAlign;
     return out2;
@@ -42157,7 +42355,7 @@ var BarView = (
         this._progressiveEls = null;
         this._isLargeDraw ? this._renderLarge(seriesModel, ecModel, api) : this._renderNormal(seriesModel, ecModel, api, payload);
       } else {
-        warn("Only cartesian2d and polar supported for bar.");
+        warn$1("Only cartesian2d and polar supported for bar.");
       }
     };
     BarView2.prototype.incrementalPrepareRender = function(seriesModel) {
@@ -42384,8 +42582,8 @@ var BarView = (
           ordinalNumber
         });
       });
-      info.sort(function(a, b2) {
-        return b2.mappedValue - a.mappedValue;
+      info.sort(function(a, b) {
+        return b.mappedValue - a.mappedValue;
       });
       return {
         ordinalNumbers: map$1(info, function(item) {
@@ -42496,16 +42694,16 @@ var clip = {
     }
     var coordSysX2 = coordSysBoundingRect.x + coordSysBoundingRect.width;
     var coordSysY2 = coordSysBoundingRect.y + coordSysBoundingRect.height;
-    var x2 = mathMax$1(layout2.x, coordSysBoundingRect.x);
-    var x22 = mathMin$1(layout2.x + layout2.width, coordSysX2);
-    var y2 = mathMax$1(layout2.y, coordSysBoundingRect.y);
-    var y22 = mathMin$1(layout2.y + layout2.height, coordSysY2);
-    var xClipped = x22 < x2;
-    var yClipped = y22 < y2;
-    layout2.x = xClipped && x2 > coordSysX2 ? x22 : x2;
-    layout2.y = yClipped && y2 > coordSysY2 ? y22 : y2;
-    layout2.width = xClipped ? 0 : x22 - x2;
-    layout2.height = yClipped ? 0 : y22 - y2;
+    var x = mathMax$1(layout2.x, coordSysBoundingRect.x);
+    var x2 = mathMin$1(layout2.x + layout2.width, coordSysX2);
+    var y = mathMax$1(layout2.y, coordSysBoundingRect.y);
+    var y2 = mathMin$1(layout2.y + layout2.height, coordSysY2);
+    var xClipped = x2 < x;
+    var yClipped = y2 < y;
+    layout2.x = xClipped && x > coordSysX2 ? x2 : x;
+    layout2.y = yClipped && y > coordSysY2 ? y2 : y;
+    layout2.width = xClipped ? 0 : x2 - x;
+    layout2.height = yClipped ? 0 : y2 - y;
     if (signWidth < 0) {
       layout2.x += layout2.width;
       layout2.width = -layout2.width;
@@ -42582,10 +42780,10 @@ function shouldRealtimeSort(seriesModel, coordSys) {
   {
     if (realtimeSortOption) {
       if (baseAxis.type !== "category") {
-        warn("`realtimeSort` will not work because this bar series is not based on a category axis.");
+        warn$1("`realtimeSort` will not work because this bar series is not based on a category axis.");
       }
       if (coordSys.type !== "cartesian2d") {
-        warn("`realtimeSort` will not work because this bar series is not on cartesian2d.");
+        warn$1("`realtimeSort` will not work because this bar series is not on cartesian2d.");
       }
     }
   }
@@ -42694,7 +42892,7 @@ function createPolarPositionMapping(isRadial) {
   }(isRadial);
 }
 function updateStyle(el, data, dataIndex, itemModel, layout2, seriesModel, isHorizontalOrRadial, isPolar) {
-  var style2 = data.getItemVisual(dataIndex, "style");
+  var style = data.getItemVisual(dataIndex, "style");
   if (!isPolar) {
     var borderRadius = itemModel.get(["itemStyle", "borderRadius"]) || 0;
     el.setShape("r", borderRadius);
@@ -42704,7 +42902,7 @@ function updateStyle(el, data, dataIndex, itemModel, layout2, seriesModel, isHor
     extend(sectorShape, cornerRadius);
     el.setShape(sectorShape);
   }
-  el.useStyle(style2);
+  el.useStyle(style);
   var cursorStyle = itemModel.getShallow("cursor");
   cursorStyle && el.attr("cursor", cursorStyle);
   var labelPositionOutside = isPolar ? isHorizontalOrRadial ? layout2.r >= layout2.r0 ? "endArc" : "startArc" : layout2.endAngle >= layout2.startAngle ? "endAngle" : "startAngle" : isHorizontalOrRadial ? layout2.height >= 0 ? "bottom" : "top" : layout2.width >= 0 ? "right" : "left";
@@ -42713,8 +42911,8 @@ function updateStyle(el, data, dataIndex, itemModel, layout2, seriesModel, isHor
     labelFetcher: seriesModel,
     labelDataIndex: dataIndex,
     defaultText: getDefaultLabel(seriesModel.getData(), dataIndex),
-    inheritColor: style2.fill,
-    defaultOpacity: style2.opacity,
+    inheritColor: style.fill,
+    defaultOpacity: style.opacity,
     defaultOutsidePosition: labelPositionOutside
   });
   var label = el.getTextContent();
@@ -42835,7 +43033,7 @@ var largePathUpdateDataIndex = throttle(function(event) {
   var dataIndex = largePathFindDataIndex(largePath, event.offsetX, event.offsetY);
   getECData(largePath).dataIndex = dataIndex >= 0 ? dataIndex : null;
 }, 30, false);
-function largePathFindDataIndex(largePath, x2, y2) {
+function largePathFindDataIndex(largePath, x, y) {
   var baseDimIdx = largePath.baseDimIdx;
   var valueDimIdx = 1 - baseDimIdx;
   var points2 = largePath.shape.points;
@@ -42853,7 +43051,7 @@ function largePathFindDataIndex(largePath, x2, y2) {
       startPoint[valueDimIdx] += size2[valueDimIdx];
       size2[valueDimIdx] = -size2[valueDimIdx];
     }
-    if (x2 >= startPoint[0] && x2 <= startPoint[0] + size2[0] && y2 >= startPoint[1] && y2 <= startPoint[1] + size2[1]) {
+    if (x >= startPoint[0] && x <= startPoint[0] + size2[0] && y >= startPoint[1] && y <= startPoint[1] + size2[1]) {
       return largeDataIndices[i];
     }
   }
@@ -43220,12 +43418,12 @@ function constrainTextWidth(layout2, availableWidth, forceRecalculate) {
     return;
   }
   var label = layout2.label;
-  var style2 = label.style;
+  var style = label.style;
   var textRect = layout2.rect;
-  var bgColor = style2.backgroundColor;
-  var padding = style2.padding;
+  var bgColor = style.backgroundColor;
+  var padding = style.padding;
   var paddingH = padding ? padding[1] + padding[3] : 0;
-  var overflow = style2.overflow;
+  var overflow = style.overflow;
   var oldOuterWidth = textRect.width + (bgColor ? 0 : paddingH);
   if (availableWidth < oldOuterWidth || forceRecalculate) {
     var oldHeight = textRect.height;
@@ -43561,9 +43759,9 @@ var PiePiece = (
       var sector = this;
       var itemModel = data.getItemModel(idx);
       var labelLineModel = itemModel.getModel("labelLine");
-      var style2 = data.getItemVisual(idx, "style");
-      var visualColor = style2 && style2.fill;
-      var visualOpacity = style2 && style2.opacity;
+      var style = data.getItemVisual(idx, "style");
+      var visualColor = style && style.fill;
+      var visualOpacity = style && style.opacity;
       setLabelStyle(sector, getLabelStatesModels(itemModel), {
         labelFetcher: data.hostModel,
         labelDataIndex: idx,
@@ -44245,11 +44443,11 @@ var Cartesian2D = (
       var yScale = this.getAxis("y").scale;
       var xAxisExtent = xScale.getExtent();
       var yAxisExtent = yScale.getExtent();
-      var x2 = xScale.parse(data[0]);
-      var y2 = yScale.parse(data[1]);
+      var x = xScale.parse(data[0]);
+      var y = yScale.parse(data[1]);
       out2 = out2 || [];
-      out2[0] = Math.min(Math.max(Math.min(xAxisExtent[0], xAxisExtent[1]), x2), Math.max(xAxisExtent[0], xAxisExtent[1]));
-      out2[1] = Math.min(Math.max(Math.min(yAxisExtent[0], yAxisExtent[1]), y2), Math.max(yAxisExtent[0], yAxisExtent[1]));
+      out2[0] = Math.min(Math.max(Math.min(xAxisExtent[0], xAxisExtent[1]), x), Math.max(xAxisExtent[0], xAxisExtent[1]));
+      out2[1] = Math.min(Math.max(Math.min(yAxisExtent[0], yAxisExtent[1]), y), Math.max(yAxisExtent[0], yAxisExtent[1]));
       return out2;
     };
     Cartesian2D2.prototype.pointToData = function(point, clamp2) {
@@ -44269,11 +44467,11 @@ var Cartesian2D = (
     Cartesian2D2.prototype.getArea = function() {
       var xExtent = this.getAxis("x").getGlobalExtent();
       var yExtent = this.getAxis("y").getGlobalExtent();
-      var x2 = Math.min(xExtent[0], xExtent[1]);
-      var y2 = Math.min(yExtent[0], yExtent[1]);
-      var width = Math.max(xExtent[0], xExtent[1]) - x2;
-      var height = Math.max(yExtent[0], yExtent[1]) - y2;
-      return new BoundingRect$1(x2, y2, width, height);
+      var x = Math.min(xExtent[0], xExtent[1]);
+      var y = Math.min(yExtent[0], yExtent[1]);
+      var width = Math.max(xExtent[0], xExtent[1]) - x;
+      var height = Math.max(yExtent[0], yExtent[1]) - y;
+      return new BoundingRect$1(x, y, width, height);
     };
     return Cartesian2D2;
   }(Cartesian$1)
@@ -44385,7 +44583,7 @@ function alignScaleTicks(scale2, axisModel, alignToScale) {
   {
     var ticks = intervalScaleProto2.getTicks.call(scale2);
     if (ticks[1] && (!isValueNice(interval) || getPrecisionSafe(ticks[1].value) > getPrecisionSafe(interval))) {
-      warn(
+      warn$1(
         // eslint-disable-next-line
         "The ticks may be not readable when set min: " + axisModel.get("min") + ", max: " + axisModel.get("max") + " and alignTicks: true"
       );
@@ -44800,30 +44998,30 @@ function rectCoordAxisBuildSplitArea(axisView, axisGroup, axisModel, gridModel) 
   areaColors = isArray(areaColors) ? areaColors : [areaColors];
   for (var i = 1; i < ticksCoords.length; i++) {
     var tickCoord = axis.toGlobalCoord(ticksCoords[i].coord);
-    var x2 = void 0;
-    var y2 = void 0;
+    var x = void 0;
+    var y = void 0;
     var width = void 0;
     var height = void 0;
     if (axis.isHorizontal()) {
-      x2 = prev;
-      y2 = gridRect.y;
-      width = tickCoord - x2;
+      x = prev;
+      y = gridRect.y;
+      width = tickCoord - x;
       height = gridRect.height;
-      prev = x2 + width;
+      prev = x + width;
     } else {
-      x2 = gridRect.x;
-      y2 = prev;
+      x = gridRect.x;
+      y = prev;
       width = gridRect.width;
-      height = tickCoord - y2;
-      prev = y2 + height;
+      height = tickCoord - y;
+      prev = y + height;
     }
     var tickValue = ticksCoords[i - 1].tickValue;
     tickValue != null && newSplitAreaColors.set(tickValue, colorIndex);
     axisGroup.add(new Rect$1({
       anid: tickValue != null ? "area_" + tickValue : null,
       shape: {
-        x: x2,
-        y: y2,
+        x,
+        y,
         width,
         height
       },
@@ -45325,11 +45523,11 @@ function updateCoverShape(controller, cover) {
   getCoverRenderer(cover).updateCoverShape(controller, cover, brushOption.range, brushOption);
 }
 function updateZ(cover, brushOption) {
-  var z2 = brushOption.z;
-  z2 == null && (z2 = COVER_Z);
+  var z = brushOption.z;
+  z == null && (z = COVER_Z);
   cover.traverse(function(el) {
-    el.z = z2;
-    el.z2 = z2;
+    el.z = z;
+    el.z2 = z;
   });
 }
 function updateCoverAfterCreation(controller, cover) {
@@ -45434,19 +45632,19 @@ function createBaseRectCover(rectRangeConverter, controller, brushOption, edgeNa
 function updateBaseRect(controller, cover, localRange, brushOption) {
   var lineWidth = brushOption.brushStyle.lineWidth || 0;
   var handleSize = mathMax(lineWidth, MIN_RESIZE_LINE_WIDTH);
-  var x2 = localRange[0][0];
-  var y2 = localRange[1][0];
-  var xa = x2 - lineWidth / 2;
-  var ya = y2 - lineWidth / 2;
-  var x22 = localRange[0][1];
-  var y22 = localRange[1][1];
-  var x2a = x22 - handleSize + lineWidth / 2;
-  var y2a = y22 - handleSize + lineWidth / 2;
-  var width = x22 - x2;
-  var height = y22 - y2;
+  var x = localRange[0][0];
+  var y = localRange[1][0];
+  var xa = x - lineWidth / 2;
+  var ya = y - lineWidth / 2;
+  var x2 = localRange[0][1];
+  var y2 = localRange[1][1];
+  var x2a = x2 - handleSize + lineWidth / 2;
+  var y2a = y2 - handleSize + lineWidth / 2;
+  var width = x2 - x;
+  var height = y2 - y;
   var widtha = width + lineWidth;
   var heighta = height + lineWidth;
-  updateRectShape(controller, cover, "main", x2, y2, width, height);
+  updateRectShape(controller, cover, "main", x, y, width, height);
   if (brushOption.transformable) {
     updateRectShape(controller, cover, "w", xa, ya, handleSize, heighta);
     updateRectShape(controller, cover, "e", x2a, ya, handleSize, heighta);
@@ -45477,18 +45675,18 @@ function updateCommon(controller, cover) {
     });
   });
 }
-function updateRectShape(controller, cover, name, x2, y2, w2, h2) {
+function updateRectShape(controller, cover, name, x, y, w, h) {
   var el = cover.childOfName(name);
-  el && el.setShape(pointsToRect(clipByPanel(controller, cover, [[x2, y2], [x2 + w2, y2 + h2]])));
+  el && el.setShape(pointsToRect(clipByPanel(controller, cover, [[x, y], [x + w, y + h]])));
 }
 function makeStyle(brushOption) {
   return defaults({
     strokeNoScale: true
   }, brushOption.brushStyle);
 }
-function formatRectRange(x2, y2, x22, y22) {
-  var min3 = [mathMin(x2, x22), mathMin(y2, y22)];
-  var max3 = [mathMax(x2, x22), mathMax(y2, y22)];
+function formatRectRange(x, y, x2, y2) {
+  var min3 = [mathMin(x, x2), mathMin(y, y2)];
+  var max3 = [mathMax(x, x2), mathMax(y, y2)];
   return [
     [min3[0], max3[0]],
     [min3[1], max3[1]]
@@ -45591,8 +45789,8 @@ function preventDefault(e2) {
   var rawE = e2.event;
   rawE.preventDefault && rawE.preventDefault();
 }
-function mainShapeContain(cover, x2, y2) {
-  return cover.childOfName("main").contain(x2, y2);
+function mainShapeContain(cover, x, y) {
+  return cover.childOfName("main").contain(x, y);
 }
 function updateCoverByMouse(controller, e2, localCursorPoint, isEnd) {
   var creatingCover = controller._creatingCover;
@@ -45657,9 +45855,9 @@ var pointerHandlers = {
     }
   },
   mousemove: function(e2) {
-    var x2 = e2.offsetX;
-    var y2 = e2.offsetY;
-    var localCursorPoint = this.group.transformCoordToLocal(x2, y2);
+    var x = e2.offsetX;
+    var y = e2.offsetY;
+    var localCursorPoint = this.group.transformCoordToLocal(x, y);
     resetCursor(this, e2, localCursorPoint);
     if (this._dragging) {
       preventDefault(e2);
@@ -45674,9 +45872,9 @@ var pointerHandlers = {
 function handleDragEnd(controller, e2) {
   if (controller._dragging) {
     preventDefault(e2);
-    var x2 = e2.offsetX;
-    var y2 = e2.offsetY;
-    var localCursorPoint = controller.group.transformCoordToLocal(x2, y2);
+    var x = e2.offsetX;
+    var y = e2.offsetY;
+    var localCursorPoint = controller.group.transformCoordToLocal(x, y);
     var eventParams = updateCoverByMouse(controller, e2, localCursorPoint, true);
     controller._dragging = false;
     controller._track = [];
@@ -45684,9 +45882,9 @@ function handleDragEnd(controller, e2) {
     eventParams && trigger(controller, eventParams);
   }
 }
-function isOutsideZrArea(controller, x2, y2) {
+function isOutsideZrArea(controller, x, y) {
   var zr = controller._zr;
-  return x2 < 0 || x2 > zr.getWidth() || y2 < 0 || y2 > zr.getHeight();
+  return x < 0 || x > zr.getWidth() || y < 0 || y > zr.getHeight();
 }
 var coverRenderers = {
   lineX: getLineRenderer(0),
@@ -46118,8 +46316,8 @@ var DataZoomModel = (
       for (var i = 0; i < axisDimList.length; i++) {
         var axisDim = axisDimList[i];
         var axisInfo = this._targetAxisInfoMap.get(axisDim);
-        for (var j2 = 0; j2 < axisInfo.indexList.length; j2++) {
-          var proxy = this.getAxisProxy(axisDim, axisInfo.indexList[j2]);
+        for (var j = 0; j < axisInfo.indexList.length; j++) {
+          var proxy = this.getAxisProxy(axisDim, axisInfo.indexList[j]);
           if (proxy.hostedBy(this)) {
             return proxy;
           }
@@ -46587,8 +46785,8 @@ function layout(group, componentModel, api) {
 }
 function makeBackground(rect, componentModel) {
   var padding = normalizeCssArray(componentModel.get("padding"));
-  var style2 = componentModel.getItemStyle(["color", "opacity"]);
-  style2.fill = componentModel.get("backgroundColor");
+  var style = componentModel.getItemStyle(["color", "opacity"]);
+  style.fill = componentModel.get("backgroundColor");
   rect = new Rect$1({
     shape: {
       x: rect.x - padding[3],
@@ -46597,7 +46795,7 @@ function makeBackground(rect, componentModel) {
       height: rect.height + padding[0] + padding[2],
       r: componentModel.get("borderRadius")
     },
-    style: style2,
+    style,
     silent: true,
     z2: -1
   });
@@ -47110,8 +47308,8 @@ function assembleSeriesWithCategoryAxis(groups) {
     var lines = [headers.join(ITEM_SPLITER)];
     for (var i = 0; i < columns[0].length; i++) {
       var items = [];
-      for (var j2 = 0; j2 < columns.length; j2++) {
-        items.push(columns[j2][i]);
+      for (var j = 0; j < columns.length; j++) {
+        items.push(columns[j][i]);
       }
       lines.push(items.join(ITEM_SPLITER));
     }
@@ -47168,8 +47366,8 @@ function parseTSVContents(tsv) {
   for (var i = 0; i < tsvLines.length; i++) {
     var items = trim(tsvLines[i]).split(itemSplitRegex);
     categories.push(items.shift());
-    for (var j2 = 0; j2 < items.length; j2++) {
-      series[j2] && (series[j2].data[i] = items[j2]);
+    for (var j = 0; j < items.length; j++) {
+      series[j] && (series[j].data[i] = items[j]);
     }
   }
   return {
@@ -47202,8 +47400,8 @@ function parseListContents(str) {
     } else {
       value = data[i] = [];
     }
-    for (var j2 = 0; j2 < items.length; j2++) {
-      value.push(+items[j2]);
+    for (var j = 0; j < items.length; j++) {
+      value.push(+items[j]);
     }
     if (value.length === 1) {
       hasName ? data[i].value = value[0] : data[i] = value[0];
@@ -47279,11 +47477,11 @@ var DataView = (
         }
       } else {
         textarea.readOnly = model.get("readOnly");
-        var style2 = textarea.style;
-        style2.cssText = "display:block;width:100%;height:100%;font-family:monospace;font-size:14px;line-height:1.6rem;resize:none;box-sizing:border-box;outline:none";
-        style2.color = model.get("textColor");
-        style2.borderColor = model.get("textareaBorderColor");
-        style2.backgroundColor = model.get("textareaColor");
+        var style = textarea.style;
+        style.cssText = "display:block;width:100%;height:100%;font-family:monospace;font-size:14px;line-height:1.6rem;resize:none;box-sizing:border-box;outline:none";
+        style.color = model.get("textColor");
+        style.borderColor = model.get("textareaBorderColor");
+        style.backgroundColor = model.get("textareaColor");
         textarea.value = result.value;
         viewMain.appendChild(textarea);
       }
@@ -47304,7 +47502,7 @@ var DataView = (
       addEventListener(refreshButton, "click", function() {
         if (contentToOption == null && optionToContent != null || contentToOption != null && optionToContent == null) {
           {
-            warn("It seems you have just provided one of `contentToOption` and `optionToContent` functions but missed the other one. Data change is ignored.");
+            warn$1("It seems you have just provided one of `contentToOption` and `optionToContent` functions but missed the other one. Data change is ignored.");
           }
           close();
           return;
@@ -47588,8 +47786,8 @@ var BrushTargetManager = (
             return targetInfo;
           }
         } else {
-          for (var j2 = 0; j2 < targetInfoMatchers.length; j2++) {
-            if (targetInfoMatchers[j2](foundCpts, targetInfo)) {
+          for (var j = 0; j < targetInfoMatchers.length; j++) {
+            if (targetInfoMatchers[j](foundCpts, targetInfo)) {
               return targetInfo;
             }
           }
@@ -48313,8 +48511,8 @@ var LegendView = (
           var data = seriesModel.getData();
           var lineVisualStyle = data.getVisual("legendLineStyle") || {};
           var legendIcon = data.getVisual("legendIcon");
-          var style2 = data.getVisual("style");
-          var itemGroup = this._createItem(seriesModel, name, dataIndex, legendItemModel, legendModel, itemAlign, lineVisualStyle, style2, legendIcon, selectMode, api);
+          var style = data.getVisual("style");
+          var itemGroup = this._createItem(seriesModel, name, dataIndex, legendItemModel, legendModel, itemAlign, lineVisualStyle, style, legendIcon, selectMode, api);
           itemGroup.on("click", curry(dispatchSelectAction, name, null, api, excludeSeriesId)).on("mouseover", curry(dispatchHighlightAction, seriesModel.name, null, api, excludeSeriesId)).on("mouseout", curry(dispatchDownplayAction, seriesModel.name, null, api, excludeSeriesId));
           legendDrawnMap.set(name, true);
         } else {
@@ -48328,16 +48526,16 @@ var LegendView = (
                 return;
               }
               var idx = provider.indexOfName(name);
-              var style3 = provider.getItemVisual(idx, "style");
+              var style2 = provider.getItemVisual(idx, "style");
               var legendIcon2 = provider.getItemVisual(idx, "legendIcon");
-              var colorArr = parse(style3.fill);
+              var colorArr = parse(style2.fill);
               if (colorArr && colorArr[3] === 0) {
                 colorArr[3] = 0.2;
-                style3 = extend(extend({}, style3), {
+                style2 = extend(extend({}, style2), {
                   fill: stringify(colorArr, "rgba")
                 });
               }
-              var itemGroup2 = this._createItem(seriesModel2, name, dataIndex, legendItemModel, legendModel, itemAlign, {}, style3, legendIcon2, selectMode, api);
+              var itemGroup2 = this._createItem(seriesModel2, name, dataIndex, legendItemModel, legendModel, itemAlign, {}, style2, legendIcon2, selectMode, api);
               itemGroup2.on("click", curry(dispatchSelectAction, null, name, api, excludeSeriesId)).on("mouseover", curry(dispatchHighlightAction, null, name, api, excludeSeriesId)).on("mouseout", curry(dispatchDownplayAction, null, name, api, excludeSeriesId));
               legendDrawnMap.set(name, true);
             }
@@ -48391,7 +48589,7 @@ var LegendView = (
       var symbolKeepAspect = legendItemModel.get("symbolKeepAspect");
       var legendIconType = legendItemModel.get("icon");
       legendIcon = legendIconType || legendIcon || "roundRect";
-      var style2 = getLegendStyle(legendIcon, legendItemModel, lineVisualStyle, itemVisualStyle, drawType, isSelected, api);
+      var style = getLegendStyle(legendIcon, legendItemModel, lineVisualStyle, itemVisualStyle, drawType, isSelected, api);
       var itemGroup = new Group$1();
       var textStyleModel = legendItemModel.getModel("textStyle");
       if (isFunction(seriesModel.getLegendIcon) && (!legendIconType || legendIconType === "inherit")) {
@@ -48400,8 +48598,8 @@ var LegendView = (
           itemHeight,
           icon: legendIcon,
           iconRotate,
-          itemStyle: style2.itemStyle,
-          lineStyle: style2.lineStyle,
+          itemStyle: style.itemStyle,
+          lineStyle: style.lineStyle,
           symbolKeepAspect
         }));
       } else {
@@ -48411,8 +48609,8 @@ var LegendView = (
           itemHeight,
           icon: legendIcon,
           iconRotate: rotate2,
-          itemStyle: style2.itemStyle,
-          lineStyle: style2.lineStyle,
+          itemStyle: style.itemStyle,
+          lineStyle: style.lineStyle,
           symbolKeepAspect
         }));
       }
@@ -48514,12 +48712,12 @@ var LegendView = (
   }(ComponentView$1)
 );
 function getLegendStyle(iconType, legendItemModel, lineVisualStyle, itemVisualStyle, drawType, isSelected, api) {
-  function handleCommonProps(style2, visualStyle) {
-    if (style2.lineWidth === "auto") {
-      style2.lineWidth = visualStyle.lineWidth > 0 ? 2 : 0;
+  function handleCommonProps(style, visualStyle) {
+    if (style.lineWidth === "auto") {
+      style.lineWidth = visualStyle.lineWidth > 0 ? 2 : 0;
     }
-    each(style2, function(propVal, propName) {
-      style2[propName] === "inherit" && (style2[propName] = visualStyle[propName]);
+    each(style, function(propVal, propName) {
+      style[propName] === "inherit" && (style[propName] = visualStyle[propName]);
     });
   }
   var itemStyleModel = legendItemModel.getModel("itemStyle");
@@ -48924,10 +49122,10 @@ var ScrollableLegendView = (
       var pageFormatter = legendModel.get("pageFormatter");
       var pageIndex = pageInfo.pageIndex;
       var current = pageIndex != null ? pageIndex + 1 : 0;
-      var total2 = pageInfo.pageCount;
-      pageText && pageFormatter && pageText.setStyle("text", isString(pageFormatter) ? pageFormatter.replace("{current}", current == null ? "" : current + "").replace("{total}", total2 == null ? "" : total2 + "") : pageFormatter({
+      var total = pageInfo.pageCount;
+      pageText && pageFormatter && pageText.setStyle("text", isString(pageFormatter) ? pageFormatter.replace("{current}", current == null ? "" : current + "").replace("{total}", total == null ? "" : total + "") : pageFormatter({
         current,
-        total: total2
+        total
       }));
     };
     ScrollableLegendView2.prototype._getPageInfo = function(legendModel) {
@@ -49484,8 +49682,8 @@ function install$1(registers) {
   registers.registerComponentView(DatasetView);
 }
 var CMD = PathProxy$1.CMD;
-function aroundEqual(a, b2) {
-  return Math.abs(a - b2) < 1e-5;
+function aroundEqual(a, b) {
+  return Math.abs(a - b) < 1e-5;
 }
 function pathToBezierCurves(path) {
   var data = path.data;
@@ -49496,11 +49694,11 @@ function pathToBezierCurves(path) {
   var yi = 0;
   var x0 = 0;
   var y0 = 0;
-  function createNewSubpath(x3, y3) {
+  function createNewSubpath(x, y) {
     if (currentSubpath && currentSubpath.length > 2) {
       bezierArrayGroups.push(currentSubpath);
     }
-    currentSubpath = [x3, y3];
+    currentSubpath = [x, y];
   }
   function addLine(x02, y02, x12, y12) {
     if (!(aroundEqual(x02, x12) && aroundEqual(y02, y12))) {
@@ -49809,8 +50007,8 @@ function splitPolygonByLine(points2, lineA, lineB) {
   if (intersections.length < 2) {
     return [{ points: points2 }, { points: points2 }];
   }
-  intersections.sort(function(a, b2) {
-    return a.projPt - b2.projPt;
+  intersections.sort(function(a, b) {
+    return a.projPt - b.projPt;
   });
   var splitPt0 = intersections[0];
   var splitPt1 = intersections[intersections.length - 1];
@@ -49847,18 +50045,18 @@ function binaryDividePolygon(polygonShape) {
   var boundingRect = new BoundingRect$1(min3[0], min3[1], max3[0] - min3[0], max3[1] - min3[1]);
   var width = boundingRect.width;
   var height = boundingRect.height;
-  var x2 = boundingRect.x;
-  var y2 = boundingRect.y;
+  var x = boundingRect.x;
+  var y = boundingRect.y;
   var pt02 = new Point$1();
   var pt12 = new Point$1();
   if (width > height) {
-    pt02.x = pt12.x = x2 + width / 2;
-    pt02.y = y2;
-    pt12.y = y2 + height;
+    pt02.x = pt12.x = x + width / 2;
+    pt02.y = y;
+    pt12.y = y + height;
   } else {
-    pt02.y = pt12.y = y2 + height / 2;
-    pt02.x = x2;
-    pt12.x = x2 + width;
+    pt02.y = pt12.y = y + height / 2;
+    pt02.x = x;
+    pt12.x = x + width;
   }
   return splitPolygonByLine(points2, pt02, pt12);
 }
@@ -49944,8 +50142,8 @@ function split(path, count2) {
           totalArea_1 += area;
           return { poly, area };
         });
-        items.sort(function(a, b2) {
-          return b2.area - a.area;
+        items.sort(function(a, b) {
+          return b.area - a.area;
         });
         var left = count2;
         for (var i = 0; i < polygonCount; i++) {
@@ -50066,9 +50264,9 @@ function centroid(array) {
   var cx = 0;
   var cy = 0;
   var len2 = array.length;
-  for (var i = 0, j2 = len2 - 2; i < len2; j2 = i, i += 2) {
-    var x0 = array[j2];
-    var y0 = array[j2 + 1];
+  for (var i = 0, j = len2 - 2; i < len2; j = i, i += 2) {
+    var x0 = array[j];
+    var y0 = array[j + 1];
     var x1 = array[i];
     var y1 = array[i + 1];
     var a = x0 * y1 - x1 * y0;
@@ -50225,10 +50423,10 @@ function applyTransformOnBeziers(bezierCurves, mm) {
   for (var i = 0; i < bezierCurves.length; i++) {
     var subBeziers = bezierCurves[i];
     for (var k = 0; k < subBeziers.length; ) {
-      var x2 = subBeziers[k];
-      var y2 = subBeziers[k + 1];
-      subBeziers[k++] = mm[0] * x2 + mm[2] * y2 + mm[4];
-      subBeziers[k++] = mm[1] * x2 + mm[3] * y2 + mm[5];
+      var x = subBeziers[k];
+      var y = subBeziers[k + 1];
+      subBeziers[k++] = mm[0] * x + mm[2] * y + mm[4];
+      subBeziers[k++] = mm[1] * x + mm[3] * y + mm[5];
     }
   }
 }
@@ -50266,10 +50464,10 @@ function prepareMorphPath(fromPath, toPath) {
         var y0_1 = from[m2 + 1];
         var x1 = to[m2];
         var y1 = to[m2 + 1];
-        var x2 = x0_1 * onet + x1 * t2;
-        var y2 = y0_1 * onet + y1 * t2;
-        tmpArr2[m2] = x2 * ca - y2 * sa + newCp[0];
-        tmpArr2[m2 + 1] = x2 * sa + y2 * ca + newCp[1];
+        var x = x0_1 * onet + x1 * t2;
+        var y = y0_1 * onet + y1 * t2;
+        tmpArr2[m2] = x * ca - y * sa + newCp[0];
+        tmpArr2[m2 + 1] = x * sa + y * ca + newCp[1];
       }
       var x0 = tmpArr2[0];
       var y0 = tmpArr2[1];
@@ -50277,14 +50475,14 @@ function prepareMorphPath(fromPath, toPath) {
       for (var m2 = 2; m2 < from.length; ) {
         var x1 = tmpArr2[m2++];
         var y1 = tmpArr2[m2++];
-        var x22 = tmpArr2[m2++];
-        var y22 = tmpArr2[m2++];
+        var x2 = tmpArr2[m2++];
+        var y2 = tmpArr2[m2++];
         var x3 = tmpArr2[m2++];
         var y3 = tmpArr2[m2++];
-        if (x0 === x1 && y0 === y1 && x22 === x3 && y22 === y3) {
+        if (x0 === x1 && y0 === y1 && x2 === x3 && y2 === y3) {
           path.lineTo(x3, y3);
         } else {
-          path.bezierCurveTo(x1, y1, x22, y22, x3, y3);
+          path.bezierCurveTo(x1, y1, x2, y2, x3, y3);
         }
         x0 = x3;
         y0 = y3;
@@ -50321,30 +50519,30 @@ function morphPath(fromPath, toPath, animationOpts) {
   }, animationOpts));
   return toPath;
 }
-function hilbert(x2, y2, minX, minY, maxX, maxY) {
+function hilbert(x, y, minX, minY, maxX, maxY) {
   var bits = 16;
-  x2 = maxX === minX ? 0 : Math.round(32767 * (x2 - minX) / (maxX - minX));
-  y2 = maxY === minY ? 0 : Math.round(32767 * (y2 - minY) / (maxY - minY));
+  x = maxX === minX ? 0 : Math.round(32767 * (x - minX) / (maxX - minX));
+  y = maxY === minY ? 0 : Math.round(32767 * (y - minY) / (maxY - minY));
   var d = 0;
   var tmp;
   for (var s2 = (1 << bits) / 2; s2 > 0; s2 /= 2) {
     var rx = 0;
     var ry = 0;
-    if ((x2 & s2) > 0) {
+    if ((x & s2) > 0) {
       rx = 1;
     }
-    if ((y2 & s2) > 0) {
+    if ((y & s2) > 0) {
       ry = 1;
     }
     d += s2 * s2 * (3 * rx ^ ry);
     if (ry === 0) {
       if (rx === 1) {
-        x2 = s2 - 1 - x2;
-        y2 = s2 - 1 - y2;
+        x = s2 - 1 - x;
+        y = s2 - 1 - y;
       }
-      tmp = x2;
-      x2 = y2;
-      y2 = tmp;
+      tmp = x;
+      x = y;
+      y = tmp;
     }
   }
   return d;
@@ -50357,13 +50555,13 @@ function sortPaths(pathList) {
   var cps = map$1(pathList, function(path) {
     var rect = path.getBoundingRect();
     var m2 = path.getComputedTransform();
-    var x2 = rect.x + rect.width / 2 + (m2 ? m2[4] : 0);
-    var y2 = rect.y + rect.height / 2 + (m2 ? m2[5] : 0);
-    xMin = Math.min(x2, xMin);
-    yMin = Math.min(y2, yMin);
-    xMax = Math.max(x2, xMax);
-    yMax = Math.max(y2, yMax);
-    return [x2, y2];
+    var x = rect.x + rect.width / 2 + (m2 ? m2[4] : 0);
+    var y = rect.y + rect.height / 2 + (m2 ? m2[5] : 0);
+    xMin = Math.min(x, xMin);
+    yMin = Math.min(y, yMin);
+    xMax = Math.max(x, xMax);
+    yMax = Math.max(y, yMax);
+    return [x, y];
   });
   var items = map$1(cps, function(cp, idx) {
     return {
@@ -50372,8 +50570,8 @@ function sortPaths(pathList) {
       path: pathList[idx]
     };
   });
-  return items.sort(function(a, b2) {
-    return a.z - b2.z;
+  return items.sort(function(a, b) {
+    return a.z - b.z;
   }).map(function(item) {
     return item.path;
   });
@@ -50715,7 +50913,7 @@ function flattenDataDiffItems(list) {
     var data = seriesInfo.data;
     if (data.count() > DATA_COUNT_THRESHOLD) {
       {
-        warn("Universal transition is disabled on large data > 10k.");
+        warn$1("Universal transition is disabled on large data > 10k.");
       }
       return;
     }
@@ -51007,7 +51205,7 @@ function findTransitionSeriesBatches(globalStore, params) {
   });
   function checkTransitionSeriesKeyDuplicated(transitionKeyStr) {
     if (updateBatches.get(transitionKeyStr)) {
-      warn("Duplicated seriesKey in universalTransition " + transitionKeyStr);
+      warn$1("Duplicated seriesKey in universalTransition " + transitionKeyStr);
     }
   }
   each$7(params.updatedSeries, function(series) {
@@ -51345,13 +51543,13 @@ var Layer = function(_super) {
           mergedRepaintRects.splice(i, 1);
           continue;
         }
-        for (var j2 = i + 1; j2 < mergedRepaintRects.length; ) {
-          if (mergedRepaintRects[i].intersect(mergedRepaintRects[j2])) {
+        for (var j = i + 1; j < mergedRepaintRects.length; ) {
+          if (mergedRepaintRects[i].intersect(mergedRepaintRects[j])) {
             hasIntersections = true;
-            mergedRepaintRects[i].union(mergedRepaintRects[j2]);
-            mergedRepaintRects.splice(j2, 1);
+            mergedRepaintRects[i].union(mergedRepaintRects[j]);
+            mergedRepaintRects.splice(j, 1);
           } else {
-            j2++;
+            j++;
           }
         }
         i++;
@@ -51400,8 +51598,8 @@ var Layer = function(_super) {
       this.ctxBack.drawImage(dom, 0, 0, width / dpr2, height / dpr2);
     }
     var domBack = this.domBack;
-    function doClear(x2, y2, width2, height2) {
-      ctx.clearRect(x2, y2, width2, height2);
+    function doClear(x, y, width2, height2) {
+      ctx.clearRect(x, y, width2, height2);
       if (clearColor && clearColor !== "transparent") {
         var clearColorGradientOrPattern = void 0;
         if (isGradientObject(clearColor)) {
@@ -51427,13 +51625,13 @@ var Layer = function(_super) {
         }
         ctx.save();
         ctx.fillStyle = clearColorGradientOrPattern || clearColor;
-        ctx.fillRect(x2, y2, width2, height2);
+        ctx.fillRect(x, y, width2, height2);
         ctx.restore();
       }
       if (haveMotionBLur) {
         ctx.save();
         ctx.globalAlpha = lastFrameAlpha;
-        ctx.drawImage(domBack, x2, y2, width2, height2);
+        ctx.drawImage(domBack, x, y, width2, height2);
         ctx.restore();
       }
     }
@@ -51553,8 +51751,8 @@ var CanvasPainter = function() {
     this._redrawId = Math.random();
     this._paintList(list, prevList, paintAll, this._redrawId);
     for (var i = 0; i < zlevelList.length; i++) {
-      var z2 = zlevelList[i];
-      var layer = this._layers[z2];
+      var z = zlevelList[i];
+      var layer = this._layers[z];
       if (!layer.__builtin__ && layer.refresh) {
         var clearColor = i === 0 ? this._backgroundColor : null;
         layer.refresh(clearColor);
@@ -51619,7 +51817,7 @@ var CanvasPainter = function() {
     }
     if (!finished) {
       var self_1 = this;
-      requestAnimationFrame$2(function() {
+      requestAnimationFrame$1(function() {
         self_1._paintList(list, prevList, paintAll, redrawId);
       });
     } else {
@@ -51823,27 +52021,27 @@ var CanvasPainter = function() {
   CanvasPainter2.prototype.eachLayer = function(cb, context) {
     var zlevelList = this._zlevelList;
     for (var i = 0; i < zlevelList.length; i++) {
-      var z2 = zlevelList[i];
-      cb.call(context, this._layers[z2], z2);
+      var z = zlevelList[i];
+      cb.call(context, this._layers[z], z);
     }
   };
   CanvasPainter2.prototype.eachBuiltinLayer = function(cb, context) {
     var zlevelList = this._zlevelList;
     for (var i = 0; i < zlevelList.length; i++) {
-      var z2 = zlevelList[i];
-      var layer = this._layers[z2];
+      var z = zlevelList[i];
+      var layer = this._layers[z];
       if (layer.__builtin__) {
-        cb.call(context, layer, z2);
+        cb.call(context, layer, z);
       }
     }
   };
   CanvasPainter2.prototype.eachOtherLayer = function(cb, context) {
     var zlevelList = this._zlevelList;
     for (var i = 0; i < zlevelList.length; i++) {
-      var z2 = zlevelList[i];
-      var layer = this._layers[z2];
+      var z = zlevelList[i];
+      var layer = this._layers[z];
       if (!layer.__builtin__) {
-        cb.call(context, layer, z2);
+        cb.call(context, layer, z);
       }
     }
   };
@@ -51851,7 +52049,7 @@ var CanvasPainter = function() {
     return this._layers;
   };
   CanvasPainter2.prototype._updateLayerStatus = function(list) {
-    this.eachBuiltinLayer(function(layer2, z2) {
+    this.eachBuiltinLayer(function(layer2, z) {
       layer2.__dirty = layer2.__used = false;
     });
     function updatePrevLayer(idx) {
@@ -51915,7 +52113,7 @@ var CanvasPainter = function() {
       }
     }
     updatePrevLayer(i);
-    this.eachBuiltinLayer(function(layer2, z2) {
+    this.eachBuiltinLayer(function(layer2, z) {
       if (!layer2.__used && layer2.getElementCount() > 0) {
         layer2.__dirty = true;
         layer2.__startIndex = layer2.__endIndex = layer2.__drawIndex = 0;
@@ -52076,11 +52274,11 @@ exports.install$8 = install;
 exports.install$9 = install$6;
 exports.installLabelLayout = installLabelLayout;
 exports.installUniversalTransition = installUniversalTransition;
-exports.isRef = isRef;
 exports.o = o;
 exports.onMounted = onMounted;
 exports.p = p;
-exports.reactive = reactive;
+exports.reactive = reactive$1;
+exports.reactive$1 = reactive;
 exports.ref = ref;
 exports.resolveComponent = resolveComponent;
 exports.s = s;
@@ -52088,3 +52286,4 @@ exports.sr = sr;
 exports.t = t;
 exports.unref = unref;
 exports.use = use;
+exports.wx$1 = wx$1;

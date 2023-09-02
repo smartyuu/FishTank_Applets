@@ -12,32 +12,42 @@
 			</view>
 		</view>
 		<view class="input-box">
-			<input class="user" v-model="info.username" placeholder="请输入用户名"/>
-			<input class="password" v-model="info.password" type="password" placeholder="请输入密码"/>        </view>
-		<view class="button-box">
-			<button class="login-button" @click="reg.toLogin(info)">登录</button>
-			<button class="register-button" @click="turnToRegister()">注册</button>
+			<input class="user" v-model="info.username" placeholder="请输入账号"/>
+			<input class="password" v-model="info.password" type="password" placeholder="请输入密码"/>        
+			<input class="password" v-model="info.phone" type="text" placeholder="请输入手机号码"/>        
+			<input class="password" v-model="info.realName" type="text" placeholder="请输入姓名"/>        
 		</view>
-		<text class="wechat-tip">——第三方登录——</text>
-		<button class="wechat">微信登录</button>
+		<view class="button-box">
+			<button class="register-button" @click="reg.toRegist(info)">注册</button>
+		</view>
+		<button class="wechat" @click="reg.getUserInfo()">第三方注册</button>
       </view>
     </view>
   </view>
 </template>
 
 <script setup lang="ts">
-	import { reactive, ref, toRefs } from 'vue-demi';
-	import reg from './toLogin'
-
-	const info =reactive({
+	import { reactive } from '@vue/reactivity';
+import { ref } from 'vue-demi';
+	import reg from './toRegist'
+	
+	const info=reactive({
+		password:'',
+		phone:'',
 		username:'',
-		password:''
+		realName:''
 	})
 	const turnToRegister =()=>{
 		uni.navigateTo({
-			url: '/pages/login/register'
+			url: '/pages/login/login'
 		})
 	}
+	// wx.ready(function() {
+	//   // jWeixin 对象初始化成功后执行的代码
+	// 	console.log('aaaaa')
+	// });
+	
+	
 </script>
 
 <style lang="scss">

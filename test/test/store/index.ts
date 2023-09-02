@@ -19,6 +19,7 @@ export const useMyStore = defineStore('myStore', {
     },
     setToken(token: string) {
       this.token = token
+	  // wx.setStorageSync('token', token);
     },
     setUsername(username: string) {
       this.username = username
@@ -32,6 +33,20 @@ export const useMyStore = defineStore('myStore', {
     setAvater(avater: string) {
       this.avater = avater
     },
+	
+	saveAllData() {
+	    // 存储 token 和 username
+	//     wx.setStorageSync('token', this.token)
+	//     wx.setStorageSync('username', this.username)
+	
+	//     // 存储其他数据
+	//     wx.setStorageSync('count', this.count)
+	//     wx.setStorageSync('collapse', this.collapse)
+	//     wx.setStorageSync('aquarium', this.aquarium)
+	//     wx.setStorageSync('avater', this.avater)
+	
+	    console.log('所有数据已存储到本地存储中')
+	},
   },
   getters: {
     getCount(): number {

@@ -23,35 +23,8 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.content.data-v-1cf27b2a {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.content .text-area.data-v-1cf27b2a {
-  display: flex;
-  justify-content: center;
-  height: 30vh;
-}
-.content .text-area .welcome-img.data-v-1cf27b2a {
-  position: fixed;
-  width: 100vw;
-  z-index: -1;
-}
-.content .text-area .title.data-v-1cf27b2a {
-  font-size: 60rpx;
-  color: #ffffff;
-  font-weight: bolder;
-  display: flex;
-  align-items: center;
-}
-.content .vedio.data-v-1cf27b2a {
-  height: 20vh;
-  width: 90vw;
-  background-color: black;
-}
-.content .rose-container.data-v-1cf27b2a {
-  height: auto;
-  width: 100%;
+.my-chart-rose.data-v-89612de1 {
+  width: 80%;
+  height: 100%;
+  background-color: #ffaaff;
 }

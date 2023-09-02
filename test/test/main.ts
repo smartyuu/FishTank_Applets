@@ -7,6 +7,10 @@ import 'echarts/lib/component/title';
 
 // #ifndef VUE3
 import Vue from 'vue'
+
+import { createPinia } from 'pinia'
+
+
 Vue.config.productionTip = false
 App.mpType = 'app'
 
@@ -41,6 +45,8 @@ try {
 const app = new Vue({
   ...App
 })
+const pinia = createPinia()
+app.use(pinia)
 app.component('v-chart', ECharts);
 app.$mount()
 // #endif

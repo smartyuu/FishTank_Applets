@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "首页",
   "usingComponents": {
-    "l-echart": "../../uni_modules/lime-echart/components/l-echart/l-echart"
+    "bar": "../../components/Bar/bar",
+    "rose": "../../components/Rose/rose"
   }
 }
