@@ -77,7 +77,8 @@
   padding-top: 3vh;
   color: #99f9d9;
 }
-.container .contain-box .title-box .input-box .user, .container .contain-box .title-box .input-box .password {
+.container .contain-box .title-box .input-box .user,
+.container .contain-box .title-box .input-box .password {
   width: 60vw;
   height: 80rpx;
   margin-top: 8px;

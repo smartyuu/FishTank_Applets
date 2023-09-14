@@ -1,7 +1,8 @@
 {
   "navigationBarTitleText": "首页",
+  "navigationBarTextStyle": "white",
   "usingComponents": {
-    "bar": "../../components/Bar/bar",
-    "rose": "../../components/Rose/rose"
+    "rose": "../../components/Rose/rose",
+    "pie": "../../components/Pie/pie"
   }
 }

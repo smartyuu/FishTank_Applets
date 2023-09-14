@@ -17,7 +17,7 @@ const reg = {
         });
       } else {
         common_vendor.index.navigateTo({
-          url: "/pages//login/login"
+          url: "/pages/login/login"
         });
       }
     });

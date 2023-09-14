@@ -1,5 +1,9 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const api_echarts = require("../../api/echarts.js");
+require("../../http/httpRequest.js");
+require("../../http/auth.js");
+require("../../http/env.js");
 if (!Math) {
   LEchart();
 }
@@ -15,6 +19,7 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     }
   },
   setup(__props) {
+    const dataList = common_vendor.ref([]);
     common_vendor.use([
       common_vendor.install,
       common_vendor.install$1,
@@ -40,46 +45,59 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       "#56B5FF",
       "#80EF98"
     ]);
-    const option = common_vendor.ref({
-      legend: {
-        top: "bottom"
-      },
-      toolbox: {
-        show: true,
-        feature: {
-          mark: { show: true },
-          dataView: { show: true, readOnly: false },
-          restore: { show: true },
-          saveAsImage: { show: true }
-        }
-      },
-      series: [
-        {
-          name: "Nightingale Chart",
-          type: "pie",
-          radius: [50, 250],
-          center: ["50%", "50%"],
-          roseType: "area",
-          itemStyle: {
-            borderRadius: 8
-          },
-          data: [
-            { value: 40, name: "rose 1" },
-            { value: 38, name: "rose 2" },
-            { value: 32, name: "rose 3" },
-            { value: 30, name: "rose 4" },
-            { value: 28, name: "rose 5" },
-            { value: 26, name: "rose 6" },
-            { value: 22, name: "rose 7" },
-            { value: 18, name: "rose 8" }
-          ]
-        }
-      ]
-    });
     common_vendor.onMounted(() => {
-      chart.value.init(common_vendor.echarts, (chart2) => {
-        chart2.setOption(option.value);
-      });
+      (async function() {
+        dataList.value = await api_echarts.ApiGetNightingale();
+        const option = common_vendor.ref({
+          legend: {
+            top: "85%"
+          },
+          toolbox: {
+            show: true,
+            feature: {
+              mark: { show: true },
+              dataView: { show: true, readOnly: false },
+              restore: { show: true },
+              saveAsImage: { show: true }
+            }
+          },
+          title: {
+            text: "鱼类统计",
+            top: "5%",
+            left: "2%"
+          },
+          series: [
+            {
+              name: "Access From",
+              type: "pie",
+              radius: ["20%", "80%"],
+              center: ["50%", "50%"],
+              roseType: "area",
+              avoidLabelOverlap: false,
+              itemStyle: {
+                borderRadius: 8
+              },
+              label: {
+                show: false,
+                position: "center"
+              },
+              emphasis: {
+                label: {
+                  show: true,
+                  fontWeight: "bold"
+                }
+              },
+              labelLine: {
+                show: false
+              },
+              data: dataList.value
+            }
+          ]
+        });
+        chart.value.init(common_vendor.echarts, (chart2) => {
+          chart2.setOption(option.value);
+        });
+      })();
     });
     return (_ctx, _cache) => {
       return {
@@ -90,5 +108,5 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
   }
 });
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-89612de1"], ["__file", "D:/MyNecessaryFile/fishApplets/FishTank_Applets/test/test/components/Rose/rose.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__scopeId", "data-v-89612de1"], ["__file", "C:/Users/Yiweiyihang/OneDrive/桌面/FishTank_Applets/test/test/components/Rose/rose.vue"]]);
 wx.createComponent(Component);

@@ -11,7 +11,7 @@ const reg = {
     }).then((response) => {
       console.log(response);
       if (response.data.code == 0) {
-        common_vendor.index.navigateTo({
+        common_vendor.index.switchTab({
           url: "/pages/index/index"
         });
       } else {

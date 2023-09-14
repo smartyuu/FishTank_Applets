@@ -4,5 +4,5 @@ const _sfc_main = {};
 function _sfc_render(_ctx, _cache) {
   return {};
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/MyNecessaryFile/fishApplets/FishTank_Applets/test/test/pages/expertSystem/expertSystem.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/Yiweiyihang/OneDrive/桌面/FishTank_Applets/test/test/pages/expertSystem/expertSystem.vue"]]);
 wx.createPage(MiniProgramPage);

@@ -24,7 +24,7 @@
 /* 透明度 */
 /* 文章场景相关 */
 .my-chart-rose.data-v-89612de1 {
-  width: 80%;
   height: 100%;
-  background-color: #ffaaff;
+  background-color: #fff;
+  border-radius: 10%;
 }

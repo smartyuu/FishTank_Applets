@@ -1,4 +1,5 @@
 {
-  "navigationBarTitleText": "uni-app",
+  "navigationBarTitleText": "专家系统",
+  "navigationBarTextStyle": "white",
   "usingComponents": {}
 }

@@ -63,7 +63,7 @@ const replacer = (_key, val) => {
     return {
       [`Set(${val.size})`]: [...val.values()]
     };
-  } else if (isObject$3(val) && !isArray$1(val) && !isPlainObject(val)) {
+  } else if (isObject$3(val) && !isArray$1(val) && !isPlainObject$1(val)) {
     return String(val);
   }
   return val;
@@ -100,7 +100,7 @@ const toTypeString = (value) => objectToString.call(value);
 const toRawType = (value) => {
   return toTypeString(value).slice(8, -1);
 };
-const isPlainObject = (val) => toTypeString(val) === "[object Object]";
+const isPlainObject$1 = (val) => toTypeString(val) === "[object Object]";
 const isIntegerKey = (key) => isString$1(key) && key !== "NaN" && key[0] !== "-" && "" + parseInt(key, 10) === key;
 const isReservedProp = /* @__PURE__ */ makeMap(
   // the leading comma is intentional so empty string "" is also included
@@ -211,7 +211,7 @@ function getValueByDataPath(obj, path) {
 }
 function sortObject(obj) {
   let sortObj = {};
-  if (isPlainObject(obj)) {
+  if (isPlainObject$1(obj)) {
     Object.keys(obj).sort().forEach((key) => {
       const _key = key;
       sortObj[_key] = obj[_key];
@@ -225,7 +225,7 @@ function stringifyQuery(obj, encodeStr = encode) {
     let val = obj[key];
     if (typeof val === void 0 || val === null) {
       val = "";
-    } else if (isPlainObject(val)) {
+    } else if (isPlainObject$1(val)) {
       val = JSON.stringify(val);
     }
     return encodeStr(key) + "=" + encodeStr(val);
@@ -399,7 +399,11 @@ function normalizeLocale(locale, messages) {
     }
     return LOCALE_ZH_HANS;
   }
-  const lang = startsWith(locale, [LOCALE_EN$1, LOCALE_FR, LOCALE_ES]);
+  let locales = [LOCALE_EN$1, LOCALE_FR, LOCALE_ES];
+  if (messages && Object.keys(messages).length > 0) {
+    locales = Object.keys(messages);
+  }
+  const lang = startsWith(locale, locales);
   if (lang) {
     return lang;
   }
@@ -440,7 +444,7 @@ function validateProtocols(name, args, protocol, onFail) {
   }
 }
 function validateProp$1(name, value, prop, isAbsent) {
-  if (!isPlainObject(prop)) {
+  if (!isPlainObject$1(prop)) {
     prop = { type: prop };
   }
   const { type, required, validator } = prop;
@@ -578,7 +582,7 @@ function normalizeErrMsg$1(errMsg, name) {
   return name + errMsg.substring(errMsg.indexOf(":fail"));
 }
 function createAsyncApiCallback(name, args = {}, { beforeAll, beforeSuccess } = {}) {
-  if (!isPlainObject(args)) {
+  if (!isPlainObject$1(args)) {
     args = {};
   }
   const { success, fail, complete } = getApiCallbacks(args);
@@ -700,7 +704,7 @@ function invokeApi(method, api, options, params) {
   return api(options, ...params);
 }
 function hasCallback(args) {
-  if (isPlainObject(args) && [API_SUCCESS, API_FAIL, API_COMPLETE].find((cb) => isFunction$1(args[cb]))) {
+  if (isPlainObject$1(args) && [API_SUCCESS, API_FAIL, API_COMPLETE].find((cb) => isFunction$1(args[cb]))) {
     return true;
   }
   return false;
@@ -713,14 +717,14 @@ function promisify$1(name, fn) {
     if (hasCallback(args)) {
       return wrapperReturnValue(name, invokeApi(name, fn, args, rest));
     }
-    return wrapperReturnValue(name, handlePromise(new Promise((resolve2, reject) => {
-      invokeApi(name, fn, extend$1(args, { success: resolve2, fail: reject }), rest);
+    return wrapperReturnValue(name, handlePromise(new Promise((resolve, reject) => {
+      invokeApi(name, fn, extend$1(args, { success: resolve, fail: reject }), rest);
     })));
   };
 }
 function formatApiArgs(args, options) {
   const params = args[0];
-  if (!options || !isPlainObject(options.formatArgs) && isPlainObject(params)) {
+  if (!options || !isPlainObject$1(options.formatArgs) && isPlainObject$1(params)) {
     return;
   }
   const formatArgs = options.formatArgs;
@@ -887,20 +891,20 @@ function dedupeHooks(hooks) {
   return res;
 }
 const addInterceptor = defineSyncApi(API_ADD_INTERCEPTOR, (method, interceptor) => {
-  if (isString$1(method) && isPlainObject(interceptor)) {
+  if (isString$1(method) && isPlainObject$1(interceptor)) {
     mergeInterceptorHook(scopedInterceptors[method] || (scopedInterceptors[method] = {}), interceptor);
-  } else if (isPlainObject(method)) {
+  } else if (isPlainObject$1(method)) {
     mergeInterceptorHook(globalInterceptors, method);
   }
 }, AddInterceptorProtocol);
 const removeInterceptor = defineSyncApi(API_REMOVE_INTERCEPTOR, (method, interceptor) => {
   if (isString$1(method)) {
-    if (isPlainObject(interceptor)) {
+    if (isPlainObject$1(interceptor)) {
       removeInterceptorHook(scopedInterceptors[method], interceptor);
     } else {
       delete scopedInterceptors[method];
     }
-  } else if (isPlainObject(method)) {
+  } else if (isPlainObject$1(method)) {
     removeInterceptorHook(globalInterceptors, method);
   }
 }, RemoveInterceptorProtocol);
@@ -1006,7 +1010,7 @@ function invokeGetPushCidCallbacks(cid2, errMsg) {
   getPushCidCallbacks.length = 0;
 }
 const API_GET_PUSH_CLIENT_ID = "getPushClientId";
-const getPushClientId = defineAsyncApi(API_GET_PUSH_CLIENT_ID, (_, { resolve: resolve2, reject }) => {
+const getPushClientId = defineAsyncApi(API_GET_PUSH_CLIENT_ID, (_, { resolve, reject }) => {
   Promise.resolve().then(() => {
     if (typeof enabled === "undefined") {
       enabled = false;
@@ -1015,7 +1019,7 @@ const getPushClientId = defineAsyncApi(API_GET_PUSH_CLIENT_ID, (_, { resolve: re
     }
     getPushCidCallbacks.push((cid2, errMsg) => {
       if (cid2) {
-        resolve2({ cid: cid2 });
+        resolve({ cid: cid2 });
       } else {
         reject(errMsg);
       }
@@ -1080,9 +1084,9 @@ function promisify(name, api) {
     if (isFunction$1(options.success) || isFunction$1(options.fail) || isFunction$1(options.complete)) {
       return wrapperReturnValue(name, invokeApi(name, api, options, rest));
     }
-    return wrapperReturnValue(name, handlePromise(new Promise((resolve2, reject) => {
+    return wrapperReturnValue(name, handlePromise(new Promise((resolve, reject) => {
       invokeApi(name, api, extend$1({}, options, {
-        success: resolve2,
+        success: resolve,
         fail: reject
       }), rest);
     })));
@@ -1096,7 +1100,7 @@ function initWrapper(protocols2) {
     };
   }
   function processArgs(methodName, fromArgs, argsOption = {}, returnValue = {}, keepFromArgs = false) {
-    if (isPlainObject(fromArgs)) {
+    if (isPlainObject$1(fromArgs)) {
       const toArgs = keepFromArgs === true ? fromArgs : {};
       if (isFunction$1(argsOption)) {
         argsOption = argsOption(fromArgs, toArgs) || {};
@@ -1111,7 +1115,7 @@ function initWrapper(protocols2) {
             console.warn(`微信小程序 ${methodName} 暂不支持 ${key}`);
           } else if (isString$1(keyOption)) {
             toArgs[keyOption] = fromArgs[key];
-          } else if (isPlainObject(keyOption)) {
+          } else if (isPlainObject$1(keyOption)) {
             toArgs[keyOption.name ? keyOption.name : key] = keyOption.value;
           }
         } else if (CALLBACKS.indexOf(key) !== -1) {
@@ -1242,8 +1246,8 @@ function populateParameters(fromRes, toRes) {
     appVersion: "1.0.0",
     appVersionCode: "100",
     appLanguage: getAppLanguage(hostLanguage),
-    uniCompileVersion: "3.7.3",
-    uniRuntimeVersion: "3.7.3",
+    uniCompileVersion: "3.8.12",
+    uniRuntimeVersion: "3.8.12",
     uniPlatform: "mp-weixin",
     deviceBrand,
     deviceModel: model,
@@ -1474,7 +1478,8 @@ const objectKeys = [
   "cloud",
   "serviceMarket",
   "router",
-  "worklet"
+  "worklet",
+  "__webpack_require_UNI_MP_PLUGIN__"
 ];
 const singlePageDisableKey = ["lanDebug", "router", "worklet"];
 const launchOption = wx.getLaunchOptionsSync ? wx.getLaunchOptionsSync() : null;
@@ -1491,7 +1496,7 @@ function initWx() {
       newWx[key] = wx[key];
     }
   }
-  if (typeof globalThis !== "undefined") {
+  if (typeof globalThis !== "undefined" && typeof requireMiniProgram === "undefined") {
     globalThis.wx = newWx;
   }
   return newWx;
@@ -1527,8 +1532,8 @@ const host = baseInfo ? baseInfo.host : null;
 const shareVideoMessage = host && host.env === "SAAASDK" ? wx$2.miniapp.shareVideoMessage : wx$2.shareVideoMessage;
 var shims = /* @__PURE__ */ Object.freeze({
   __proto__: null,
-  getProvider,
   createSelectorQuery,
+  getProvider,
   shareVideoMessage
 });
 const compressImage = {
@@ -1544,15 +1549,15 @@ const compressImage = {
 var protocols = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   compressImage,
-  redirectTo,
-  previewImage,
+  getAppAuthorizeSetting,
+  getAppBaseInfo,
+  getDeviceInfo,
   getSystemInfo,
   getSystemInfoSync,
-  showActionSheet,
-  getDeviceInfo,
-  getAppBaseInfo,
   getWindowInfo,
-  getAppAuthorizeSetting
+  previewImage,
+  redirectTo,
+  showActionSheet
 });
 const wx$1 = initWx();
 var index = initUni(shims, protocols, wx$1);
@@ -1627,6 +1632,9 @@ class EffectScope {
     }
   }
 }
+function effectScope(detached) {
+  return new EffectScope(detached);
+}
 function recordEffectScope(effect, scope = activeEffectScope) {
   if (scope && scope.active) {
     scope.effects.push(effect);
@@ -1634,6 +1642,13 @@ function recordEffectScope(effect, scope = activeEffectScope) {
 }
 function getCurrentScope() {
   return activeEffectScope;
+}
+function onScopeDispose(fn) {
+  if (activeEffectScope) {
+    activeEffectScope.cleanups.push(fn);
+  } else {
+    warn$1$1(`onScopeDispose() is called when there is no active effect scope to be associated with.`);
+  }
 }
 const createDep$1 = (effects) => {
   const dep = new Set(effects);
@@ -1870,6 +1885,10 @@ function triggerEffect$1(effect, debuggerEventExtraInfo) {
       effect.run();
     }
   }
+}
+function getDepFromReactive(object, key) {
+  var _a2;
+  return (_a2 = targetMap$1.get(object)) === null || _a2 === void 0 ? void 0 : _a2.get(key);
 }
 const isNonTrackableKeys$1 = /* @__PURE__ */ makeMap(`__proto__,__v_isRef,__isVue`);
 const builtInSymbols$1 = new Set(
@@ -2505,6 +2524,38 @@ const shallowUnwrapHandlers = {
 function proxyRefs(objectWithRefs) {
   return isReactive(objectWithRefs) ? objectWithRefs : new Proxy(objectWithRefs, shallowUnwrapHandlers);
 }
+function toRefs(object) {
+  if (!isProxy(object)) {
+    console.warn(`toRefs() expects a reactive object but received a plain one.`);
+  }
+  const ret = isArray$1(object) ? new Array(object.length) : {};
+  for (const key in object) {
+    ret[key] = toRef(object, key);
+  }
+  return ret;
+}
+class ObjectRefImpl {
+  constructor(_object, _key, _defaultValue) {
+    this._object = _object;
+    this._key = _key;
+    this._defaultValue = _defaultValue;
+    this.__v_isRef = true;
+  }
+  get value() {
+    const val = this._object[this._key];
+    return val === void 0 ? this._defaultValue : val;
+  }
+  set value(newVal) {
+    this._object[this._key] = newVal;
+  }
+  get dep() {
+    return getDepFromReactive(toRaw$1(this._object), this._key);
+  }
+}
+function toRef(object, key, defaultValue) {
+  const val = object[key];
+  return isRef$1(val) ? val : new ObjectRefImpl(object, key, defaultValue);
+}
 var _a$1;
 class ComputedRefImpl {
   constructor(getter, _setter, isReadonly2, isSSR) {
@@ -2849,8 +2900,8 @@ const resolvedPromise = /* @__PURE__ */ Promise.resolve();
 let currentFlushPromise = null;
 const RECURSION_LIMIT = 100;
 function nextTick$1(fn) {
-  const p2 = currentFlushPromise || resolvedPromise;
-  return fn ? p2.then(this ? fn.bind(this) : fn) : p2;
+  const p = currentFlushPromise || resolvedPromise;
+  return fn ? p.then(this ? fn.bind(this) : fn) : p;
 }
 function findInsertionIndex(id) {
   let start2 = flushIndex + 1;
@@ -3444,7 +3495,7 @@ function traverse(value, seen) {
     value.forEach((v) => {
       traverse(v, seen);
     });
-  } else if (isPlainObject(value)) {
+  } else if (isPlainObject$1(value)) {
     for (const key in value) {
       traverse(value[key], seen);
     }
@@ -3570,46 +3621,6 @@ function validateDirectiveName(name) {
   if (isBuiltInDirective(name)) {
     warn$2("Do not use built-in directive ids as custom directive id: " + name);
   }
-}
-const COMPONENTS = "components";
-function resolveComponent(name, maybeSelfReference) {
-  return resolveAsset(COMPONENTS, name, true, maybeSelfReference) || name;
-}
-function resolveAsset(type, name, warnMissing = true, maybeSelfReference = false) {
-  const instance = currentRenderingInstance || currentInstance;
-  if (instance) {
-    const Component2 = instance.type;
-    if (type === COMPONENTS) {
-      const selfName = getComponentName(
-        Component2,
-        false
-        /* do not include inferred name to avoid breaking existing code */
-      );
-      if (selfName && (selfName === name || selfName === camelize(name) || selfName === capitalize(camelize(name)))) {
-        return Component2;
-      }
-    }
-    const res = (
-      // local registration
-      // check instance[type] first which is resolved for options API
-      resolve(instance[type] || Component2[type], name) || // global registration
-      resolve(instance.appContext[type], name)
-    );
-    if (!res && maybeSelfReference) {
-      return Component2;
-    }
-    if (warnMissing && !res) {
-      const extra = type === COMPONENTS ? `
-If this is a native custom element, make sure to exclude it from component resolution via compilerOptions.isCustomElement.` : ``;
-      warn$2(`Failed to resolve ${type.slice(0, -1)}: ${name}${extra}`);
-    }
-    return res;
-  } else {
-    warn$2(`resolve${capitalize(type.slice(0, -1))} can only be used in render() or setup().`);
-  }
-}
-function resolve(registry, name) {
-  return registry && (registry[name] || registry[camelize(name)] || registry[capitalize(camelize(name))]);
 }
 const getPublicInstance = (i) => {
   if (!i)
@@ -4752,12 +4763,6 @@ const Static = Symbol("Static");
 function isVNode(value) {
   return value ? value.__v_isVNode === true : false;
 }
-const InternalObjectKey = `__vInternal`;
-function guardReactiveProps(props) {
-  if (!props)
-    return null;
-  return isProxy(props) || InternalObjectKey in props ? extend$1({}, props) : props;
-}
 const emptyAppContext = createAppContext();
 let uid = 0;
 function createComponentInstance(vnode, parent, suspense) {
@@ -5200,8 +5205,8 @@ function nextTick(instance, fn) {
       _resolve(instance.proxy);
     }
   });
-  return new Promise((resolve2) => {
-    _resolve = resolve2;
+  return new Promise((resolve) => {
+    _resolve = resolve;
   });
 }
 function clone$5(src, seen) {
@@ -5687,7 +5692,7 @@ function initHooks$1(options, instance, publicThis) {
 function applyOptions$2(options, instance, publicThis) {
   initHooks$1(options, instance, publicThis);
 }
-function set$4(target, key, val) {
+function set$5(target, key, val) {
   return target[key] = val;
 }
 function createErrorHandler(app) {
@@ -5786,7 +5791,7 @@ function initApp(app) {
     uniIdMixin(globalProperties);
   }
   {
-    globalProperties.$set = set$4;
+    globalProperties.$set = set$5;
     globalProperties.$applyOptions = applyOptions$2;
   }
   {
@@ -5794,11 +5799,6 @@ function initApp(app) {
   }
 }
 const propsCaches = /* @__PURE__ */ Object.create(null);
-function renderProps(props) {
-  const { uid: uid2, __counter } = getCurrentInstance();
-  const propsId = (propsCaches[uid2] || (propsCaches[uid2] = [])).push(guardReactiveProps(props)) - 1;
-  return uid2 + "," + propsId + "," + __counter;
-}
 function pruneComponentPropsCache(uid2) {
   delete propsCaches[uid2];
 }
@@ -5867,7 +5867,7 @@ function createInvoker(initialValue, instance) {
     const eventValue = invoker.value;
     const invoke = () => callWithAsyncErrorHandling(patchStopImmediatePropagation(e2, eventValue), instance, 5, args);
     const eventTarget = e2.target;
-    const eventSync = eventTarget ? eventTarget.dataset ? eventTarget.dataset.eventsync === "true" : false : false;
+    const eventSync = eventTarget ? eventTarget.dataset ? String(eventTarget.dataset.eventsync) === "true" : false : false;
     if (bubbles.includes(e2.type) && !eventSync) {
       setTimeout(invoke);
     } else {
@@ -5908,10 +5908,10 @@ function patchMPEvent(event) {
       event.detail = typeof event.detail === "object" ? event.detail : {};
       event.detail.markerId = event.markerId;
     }
-    if (isPlainObject(event.detail) && hasOwn$1(event.detail, "checked") && !hasOwn$1(event.detail, "value")) {
+    if (isPlainObject$1(event.detail) && hasOwn$1(event.detail, "checked") && !hasOwn$1(event.detail, "value")) {
       event.detail.value = event.detail.checked;
     }
-    if (isPlainObject(event.detail)) {
+    if (isPlainObject$1(event.detail)) {
       event.target = extend$1({}, event.target, event.detail);
     }
   }
@@ -5952,7 +5952,6 @@ const o = (value, key) => vOn(value, key);
 const s = (value) => stringifyStyle(value);
 const e$1 = (target, ...sources) => extend$1(target, ...sources);
 const t = (val) => toDisplayString(val);
-const p = (props) => renderProps(props);
 const sr = (ref2, id, opts) => setRef(ref2, id, opts);
 function createApp$1(rootComponent, rootProps = null) {
   rootComponent && (rootComponent.mpType = "app");
@@ -6240,6 +6239,19 @@ function initExtraOptions(miniProgramComponentOptions, vueOptions) {
     }
   });
 }
+const WORKLET_RE = /_(.*)_worklet_factory_/;
+function initWorkletMethods(mpMethods, vueMethods) {
+  if (vueMethods) {
+    Object.keys(vueMethods).forEach((name) => {
+      const matches = name.match(WORKLET_RE);
+      if (matches) {
+        const workletName = matches[1];
+        mpMethods[name] = vueMethods[name];
+        mpMethods[workletName] = vueMethods[workletName];
+      }
+    });
+  }
+}
 function initWxsCallMethods(methods, wxsCallMethods) {
   if (!isArray$1(wxsCallMethods)) {
     return;
@@ -6335,14 +6347,18 @@ function initDefaultProps(options, isBehavior = false) {
   }
   if (options.behaviors) {
     if (options.behaviors.includes("wx://form-field")) {
-      properties.name = {
-        type: null,
-        value: ""
-      };
-      properties.value = {
-        type: null,
-        value: ""
-      };
+      if (!options.properties || !options.properties.name) {
+        properties.name = {
+          type: null,
+          value: ""
+        };
+      }
+      if (!options.properties || !options.properties.value) {
+        properties.value = {
+          type: null,
+          value: ""
+        };
+      }
     }
   }
   return properties;
@@ -6388,10 +6404,10 @@ function initPageProps({ properties }, rawProps) {
         value: ""
       };
     });
-  } else if (isPlainObject(rawProps)) {
+  } else if (isPlainObject$1(rawProps)) {
     Object.keys(rawProps).forEach((key) => {
       const opts = rawProps[key];
-      if (isPlainObject(opts)) {
+      if (isPlainObject$1(opts)) {
         let value = opts.default;
         if (isFunction$1(value)) {
           value = value();
@@ -6415,7 +6431,7 @@ function findPropsData(properties, isPage2) {
 }
 function findPagePropsData(properties) {
   const propsData = {};
-  if (isPlainObject(properties)) {
+  if (isPlainObject$1(properties)) {
     Object.keys(properties).forEach((name) => {
       if (builtInProps.indexOf(name) === -1) {
         propsData[name] = properties[name];
@@ -6529,6 +6545,7 @@ function parseComponent(vueOptions, { parse: parse2, mocks: mocks2, isPage: isPa
   vueOptions = vueOptions.default || vueOptions;
   const options = {
     multipleSlots: true,
+    // styleIsolation: 'apply-shared',
     addGlobalClass: true,
     pureDataPattern: /^uP$/
   };
@@ -6567,6 +6584,9 @@ function parseComponent(vueOptions, { parse: parse2, mocks: mocks2, isPage: isPa
   initPropsObserver(mpComponentOptions);
   initExtraOptions(mpComponentOptions, vueOptions);
   initWxsCallMethods(mpComponentOptions.methods, vueOptions.wxsCallMethods);
+  {
+    initWorkletMethods(mpComponentOptions.methods, vueOptions.methods);
+  }
   if (parse2) {
     parse2(mpComponentOptions, { handleLink: handleLink2 });
   }
@@ -6636,9 +6656,14 @@ const MPPage = Page;
 const MPComponent = Component;
 function initTriggerEvent(mpInstance) {
   const oldTriggerEvent = mpInstance.triggerEvent;
-  mpInstance.triggerEvent = function(event, ...args) {
+  const newTriggerEvent = function(event, ...args) {
     return oldTriggerEvent.apply(mpInstance, [customizeEvent(event), ...args]);
   };
+  try {
+    mpInstance.triggerEvent = newTriggerEvent;
+  } catch (error2) {
+    mpInstance._triggerEvent = newTriggerEvent;
+  }
 }
 function initMiniProgramHook(name, options, isComponent) {
   const oldHook = options[name];
@@ -6733,11 +6758,11 @@ function handleLink(event) {
 }
 var parseOptions = /* @__PURE__ */ Object.freeze({
   __proto__: null,
-  mocks,
-  isPage,
-  initRelation,
   handleLink,
-  initLifetimes
+  initLifetimes,
+  initRelation,
+  isPage,
+  mocks
 });
 const createApp = initCreateApp();
 const createPage = initCreatePage(parseOptions);
@@ -6769,9 +6794,9 @@ var extendStatics = function(d, b) {
   extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
     d2.__proto__ = b2;
   } || function(d2, b2) {
-    for (var p2 in b2)
-      if (Object.prototype.hasOwnProperty.call(b2, p2))
-        d2[p2] = b2[p2];
+    for (var p in b2)
+      if (Object.prototype.hasOwnProperty.call(b2, p))
+        d2[p] = b2[p];
   };
   return extendStatics(d, b);
 };
@@ -7425,7 +7450,7 @@ function disableUserSelect(dom) {
 function hasOwn(own, prop) {
   return own.hasOwnProperty(prop);
 }
-function noop() {
+function noop$1() {
 }
 var RADIAN_TO_DEGREE = 180 / Math.PI;
 const util$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
@@ -7471,7 +7496,7 @@ const util$1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProper
   merge,
   mergeAll,
   mixin,
-  noop,
+  noop: noop$1,
   normalizeCssArray: normalizeCssArray$1,
   reduce,
   retrieve,
@@ -7498,7 +7523,7 @@ function copy$1(out2, v) {
 function clone$3(v) {
   return [v[0], v[1]];
 }
-function set$3(out2, a, b) {
+function set$4(out2, a, b) {
   out2[0] = a;
   out2[1] = b;
   return out2;
@@ -7615,7 +7640,7 @@ const vector = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProper
   normalize: normalize$1,
   scale: scale$2,
   scaleAndAdd,
-  set: set$3,
+  set: set$4,
   sub
 }, Symbol.toStringTag, { value: "Module" }));
 var Param = function() {
@@ -8336,19 +8361,19 @@ var Point = function() {
     this.x = input[0];
     this.y = input[1];
   };
-  Point2.set = function(p2, x, y) {
-    p2.x = x;
-    p2.y = y;
+  Point2.set = function(p, x, y) {
+    p.x = x;
+    p.y = y;
   };
-  Point2.copy = function(p2, p22) {
-    p2.x = p22.x;
-    p2.y = p22.y;
+  Point2.copy = function(p, p2) {
+    p.x = p2.x;
+    p.y = p2.y;
   };
-  Point2.len = function(p2) {
-    return Math.sqrt(p2.x * p2.x + p2.y * p2.y);
+  Point2.len = function(p) {
+    return Math.sqrt(p.x * p.x + p.y * p.y);
   };
-  Point2.lenSquare = function(p2) {
-    return p2.x * p2.x + p2.y * p2.y;
+  Point2.lenSquare = function(p) {
+    return p.x * p.x + p.y * p.y;
   };
   Point2.dot = function(p0, p1) {
     return p0.x * p1.x + p0.y * p1.y;
@@ -9622,7 +9647,7 @@ var easingFuncs = {
   elasticIn: function(k) {
     var s2;
     var a = 0.1;
-    var p2 = 0.4;
+    var p = 0.4;
     if (k === 0) {
       return 0;
     }
@@ -9631,16 +9656,16 @@ var easingFuncs = {
     }
     if (!a || a < 1) {
       a = 1;
-      s2 = p2 / 4;
+      s2 = p / 4;
     } else {
-      s2 = p2 * Math.asin(1 / a) / (2 * Math.PI);
+      s2 = p * Math.asin(1 / a) / (2 * Math.PI);
     }
-    return -(a * Math.pow(2, 10 * (k -= 1)) * Math.sin((k - s2) * (2 * Math.PI) / p2));
+    return -(a * Math.pow(2, 10 * (k -= 1)) * Math.sin((k - s2) * (2 * Math.PI) / p));
   },
   elasticOut: function(k) {
     var s2;
     var a = 0.1;
-    var p2 = 0.4;
+    var p = 0.4;
     if (k === 0) {
       return 0;
     }
@@ -9649,16 +9674,16 @@ var easingFuncs = {
     }
     if (!a || a < 1) {
       a = 1;
-      s2 = p2 / 4;
+      s2 = p / 4;
     } else {
-      s2 = p2 * Math.asin(1 / a) / (2 * Math.PI);
+      s2 = p * Math.asin(1 / a) / (2 * Math.PI);
     }
-    return a * Math.pow(2, -10 * k) * Math.sin((k - s2) * (2 * Math.PI) / p2) + 1;
+    return a * Math.pow(2, -10 * k) * Math.sin((k - s2) * (2 * Math.PI) / p) + 1;
   },
   elasticInOut: function(k) {
     var s2;
     var a = 0.1;
-    var p2 = 0.4;
+    var p = 0.4;
     if (k === 0) {
       return 0;
     }
@@ -9667,14 +9692,14 @@ var easingFuncs = {
     }
     if (!a || a < 1) {
       a = 1;
-      s2 = p2 / 4;
+      s2 = p / 4;
     } else {
-      s2 = p2 * Math.asin(1 / a) / (2 * Math.PI);
+      s2 = p * Math.asin(1 / a) / (2 * Math.PI);
     }
     if ((k *= 2) < 1) {
-      return -0.5 * (a * Math.pow(2, 10 * (k -= 1)) * Math.sin((k - s2) * (2 * Math.PI) / p2));
+      return -0.5 * (a * Math.pow(2, 10 * (k -= 1)) * Math.sin((k - s2) * (2 * Math.PI) / p));
     }
-    return a * Math.pow(2, -10 * (k -= 1)) * Math.sin((k - s2) * (2 * Math.PI) / p2) * 0.5 + 1;
+    return a * Math.pow(2, -10 * (k -= 1)) * Math.sin((k - s2) * (2 * Math.PI) / p) * 0.5 + 1;
   },
   backIn: function(k) {
     var s2 = 1.70158;
@@ -10053,8 +10078,8 @@ function createCubicEasingFunc(cubicEasingStr) {
       return;
     }
     var roots_1 = [];
-    return function(p2) {
-      return p2 <= 0 ? 0 : p2 >= 1 ? 1 : cubicRootAt(0, a_1, c_1, 1, p2, roots_1) && cubicAt(0, b_1, d_1, 1, roots_1[0]);
+    return function(p) {
+      return p <= 0 ? 0 : p >= 1 ? 1 : cubicRootAt(0, a_1, c_1, 1, p, roots_1) && cubicAt(0, b_1, d_1, 1, roots_1[0]);
     };
   }
 }
@@ -10067,9 +10092,9 @@ var Clip = function() {
     this._life = opts.life || 1e3;
     this._delay = opts.delay || 0;
     this.loop = opts.loop || false;
-    this.onframe = opts.onframe || noop;
-    this.ondestroy = opts.ondestroy || noop;
-    this.onrestart = opts.onrestart || noop;
+    this.onframe = opts.onframe || noop$1;
+    this.ondestroy = opts.ondestroy || noop$1;
+    this.onrestart = opts.onrestart || noop$1;
     opts.easing && this.setEasing(opts.easing);
   }
   Clip2.prototype.step = function(globalTime, deltaTime) {
@@ -10412,8 +10437,8 @@ function cssHueToRgb(m1, m2, h) {
   }
   return m1;
 }
-function lerpNumber(a, b, p2) {
-  return a + (b - a) * p2;
+function lerpNumber(a, b, p) {
+  return a + (b - a) * p;
 }
 function setRgba(out2, r, g, b, a) {
   out2[0] = r;
@@ -11415,7 +11440,7 @@ var Animator = function() {
 }();
 const Animator$1 = Animator;
 function getTime() {
-  return new Date().getTime();
+  return (/* @__PURE__ */ new Date()).getTime();
 }
 var Animation = function(_super) {
   __extends(Animation2, _super);
@@ -11624,9 +11649,9 @@ function isLocalEl(instance, el) {
 }
 var FakeGlobalEvent = function() {
   function FakeGlobalEvent2(instance, event) {
-    this.stopPropagation = noop;
-    this.stopImmediatePropagation = noop;
-    this.preventDefault = noop;
+    this.stopPropagation = noop$1;
+    this.stopImmediatePropagation = noop$1;
+    this.preventDefault = noop$1;
     this.type = event.type;
     this.target = this.currentTarget = instance.dom;
     this.pointerType = event.pointerType;
@@ -11679,7 +11704,7 @@ var localDOMHandlers = {
   touchstart: function(event) {
     event = normalizeEvent(this.dom, event);
     markTouch(event);
-    this.__lastTouchMoment = new Date();
+    this.__lastTouchMoment = /* @__PURE__ */ new Date();
     this.handler.processGesture(event, "start");
     localDOMHandlers.mousemove.call(this, event);
     localDOMHandlers.mousedown.call(this, event);
@@ -11695,7 +11720,7 @@ var localDOMHandlers = {
     markTouch(event);
     this.handler.processGesture(event, "end");
     localDOMHandlers.mouseup.call(this, event);
-    if (+new Date() - +this.__lastTouchMoment < TOUCH_CLICK_DELAY) {
+    if (+/* @__PURE__ */ new Date() - +this.__lastTouchMoment < TOUCH_CLICK_DELAY) {
       localDOMHandlers.click.call(this, event);
     }
   },
@@ -11894,7 +11919,10 @@ var Transformable = function() {
     var needLocalTransform = this.needLocalTransform();
     var m2 = this.transform;
     if (!(needLocalTransform || parentTransform)) {
-      m2 && mIdentity(m2);
+      if (m2) {
+        mIdentity(m2);
+        this.invTransform = null;
+      }
       return;
     }
     m2 = m2 || create();
@@ -13637,7 +13665,7 @@ function getInstance(id) {
 function registerPainter(name, Ctor) {
   painterCtors[name] = Ctor;
 }
-var version$1 = "5.4.3";
+var version$1 = "5.4.4";
 const zrender = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   dispose: dispose$1,
@@ -13820,7 +13848,7 @@ function parseDate(value) {
   } else if (isString(value)) {
     var match = TIME_REG.exec(value);
     if (!match) {
-      return new Date(NaN);
+      return /* @__PURE__ */ new Date(NaN);
     }
     if (!match[8]) {
       return new Date(+match[1], +(match[2] || 1) - 1, +match[3] || 1, +match[4] || 0, +(match[5] || 0), +match[6] || 0, match[7] ? +match[7].substring(0, 3) : 0);
@@ -13832,7 +13860,7 @@ function parseDate(value) {
       return new Date(Date.UTC(+match[1], +(match[2] || 1) - 1, +match[3] || 1, hour, +(match[5] || 0), +match[6] || 0, match[7] ? +match[7].substring(0, 3) : 0));
     }
   } else if (value == null) {
-    return new Date(NaN);
+    return /* @__PURE__ */ new Date(NaN);
   }
   return new Date(Math.round(value));
 }
@@ -13882,8 +13910,8 @@ function nice(val, round2) {
   val = nf * exp10;
   return exponent >= -20 ? +val.toFixed(exponent < 0 ? -exponent : 0) : val;
 }
-function quantile(ascArr, p2) {
-  var H = (ascArr.length - 1) * p2 + 1;
+function quantile(ascArr, p) {
+  var H = (ascArr.length - 1) * p + 1;
   var h = Math.floor(H);
   var v = +ascArr[h - 1];
   var e2 = H - h;
@@ -15407,17 +15435,17 @@ function fromPoints(points2, min3, max3) {
   if (points2.length === 0) {
     return;
   }
-  var p2 = points2[0];
-  var left = p2[0];
-  var right = p2[0];
-  var top = p2[1];
-  var bottom = p2[1];
+  var p = points2[0];
+  var left = p[0];
+  var right = p[0];
+  var top = p[1];
+  var bottom = p[1];
   for (var i = 1; i < points2.length; i++) {
-    p2 = points2[i];
-    left = mathMin$6(left, p2[0]);
-    right = mathMax$6(right, p2[0]);
-    top = mathMin$6(top, p2[1]);
-    bottom = mathMax$6(bottom, p2[1]);
+    p = points2[i];
+    left = mathMin$6(left, p[0]);
+    right = mathMax$6(right, p[0]);
+    top = mathMin$6(top, p[1]);
+    bottom = mathMax$6(bottom, p[1]);
   }
   min3[0] = left;
   min3[1] = top;
@@ -18043,6 +18071,9 @@ function blurSeries(targetSeriesIndex, focus, blurScope, api) {
     (blurScope === "series" && !sameSeries || blurScope === "coordinateSystem" && !sameCoordSys || focus === "series" && sameSeries)) {
       var view = api.getViewOfSeriesModel(seriesModel);
       view.group.traverse(function(child) {
+        if (child.__highByOuter && sameSeries && focus === "self") {
+          return;
+        }
         singleEnterBlur(child);
       });
       if (isArrayLike(focus)) {
@@ -18312,7 +18343,7 @@ function transformPath(path, m2) {
   var i;
   var j;
   var k;
-  var p2;
+  var p;
   var M = CMD$2.M;
   var C = CMD$2.C;
   var L = CMD$2.L;
@@ -18354,16 +18385,16 @@ function transformPath(path, m2) {
         j = i;
         break;
       case R:
-        p2[0] = data[i++];
-        p2[1] = data[i++];
-        applyTransform$1(p2, p2, m2);
-        data[j++] = p2[0];
-        data[j++] = p2[1];
-        p2[0] += data[i++];
-        p2[1] += data[i++];
-        applyTransform$1(p2, p2, m2);
-        data[j++] = p2[0];
-        data[j++] = p2[1];
+        p[0] = data[i++];
+        p[1] = data[i++];
+        applyTransform$1(p, p, m2);
+        data[j++] = p[0];
+        data[j++] = p[1];
+        p[0] += data[i++];
+        p[1] += data[i++];
+        applyTransform$1(p, p, m2);
+        data[j++] = p[0];
+        data[j++] = p[1];
     }
     for (k = 0; k < nPoint; k++) {
       var p_1 = points[k];
@@ -18440,10 +18471,10 @@ function createPathProxyFromString(data) {
     var cmdText = cmdList[l];
     var cmdStr = cmdText.charAt(0);
     var cmd = void 0;
-    var p2 = cmdText.match(numberReg) || [];
-    var pLen = p2.length;
+    var p = cmdText.match(numberReg) || [];
+    var pLen = p.length;
     for (var i = 0; i < pLen; i++) {
-      p2[i] = parseFloat(p2[i]);
+      p[i] = parseFloat(p[i]);
     }
     var off = 0;
     while (off < pLen) {
@@ -18460,20 +18491,20 @@ function createPathProxyFromString(data) {
       var pathData = void 0;
       switch (cmdStr) {
         case "l":
-          cpx += p2[off++];
-          cpy += p2[off++];
+          cpx += p[off++];
+          cpy += p[off++];
           cmd = CMD2.L;
           path.addData(cmd, cpx, cpy);
           break;
         case "L":
-          cpx = p2[off++];
-          cpy = p2[off++];
+          cpx = p[off++];
+          cpy = p[off++];
           cmd = CMD2.L;
           path.addData(cmd, cpx, cpy);
           break;
         case "m":
-          cpx += p2[off++];
-          cpy += p2[off++];
+          cpx += p[off++];
+          cpy += p[off++];
           cmd = CMD2.M;
           path.addData(cmd, cpx, cpy);
           subpathX = cpx;
@@ -18481,8 +18512,8 @@ function createPathProxyFromString(data) {
           cmdStr = "l";
           break;
         case "M":
-          cpx = p2[off++];
-          cpy = p2[off++];
+          cpx = p[off++];
+          cpy = p[off++];
           cmd = CMD2.M;
           path.addData(cmd, cpx, cpy);
           subpathX = cpx;
@@ -18490,36 +18521,36 @@ function createPathProxyFromString(data) {
           cmdStr = "L";
           break;
         case "h":
-          cpx += p2[off++];
+          cpx += p[off++];
           cmd = CMD2.L;
           path.addData(cmd, cpx, cpy);
           break;
         case "H":
-          cpx = p2[off++];
+          cpx = p[off++];
           cmd = CMD2.L;
           path.addData(cmd, cpx, cpy);
           break;
         case "v":
-          cpy += p2[off++];
+          cpy += p[off++];
           cmd = CMD2.L;
           path.addData(cmd, cpx, cpy);
           break;
         case "V":
-          cpy = p2[off++];
+          cpy = p[off++];
           cmd = CMD2.L;
           path.addData(cmd, cpx, cpy);
           break;
         case "C":
           cmd = CMD2.C;
-          path.addData(cmd, p2[off++], p2[off++], p2[off++], p2[off++], p2[off++], p2[off++]);
-          cpx = p2[off - 2];
-          cpy = p2[off - 1];
+          path.addData(cmd, p[off++], p[off++], p[off++], p[off++], p[off++], p[off++]);
+          cpx = p[off - 2];
+          cpy = p[off - 1];
           break;
         case "c":
           cmd = CMD2.C;
-          path.addData(cmd, p2[off++] + cpx, p2[off++] + cpy, p2[off++] + cpx, p2[off++] + cpy, p2[off++] + cpx, p2[off++] + cpy);
-          cpx += p2[off - 2];
-          cpy += p2[off - 1];
+          path.addData(cmd, p[off++] + cpx, p[off++] + cpy, p[off++] + cpx, p[off++] + cpy, p[off++] + cpx, p[off++] + cpy);
+          cpx += p[off - 2];
+          cpy += p[off - 1];
           break;
         case "S":
           ctlPtx = cpx;
@@ -18531,10 +18562,10 @@ function createPathProxyFromString(data) {
             ctlPty += cpy - pathData[len2 - 3];
           }
           cmd = CMD2.C;
-          x1 = p2[off++];
-          y1 = p2[off++];
-          cpx = p2[off++];
-          cpy = p2[off++];
+          x1 = p[off++];
+          y1 = p[off++];
+          cpx = p[off++];
+          cpy = p[off++];
           path.addData(cmd, ctlPtx, ctlPty, x1, y1, cpx, cpy);
           break;
         case "s":
@@ -18547,25 +18578,25 @@ function createPathProxyFromString(data) {
             ctlPty += cpy - pathData[len2 - 3];
           }
           cmd = CMD2.C;
-          x1 = cpx + p2[off++];
-          y1 = cpy + p2[off++];
-          cpx += p2[off++];
-          cpy += p2[off++];
+          x1 = cpx + p[off++];
+          y1 = cpy + p[off++];
+          cpx += p[off++];
+          cpy += p[off++];
           path.addData(cmd, ctlPtx, ctlPty, x1, y1, cpx, cpy);
           break;
         case "Q":
-          x1 = p2[off++];
-          y1 = p2[off++];
-          cpx = p2[off++];
-          cpy = p2[off++];
+          x1 = p[off++];
+          y1 = p[off++];
+          cpx = p[off++];
+          cpy = p[off++];
           cmd = CMD2.Q;
           path.addData(cmd, x1, y1, cpx, cpy);
           break;
         case "q":
-          x1 = p2[off++] + cpx;
-          y1 = p2[off++] + cpy;
-          cpx += p2[off++];
-          cpy += p2[off++];
+          x1 = p[off++] + cpx;
+          y1 = p[off++] + cpy;
+          cpx += p[off++];
+          cpy += p[off++];
           cmd = CMD2.Q;
           path.addData(cmd, x1, y1, cpx, cpy);
           break;
@@ -18578,8 +18609,8 @@ function createPathProxyFromString(data) {
             ctlPtx += cpx - pathData[len2 - 4];
             ctlPty += cpy - pathData[len2 - 3];
           }
-          cpx = p2[off++];
-          cpy = p2[off++];
+          cpx = p[off++];
+          cpy = p[off++];
           cmd = CMD2.Q;
           path.addData(cmd, ctlPtx, ctlPty, cpx, cpy);
           break;
@@ -18592,32 +18623,32 @@ function createPathProxyFromString(data) {
             ctlPtx += cpx - pathData[len2 - 4];
             ctlPty += cpy - pathData[len2 - 3];
           }
-          cpx += p2[off++];
-          cpy += p2[off++];
+          cpx += p[off++];
+          cpy += p[off++];
           cmd = CMD2.Q;
           path.addData(cmd, ctlPtx, ctlPty, cpx, cpy);
           break;
         case "A":
-          rx = p2[off++];
-          ry = p2[off++];
-          psi = p2[off++];
-          fa = p2[off++];
-          fs = p2[off++];
+          rx = p[off++];
+          ry = p[off++];
+          psi = p[off++];
+          fa = p[off++];
+          fs = p[off++];
           x1 = cpx, y1 = cpy;
-          cpx = p2[off++];
-          cpy = p2[off++];
+          cpx = p[off++];
+          cpy = p[off++];
           cmd = CMD2.A;
           processArc(x1, y1, cpx, cpy, fa, fs, rx, ry, psi, cmd, path);
           break;
         case "a":
-          rx = p2[off++];
-          ry = p2[off++];
-          psi = p2[off++];
-          fa = p2[off++];
-          fs = p2[off++];
+          rx = p[off++];
+          ry = p[off++];
+          psi = p[off++];
+          fa = p[off++];
+          fs = p[off++];
           x1 = cpx, y1 = cpy;
-          cpx += p2[off++];
-          cpy += p2[off++];
+          cpx += p[off++];
+          cpy += p[off++];
           cmd = CMD2.A;
           processArc(x1, y1, cpx, cpy, fa, fs, rx, ry, psi, cmd, path);
           break;
@@ -19133,8 +19164,8 @@ function buildPath(ctx, shape, closePath) {
       for (var i = 0; i < (closePath ? len2 : len2 - 1); i++) {
         var cp1 = controlPoints[i * 2];
         var cp2 = controlPoints[i * 2 + 1];
-        var p2 = points2[(i + 1) % len2];
-        ctx.bezierCurveTo(cp1[0], cp1[1], cp2[0], cp2[1], p2[0], p2[1]);
+        var p = points2[(i + 1) % len2];
+        ctx.bezierCurveTo(cp1[0], cp1[1], cp2[0], cp2[1], p[0], p[1]);
       }
     } else {
       ctx.moveTo(points2[0][0], points2[0][1]);
@@ -19251,11 +19282,11 @@ var Line = function(_super) {
     }
     ctx.lineTo(x2, y2);
   };
-  Line2.prototype.pointAt = function(p2) {
+  Line2.prototype.pointAt = function(p) {
     var shape = this.shape;
     return [
-      shape.x1 * (1 - p2) + shape.x2 * p2,
-      shape.y1 * (1 - p2) + shape.y2 * p2
+      shape.x1 * (1 - p) + shape.x2 * p,
+      shape.y1 * (1 - p) + shape.y2 * p
     ];
   };
   return Line2;
@@ -19346,8 +19377,8 @@ var BezierCurve = function(_super) {
     return someVectorAt(this.shape, t2, false);
   };
   BezierCurve2.prototype.tangentAt = function(t2) {
-    var p2 = someVectorAt(this.shape, t2, true);
-    return normalize$1(p2, p2);
+    var p = someVectorAt(this.shape, t2, true);
+    return normalize$1(p, p);
   };
   return BezierCurve2;
 }(Path$1);
@@ -20044,11 +20075,11 @@ function createIcon(iconStr, opt, rect) {
 }
 function linePolygonIntersect(a1x, a1y, a2x, a2y, points2) {
   for (var i = 0, p2 = points2[points2.length - 1]; i < points2.length; i++) {
-    var p3 = points2[i];
-    if (lineLineIntersect$1(a1x, a1y, a2x, a2y, p3[0], p3[1], p2[0], p2[1])) {
+    var p = points2[i];
+    if (lineLineIntersect$1(a1x, a1y, a2x, a2y, p[0], p[1], p2[0], p2[1])) {
       return true;
     }
-    p2 = p3;
+    p2 = p;
   }
 }
 function lineLineIntersect$1(a1x, a1y, a2x, a2y, b1x, b1y, b2x, b2y) {
@@ -20066,8 +20097,8 @@ function lineLineIntersect$1(a1x, a1y, a2x, a2y, b1x, b1y, b2x, b2y) {
   if (q < 0 || q > 1) {
     return false;
   }
-  var p2 = crossProduct2d$1(b1a1x, b1a1y, nx, ny) / nmCrossProduct;
-  if (p2 < 0 || p2 > 1) {
+  var p = crossProduct2d$1(b1a1x, b1a1y, nx, ny) / nmCrossProduct;
+  if (p < 0 || p > 1) {
     return false;
   }
   return true;
@@ -20389,7 +20420,7 @@ function getRichItemNames(textStyleModel) {
   return richItemNameMap;
 }
 var TEXT_PROPS_WITH_GLOBAL = ["fontStyle", "fontWeight", "fontSize", "fontFamily", "textShadowColor", "textShadowBlur", "textShadowOffsetX", "textShadowOffsetY"];
-var TEXT_PROPS_SELF = ["align", "lineHeight", "width", "height", "tag", "verticalAlign"];
+var TEXT_PROPS_SELF = ["align", "lineHeight", "width", "height", "tag", "verticalAlign", "ellipsis"];
 var TEXT_PROPS_BOX = ["padding", "borderWidth", "borderRadius", "borderDashOffset", "backgroundColor", "borderColor", "shadowColor", "shadowBlur", "shadowOffsetX", "shadowOffsetY"];
 function setTokenTextStyle(textStyle, textStyleModel, globalTextStyle, opt, isNotNormal, isAttached, isBlock, inRich) {
   globalTextStyle = !isNotNormal && globalTextStyle || EMPTY_OBJ;
@@ -21180,7 +21211,7 @@ function format$1(time2, template, isUTC, lang) {
   var monthAbbr = timeModel.get("monthAbbr");
   var dayOfWeek = timeModel.get("dayOfWeek");
   var dayOfWeekAbbr = timeModel.get("dayOfWeekAbbr");
-  return (template || "").replace(/{yyyy}/g, y + "").replace(/{yy}/g, y % 100 + "").replace(/{Q}/g, q + "").replace(/{MMMM}/g, month[M - 1]).replace(/{MMM}/g, monthAbbr[M - 1]).replace(/{MM}/g, pad(M, 2)).replace(/{M}/g, M + "").replace(/{dd}/g, pad(d, 2)).replace(/{d}/g, d + "").replace(/{eeee}/g, dayOfWeek[e2]).replace(/{ee}/g, dayOfWeekAbbr[e2]).replace(/{e}/g, e2 + "").replace(/{HH}/g, pad(H, 2)).replace(/{H}/g, H + "").replace(/{hh}/g, pad(h + "", 2)).replace(/{h}/g, h + "").replace(/{mm}/g, pad(m2, 2)).replace(/{m}/g, m2 + "").replace(/{ss}/g, pad(s2, 2)).replace(/{s}/g, s2 + "").replace(/{SSS}/g, pad(S, 3)).replace(/{S}/g, S + "");
+  return (template || "").replace(/{yyyy}/g, y + "").replace(/{yy}/g, pad(y % 100 + "", 2)).replace(/{Q}/g, q + "").replace(/{MMMM}/g, month[M - 1]).replace(/{MMM}/g, monthAbbr[M - 1]).replace(/{MM}/g, pad(M, 2)).replace(/{M}/g, M + "").replace(/{dd}/g, pad(d, 2)).replace(/{d}/g, d + "").replace(/{eeee}/g, dayOfWeek[e2]).replace(/{ee}/g, dayOfWeekAbbr[e2]).replace(/{e}/g, e2 + "").replace(/{HH}/g, pad(H, 2)).replace(/{H}/g, H + "").replace(/{hh}/g, pad(h + "", 2)).replace(/{h}/g, h + "").replace(/{mm}/g, pad(m2, 2)).replace(/{m}/g, m2 + "").replace(/{ss}/g, pad(s2, 2)).replace(/{s}/g, s2 + "").replace(/{SSS}/g, pad(S, 3)).replace(/{S}/g, S + "");
 }
 function leveledFormat(tick, idx, formatter, lang, isUTC) {
   var template = null;
@@ -23285,7 +23316,7 @@ function get$2(opt, path) {
   }
   return obj;
 }
-function set$2(opt, path, val, overwrite) {
+function set$3(opt, path, val, overwrite) {
   var pathArr = path.split(",");
   var obj = opt;
   var key;
@@ -23410,7 +23441,7 @@ function globalBackwardCompat(option, isTheme) {
       }
     } else if (seriesType2 === "gauge") {
       var pointerColor = get$2(seriesOpt, "pointer.color");
-      pointerColor != null && set$2(seriesOpt, "itemStyle.color", pointerColor);
+      pointerColor != null && set$3(seriesOpt, "itemStyle.color", pointerColor);
     } else if (seriesType2 === "bar") {
       compatBarItemStyle(seriesOpt);
       compatBarItemStyle(seriesOpt.backgroundStyle);
@@ -26557,7 +26588,7 @@ function throttle(fn, delay, debounce) {
   var debounceNextCall;
   delay = delay || 0;
   function exec() {
-    lastExec = new Date().getTime();
+    lastExec = (/* @__PURE__ */ new Date()).getTime();
     timer = null;
     fn.apply(scope, args || []);
   }
@@ -26566,7 +26597,7 @@ function throttle(fn, delay, debounce) {
     for (var _i = 0; _i < arguments.length; _i++) {
       cbArgs[_i] = arguments[_i];
     }
-    currCall = new Date().getTime();
+    currCall = (/* @__PURE__ */ new Date()).getTime();
     scope = this;
     args = cbArgs;
     var thisDelay = debounceNextCall || delay;
@@ -27214,7 +27245,7 @@ ecModelMock.eachComponent = function(cond) {
 };
 function mockMethods(target, Clz) {
   for (var name_1 in Clz.prototype) {
-    target[name_1] = noop;
+    target[name_1] = noop$1;
   }
 }
 const Scheduler$1 = Scheduler;
@@ -28880,9 +28911,9 @@ function getImpl(name) {
   }
   return implsStore[name];
 }
-var version = "5.4.2";
+var version = "5.4.3";
 var dependencies = {
-  zrender: "5.4.3"
+  zrender: "5.4.4"
 };
 var TEST_FRAME_REMAIN_TIME = 1;
 var PRIORITY_PROCESSOR_SERIES_FILTER = 800;
@@ -29074,13 +29105,13 @@ var ECharts = (
         var api = this._api;
         scheduler.unfinished = false;
         do {
-          var startTime = +new Date();
+          var startTime = +/* @__PURE__ */ new Date();
           scheduler.performSeriesTasks(ecModel);
           scheduler.performDataProcessorTasks(ecModel);
           updateStreamModes(this, ecModel);
           scheduler.performVisualTasks(ecModel);
           renderSeries(this, this._model, api, "remain", {});
-          remainTime -= +new Date() - startTime;
+          remainTime -= +/* @__PURE__ */ new Date() - startTime;
         } while (remainTime > 0 && scheduler.unfinished);
         if (!scheduler.unfinished) {
           this._zr.flush();
@@ -29411,7 +29442,7 @@ var ECharts = (
               var ecData = getECData(parent);
               if (ecData && ecData.dataIndex != null) {
                 var dataModel = ecData.dataModel || ecModel.getSeriesByIndex(ecData.seriesIndex);
-                params = dataModel && dataModel.getDataParams(ecData.dataIndex, ecData.dataType) || {};
+                params = dataModel && dataModel.getDataParams(ecData.dataIndex, ecData.dataType, el) || {};
                 return true;
               } else if (ecData.eventData) {
                 params = extend({}, ecData.eventData);
@@ -30459,8 +30490,8 @@ var themeStorage = {};
 var loadingEffects = {};
 var instances = {};
 var connectedGroups = {};
-var idBase = +new Date() - 0;
-var groupIdBase = +new Date() - 0;
+var idBase = +/* @__PURE__ */ new Date() - 0;
+var groupIdBase = +/* @__PURE__ */ new Date() - 0;
 var DOM_ATTRIBUTE_KEY = "_echarts_instance_";
 function init(dom, theme2, opts) {
   var isClient = !(opts && opts.ssr);
@@ -30508,10 +30539,10 @@ function connect(groupId) {
   connectedGroups[groupId] = true;
   return groupId;
 }
-function disConnect(groupId) {
+function disconnect(groupId) {
   connectedGroups[groupId] = false;
 }
-var disconnect = disConnect;
+var disConnect = disconnect;
 function dispose(chart) {
   if (isString(chart)) {
     chart = instances[chart];
@@ -30641,27 +30672,27 @@ registerAction({
   type: HIGHLIGHT_ACTION_TYPE,
   event: HIGHLIGHT_ACTION_TYPE,
   update: HIGHLIGHT_ACTION_TYPE
-}, noop);
+}, noop$1);
 registerAction({
   type: DOWNPLAY_ACTION_TYPE,
   event: DOWNPLAY_ACTION_TYPE,
   update: DOWNPLAY_ACTION_TYPE
-}, noop);
+}, noop$1);
 registerAction({
   type: SELECT_ACTION_TYPE,
   event: SELECT_ACTION_TYPE,
   update: SELECT_ACTION_TYPE
-}, noop);
+}, noop$1);
 registerAction({
   type: UNSELECT_ACTION_TYPE,
   event: UNSELECT_ACTION_TYPE,
   update: UNSELECT_ACTION_TYPE
-}, noop);
+}, noop$1);
 registerAction({
   type: TOGGLE_SELECT_ACTION_TYPE,
   event: TOGGLE_SELECT_ACTION_TYPE,
   update: TOGGLE_SELECT_ACTION_TYPE
-}, noop);
+}, noop$1);
 registerTheme("light", lightTheme);
 registerTheme("dark", darkTheme);
 var dataTool = {};
@@ -33481,8 +33512,8 @@ function clipColorStops(colorStops, maxSize) {
   var prevInRangeColorStop;
   function lerpStop(stop0, stop1, clippedCoord) {
     var coord0 = stop0.coord;
-    var p2 = (clippedCoord - coord0) / (stop1.coord - coord0);
-    var color2 = lerp(p2, [stop0.color, stop1.color]);
+    var p = (clippedCoord - coord0) / (stop1.coord - coord0);
+    var color2 = lerp(p, [stop0.color, stop1.color]);
     return {
       coord: clippedCoord,
       color: color2
@@ -34219,7 +34250,10 @@ var LineView = (
           });
         }
         if (valueAnimation) {
-          labelInner(endLabel).setLabelText(value);
+          var inner2 = labelInner(endLabel);
+          if (typeof inner2.setLabelText === "function") {
+            inner2.setLabelText(value);
+          }
         }
       }
     };
@@ -34486,6 +34520,7 @@ function collect(ecModel, api) {
      *      coordSys,
      *      axisPointerModel,
      *      triggerTooltip,
+     *      triggerEmphasis,
      *      involveSeries,
      *      snap,
      *      seriesModels,
@@ -34542,6 +34577,7 @@ function collectAxesInfo(result, ecModel, api) {
       }
       axisPointerModel = fromTooltip ? makeAxisPointerModel(axis, baseTooltipModel, globalAxisPointerModel, ecModel, fromTooltip, triggerTooltip) : axisPointerModel;
       var snap = axisPointerModel.get("snap");
+      var triggerEmphasis = axisPointerModel.get("triggerEmphasis");
       var axisKey = makeKey(axis.model);
       var involveSeries = triggerTooltip || snap || axis.type === "category";
       var axisInfo = result.axesInfo[axisKey] = {
@@ -34550,6 +34586,7 @@ function collectAxesInfo(result, ecModel, api) {
         coordSys,
         axisPointerModel,
         triggerTooltip,
+        triggerEmphasis,
         involveSeries,
         snap,
         useHandle: isHandleTrigger(axisPointerModel),
@@ -35881,7 +35918,7 @@ var TimeScale = (
         extent3[1] += ONE_DAY;
       }
       if (extent3[1] === -Infinity && extent3[0] === Infinity) {
-        var d = new Date();
+        var d = /* @__PURE__ */ new Date();
         extent3[1] = +new Date(d.getFullYear(), d.getMonth(), d.getDate());
         extent3[0] = extent3[1] - ONE_DAY;
       }
@@ -37645,6 +37682,7 @@ var AxisPointerModel = (
       // see `modelHelper`.
       snap: false,
       triggerTooltip: true,
+      triggerEmphasis: true,
       value: null,
       status: null,
       link: [],
@@ -38091,7 +38129,7 @@ function dispatchHighDownActually(axesInfo, dispatchAction, api) {
   var newHighlights = inner$3(zr)[highDownKey] = {};
   each$7(axesInfo, function(axisInfo, key) {
     var option = axisInfo.axisPointerModel.option;
-    option.status === "show" && each$7(option.seriesDataIndices, function(batchItem) {
+    option.status === "show" && axisInfo.triggerEmphasis && each$7(option.seriesDataIndices, function(batchItem) {
       var key2 = batchItem.seriesIndex + " | " + batchItem.dataIndex;
       newHighlights[key2] = batchItem;
     });
@@ -39365,12 +39403,12 @@ function install$d(registers) {
     type: "showTip",
     event: "showTip",
     update: "tooltip:manuallyShowTip"
-  }, noop);
+  }, noop$1);
   registers.registerAction({
     type: "hideTip",
     event: "hideTip",
     update: "tooltip:manuallyHideTip"
-  }, noop);
+  }, noop$1);
 }
 use(install$d);
 var TitleModel = (
@@ -39544,6 +39582,779 @@ function install$c(registers) {
   registers.registerComponentView(TitleView);
 }
 use(install$c);
+var isVue2 = false;
+function set$2(target, key, val) {
+  if (Array.isArray(target)) {
+    target.length = Math.max(target.length, key);
+    target.splice(key, 1, val);
+    return val;
+  }
+  target[key] = val;
+  return val;
+}
+function del(target, key) {
+  if (Array.isArray(target)) {
+    target.splice(key, 1);
+    return;
+  }
+  delete target[key];
+}
+/*!
+  * pinia v2.0.33
+  * (c) 2023 Eduardo San Martin Morote
+  * @license MIT
+  */
+let activePinia;
+const setActivePinia = (pinia) => activePinia = pinia;
+const getActivePinia = () => getCurrentInstance() && inject(piniaSymbol) || activePinia;
+const piniaSymbol = Symbol("pinia");
+function isPlainObject(o2) {
+  return o2 && typeof o2 === "object" && Object.prototype.toString.call(o2) === "[object Object]" && typeof o2.toJSON !== "function";
+}
+var MutationType;
+(function(MutationType2) {
+  MutationType2["direct"] = "direct";
+  MutationType2["patchObject"] = "patch object";
+  MutationType2["patchFunction"] = "patch function";
+})(MutationType || (MutationType = {}));
+const IS_CLIENT = typeof window !== "undefined";
+const USE_DEVTOOLS = IS_CLIENT;
+const componentStateTypes = [];
+const getStoreType = (id) => "🍍 " + id;
+function registerPiniaDevtools(app, pinia) {
+}
+function addStoreToDevtools(app, store) {
+  if (!componentStateTypes.includes(getStoreType(store.$id))) {
+    componentStateTypes.push(getStoreType(store.$id));
+  }
+}
+function patchActionForGrouping(store, actionNames) {
+  const actions2 = actionNames.reduce((storeActions, actionName) => {
+    storeActions[actionName] = toRaw$1(store)[actionName];
+    return storeActions;
+  }, {});
+  for (const actionName in actions2) {
+    store[actionName] = function() {
+      const trackedStore = new Proxy(store, {
+        get(...args) {
+          return Reflect.get(...args);
+        },
+        set(...args) {
+          return Reflect.set(...args);
+        }
+      });
+      return actions2[actionName].apply(trackedStore, arguments);
+    };
+  }
+}
+function devtoolsPlugin({ app, store, options }) {
+  if (store.$id.startsWith("__hot:")) {
+    return;
+  }
+  if (options.state) {
+    store._isOptionsAPI = true;
+  }
+  if (typeof options.state === "function") {
+    patchActionForGrouping(
+      // @ts-expect-error: can cast the store...
+      store,
+      Object.keys(options.actions)
+    );
+    const originalHotUpdate = store._hotUpdate;
+    toRaw$1(store)._hotUpdate = function(newStore) {
+      originalHotUpdate.apply(this, arguments);
+      patchActionForGrouping(store, Object.keys(newStore._hmrPayload.actions));
+    };
+  }
+  addStoreToDevtools(
+    app,
+    // FIXME: is there a way to allow the assignment from Store<Id, S, G, A> to StoreGeneric?
+    store
+  );
+}
+function createPinia() {
+  const scope = effectScope(true);
+  const state = scope.run(() => ref({}));
+  let _p = [];
+  let toBeInstalled = [];
+  const pinia = markRaw({
+    install(app) {
+      setActivePinia(pinia);
+      {
+        pinia._a = app;
+        app.provide(piniaSymbol, pinia);
+        app.config.globalProperties.$pinia = pinia;
+        toBeInstalled.forEach((plugin2) => _p.push(plugin2));
+        toBeInstalled = [];
+      }
+    },
+    use(plugin2) {
+      if (!this._a && !isVue2) {
+        toBeInstalled.push(plugin2);
+      } else {
+        _p.push(plugin2);
+      }
+      return this;
+    },
+    _p,
+    // it's actually undefined here
+    // @ts-expect-error
+    _a: null,
+    _e: scope,
+    _s: /* @__PURE__ */ new Map(),
+    state
+  });
+  if (USE_DEVTOOLS && typeof Proxy !== "undefined") {
+    pinia.use(devtoolsPlugin);
+  }
+  return pinia;
+}
+const isUseStore = (fn) => {
+  return typeof fn === "function" && typeof fn.$id === "string";
+};
+function patchObject(newState, oldState) {
+  for (const key in oldState) {
+    const subPatch = oldState[key];
+    if (!(key in newState)) {
+      continue;
+    }
+    const targetValue = newState[key];
+    if (isPlainObject(targetValue) && isPlainObject(subPatch) && !isRef$1(subPatch) && !isReactive(subPatch)) {
+      newState[key] = patchObject(targetValue, subPatch);
+    } else {
+      {
+        newState[key] = subPatch;
+      }
+    }
+  }
+  return newState;
+}
+function acceptHMRUpdate(initialUseStore, hot) {
+  return (newModule) => {
+    const pinia = hot.data.pinia || initialUseStore._pinia;
+    if (!pinia) {
+      return;
+    }
+    hot.data.pinia = pinia;
+    for (const exportName in newModule) {
+      const useStore = newModule[exportName];
+      if (isUseStore(useStore) && pinia._s.has(useStore.$id)) {
+        const id = useStore.$id;
+        if (id !== initialUseStore.$id) {
+          console.warn(`The id of the store changed from "${initialUseStore.$id}" to "${id}". Reloading.`);
+          return hot.invalidate();
+        }
+        const existingStore = pinia._s.get(id);
+        if (!existingStore) {
+          console.log(`[Pinia]: skipping hmr because store doesn't exist yet`);
+          return;
+        }
+        useStore(pinia, existingStore);
+      }
+    }
+  };
+}
+const noop = () => {
+};
+function addSubscription(subscriptions, callback, detached, onCleanup = noop) {
+  subscriptions.push(callback);
+  const removeSubscription = () => {
+    const idx = subscriptions.indexOf(callback);
+    if (idx > -1) {
+      subscriptions.splice(idx, 1);
+      onCleanup();
+    }
+  };
+  if (!detached && getCurrentScope()) {
+    onScopeDispose(removeSubscription);
+  }
+  return removeSubscription;
+}
+function triggerSubscriptions(subscriptions, ...args) {
+  subscriptions.slice().forEach((callback) => {
+    callback(...args);
+  });
+}
+function mergeReactiveObjects(target, patchToApply) {
+  if (target instanceof Map && patchToApply instanceof Map) {
+    patchToApply.forEach((value, key) => target.set(key, value));
+  }
+  if (target instanceof Set && patchToApply instanceof Set) {
+    patchToApply.forEach(target.add, target);
+  }
+  for (const key in patchToApply) {
+    if (!patchToApply.hasOwnProperty(key))
+      continue;
+    const subPatch = patchToApply[key];
+    const targetValue = target[key];
+    if (isPlainObject(targetValue) && isPlainObject(subPatch) && target.hasOwnProperty(key) && !isRef$1(subPatch) && !isReactive(subPatch)) {
+      target[key] = mergeReactiveObjects(targetValue, subPatch);
+    } else {
+      target[key] = subPatch;
+    }
+  }
+  return target;
+}
+const skipHydrateSymbol = Symbol("pinia:skipHydration");
+function skipHydrate(obj) {
+  return Object.defineProperty(obj, skipHydrateSymbol, {});
+}
+function shouldHydrate(obj) {
+  return !isPlainObject(obj) || !obj.hasOwnProperty(skipHydrateSymbol);
+}
+const { assign } = Object;
+function isComputed(o2) {
+  return !!(isRef$1(o2) && o2.effect);
+}
+function createOptionsStore(id, options, pinia, hot) {
+  const { state, actions: actions2, getters } = options;
+  const initialState = pinia.state.value[id];
+  let store;
+  function setup() {
+    if (!initialState && !hot) {
+      {
+        pinia.state.value[id] = state ? state() : {};
+      }
+    }
+    const localState = hot ? (
+      // use ref() to unwrap refs inside state TODO: check if this is still necessary
+      toRefs(ref(state ? state() : {}).value)
+    ) : toRefs(pinia.state.value[id]);
+    return assign(localState, actions2, Object.keys(getters || {}).reduce((computedGetters, name) => {
+      if (name in localState) {
+        console.warn(`[🍍]: A getter cannot have the same name as another state property. Rename one of them. Found with "${name}" in store "${id}".`);
+      }
+      computedGetters[name] = markRaw(computed(() => {
+        setActivePinia(pinia);
+        const store2 = pinia._s.get(id);
+        return getters[name].call(store2, store2);
+      }));
+      return computedGetters;
+    }, {}));
+  }
+  store = createSetupStore(id, setup, options, pinia, hot, true);
+  return store;
+}
+function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) {
+  let scope;
+  const optionsForPlugin = assign({ actions: {} }, options);
+  if (!pinia._e.active) {
+    throw new Error("Pinia destroyed");
+  }
+  const $subscribeOptions = {
+    deep: true
+    // flush: 'post',
+  };
+  {
+    $subscribeOptions.onTrigger = (event) => {
+      if (isListening) {
+        debuggerEvents = event;
+      } else if (isListening == false && !store._hotUpdating) {
+        if (Array.isArray(debuggerEvents)) {
+          debuggerEvents.push(event);
+        } else {
+          console.error("🍍 debuggerEvents should be an array. This is most likely an internal Pinia bug.");
+        }
+      }
+    };
+  }
+  let isListening;
+  let isSyncListening;
+  let subscriptions = markRaw([]);
+  let actionSubscriptions = markRaw([]);
+  let debuggerEvents;
+  const initialState = pinia.state.value[$id];
+  if (!isOptionsStore && !initialState && !hot) {
+    {
+      pinia.state.value[$id] = {};
+    }
+  }
+  const hotState = ref({});
+  let activeListener;
+  function $patch(partialStateOrMutator) {
+    let subscriptionMutation;
+    isListening = isSyncListening = false;
+    {
+      debuggerEvents = [];
+    }
+    if (typeof partialStateOrMutator === "function") {
+      partialStateOrMutator(pinia.state.value[$id]);
+      subscriptionMutation = {
+        type: MutationType.patchFunction,
+        storeId: $id,
+        events: debuggerEvents
+      };
+    } else {
+      mergeReactiveObjects(pinia.state.value[$id], partialStateOrMutator);
+      subscriptionMutation = {
+        type: MutationType.patchObject,
+        payload: partialStateOrMutator,
+        storeId: $id,
+        events: debuggerEvents
+      };
+    }
+    const myListenerId = activeListener = Symbol();
+    nextTick$1().then(() => {
+      if (activeListener === myListenerId) {
+        isListening = true;
+      }
+    });
+    isSyncListening = true;
+    triggerSubscriptions(subscriptions, subscriptionMutation, pinia.state.value[$id]);
+  }
+  const $reset = isOptionsStore ? function $reset2() {
+    const { state } = options;
+    const newState = state ? state() : {};
+    this.$patch(($state) => {
+      assign($state, newState);
+    });
+  } : (
+    /* istanbul ignore next */
+    () => {
+      throw new Error(`🍍: Store "${$id}" is built using the setup syntax and does not implement $reset().`);
+    }
+  );
+  function $dispose() {
+    scope.stop();
+    subscriptions = [];
+    actionSubscriptions = [];
+    pinia._s.delete($id);
+  }
+  function wrapAction(name, action) {
+    return function() {
+      setActivePinia(pinia);
+      const args = Array.from(arguments);
+      const afterCallbackList = [];
+      const onErrorCallbackList = [];
+      function after(callback) {
+        afterCallbackList.push(callback);
+      }
+      function onError(callback) {
+        onErrorCallbackList.push(callback);
+      }
+      triggerSubscriptions(actionSubscriptions, {
+        args,
+        name,
+        store,
+        after,
+        onError
+      });
+      let ret;
+      try {
+        ret = action.apply(this && this.$id === $id ? this : store, args);
+      } catch (error2) {
+        triggerSubscriptions(onErrorCallbackList, error2);
+        throw error2;
+      }
+      if (ret instanceof Promise) {
+        return ret.then((value) => {
+          triggerSubscriptions(afterCallbackList, value);
+          return value;
+        }).catch((error2) => {
+          triggerSubscriptions(onErrorCallbackList, error2);
+          return Promise.reject(error2);
+        });
+      }
+      triggerSubscriptions(afterCallbackList, ret);
+      return ret;
+    };
+  }
+  const _hmrPayload = /* @__PURE__ */ markRaw({
+    actions: {},
+    getters: {},
+    state: [],
+    hotState
+  });
+  const partialStore = {
+    _p: pinia,
+    // _s: scope,
+    $id,
+    $onAction: addSubscription.bind(null, actionSubscriptions),
+    $patch,
+    $reset,
+    $subscribe(callback, options2 = {}) {
+      const removeSubscription = addSubscription(subscriptions, callback, options2.detached, () => stopWatcher());
+      const stopWatcher = scope.run(() => watch(() => pinia.state.value[$id], (state) => {
+        if (options2.flush === "sync" ? isSyncListening : isListening) {
+          callback({
+            storeId: $id,
+            type: MutationType.direct,
+            events: debuggerEvents
+          }, state);
+        }
+      }, assign({}, $subscribeOptions, options2)));
+      return removeSubscription;
+    },
+    $dispose
+  };
+  const store = reactive$1(
+    assign(
+      {
+        _hmrPayload,
+        _customProperties: markRaw(/* @__PURE__ */ new Set())
+        // devtools custom properties
+      },
+      partialStore
+      // must be added later
+      // setupStore
+    )
+  );
+  pinia._s.set($id, store);
+  const setupStore = pinia._e.run(() => {
+    scope = effectScope();
+    return scope.run(() => setup());
+  });
+  for (const key in setupStore) {
+    const prop = setupStore[key];
+    if (isRef$1(prop) && !isComputed(prop) || isReactive(prop)) {
+      if (hot) {
+        set$2(hotState.value, key, toRef(setupStore, key));
+      } else if (!isOptionsStore) {
+        if (initialState && shouldHydrate(prop)) {
+          if (isRef$1(prop)) {
+            prop.value = initialState[key];
+          } else {
+            mergeReactiveObjects(prop, initialState[key]);
+          }
+        }
+        {
+          pinia.state.value[$id][key] = prop;
+        }
+      }
+      {
+        _hmrPayload.state.push(key);
+      }
+    } else if (typeof prop === "function") {
+      const actionValue = hot ? prop : wrapAction(key, prop);
+      {
+        setupStore[key] = actionValue;
+      }
+      {
+        _hmrPayload.actions[key] = prop;
+      }
+      optionsForPlugin.actions[key] = prop;
+    } else {
+      if (isComputed(prop)) {
+        _hmrPayload.getters[key] = isOptionsStore ? (
+          // @ts-expect-error
+          options.getters[key]
+        ) : prop;
+        if (IS_CLIENT) {
+          const getters = setupStore._getters || // @ts-expect-error: same
+          (setupStore._getters = markRaw([]));
+          getters.push(key);
+        }
+      }
+    }
+  }
+  {
+    assign(store, setupStore);
+    assign(toRaw$1(store), setupStore);
+  }
+  Object.defineProperty(store, "$state", {
+    get: () => hot ? hotState.value : pinia.state.value[$id],
+    set: (state) => {
+      if (hot) {
+        throw new Error("cannot set hotState");
+      }
+      $patch(($state) => {
+        assign($state, state);
+      });
+    }
+  });
+  {
+    store._hotUpdate = markRaw((newStore) => {
+      store._hotUpdating = true;
+      newStore._hmrPayload.state.forEach((stateKey) => {
+        if (stateKey in store.$state) {
+          const newStateTarget = newStore.$state[stateKey];
+          const oldStateSource = store.$state[stateKey];
+          if (typeof newStateTarget === "object" && isPlainObject(newStateTarget) && isPlainObject(oldStateSource)) {
+            patchObject(newStateTarget, oldStateSource);
+          } else {
+            newStore.$state[stateKey] = oldStateSource;
+          }
+        }
+        set$2(store, stateKey, toRef(newStore.$state, stateKey));
+      });
+      Object.keys(store.$state).forEach((stateKey) => {
+        if (!(stateKey in newStore.$state)) {
+          del(store, stateKey);
+        }
+      });
+      isListening = false;
+      isSyncListening = false;
+      pinia.state.value[$id] = toRef(newStore._hmrPayload, "hotState");
+      isSyncListening = true;
+      nextTick$1().then(() => {
+        isListening = true;
+      });
+      for (const actionName in newStore._hmrPayload.actions) {
+        const action = newStore[actionName];
+        set$2(store, actionName, wrapAction(actionName, action));
+      }
+      for (const getterName in newStore._hmrPayload.getters) {
+        const getter = newStore._hmrPayload.getters[getterName];
+        const getterValue = isOptionsStore ? (
+          // special handling of options api
+          computed(() => {
+            setActivePinia(pinia);
+            return getter.call(store, store);
+          })
+        ) : getter;
+        set$2(store, getterName, getterValue);
+      }
+      Object.keys(store._hmrPayload.getters).forEach((key) => {
+        if (!(key in newStore._hmrPayload.getters)) {
+          del(store, key);
+        }
+      });
+      Object.keys(store._hmrPayload.actions).forEach((key) => {
+        if (!(key in newStore._hmrPayload.actions)) {
+          del(store, key);
+        }
+      });
+      store._hmrPayload = newStore._hmrPayload;
+      store._getters = newStore._getters;
+      store._hotUpdating = false;
+    });
+  }
+  if (USE_DEVTOOLS) {
+    const nonEnumerable = {
+      writable: true,
+      configurable: true,
+      // avoid warning on devtools trying to display this property
+      enumerable: false
+    };
+    ["_p", "_hmrPayload", "_getters", "_customProperties"].forEach((p) => {
+      Object.defineProperty(store, p, assign({ value: store[p] }, nonEnumerable));
+    });
+  }
+  pinia._p.forEach((extender) => {
+    if (USE_DEVTOOLS) {
+      const extensions2 = scope.run(() => extender({
+        store,
+        app: pinia._a,
+        pinia,
+        options: optionsForPlugin
+      }));
+      Object.keys(extensions2 || {}).forEach((key) => store._customProperties.add(key));
+      assign(store, extensions2);
+    } else {
+      assign(store, scope.run(() => extender({
+        store,
+        app: pinia._a,
+        pinia,
+        options: optionsForPlugin
+      })));
+    }
+  });
+  if (store.$state && typeof store.$state === "object" && typeof store.$state.constructor === "function" && !store.$state.constructor.toString().includes("[native code]")) {
+    console.warn(`[🍍]: The "state" must be a plain object. It cannot be
+	state: () => new MyClass()
+Found in store "${store.$id}".`);
+  }
+  if (initialState && isOptionsStore && options.hydrate) {
+    options.hydrate(store.$state, initialState);
+  }
+  isListening = true;
+  isSyncListening = true;
+  return store;
+}
+function defineStore(idOrOptions, setup, setupOptions) {
+  let id;
+  let options;
+  const isSetupStore = typeof setup === "function";
+  if (typeof idOrOptions === "string") {
+    id = idOrOptions;
+    options = isSetupStore ? setupOptions : setup;
+  } else {
+    options = idOrOptions;
+    id = idOrOptions.id;
+  }
+  function useStore(pinia, hot) {
+    const currentInstance2 = getCurrentInstance();
+    pinia = // in test mode, ignore the argument provided as we can always retrieve a
+    // pinia instance with getActivePinia()
+    pinia || currentInstance2 && inject(piniaSymbol, null);
+    if (pinia)
+      setActivePinia(pinia);
+    if (!activePinia) {
+      throw new Error(`[🍍]: getActivePinia was called with no active Pinia. Did you forget to install pinia?
+	const pinia = createPinia()
+	app.use(pinia)
+This will fail in production.`);
+    }
+    pinia = activePinia;
+    if (!pinia._s.has(id)) {
+      if (isSetupStore) {
+        createSetupStore(id, setup, options, pinia);
+      } else {
+        createOptionsStore(id, options, pinia);
+      }
+      {
+        useStore._pinia = pinia;
+      }
+    }
+    const store = pinia._s.get(id);
+    if (hot) {
+      const hotId = "__hot:" + id;
+      const newStore = isSetupStore ? createSetupStore(hotId, setup, options, pinia, true) : createOptionsStore(hotId, assign({}, options), pinia, true);
+      hot._hotUpdate(newStore);
+      delete pinia.state.value[hotId];
+      pinia._s.delete(hotId);
+    }
+    if (IS_CLIENT && currentInstance2 && currentInstance2.proxy && // avoid adding stores that are just built for hot module replacement
+    !hot) {
+      const vm = currentInstance2.proxy;
+      const cache = "_pStores" in vm ? vm._pStores : vm._pStores = {};
+      cache[id] = store;
+    }
+    return store;
+  }
+  useStore.$id = id;
+  return useStore;
+}
+let mapStoreSuffix = "Store";
+function setMapStoreSuffix(suffix) {
+  mapStoreSuffix = suffix;
+}
+function mapStores(...stores) {
+  if (Array.isArray(stores[0])) {
+    console.warn(`[🍍]: Directly pass all stores to "mapStores()" without putting them in an array:
+Replace
+	mapStores([useAuthStore, useCartStore])
+with
+	mapStores(useAuthStore, useCartStore)
+This will fail in production if not fixed.`);
+    stores = stores[0];
+  }
+  return stores.reduce((reduced, useStore) => {
+    reduced[useStore.$id + mapStoreSuffix] = function() {
+      return useStore(this.$pinia);
+    };
+    return reduced;
+  }, {});
+}
+function mapState(useStore, keysOrMapper) {
+  return Array.isArray(keysOrMapper) ? keysOrMapper.reduce((reduced, key) => {
+    reduced[key] = function() {
+      return useStore(this.$pinia)[key];
+    };
+    return reduced;
+  }, {}) : Object.keys(keysOrMapper).reduce((reduced, key) => {
+    reduced[key] = function() {
+      const store = useStore(this.$pinia);
+      const storeKey = keysOrMapper[key];
+      return typeof storeKey === "function" ? storeKey.call(this, store) : store[storeKey];
+    };
+    return reduced;
+  }, {});
+}
+const mapGetters = mapState;
+function mapActions(useStore, keysOrMapper) {
+  return Array.isArray(keysOrMapper) ? keysOrMapper.reduce((reduced, key) => {
+    reduced[key] = function(...args) {
+      return useStore(this.$pinia)[key](...args);
+    };
+    return reduced;
+  }, {}) : Object.keys(keysOrMapper).reduce((reduced, key) => {
+    reduced[key] = function(...args) {
+      return useStore(this.$pinia)[keysOrMapper[key]](...args);
+    };
+    return reduced;
+  }, {});
+}
+function mapWritableState(useStore, keysOrMapper) {
+  return Array.isArray(keysOrMapper) ? keysOrMapper.reduce((reduced, key) => {
+    reduced[key] = {
+      get() {
+        return useStore(this.$pinia)[key];
+      },
+      set(value) {
+        return useStore(this.$pinia)[key] = value;
+      }
+    };
+    return reduced;
+  }, {}) : Object.keys(keysOrMapper).reduce((reduced, key) => {
+    reduced[key] = {
+      get() {
+        return useStore(this.$pinia)[keysOrMapper[key]];
+      },
+      set(value) {
+        return useStore(this.$pinia)[keysOrMapper[key]] = value;
+      }
+    };
+    return reduced;
+  }, {});
+}
+function storeToRefs(store) {
+  {
+    store = toRaw$1(store);
+    const refs = {};
+    for (const key in store) {
+      const value = store[key];
+      if (isRef$1(value) || isReactive(value)) {
+        refs[key] = // ---
+        toRef(store, key);
+      }
+    }
+    return refs;
+  }
+}
+const PiniaVuePlugin = function(_Vue) {
+  _Vue.mixin({
+    beforeCreate() {
+      const options = this.$options;
+      if (options.pinia) {
+        const pinia = options.pinia;
+        if (!this._provided) {
+          const provideCache = {};
+          Object.defineProperty(this, "_provided", {
+            get: () => provideCache,
+            set: (v) => Object.assign(provideCache, v)
+          });
+        }
+        this._provided[piniaSymbol] = pinia;
+        if (!this.$pinia) {
+          this.$pinia = pinia;
+        }
+        pinia._a = this;
+        if (IS_CLIENT) {
+          setActivePinia(pinia);
+        }
+        if (USE_DEVTOOLS) {
+          registerPiniaDevtools(pinia._a);
+        }
+      } else if (!this.$pinia && options.parent && options.parent.$pinia) {
+        this.$pinia = options.parent.$pinia;
+      }
+    },
+    destroyed() {
+      delete this._pStores;
+    }
+  });
+};
+const Pinia = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  get MutationType() {
+    return MutationType;
+  },
+  PiniaVuePlugin,
+  acceptHMRUpdate,
+  createPinia,
+  defineStore,
+  getActivePinia,
+  mapActions,
+  mapGetters,
+  mapState,
+  mapStores,
+  mapWritableState,
+  setActivePinia,
+  setMapStoreSuffix,
+  skipHydrate,
+  storeToRefs
+}, Symbol.toStringTag, { value: "Module" }));
 function warn(msg, ...args) {
   console.warn(`[Vue warn] ${msg}`, ...args);
 }
@@ -40262,36 +41073,36 @@ function isAroundEqual(a, b) {
 }
 function contain(points2, x, y) {
   var w = 0;
-  var p2 = points2[0];
-  if (!p2) {
+  var p = points2[0];
+  if (!p) {
     return false;
   }
   for (var i = 1; i < points2.length; i++) {
-    var p22 = points2[i];
-    w += windingLine(p2[0], p2[1], p22[0], p22[1], x, y);
-    p2 = p22;
+    var p2 = points2[i];
+    w += windingLine(p[0], p[1], p2[0], p2[1], x, y);
+    p = p2;
   }
   var p0 = points2[0];
-  if (!isAroundEqual(p2[0], p0[0]) || !isAroundEqual(p2[1], p0[1])) {
-    w += windingLine(p2[0], p2[1], p0[0], p0[1], x, y);
+  if (!isAroundEqual(p[0], p0[0]) || !isAroundEqual(p[1], p0[1])) {
+    w += windingLine(p[0], p[1], p0[0], p0[1], x, y);
   }
   return w !== 0;
 }
 var TMP_TRANSFORM = [];
 function transformPoints(points2, transform) {
-  for (var p2 = 0; p2 < points2.length; p2++) {
-    applyTransform$1(points2[p2], points2[p2], transform);
+  for (var p = 0; p < points2.length; p++) {
+    applyTransform$1(points2[p], points2[p], transform);
   }
 }
 function updateBBoxFromPoints(points2, min3, max3, projection) {
   for (var i = 0; i < points2.length; i++) {
-    var p2 = points2[i];
+    var p = points2[i];
     if (projection) {
-      p2 = projection.project(p2);
+      p = projection.project(p);
     }
-    if (p2 && isFinite(p2[0]) && isFinite(p2[1])) {
-      min$1(min3, min3, p2);
-      max$1(max3, max3, p2);
+    if (p && isFinite(p[0]) && isFinite(p[1])) {
+      min$1(min3, min3, p);
+      max$1(max3, max3, p);
     }
   }
 }
@@ -41024,7 +41835,7 @@ function fixOnBandTicksCoords(axis, ticksCoords, alignWithLabel, clamp2) {
   if (ticksLen === 1) {
     ticksCoords[0].coord = axisExtent[0];
     last = ticksCoords[1] = {
-      coord: axisExtent[0]
+      coord: axisExtent[1]
     };
   } else {
     var crossLen = ticksCoords[ticksLen - 1].tickValue - ticksCoords[0].tickValue;
@@ -41569,6 +42380,7 @@ var LabelManager = (
         dummyTransformable.x = dummyTransformable.y = dummyTransformable.rotation = dummyTransformable.originX = dummyTransformable.originY = 0;
         dummyTransformable.scaleX = dummyTransformable.scaleY = 1;
       }
+      dummyTransformable.rotation = normalizeRadian(dummyTransformable.rotation);
       var host2 = label.__hostTarget;
       var hostRect;
       if (host2) {
@@ -41769,8 +42581,10 @@ var LabelManager = (
         var itemModel = data.getItemModel(dataIndex);
         var defaultStyle = {};
         var visualStyle = data.getItemVisual(dataIndex, "style");
-        var visualType = data.getVisual("drawType");
-        defaultStyle.stroke = visualStyle[visualType];
+        if (visualStyle) {
+          var visualType = data.getVisual("drawType");
+          defaultStyle.stroke = visualStyle[visualType];
+        }
         var labelLineModel = itemModel.getModel("labelLine");
         setLabelLineStyle(el, getLabelLineStatesModels(itemModel), defaultStyle);
         updateLabelLinePoints(el, labelLineModel);
@@ -45281,7 +46095,7 @@ registerAction({
   type: "takeGlobalCursor",
   event: "globalCursorTaken",
   update: "update"
-}, noop);
+}, noop$1);
 var IRRELEVANT_EXCLUDES = {
   "axisPointer": 1,
   "tooltip": 1,
@@ -47910,12 +48724,12 @@ var coordConvert = {
   polygon: function(to, coordSys, rangeOrCoordRange, clamp2) {
     var xyMinMax = [[Infinity, -Infinity], [Infinity, -Infinity]];
     var values = map$1(rangeOrCoordRange, function(item) {
-      var p2 = to ? coordSys.pointToData(item, clamp2) : coordSys.dataToPoint(item, clamp2);
-      xyMinMax[0][0] = Math.min(xyMinMax[0][0], p2[0]);
-      xyMinMax[1][0] = Math.min(xyMinMax[1][0], p2[1]);
-      xyMinMax[0][1] = Math.max(xyMinMax[0][1], p2[0]);
-      xyMinMax[1][1] = Math.max(xyMinMax[1][1], p2[1]);
-      return p2;
+      var p = to ? coordSys.pointToData(item, clamp2) : coordSys.dataToPoint(item, clamp2);
+      xyMinMax[0][0] = Math.min(xyMinMax[0][0], p[0]);
+      xyMinMax[1][0] = Math.min(xyMinMax[1][0], p[1]);
+      xyMinMax[0][1] = Math.max(xyMinMax[0][1], p[0]);
+      xyMinMax[1][1] = Math.max(xyMinMax[1][1], p[1]);
+      return p;
     });
     return {
       values,
@@ -48623,15 +49437,17 @@ var LegendView = (
       } else if (isFunction(formatter)) {
         content = formatter(name);
       }
-      var inactiveColor = legendItemModel.get("inactiveColor");
+      var textColor = isSelected ? textStyleModel.getTextColor() : legendItemModel.get("inactiveColor");
       itemGroup.add(new ZRText$1({
         style: createTextStyle$1(textStyleModel, {
           text: content,
           x: textX,
           y: itemHeight / 2,
-          fill: isSelected ? textStyleModel.getTextColor() : inactiveColor,
+          fill: textColor,
           align: textAlign,
           verticalAlign: "middle"
+        }, {
+          inheritColor: textColor
         })
       }));
       var hitRect = new Rect$1({
@@ -49967,11 +50783,11 @@ function lineLineIntersect(a1x, a1y, a2x, a2y, b1x, b1y, b2x, b2y) {
   }
   var b1a1x = a1x - b1x;
   var b1a1y = a1y - b1y;
-  var p2 = crossProduct2d(b1a1x, b1a1y, nx, ny) / nmCrossProduct;
-  if (p2 < 0 || p2 > 1) {
+  var p = crossProduct2d(b1a1x, b1a1y, nx, ny) / nmCrossProduct;
+  if (p < 0 || p > 1) {
     return null;
   }
-  return new Point$1(p2 * mx + a1x, p2 * my2 + a1y);
+  return new Point$1(p * mx + a1x, p * my2 + a1y);
 }
 function projPtOnLine(pt, lineA, lineB) {
   var dir3 = new Point$1();
@@ -50206,9 +51022,9 @@ function alignSubpath(subpath1, subpath2) {
     }
     var actualSubDivCount = Math.min(remained, eachCurveSubDivCount - 1) + 1;
     for (var k = 1; k <= actualSubDivCount; k++) {
-      var p2 = k / actualSubDivCount;
-      cubicSubdivide(x0, x1, x2, x3, p2, tmpSegX);
-      cubicSubdivide(y0, y1, y2, y3, p2, tmpSegY);
+      var p = k / actualSubDivCount;
+      cubicSubdivide(x0, x1, x2, x3, p, tmpSegX);
+      cubicSubdivide(y0, y1, y2, y3, p, tmpSegY);
       x0 = tmpSegX[3];
       y0 = tmpSegY[3];
       newSubpath.push(tmpSegX[1], tmpSegY[1], tmpSegX[2], tmpSegY[2], x0, y0);
@@ -50508,9 +51324,9 @@ function morphPath(fromPath, toPath, animationOpts) {
   toPath.animateTo({
     __morphT: 1
   }, defaults({
-    during: function(p2) {
+    during: function(p) {
       toPath.dirtyShape();
-      oldDuring && oldDuring(p2);
+      oldDuring && oldDuring(p);
     },
     done: function() {
       restoreToPath();
@@ -50677,13 +51493,13 @@ function combineMorph(fromList, toPath, animationOpts) {
     toPath.animateTo({
       __morphT: 1
     }, defaults({
-      during: function(p2) {
+      during: function(p) {
         for (var i2 = 0; i2 < toLen; i2++) {
           var child = toSubPathList[i2];
           child.__morphT = toPath.__morphT;
           child.dirtyShape();
         }
-        oldDuring && oldDuring(p2);
+        oldDuring && oldDuring(p);
       },
       done: function() {
         restoreToPath();
@@ -52255,7 +53071,9 @@ const CanvasPainter$1 = CanvasPainter;
 function install(registers) {
   registers.registerPainter("canvas", CanvasPainter$1);
 }
+exports.Pinia = Pinia;
 exports._export_sfc = _export_sfc;
+exports.createPinia = createPinia;
 exports.createSSRApp = createSSRApp;
 exports.defineComponent = defineComponent;
 exports.e = e$1;
@@ -52276,11 +53094,9 @@ exports.installLabelLayout = installLabelLayout;
 exports.installUniversalTransition = installUniversalTransition;
 exports.o = o;
 exports.onMounted = onMounted;
-exports.p = p;
 exports.reactive = reactive$1;
 exports.reactive$1 = reactive;
 exports.ref = ref;
-exports.resolveComponent = resolveComponent;
 exports.s = s;
 exports.sr = sr;
 exports.t = t;

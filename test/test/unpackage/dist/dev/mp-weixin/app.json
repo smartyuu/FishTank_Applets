@@ -1,8 +1,8 @@
 {
   "pages": [
-    "pages/index/index",
     "pages/login/login",
     "pages/login/register",
+    "pages/index/index",
     "pages/FactorAnalysis/factorAnalysis",
     "pages/InformationEntry/informationEntry",
     "pages/UserManagement/userManagement",

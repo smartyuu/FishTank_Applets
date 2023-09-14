@@ -2,9 +2,9 @@
 Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
 const common_vendor = require("./common/vendor.js");
 if (!Math) {
-  "./pages/index/index.js";
   "./pages/login/login.js";
   "./pages/login/register.js";
+  "./pages/index/index.js";
   "./pages/FactorAnalysis/factorAnalysis.js";
   "./pages/InformationEntry/informationEntry.js";
   "./pages/UserManagement/userManagement.js";
@@ -21,11 +21,14 @@ const _sfc_main = {
     console.log("App Hide");
   }
 };
-const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "D:/MyNecessaryFile/fishApplets/FishTank_Applets/test/test/App.vue"]]);
+const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "C:/Users/Yiweiyihang/OneDrive/桌面/FishTank_Applets/test/test/App.vue"]]);
 function createApp() {
   const app = common_vendor.createSSRApp(App);
+  app.use(common_vendor.createPinia());
   return {
-    app
+    app,
+    Pinia: common_vendor.Pinia
+    // 此处必须将 Pinia 返回
   };
 }
 createApp().app.mount("#app");

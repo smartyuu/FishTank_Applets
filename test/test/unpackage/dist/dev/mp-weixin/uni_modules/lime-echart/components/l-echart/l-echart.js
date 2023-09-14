@@ -209,7 +209,7 @@ const _sfc_main = {
         const touch = this.getTouch(e);
         this.startX = touch.x;
         this.startY = touch.y;
-        this.startT = new Date();
+        this.startT = /* @__PURE__ */ new Date();
         const handler = this.chart.getZr().handler;
         uni_modules_limeEchart_components_lEchart_canvas.dispatch.call(handler, "mousedown", touch);
         uni_modules_limeEchart_components_lEchart_canvas.dispatch.call(handler, "mousemove", touch);
@@ -233,7 +233,7 @@ const _sfc_main = {
         const { x } = e.changedTouches && e.changedTouches[0] || {};
         const touch = (x ? e.changedTouches[0] : this.getRelative(e)) || {};
         const handler = this.chart.getZr().handler;
-        const isClick = Math.abs(touch.x - this.startX) < 10 && new Date() - this.startT < 200;
+        const isClick = Math.abs(touch.x - this.startX) < 10 && /* @__PURE__ */ new Date() - this.startT < 200;
         uni_modules_limeEchart_components_lEchart_canvas.dispatch.call(handler, "mouseup", touch);
         handler.processGesture(uni_modules_limeEchart_components_lEchart_utils.wrapTouch(e), "end");
         if (isClick) {
@@ -289,5 +289,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     E: $data.ariaLabel
   }) : {});
 }
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-e9a2d99c"], ["__file", "D:/MyNecessaryFile/fishApplets/FishTank_Applets/test/test/uni_modules/lime-echart/components/l-echart/l-echart.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-e9a2d99c"], ["__file", "C:/Users/Yiweiyihang/OneDrive/桌面/FishTank_Applets/test/test/uni_modules/lime-echart/components/l-echart/l-echart.vue"]]);
 wx.createComponent(Component);
