@@ -74,6 +74,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
               center: ["50%", "50%"],
               roseType: "area",
               avoidLabelOverlap: false,
+              showBackground: true,
+              backgroundStyle: {
+                color: "#fff"
+              },
               itemStyle: {
                 borderRadius: 8
               },

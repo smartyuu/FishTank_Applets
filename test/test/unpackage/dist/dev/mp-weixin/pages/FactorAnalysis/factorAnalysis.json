@@ -1,5 +1,10 @@
 {
   "navigationBarTitleText": "因素分析",
   "navigationBarTextStyle": "white",
-  "usingComponents": {}
+  "usingComponents": {
+    "u-image": "../../uni_modules/uview-plus/components/u-image/u-image",
+    "u-button": "../../uni_modules/uview-plus/components/u-button/u-button",
+    "u-calendar": "../../uni_modules/uview-plus/components/u-calendar/u-calendar",
+    "u-picker": "../../uni_modules/uview-plus/components/u-picker/u-picker"
+  }
 }

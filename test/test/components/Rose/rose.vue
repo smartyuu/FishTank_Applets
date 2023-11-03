@@ -1,5 +1,7 @@
 <template>
-	<LEchart class="my-chart-rose" ref="chart"></LEchart>
+	<view class="rose-background">
+		<LEchart class="my-chart-rose" ref="chart"></LEchart>
+	</view>
 </template>
 
 <script lang="ts" setup>
@@ -20,11 +22,8 @@
 	import { CanvasRenderer } from 'echarts/renderers'
 	import { onMounted, reactive, ref } from 'vue'
 	import LEchart from '@/uni_modules/lime-echart/components/l-echart/l-echart.vue'
-	// import { useEchartsData } from '@/store/echartsData'
-	import service from '@/http/httpRequest'
 	import { ApiGetNightingale } from '../../api/echarts'
 
-	// const echartsData = useEchartsData()
 	const dataList = ref([])
 	echarts.use([
 		LegendComponent,
@@ -93,6 +92,10 @@
 						center: ['50%', '50%'],
 						roseType: 'area',
 						avoidLabelOverlap: false,
+						showBackground: true,
+						backgroundStyle: {
+							color: '#fff'
+						},
 						itemStyle: {
 							borderRadius: 8
 						},
@@ -111,22 +114,22 @@
 						},
 						data: dataList.value
 					}]
-
 			})
 			chart.value.init(echarts, (chart : any) => {
 				chart.setOption(option.value)
 			})
 		})()
-
-
-
-
 	})
 </script>
 <style lang="scss" scoped>
-	.my-chart-rose {
-		height: 100%;
+	.rose-background {
 		background-color: #fff;
 		border-radius: 10%;
+		margin-top: 120rpx;
+		box-shadow: 4px 5px 9px rgba(0, 0, 0, 0.3);
+	}
+
+	.my-chart-rose {
+		height: 100%;
 	}
 </style>

@@ -10,6 +10,7 @@
 		</view>
 		<view class="statistics">
 			<Rose class="rose-container"></Rose>
+			<br>
 			<Pie class="pie-container"></Pie>
 		</view>
 	</view>
@@ -75,6 +76,7 @@
 
 		.statistics {
 			width: 85%;
+			z-index: 2;
 
 			.rose-container {
 				margin-bottom: 40rpx;

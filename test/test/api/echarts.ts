@@ -11,3 +11,12 @@ export async function ApiGetNightingale() {
 	// const resList = res.data.resList
 	// return resList
 }
+
+export async function ApiGetPie() {
+	return await service({
+		url: '/web/index/fishProgress/1000011',
+		method: 'GET'
+	}).then((res) => {
+		return res.data.data
+	})
+}

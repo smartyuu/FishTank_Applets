@@ -23,8 +23,19 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.pie-background.data-v-9dce15ff {
+  background-color: #fff;
+  border-radius: 40rpx;
+  margin-top: 40rpx;
+  padding-bottom: 320rpx;
+  box-shadow: 4px 5px 9px rgba(0, 0, 0, 0.3);
+}
 .my-chart-pie.data-v-9dce15ff {
   height: 100%;
-  background-color: #fff;
-  border-radius: 10%;
+}
+.lineData.data-v-9dce15ff {
+  font-size: 14px;
+  position: relative;
+  top: -380rpx;
+  margin: 10rpx;
 }

@@ -1,0 +1,1 @@
+<view hover-class="u-grid-item--hover-class" hover-stay-time="{{200}}" bindtap="{{a}}" class="{{['u-grid-item', 'data-v-0a78094b', b]}}" style="{{c}}"><slot/></view>
