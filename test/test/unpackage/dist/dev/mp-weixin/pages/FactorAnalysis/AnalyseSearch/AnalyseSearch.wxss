@@ -23,13 +23,27 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.factor-box.data-v-c28778dd {
-  width: 100vw;
-  height: 140vh;
-  background-color: #f2f8f9;
-}
-.factor-box .analyse-chart.data-v-c28778dd {
-  margin: 0 auto;
+.analyse-table.data-v-016967f4 {
+  position: relative;
+  top: -80rpx;
   width: 90%;
-  z-index: 2;
+  height: 420rpx;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 50rpx;
+  border: 1px solid #0F0F77;
+}
+.calendar.data-v-016967f4 {
+  position: absolute;
+  top: 50rpx;
+  left: 50rpx;
+}
+.calendar .calendar-text.data-v-016967f4 {
+  font-weight: 600;
+  font-size: 30rpx;
+}
+.calendar .calendar-button.data-v-016967f4 {
+  margin-top: 25rpx;
+  width: 400rpx;
+  margin-bottom: 30rpx;
 }

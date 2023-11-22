@@ -8,8 +8,10 @@ if (!Array) {
 const _easycom_u_tabs = () => "../../uni_modules/uview-plus/components/u-tabs/u-tabs.js";
 const _easycom_u_sticky = () => "../../uni_modules/uview-plus/components/u-sticky/u-sticky.js";
 if (!Math) {
-  (_easycom_u_tabs + _easycom_u_sticky)();
+  (_easycom_u_tabs + _easycom_u_sticky + FishTankInformation + FishInformation)();
 }
+const FishInformation = () => "./FishInformation/fishInformation.js";
+const FishTankInformation = () => "./FishTankInformation/fishTankInformation.js";
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "informationEntry",
   setup(__props) {
@@ -46,9 +48,10 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     };
     const clickTabs = (item) => {
       changeColor(item.index);
+      changeIcon(item.index);
     };
     return (_ctx, _cache) => {
-      return {
+      return common_vendor.e({
         a: common_vendor.f(tabsList.value, (item, index, i0) => {
           return {
             a: index,
@@ -67,8 +70,12 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         d: common_vendor.p({
           bgColor: "#f2f8f9"
         }),
-        e: common_vendor.s(_ctx.__cssVars())
-      };
+        e: current.value === 0
+      }, current.value === 0 ? {} : {}, {
+        f: current.value === 1
+      }, current.value === 1 ? {} : {}, {
+        g: common_vendor.s(_ctx.__cssVars())
+      });
     };
   }
 });

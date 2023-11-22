@@ -17,10 +17,7 @@
 </template>
 
 <script setup lang="ts">
-	import { defineComponent, ref, onMounted } from 'vue-demi';
-	// import useECharts  from 'vue-echarts';
-	// import * as echarts from 'echarts'
-	import Bar from '@/components/Bar/bar.vue'
+	import { ref } from 'vue-demi';
 	import Rose from '@/components/Rose/rose.vue'
 	import Pie from "@/components/Pie/pie.vue"
 	const indexHelloNum = ref('欢迎使用智能水培农场')

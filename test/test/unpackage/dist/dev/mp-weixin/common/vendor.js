@@ -53677,6 +53677,7 @@ exports.createPinia = createPinia;
 exports.createSSRApp = createSSRApp;
 exports.dayjs = dayjs;
 exports.defineComponent = defineComponent;
+exports.defineStore = defineStore;
 exports.e = e$1;
 exports.echarts = echarts;
 exports.f = f;

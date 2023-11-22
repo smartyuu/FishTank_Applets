@@ -1,6 +1,6 @@
 import service from '../../http/httpRequest'
-// import {useMyStore} from '../../store/index'
-// const store=useMyStore()
+import { useMyStore } from '../../store/index'
+const store = useMyStore()
 
 const reg = {
 	toLogin: async (info : any) => {
@@ -15,6 +15,9 @@ const reg = {
 				uni.switchTab({
 					url: '/pages/index/index'
 				})
+				//把用户信息添加入仓库
+				store.setUsername(info.username);
+				// store.test()
 			} else {
 				uni.showToast({
 					icon: 'error',
@@ -27,9 +30,3 @@ const reg = {
 };
 
 export default reg;
-
-
-
-
-		// store.setUsername(userName);
-		// store.setToken(res.data.token);

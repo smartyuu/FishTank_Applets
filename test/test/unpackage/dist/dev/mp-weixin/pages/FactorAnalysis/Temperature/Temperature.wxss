@@ -23,13 +23,12 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.factor-box.data-v-c28778dd {
-  width: 100vw;
-  height: 140vh;
-  background-color: #f2f8f9;
+.rose-background.data-v-db837a8f {
+  background-color: #fff;
+  border-radius: 10%;
+  box-shadow: 4px 5px 9px rgba(0, 0, 0, 0.3);
+  border: 1px solid #0F0F77;
 }
-.factor-box .analyse-chart.data-v-c28778dd {
-  margin: 0 auto;
-  width: 90%;
-  z-index: 2;
+.my-chart-rose.data-v-db837a8f {
+  height: 100%;
 }

@@ -3,6 +3,8 @@
   "navigationBarTextStyle": "white",
   "usingComponents": {
     "u-tabs": "../../uni_modules/uview-plus/components/u-tabs/u-tabs",
-    "u-sticky": "../../uni_modules/uview-plus/components/u-sticky/u-sticky"
+    "u-sticky": "../../uni_modules/uview-plus/components/u-sticky/u-sticky",
+    "fish-information": "./FishInformation/fishInformation",
+    "fish-tank-information": "./FishTankInformation/fishTankInformation"
   }
 }

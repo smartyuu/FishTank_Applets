@@ -10,10 +10,14 @@
 					:current="current"></u-tabs>
 			</view>
 		</u-sticky>
+		<FishTankInformation v-if='current === 0' />
+		<FishInformation v-if='current === 1' />
 	</view>
 </template>
 
 <script setup lang="ts">
+	import FishInformation from './FishInformation/fishInformation.vue'
+	import FishTankInformation from './FishTankInformation/fishTankInformation.vue'
 	import { ref } from 'vue'
 	const tabsList = ref([{
 		name: '鱼缸信息',
@@ -29,10 +33,11 @@
 		padding: '0 65px',
 		height: '45px',
 	}
+
 	//实现icon切换功能
 	const firstColor = ref('#0000FF')
 	const lastColor = ref('black')
-	const changeColor = (index) => {
+	const changeColor = (index : numbeWr) => {
 		if (index === 0) {
 			firstColor.value = '#0000FF'
 			lastColor.value = 'black'
@@ -45,8 +50,10 @@
 		current.value = index
 		changeColor(index)
 	}
-	const clickTabs = (item) => {
+	//实现切换卡片功能
+	const clickTabs = (item : any) => {
 		changeColor(item.index)
+		changeIcon(item.index)
 	}
 </script>
 
