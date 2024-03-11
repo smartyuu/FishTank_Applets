@@ -1,6 +1,8 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const http_httpRequest = require("../../http/httpRequest.js");
+const store_index = require("../../store/index.js");
+const store = store_index.useMyStore();
 const reg = {
   toLogin: async (info) => {
     console.log("hi");
@@ -14,6 +16,7 @@ const reg = {
         common_vendor.index.switchTab({
           url: "/pages/index/index"
         });
+        store.setUsername(info.username);
       } else {
         common_vendor.index.showToast({
           icon: "error",

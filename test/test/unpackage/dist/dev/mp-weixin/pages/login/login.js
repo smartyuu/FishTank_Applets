@@ -4,6 +4,7 @@ const pages_login_toLogin = require("./toLogin.js");
 require("../../http/httpRequest.js");
 require("../../http/auth.js");
 require("../../http/env.js");
+require("../../store/index.js");
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "login",
   setup(__props) {

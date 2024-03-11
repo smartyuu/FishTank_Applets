@@ -1,0 +1,1 @@
+<view class="factor-box data-v-c28778dd"><u-image wx:if="{{a}}" class="data-v-c28778dd" u-i="c28778dd-0" bind:__l="__l" u-p="{{a}}"></u-image><analyse-search class="data-v-c28778dd" u-i="c28778dd-1" bind:__l="__l"></analyse-search><view class="analyse-chart data-v-c28778dd"><temperature class="data-v-c28778dd" u-i="c28778dd-2" bind:__l="__l"></temperature></view></view>

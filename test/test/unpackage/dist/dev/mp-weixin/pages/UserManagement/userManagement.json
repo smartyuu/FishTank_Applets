@@ -1,5 +1,12 @@
 {
   "navigationBarTitleText": "用户管理",
   "navigationBarTextStyle": "white",
-  "usingComponents": {}
+  "usingComponents": {
+    "u-image": "../../uni_modules/uview-plus/components/u-image/u-image",
+    "uni-th": "../../uni_modules/uni-table/components/uni-th/uni-th",
+    "uni-tr": "../../uni_modules/uni-table/components/uni-tr/uni-tr",
+    "uni-td": "../../uni_modules/uni-table/components/uni-td/uni-td",
+    "u-icon": "../../uni_modules/uview-plus/components/u-icon/u-icon",
+    "uni-table": "../../uni_modules/uni-table/components/uni-table/uni-table"
+  }
 }

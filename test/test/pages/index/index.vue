@@ -10,16 +10,14 @@
 		</view>
 		<view class="statistics">
 			<Rose class="rose-container"></Rose>
+			<br>
 			<Pie class="pie-container"></Pie>
 		</view>
 	</view>
 </template>
 
 <script setup lang="ts">
-	import { defineComponent, ref, onMounted } from 'vue-demi';
-	// import useECharts  from 'vue-echarts';
-	// import * as echarts from 'echarts'
-	import Bar from '@/components/Bar/bar.vue'
+	import { ref } from 'vue-demi';
 	import Rose from '@/components/Rose/rose.vue'
 	import Pie from "@/components/Pie/pie.vue"
 	const indexHelloNum = ref('欢迎使用智能水培农场')
@@ -75,6 +73,7 @@
 
 		.statistics {
 			width: 85%;
+			z-index: 2;
 
 			.rose-container {
 				margin-bottom: 40rpx;

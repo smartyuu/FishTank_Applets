@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u-button": "../../../uni_modules/uview-plus/components/u-button/u-button",
+    "u-calendar": "../../../uni_modules/uview-plus/components/u-calendar/u-calendar",
+    "u-picker": "../../../uni_modules/uview-plus/components/u-picker/u-picker"
+  }
+}

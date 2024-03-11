@@ -23,8 +23,12 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.my-chart-rose.data-v-89612de1 {
-  height: 100%;
+.rose-background.data-v-89612de1 {
   background-color: #fff;
   border-radius: 10%;
+  margin-top: 120rpx;
+  box-shadow: 4px 5px 9px rgba(0, 0, 0, 0.3);
+}
+.my-chart-rose.data-v-89612de1 {
+  height: 100%;
 }

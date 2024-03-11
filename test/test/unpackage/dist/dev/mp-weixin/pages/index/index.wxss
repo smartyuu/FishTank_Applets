@@ -67,6 +67,7 @@
 }
 .content .statistics.data-v-1cf27b2a {
   width: 85%;
+  z-index: 2;
 }
 .content .statistics .rose-container.data-v-1cf27b2a {
   margin-bottom: 40rpx;
