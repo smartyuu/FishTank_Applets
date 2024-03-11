@@ -36,16 +36,16 @@
 	//初始化日期
 	const data = ref(year + '-' + month + '-' + day)
 	//选择日期的回调
-	const calendarConfirm = (e) => {
-		console.log(e[0]);
+	const calendarConfirm = (e : any) => {
 		data.value = e[0]
 		calendarShow.value = false
+		emits('getDate', Date.parse(e))
 	};
 
 	const columns = reactive([
 		['温度', 'PH', '电导率', '浑浊度']
 	]);
-	const emits = defineEmits(['judgeType'])
+	const emits = defineEmits(['judgeType', 'getDate'])
 	//选择类型的回调
 	const pickerConfirm = (e : any) => {
 		// console.log(e.value[0])

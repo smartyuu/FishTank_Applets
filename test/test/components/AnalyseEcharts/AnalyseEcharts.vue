@@ -22,7 +22,6 @@
 	import { CanvasRenderer } from 'echarts/renderers'
 	import { onMounted, ref } from 'vue'
 	import LEchart from '@/uni_modules/lime-echart/components/l-echart/l-echart.vue'
-
 	echarts.use([
 		LegendComponent,
 		TitleComponent,
@@ -37,71 +36,84 @@
 		CanvasRenderer,
 		ToolboxComponent,
 	])
+
 	const chart = ref(null)
-	onMounted(() => {
-		(async function () {
-			const option = ref({
-				legend: {
-					top: '90%',
+
+	const props = defineProps({
+		option: {
+			type: Object,
+			default: {
+				text: '查看鱼缸温度趋势',
+				xAxisData: ['0时', ' 6时', ' 12时', '18时', '24时'],
+				yAxisFormatter: "{value}°C",
+				data: [25, 30, 35, 31, 26]
+			}
+		}
+	})
+	// const introductionOption = toRef(props, 'option')
+	const option = ref({
+		legend: {
+			top: '90%',
+		},
+		toolbox: {
+			show: true,
+			trigger: "axis",
+			feature: {
+				mark: { show: true },
+				dataView: { show: true, readOnly: false },
+				restore: { show: true },
+				dataZoom: {
+					yAxisIndex: "none",
 				},
-				toolbox: {
-					show: true,
-					trigger: "axis",
-					feature: {
-						mark: { show: true },
-						dataView: { show: true, readOnly: false },
-						restore: { show: true },
-						dataZoom: {
-							yAxisIndex: "none",
-						},
-						magicType: { type: ["line", "bar"] },
+				magicType: { type: ["line", "bar"] },
+			}
+		},
+		title: {
+			text: props.option.text,
+			top: '2%',
+			left: '2%'
+		},
+		xAxis: {
+			type: "category",
+			boundaryGap: false,
+			data: props.option.xAxisData,
+		},
+		yAxis: {
+			type: "value",
+			axisLabel: {
+				formatter: props.option.yAxisFormatter,
+			},
+		},
+		series: [
+			{
+				name: 'Access From',
+				type: 'line',
+				roseType: 'area',
+				showBackground: true,
+				backgroundStyle: {
+					color: '#fff'
+				},
+				label: {
+					show: false,
+					position: 'center'
+				},
+				emphasis: {
+					label: {
+						show: true,
+						fontWeight: 'bold'
 					}
 				},
-				title: {
-					text: '查看鱼缸温度趋势',
-					top: '2%',
-					left: '2%'
+				labelLine: {
+					show: false
 				},
-				xAxis: {
-					type: "category",
-					boundaryGap: false,
-					data: ['0时', ' 6时', ' 12时', '18时', '24时'],
-				},
-				yAxis: {
-					type: "value",
-					axisLabel: {
-						formatter: "{value}°C",
-					},
-				},
-				series: [
-					{
-						name: 'Access From',
-						type: 'line',
-						roseType: 'area',
-						showBackground: true,
-						backgroundStyle: {
-							color: '#fff'
-						},
-						label: {
-							show: false,
-							position: 'center'
-						},
-						emphasis: {
-							label: {
-								show: true,
-								fontWeight: 'bold'
-							}
-						},
-						labelLine: {
-							show: false
-						},
-						data: [25, 30, 35, 31, 26]
-					}]
-			})
-			chart.value.init(echarts, (chart : any) => {
-				chart.setOption(option.value)
-			})
-		})()
+				data: props.option.data
+			}]
+	})
+
+	onMounted(() => {
+		chart.value.init(echarts, (chart : any) => {
+			chart.setOption(option.value)
+		})
 	})
 </script>
 <style lang="scss" scoped>
