@@ -14,7 +14,8 @@ if (!Math) {
 }
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   __name: "AnalyseSearch",
-  setup(__props) {
+  emits: ["judgeType", "getDate"],
+  setup(__props, { emit: emits }) {
     const calendarShow = common_vendor.ref(false);
     const pickerShow = common_vendor.ref(false);
     const analysisType = common_vendor.ref("温度");
@@ -26,17 +27,17 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     const maxDate = `${year}-${month}-${day + 14}`;
     const data = common_vendor.ref(year + "-" + month + "-" + day);
     const calendarConfirm = (e) => {
-      console.log(e[0]);
       data.value = e[0];
       calendarShow.value = false;
+      emits("getDate", Date.parse(e));
     };
     const columns = common_vendor.reactive([
       ["温度", "PH", "电导率", "浑浊度"]
     ]);
     const pickerConfirm = (e) => {
-      console.log(e.value[0]);
       analysisType.value = e.value[0];
       pickerShow.value = false;
+      emits("judgeType", e.value[0]);
     };
     return (_ctx, _cache) => {
       return {

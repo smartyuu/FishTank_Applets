@@ -20,7 +20,7 @@
     "condition": false
   },
   "compileType": "miniprogram",
-  "libVersion": "3.0.1",
+  "libVersion": "3.2.2",
   "appid": "touristappid",
   "projectname": "test",
   "condition": {},

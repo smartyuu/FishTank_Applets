@@ -23,11 +23,17 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.fishTankInformation-box.data-v-63335436 {
+  height: 120vh;
+}
 .fishTankInformation-box .table.data-v-63335436 {
   box-sizing: border-box;
-  width: 90%;
+  width: 95%;
   margin: 0 auto;
   background-color: #fff;
   border-radius: 10rpx;
   border: 1px solid #0F0F77;
+}
+.fishTankInformation-box .u-icon.data-v-63335436 {
+  margin-top: 10px;
 }

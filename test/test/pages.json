@@ -53,6 +53,34 @@
 				"navigationBarTitleText": "专家系统",
 				"navigationBarTextStyle": "white"
 			}
+		},
+		{
+			"path": "pages/expertSystem/Encyclopaedia/Encyclopaedia",
+			"style": {
+				"navigationBarTitleText": "百科全书",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/expertSystem/ExpertReview/ExpertReview",
+			"style": {
+				"navigationBarTitleText": "专家审核",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/expertSystem/ReleasingNotices/ReleasingNotices",
+			"style": {
+				"navigationBarTitleText": "发布通知",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/expertSystem/SelfDiagnosis/SelfDiagnosis",
+			"style": {
+				"navigationBarTitleText": "疾病自诊",
+				"navigationBarTextStyle": "white"
+			}
 		}
 	],
 	"tabBar": {

@@ -25,7 +25,7 @@
 /* 文章场景相关 */
 .fishTankInformation-box .table.data-v-b4337e61 {
   box-sizing: border-box;
-  width: 90%;
+  width: 95%;
   margin: 0 auto;
   background-color: #fff;
   border-radius: 10rpx;

@@ -28,10 +28,21 @@
 		title: '百科全书'
 	},
 	])
-	const click = (name) => {
-		uni.showToast({
-			title: `点击了第${name}个`
-		})
+	const click = (name : number) => {
+		switch (name) {
+			case 0: uni.navigateTo({
+				url: '/pages/expertSystem/SelfDiagnosis/SelfDiagnosis'
+			}); break;
+			case 1: case 0: uni.navigateTo({
+				url: '/pages/expertSystem/ExpertReview/ExpertReview'
+			}); break;
+			case 2: case 0: uni.navigateTo({
+				url: '/pages/expertSystem/ReleasingNotices/ReleasingNotices'
+			}); break;
+			case 3: case 0: uni.navigateTo({
+				url: '/pages/expertSystem/Encyclopaedia/Encyclopaedia'
+			}); break;
+		}
 	}
 </script>
 

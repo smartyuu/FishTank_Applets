@@ -28,7 +28,7 @@ const reg = {
 				store.setUsername(info.username);
 				// store.test()
 				getAquariumIdList(info.username)
-				store.setAquarium(aquariumIdList.value[0])
+				store.setAquarium(aquariumIdList)
 			} else {
 				uni.showToast({
 					icon: 'error',

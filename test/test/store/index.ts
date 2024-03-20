@@ -7,7 +7,7 @@ export const useMyStore = defineStore('myStore', {
 		token: '',
 		username: '',
 		password: '',
-		aquarium: '',
+		aquarium: [],
 		avater: ''
 	}),
 	actions: {
@@ -30,7 +30,7 @@ export const useMyStore = defineStore('myStore', {
 		setPassword(password : string) {
 			this.password = password
 		},
-		setAquarium(aquarium : string) {
+		setAquarium<T>(aquarium : Array<T>) {
 			this.aquarium = aquarium
 		},
 		setAvater(avater : string) {
