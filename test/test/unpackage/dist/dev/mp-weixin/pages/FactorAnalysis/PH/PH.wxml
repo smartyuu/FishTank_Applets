@@ -1,0 +1,1 @@
+<analyse-echarts wx:if="{{a}}" u-i="46338668-0" bind:__l="__l" u-p="{{a}}"></analyse-echarts>

@@ -5,6 +5,8 @@
     "uni-th": "../../../uni_modules/uni-table/components/uni-th/uni-th",
     "uni-tr": "../../../uni_modules/uni-table/components/uni-tr/uni-tr",
     "uni-td": "../../../uni_modules/uni-table/components/uni-td/uni-td",
-    "uni-table": "../../../uni_modules/uni-table/components/uni-table/uni-table"
+    "uni-table": "../../../uni_modules/uni-table/components/uni-table/uni-table",
+    "u-input": "../../../uni_modules/uview-plus/components/u-input/u-input",
+    "u-action-sheet": "../../../uni_modules/uview-plus/components/u-action-sheet/u-action-sheet"
   }
 }

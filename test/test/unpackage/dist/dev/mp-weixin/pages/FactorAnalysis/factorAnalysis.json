@@ -4,6 +4,9 @@
   "usingComponents": {
     "u-image": "../../uni_modules/uview-plus/components/u-image/u-image",
     "analyse-search": "./AnalyseSearch/AnalyseSearch",
-    "temperature": "./Temperature/Temperature"
+    "temperature": "./Temperature/Temperature",
+    "p-h": "./PH/PH",
+    "muddy": "./Muddy/Muddy",
+    "electrical": "./Electrical/Electrical"
   }
 }

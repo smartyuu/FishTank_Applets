@@ -1,1 +1,1 @@
-<view class="rose-background data-v-db837a8f"><l-echart class="my-chart-rose r data-v-db837a8f" u-r="chart" u-i="db837a8f-0" bind:__l="__l"></l-echart></view>
+<analyse-echarts wx:if="{{a}}" u-i="a36b525c-0" bind:__l="__l" u-p="{{a}}"></analyse-echarts>

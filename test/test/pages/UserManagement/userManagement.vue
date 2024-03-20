@@ -7,35 +7,45 @@
 				<uni-tr>
 					<uni-th align="left" width="40">用户名</uni-th>
 					<uni-th align="left" width="40">姓名</uni-th>
+					<uni-th align="left" width="40">权限</uni-th>
 					<uni-th align="left" width="80">创建时间</uni-th>
-					<uni-th align="left" width="50">操作</uni-th>
+					<uni-th align="left" width="40">操作</uni-th>
 				</uni-tr>
 				<!-- 表格数据行 -->
 				<uni-tr>
-					<uni-td>16435</uni-td>
+					<uni-td>123456</uni-td>
 					<uni-td>小陈</uni-td>
+					<uni-td>管理员</uni-td>
 					<uni-td>2022-03-25</uni-td>
 					<uni-td>
 						<u-icon name="setting" size="20" @click="setUserList"></u-icon>
 					</uni-td>
 				</uni-tr>
 				<uni-tr>
-					<uni-td>16435</uni-td>
-					<uni-td>小陈</uni-td>
+					<uni-td>188137</uni-td>
+					<uni-td>小王</uni-td>
+					<uni-td>普通用户</uni-td>
 					<uni-td>2022-03-25</uni-td>
-					<uni-td>图标</uni-td>
+					<uni-td>
+						<u-icon name="setting" size="20" @click="setUserList"></u-icon>
+					</uni-td>
 				</uni-tr><uni-tr>
-					<uni-td>16435</uni-td>
-					<uni-td>小陈</uni-td>
+					<uni-td>51561</uni-td>
+					<uni-td>小李</uni-td>
+					<uni-td>普通用户</uni-td>
 					<uni-td>2022-03-25</uni-td>
-					<uni-td>图标</uni-td>
+					<uni-td>
+						<u-icon name="setting" size="20" @click="setUserList"></u-icon>
+					</uni-td>
 				</uni-tr><uni-tr>
-					<uni-td>16435</uni-td>
-					<uni-td>小陈</uni-td>
+					<uni-td>7894561</uni-td>
+					<uni-td>小林</uni-td>
+					<uni-td>普通用户</uni-td>
 					<uni-td>2022-03-25</uni-td>
-					<uni-td>图标</uni-td>
+					<uni-td>
+						<u-icon name="setting" size="20" @click="setUserList"></u-icon>
+					</uni-td>
 				</uni-tr>
-
 			</uni-table>
 		</view>
 	</view>

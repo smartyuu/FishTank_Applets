@@ -7,7 +7,7 @@ const useMyStore = common_vendor.defineStore("myStore", {
     token: "",
     username: "",
     password: "",
-    aquarium: "",
+    aquarium: [],
     avater: ""
   }),
   actions: {
