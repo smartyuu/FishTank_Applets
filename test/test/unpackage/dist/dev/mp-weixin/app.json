@@ -1,12 +1,16 @@
 {
   "pages": [
+    "pages/index/index",
     "pages/login/login",
     "pages/login/register",
-    "pages/index/index",
     "pages/FactorAnalysis/factorAnalysis",
     "pages/InformationEntry/informationEntry",
     "pages/UserManagement/userManagement",
-    "pages/expertSystem/expertSystem"
+    "pages/expertSystem/expertSystem",
+    "pages/expertSystem/Encyclopaedia/Encyclopaedia",
+    "pages/expertSystem/ExpertReview/ExpertReview",
+    "pages/expertSystem/ReleasingNotices/ReleasingNotices",
+    "pages/expertSystem/SelfDiagnosis/SelfDiagnosis"
   ],
   "window": {
     "navigationBarTextStyle": "black",

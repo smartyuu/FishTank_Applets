@@ -33,6 +33,8 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     const fishList = common_vendor.ref([]);
     const show = common_vendor.ref(false);
     const content = common_vendor.ref("是否删除该数据");
+    const aquariumId = common_vendor.ref();
+    const fishId = common_vendor.ref("");
     const customStyle = common_vendor.reactive({
       width: "100rpx",
       height: "50rpx",
@@ -44,27 +46,30 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
     });
     const updateFish = () => {
       console.log("点击鱼类信息操作");
-      show.value = true;
     };
     const getAllFish = () => {
       api_aquarium.ApiGetAllFish(myStore.aquarium[0]).then((res) => {
         fishList.value = res;
       });
     };
+    const deleteFish = (pid, id) => {
+      api_aquarium.ApiDeleteFish(pid, id);
+    };
     const setFishList = (pid, id) => {
       show.value = true;
-      console.log(pid, id);
+      aquariumId.value = pid;
+      fishId.value = id;
     };
     const close = () => {
       show.value = false;
     };
     const confirm = () => {
       show.value = false;
-      console.log("点击确认");
+      deleteFish(aquariumId.value, fishId.value);
+      getAllFish();
     };
     const cancel = () => {
       show.value = false;
-      console.log("点击取消");
     };
     common_vendor.onMounted(() => {
       getAllFish();

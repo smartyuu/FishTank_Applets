@@ -42,18 +42,37 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         }),
         d: common_vendor.p({
           align: "left",
-          width: "80"
+          width: "40"
         }),
         e: common_vendor.p({
           align: "left",
-          width: "50"
+          width: "80"
         }),
-        f: common_vendor.o(setUserList),
-        g: common_vendor.p({
+        f: common_vendor.p({
+          align: "left",
+          width: "40"
+        }),
+        g: common_vendor.o(setUserList),
+        h: common_vendor.p({
           name: "setting",
           size: "20"
         }),
-        h: common_vendor.p({
+        i: common_vendor.o(setUserList),
+        j: common_vendor.p({
+          name: "setting",
+          size: "20"
+        }),
+        k: common_vendor.o(setUserList),
+        l: common_vendor.p({
+          name: "setting",
+          size: "20"
+        }),
+        m: common_vendor.o(setUserList),
+        n: common_vendor.p({
+          name: "setting",
+          size: "20"
+        }),
+        o: common_vendor.p({
           stripe: true,
           emptyText: "暂无更多数据"
         })
