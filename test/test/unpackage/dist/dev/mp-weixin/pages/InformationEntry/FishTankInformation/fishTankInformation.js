@@ -49,7 +49,6 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           fishTankList.value.push(res);
         });
       }
-      console.log(fishTankList.value);
     };
     const close = () => {
       show.value = false;

@@ -34,9 +34,31 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
       }
     ]);
     const click = (name) => {
-      common_vendor.index.showToast({
-        title: `点击了第${name}个`
-      });
+      switch (name) {
+        case 0:
+          common_vendor.index.navigateTo({
+            url: "/pages/expertSystem/SelfDiagnosis/SelfDiagnosis"
+          });
+          break;
+        case 1:
+        case 0:
+          common_vendor.index.navigateTo({
+            url: "/pages/expertSystem/ExpertReview/ExpertReview"
+          });
+          break;
+        case 2:
+        case 0:
+          common_vendor.index.navigateTo({
+            url: "/pages/expertSystem/ReleasingNotices/ReleasingNotices"
+          });
+          break;
+        case 3:
+        case 0:
+          common_vendor.index.navigateTo({
+            url: "/pages/expertSystem/Encyclopaedia/Encyclopaedia"
+          });
+          break;
+      }
     };
     return (_ctx, _cache) => {
       return {

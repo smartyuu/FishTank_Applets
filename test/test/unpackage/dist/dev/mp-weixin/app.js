@@ -118,13 +118,17 @@ require("./uni_modules/uview-plus/libs/config/props/upload.js");
 require("./uni_modules/uview-plus/libs/config/zIndex.js");
 require("./uni_modules/uview-plus/libs/function/platform.js");
 if (!Math) {
+  "./pages/index/index.js";
   "./pages/login/login.js";
   "./pages/login/register.js";
-  "./pages/index/index.js";
   "./pages/FactorAnalysis/factorAnalysis.js";
   "./pages/InformationEntry/informationEntry.js";
   "./pages/UserManagement/userManagement.js";
   "./pages/expertSystem/expertSystem.js";
+  "./pages/expertSystem/Encyclopaedia/Encyclopaedia.js";
+  "./pages/expertSystem/ExpertReview/ExpertReview.js";
+  "./pages/expertSystem/ReleasingNotices/ReleasingNotices.js";
+  "./pages/expertSystem/SelfDiagnosis/SelfDiagnosis.js";
 }
 const _sfc_main = {
   onLaunch: function() {
