@@ -1,5 +1,11 @@
 {
   "navigationBarTitleText": "发布通知",
   "navigationBarTextStyle": "white",
-  "usingComponents": {}
+  "usingComponents": {
+    "u-image": "../../../uni_modules/uview-plus/components/u-image/u-image",
+    "u-picker": "../../../uni_modules/uview-plus/components/u-picker/u-picker",
+    "u-button": "../../../uni_modules/uview-plus/components/u-button/u-button",
+    "u-input": "../../../uni_modules/uview-plus/components/u-input/u-input",
+    "u--textarea": "../../../uni_modules/uview-plus/components/u--textarea/u--textarea"
+  }
 }
